@@ -21,7 +21,7 @@
             <form id="registration-form" action="{{ route('register_student') }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
-                <!-- Step 1: Personal Info -->
+                <!-- Step 1: Personal Infoooooooooo -->
                 <div class="step active" id="step-1">
                     <h2>👤 Personal Information...</h2>
                     <label>
