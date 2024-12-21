@@ -23,7 +23,7 @@
                 @csrf
                 <!-- Step 1: Personal Info -->
                 <div class="step active" id="step-1">
-                    <h2>👤 Personal Information</h2>
+                    <h2>👤 Personal Information....</h2>
                     <label>
                         <span>Name:</span>
                         <input type="text" name="name" placeholder="Enter your name" required />
