@@ -110,7 +110,7 @@
 
                 <!-- Step 5: Programming Languages -->
                 <div class="step" id="step-5">
-                    <h2>🌟 Programming Languages</h2>
+                    <h2>🌟 Programming Languages:</h2>
                     <h3>What programming languages do you know?</h3>
                     <div class="multi-select">
                         @foreach ($languages as $language)
