@@ -158,7 +158,6 @@
                             $isCompleted =
                                 $progress && $progress->progress_percentage == 100 && $progress->status == 'completed';
 
-                            // Check the progress of the previous path (if it exists)
                             $previousPathProgress =
                                 $index > 0
                                     ? $student

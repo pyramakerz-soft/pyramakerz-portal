@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PortalController;
+use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
@@ -13,6 +14,9 @@ Route::get('/', function () {
 
 Route::get('home', [PortalController::class, 'homePage'])->name('home');
 Route::post('register_student', [PortalController::class, 'registerStudent'])->name('register_student');
+
+Route::get('/survey/{id}', [SurveyController::class, 'showSurvey'])->name('show_survey');
+Route::post('/survey/{id}', [SurveyController::class, 'submitSurvey'])->name('submit_survey');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

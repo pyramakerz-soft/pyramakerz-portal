@@ -13,7 +13,6 @@ class StudentController extends Controller
     {
         $student = Auth::guard('student')->user();
 
-        // Fetch courses with paths and progress for the logged-in student
         $courses = $student->suggestions()
             ->with([
                 'course.paths' => function ($query) {
