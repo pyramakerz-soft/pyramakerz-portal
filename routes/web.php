@@ -11,6 +11,14 @@ Route::get('/', function () {
 // Route::get('/home', function () {
 //     return view('home');
 // });
+Route::get('/create-course', function () {
+    return view('dashboard.create-course');
+});
+
+Route::get('/activate-course', function () {
+    return view('dashboard.activate-course');
+});
+
 
 Route::get('home', [PortalController::class, 'homePage'])->name('home');
 Route::post('register_student', [PortalController::class, 'registerStudent'])->name('register_student');
