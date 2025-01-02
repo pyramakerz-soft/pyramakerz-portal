@@ -19,6 +19,15 @@ Route::get('/activate-course', function () {
     return view('dashboard.activate-course');
 });
 
+Route::get('/admin', function () {
+    return view('dashboard.admin');
+});
+
+Route::get('/admin-courses', function () {
+    return view('dashboard.admin-courses');
+});
+
+
 
 Route::get('home', [PortalController::class, 'homePage'])->name('home');
 Route::post('register_student', [PortalController::class, 'registerStudent'])->name('register_student');
