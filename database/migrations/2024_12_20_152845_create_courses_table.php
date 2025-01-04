@@ -12,12 +12,12 @@ return new class extends Migration {
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->foreignId('age_group_id')->constrained()->onDelete('cascade');
-            $table->text('description');
-            $table->string('image');
+            $table->text('description')->nullable();
+            $table->string('image')->nullable(); // Image URL
             $table->decimal('price', 10, 2); // Price with decimal support
-            $table->string('duration'); // Duration in text format, e.g., "3 weeks"
+            $table->string('duration')->nullable(); // Duration in text format, e.g., "3 weeks"
             $table->enum('status', ['active', 'inactive', 'archived'])->default('active'); // Status with predefined options
             $table->timestamps();
         });

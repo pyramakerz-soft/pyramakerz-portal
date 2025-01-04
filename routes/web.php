@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
@@ -26,8 +27,9 @@ Route::get('/admin', function () {
 Route::get('/admin-courses', function () {
     return view('dashboard.admin-courses');
 });
-
-
+Route::prefix('admin')->group(function () {
+Route::post('/create_course', [AdminController::class, 'createCourse'])->name('create_course');
+});
 
 Route::get('home', [PortalController::class, 'homePage'])->name('home');
 Route::post('register_student', [PortalController::class, 'registerStudent'])->name('register_student');

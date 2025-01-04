@@ -60,6 +60,15 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-12">
                     <div class="create__course__accordion__wraper">
                         <div class="accordion" id="accordionExample">
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
 
 
                             <div class="accordion-item">
@@ -71,169 +80,175 @@
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse show"
                                     aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <div class="become__instructor__form">
-                                            <div class="row">
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                    <div class="dashboard__form__wraper">
-                                                        <div class="dashboard__form__input">
-                                                            <label for="#">Course Title</label>
-                                                            <input type="text" placeholder="Course Title">
+                                    <form action="{{ route('create_course') }}" method="post">
+                                        @csrf
+                                        <div class="accordion-body">
+                                            <div class="become__instructor__form">
+                                                <div class="row">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                        <div class="dashboard__form__wraper">
+                                                            <div class="dashboard__form__input">
+                                                                <label for="#">Course Title</label>
+                                                                <input type="text" name="name" placeholder="Course Title">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                        <div class="dashboard__form__wraper">
+                                                            <div class="dashboard__form__input">
+                                                                <label for="#">Course Slug</label>
+                                                                <input type="text" name="slug" placeholder="Course Slug">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                        <div class="dashboard__form__wraper">
+                                                            <div class="dashboard__form__input">
+                                                                <label for="#"> Price ($)</label>
+                                                                <input type="text" name="price" placeholder=" Price ($)">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                        <div class="dashboard__form__wraper">
+                                                            <div class="dashboard__form__input">
+                                                                <label for="#">Discounted Price ($)</label>
+                                                                <input type="text" name="discounted_price" placeholder="Discounted Price ($)">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                    <div class="dashboard__form__wraper">
-                                                        <div class="dashboard__form__input">
-                                                            <label for="#">Course Slug</label>
-                                                            <input type="text" placeholder="Course Slug">
+                                                <div class="row ">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+
+                                                        <label>Course Path</label>
+
+                                                        <div class="dashboard__selector">
+                                                            <select class="form-select" name="course_path" aria-label="Default select example">
+                                                                <option selected>All</option>
+                                                                <option value="1">Web Design</option>
+                                                                <option value="2">Graphic</option>
+                                                                <option value="3">English</option>
+                                                                <option value="4">Spoken English</option>
+                                                                <option value="5">Art Painting</option>
+                                                                <option value="6">App Development</option>
+                                                                <option value="7">Web Application</option>
+                                                                <option value="7">Php Development</option>
+                                                            </select>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                    <div class="dashboard__form__wraper">
-                                                        <div class="dashboard__form__input">
-                                                            <label for="#"> Price ($)</label>
-                                                            <input type="text" placeholder=" Price ($)">
-                                                        </div>
 
-                                                    </div>
-                                                </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
 
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                    <div class="dashboard__form__wraper">
-                                                        <div class="dashboard__form__input">
-                                                            <label for="#">Discounted Price ($)</label>
-                                                            <input type="text" placeholder="Discounted Price ($)">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                        <label>Choose age group</label>
 
-                                            <div class="row ">
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-
-                                                    <label>Course Path</label>
-
-                                                    <div class="dashboard__selector">
-                                                        <select class="form-select" aria-label="Default select example">
-                                                            <option selected>All</option>
-                                                            <option value="1">Web Design</option>
-                                                            <option value="2">Graphic</option>
-                                                            <option value="3">English</option>
-                                                            <option value="4">Spoken English</option>
-                                                            <option value="5">Art Painting</option>
-                                                            <option value="6">App Development</option>
-                                                            <option value="7">Web Application</option>
-                                                            <option value="7">Php Development</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-
-                                                    <label>Choose age group</label>
-
-                                                    <div class="dashboard__selector">
-                                                        <select class="form-select" aria-label="Default select example">
-                                                            <option selected>6-8</option>
-                                                            <option value="1">9-12</option>
-                                                            <option value="2">13-17</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row sp_top_20">
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-
-                                                    <label>Skill Level</label>
-
-                                                    <div class="dashboard__selector">
-                                                        <select class="form-select"
-                                                            aria-label="Default select example">
-                                                            <option selected>1</option>
-                                                            <option value="1">2</option>
-                                                            <option value="2">3</option>
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                    <div class="dashboard__select__heading">
-                                                        <label>Language</label>
-                                                    </div>
-                                                    <div class="dashboard__selector">
-                                                        <select class="form-select"
-                                                            aria-label="Default select example">
-                                                            <option selected>English</option>
-                                                            <option value="1">Arabic</option>
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row sp_top_20">
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                    <div class="dashboard__select__heading">
-                                                        <label>prerequisites</label>
-                                                    </div>
-                                                    <div class="dashboard__selector">
-                                                        <select class="form-select"
-                                                            aria-label="Default select example">
-                                                            <option selected>python</option>
-                                                            <option value="1">java</option>
-                                                            <option value="2">php</option>
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                    <div class="dashboard__select__heading">
-                                                        <label>Course Tags</label>
-                                                    </div>
-                                                    <div class="dashboard__form__wraper">
-                                                        <div class="dashboard__form__input">
-
-                                                            <input type="text" placeholder="Tag1,Tag2,Tag3,etc">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row ">
-
-
-
-
-                                                <div class="col-xl-12">
-                                                    <div class="dashboard__form__wraper">
-                                                        <div class="dashboard__form__input">
-                                                            <label for="#">Description</label>
-                                                            <textarea class="create__course__textarea" name="" id="" cols="30" rows="10">Add your course benefits here.</textarea>
-
+                                                        <div class="dashboard__selector">
+                                                            <select class="form-select" name="age_group" aria-label="Default select example">
+                                                                @foreach (\App\Models\AgeGroup::all() as $age_group)
+                                                                    <option value="{{$age_group->id}}">{{$age_group->name}}</option>
+                                                                @endforeach
+                                                                <!-- <option selected>6-8</option>
+                                                                <option value="1">9-12</option>
+                                                                <option value="2">13-17</option> -->
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-xl-12">
-                                                    <div class="dashboard__form__button">
-                                                        <a class="default__button" href="#">Save</a>
+                                                <div class="row sp_top_20">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+
+                                                        <label>Skill Level</label>
+
+                                                        <div class="dashboard__selector">
+                                                            <select class="form-select" name='skill_level'
+                                                                aria-label="Default select example">
+                                                                <option selected value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                        <div class="dashboard__select__heading">
+                                                            <label>Language</label>
+                                                        </div>
+                                                        <div class="dashboard__selector">
+                                                            <select class="form-select"
+                                                                name="language" aria-label="Default select example">
+                                                                <option selected value="English">English</option>
+                                                                <option value="Arabic">Arabic</option>
+
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
 
+                                                <div class="row sp_top_20">
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                        <div class="dashboard__select__heading">
+                                                            <label>Prerequisites</label>
+                                                        </div>
+                                                        <div class="dashboard__selector">
+                                                            <select class="form-select"
+                                                                name="prereq[]" multiple aria-label="Default select example">
+                                                                <option value="python">Python</option>
+                                                                <option value="java">Java</option>
+                                                                <option value="php">PHP</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                        <div class="dashboard__select__heading">
+                                                            <label>Course Tags</label>
+                                                        </div>
+                                                        <div class="dashboard__form__wraper">
+                                                            <div class="dashboard__form__input">
+
+                                                                <input type="text" name="course_tags" placeholder="Tag1,Tag2,Tag3,etc">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row ">
 
 
 
+
+                                                    <div class="col-xl-12">
+                                                        <div class="dashboard__form__wraper">
+                                                            <div class="dashboard__form__input">
+                                                                <label for="#">Description</label>
+                                                                <textarea class="create__course__textarea" name="description" id="" cols="30" rows="10">Add your course benefits here.</textarea>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xl-12">
+                                                        <div class="dashboard__form__button">
+                                                            <input type="submit" class="default__button" value="Save">
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
 
