@@ -35,9 +35,34 @@ Route::get('/student-login', function () {
     return view('auth.student-login');
 });
 
+Route::get('/my-courses', function () {
+    return view('student.enrolled-courses');
+});
+
+Route::get('/my-progress', function () {
+    return view('student.dashboard');
+});
+
+Route::get('/my-profile', function () {
+    return view('student.profile');
+});
+
+
+Route::get('/my-quizz', function () {
+    return view('student.my-quizz');
+});
+
+Route::get('/my-tasks', function () {
+    return view('student.tasks');
+});
+
+Route::get('/settings', function () {
+    return view('student.settings');
+});
+
 
 Route::get('/pyramakerz', function () {
-    return view('student.index');
+    return view('student.settings');
 });
 
 Route::prefix('admin')->group(function () {
