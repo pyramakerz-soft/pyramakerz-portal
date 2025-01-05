@@ -111,7 +111,7 @@
 
 
         <!-- footer__section__start -->
-        @include('footer')
+        @include('include.footer')
         <!-- footer__section__end -->
 
 
