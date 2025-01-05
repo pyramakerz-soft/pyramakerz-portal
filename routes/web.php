@@ -18,7 +18,7 @@ Route::get('/create-course', function () {
 
 Route::get('/activate-course', function () {
     return view('dashboard.activate-course');
-});
+})->name('course.details');
 
 Route::get('/admin', function () {
     return view('dashboard.admin');
@@ -35,22 +35,25 @@ Route::get('/admin-courses', function () {
 //     return view('auth.student-login');
 // });
 
-Route::get('/my-courses', function () {
-    return view('student.enrolled-courses');
-});
+// Route::get('/my-courses', function () {
+//     return view('student.enrolled-courses');
+// });
 
 Route::get('/my-progress', function () {
     return view('student.dashboard');
 });
 
-Route::get('/my-profile', function () {
-    return view('student.profile');
+Route::middleware('student.auth')->group(function () {
+    Route::get('/profile', [StudentController::class, 'profile'])->name('student-profile');
+    Route::get('/my-courses', [StudentController::class, 'getCourses'])->name('my-courses');
+    Route::get('/my-quizz', [StudentController::class, 'myQuiz'])->name('my-quizz');
+    // Route::get('/my-progress', [StudentController::class, 'profile'])->name('student-profile');
+    // Add other routes here
 });
 
-
-Route::get('/my-quizz', function () {
-    return view('student.my-quizz');
-});
+// Route::get('/my-quizz', function () {
+//     return view('student.my-quizz');
+// });
 
 Route::get('/my-tasks', function () {
     return view('student.tasks');

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     protected $guarded = [] ;
-    public function paths()
+    public function coursePaths()
     {
         return $this->hasMany(CoursesPath::class);
     }
@@ -16,5 +16,9 @@ class Course extends Model
     {
         return $this->hasMany(StudentSuggesstion::class);
     }
-
+    public function totalLessonsCount()
+    {
+        return Lesson::whereIn('course_path_id', $this->coursePaths->pluck('id'))
+            ->count();
+    }
 }

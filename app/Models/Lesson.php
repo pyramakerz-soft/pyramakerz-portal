@@ -16,4 +16,5 @@ class Lesson extends Model
         return $this->belongsTo(PathOfPath::class);
     }
 
+
 }

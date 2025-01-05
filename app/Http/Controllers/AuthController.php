@@ -6,7 +6,7 @@ use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Student;
-
+use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function register(Request $request)
@@ -58,6 +58,28 @@ public function submitSurvey(Request $request, $id)
 
         return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
     }
+
+public function studentLogin(Request $request)
+{
+    // Validate input
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    // Attempt to authenticate the student
+    $student = Student::where('email', $request->email)->first();
+
+    if ($student && Hash::check($request->password, $student->password)) {
+        Auth::guard('student')->login($student);
+
+        return redirect()->route('student-profile'); // Use named routes for better maintainability
+    }
+
+    // Return with an error if credentials are invalid
+    return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+}
+
 
     public function logout(Request $request)
     {

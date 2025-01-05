@@ -107,13 +107,13 @@
                                         @csrf
                                         <div class="login__form">
                                             <label class="form__label">Username or email</label>
-                                            <input class="common__login__input" type="text"
+                                            <input class="common__login__input" type="text" name="email"
                                                 placeholder="Your username or email">
 
                                         </div>
                                         <div class="login__form">
                                             <label class="form__label">Password</label>
-                                            <input class="common__login__input" type="password" placeholder="Password">
+                                            <input class="common__login__input" type="password" placeholder="Password" name="password">
 
                                         </div>
                                         <div class="login__form d-flex justify-content-between flex-wrap gap-2">
@@ -126,7 +126,8 @@
                                             </div>
                                         </div>
                                         <div class="login__button">
-                                            <a class="default__button" href="#">Log In</a>
+                                            
+                                             <input class="default__button" type="submit" value="Log In">
                                         </div>
                                     </form>
 
