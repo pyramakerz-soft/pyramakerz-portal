@@ -27,8 +27,21 @@ Route::get('/admin', function () {
 Route::get('/admin-courses', function () {
     return view('dashboard.admin-courses');
 });
+
+
+// student routes
+
+Route::get('/student-login', function () {
+    return view('auth.student-login');
+});
+
+
+Route::get('/pyramakerz', function () {
+    return view('student.index');
+});
+
 Route::prefix('admin')->group(function () {
-Route::post('/create_course', [AdminController::class, 'createCourse'])->name('create_course');
+    Route::post('/create_course', [AdminController::class, 'createCourse'])->name('create_course');
 });
 
 Route::get('home', [PortalController::class, 'homePage'])->name('home');
