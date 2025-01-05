@@ -103,7 +103,8 @@
 
 
 
-                                    <form action="#">
+                                    <form action="{{ route('student-login') }}" method="POST">
+                                        @csrf
                                         <div class="login__form">
                                             <label class="form__label">Username or email</label>
                                             <input class="common__login__input" type="text"

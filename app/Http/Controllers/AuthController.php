@@ -40,6 +40,10 @@ public function submitSurvey(Request $request, $id)
     {
         return view('auth.login');  
     }
+    public function showStudentLoginForm()
+    {
+        return view('auth.student-login');  
+    }
 
     public function login(Request $request)
     {
