@@ -5,7 +5,7 @@
     <div class="dashboard__nav">
         <ul>
             <li>
-                <a href="student-dashboard.html">
+                <a href="/my-progress">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-home">
@@ -15,7 +15,7 @@
                     Dashboard</a>
             </li>
             <li>
-                <a href="student-profile.html">
+                <a href="/my-profile">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-user">
@@ -35,7 +35,7 @@
                     Message</a><span class="dashboard__label">12</span>
             </li>
             <li>
-                <a class="active" href="student-enrolled-courses.html">
+                <a href="/my-courses">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-bookmark">
@@ -43,28 +43,9 @@
                     </svg>
                     Enrolled Courses</a>
             </li>
+
             <li>
-                <a href="student-wishlist.html">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="feather feather-bookmark">
-                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    Wishlist</a>
-            </li>
-            <li>
-                <a href="student-reviews.html">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="feather feather-star">
-                        <polygon
-                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-                        </polygon>
-                    </svg>
-                    Reviews</a>
-            </li>
-            <li>
-                <a href="student-my-quiz-attempts.html">
+                <a href="/my-quizz">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-help-circle">
@@ -75,17 +56,17 @@
                     My Quiz Attempts</a>
             </li>
             <li>
-                <a href="student-assignments.html">
+                <a href="/my-tasks">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-volume-1">
                         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                         <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
                     </svg>
-                    Assignments</a>
+                    Tasks</a>
             </li>
             <li>
-                <a href="student-settings.html">
+                <a href="/settings">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-settings">
