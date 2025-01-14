@@ -42,6 +42,9 @@ Route::get('/admin-courses', function () {
 Route::get('/my-progress', function () {
     return view('student.dashboard');
 });
+Route::get('/course-details', function () {
+    return view('student.course-details');
+});
 
 Route::middleware('student.auth')->group(function () {
     Route::get('/profile', [StudentController::class, 'profile'])->name('student-profile');
@@ -67,13 +70,19 @@ Route::get('/settings', function () {
 Route::get('/pyramakerz', function () {
     return view('student.settings');
 });
+Route::get('/session-details', function () {
+    return view('student.session-details');
+});
 
+Route::get('/home', function () {
+    return view('student.index');
+});
 Route::prefix('admin')->group(function () {
     Route::post('/create_course', [AdminController::class, 'createCourse'])->name('create_course');
 });
 
-Route::get('home', [PortalController::class, 'homePage'])->name('home');
-Route::post('register_student', [PortalController::class, 'registerStudent'])->name('register_student');
+// Route::get('home', [PortalController::class, 'homePage'])->name('home');
+// Route::post('register_student', [PortalController::class, 'registerStudent'])->name('register_student');
 
 Route::get('/survey/{id}', [SurveyController::class, 'showSurvey'])->name('show_survey');
 Route::post('/survey/{id}', [SurveyController::class, 'submitSurvey'])->name('submit_survey');

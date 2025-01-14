@@ -143,7 +143,7 @@
             <div class="slider__controls__wrap slider__controls__pagination slider__controls__arrows">
                 <!--<div class="swiper-button-next arrow-btn"></div>
                 <div class="swiper-button-prev arrow-btn"></div>-->
-                <div class="swiper-pagination"></div>
+                {{-- <div class="swiper-pagination"></div> --}}
             </div>
 
             <div class="herobannerarea__icon__2">
@@ -157,56 +157,111 @@
 
         </div>
         <!-- herobannerarea__section__end-->
+        <!-- brand__section__start -->
+        <div class="brandarea__2">
+            <div class="container">
+                <div class="row" data-aos="fade-up">
+                    <div class="brandarea__wraper brandarea__wraper__2">
+                        <div class="brandarea__img">
+                            <a href="#"><img loading="lazy" src="img/logo/icon.png" alt="brand"
+                                    style="height: 80px;" /></a>
+                        </div>
+                        <div class="brandarea__img">
+                            <a href="#"><img loading="lazy" src="img/logo/icon.png" alt="brand"
+                                    style="height: 80px;" /></a>
+                        </div>
+                        <div class="brandarea__img">
+                            <a href="#"><img loading="lazy" src="img/logo/icon.png" alt="brand"
+                                    style="height: 80px;" /></a>
+                        </div>
+                        <div class="brandarea__img">
+                            <a href="#"><img loading="lazy" src="img/logo/icon.png" alt="brand"
+                                    style="height: 80px;" /></a>
+                        </div>
+                        <div class="brandarea__img">
+                            <a href="#"><img loading="lazy" src="img/logo/icon.png" alt="brand"
+                                    style="height: 80px;" /></a>
+                        </div>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- brand__section__end -->
 
         <!-- aboutarea__5__section__start -->
         <div class="aboutarea__5 sp_bottom_100 sp_top_100">
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-6 col-lg-6" data-aos="fade-up">
-                        <div class="aboutarea__5__img" data-tilt>
-                            <img loading="lazy" src="img/about/about_ai.jpg" alt="about">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" data-aos="fade-up">
+                        <div class="about__right__wraper__2">
+                            <div class="educationarea__img" data-tilt>
+                                <img loading="lazy" class="aboutarea__2__img__1" src="img/about/blue.png"
+                                    style="height: 450px;" alt="education">
+                                <img loading="lazy" class="aboutarea__2__img__2" src="img/about/about4.png"
+                                    style="height: 150px;" alt="education">
+                                <img loading="lazy" class="aboutarea__2__img__3" src="img/about/key.png"
+                                    style="height: 130px;" alt="education">
+                                <img loading="lazy" class="aboutarea__2__img__4" src="img/about/about_4.png"
+                                    alt="education">
+                            </div>
+                            <div class="aboutarea__2__text">
+                                <p> By Year
+                                <div class="aboutarea__counter">
+                                    <span class="counter"> 4</span>Th
+                                </div>
+
+                                End</p>
+
+
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-xl-6 col-lg-6" data-aos="fade-up">
-                        <div class="aboutarea__content__wraper__5">
-                            <div class="section__title">
-                                <div class="section__title__button">
-                                    <div class="default__small__button">About us</div>
-                                </div>
-                                <div class="section__title__heading ">
-                                    <h2>Welcome to the online Learning Center</h2>
-                                </div>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" data-aos="fade-up">
+                        <div class="aboutarea__content__wraper">
+                            <div class="aboutarea__button">
+                                <div class="default__small__button">Outcome</div>
                             </div>
-                            <div class="about__text__5">
-                                <p>Meet my startup design agency Shape Rex Currently I am working at CodeNext as Product
-                                    Designer.</p>
+                            <div class="aboutarea__headding heading__underline">
+                                <h2>Graduation Outcome
+                                    <span>(Ages 13-14)</span>
+                                </h2>
                             </div>
-
-                            <div class="aboutarea__5__small__icon__wraper">
-                                <div class="aboutarea__5__small__icon">
-                                    <img loading="lazy" src="img/about/about_15.png" alt="about">
-
-                                </div>
-                                <div class="aboutarea__small__heading">
-                                    <span>10+ Years ExperienceIn</span> this game, Means Product Designing
-                                </div>
-
+                            <div class="aboutarea__para aboutarea__para__2">
+                                <p>
+                                    Graduation with a certificate, portfolio, and readiness for
+                                    advanced opportunities
+                                </p>
                             </div>
+                            <div class="aboutarea__list__2">
+                                <ul>
+                                    <li>
+                                        <i class="icofont-check"></i> <b> Technical Mastery.</b>
+                                        {{-- Multiple coding languages/platforms, AI fundamentals, ML basics, data analysis,
+                                        cybersecurity, algorithms, and advanced app development. --}}
+                                    </li>
 
+                                    <li>
+                                        <i class="icofont-check"></i><b>Soft Skills Excellence.</b>
+                                        {{-- Strong communication, leadership, teamwork, time management, project management,
+                                        creativity, and problem-solving. --}}
+                                    </li>
 
+                                    <li>
+                                        <i class="icofont-check"></i> <b>Entrepreneurial & Professional
+                                            Preparedness.</b>
+                                        {{-- Knowledge of entrepreneurship, personal branding, freelancing, resume crafting,
+                                        cover letters, interview confidence, ready to seek internships. --}}
+                                    </li>
 
-
-                            <div class="aboutarea__para__5">
-                                <p>I love to work in User Experience & User Interface designing. Because I love to solve
-                                    the design problem and find easy and better solutions to solve it.</p>
-                            </div>
-
-                            <div class="aboutarea__bottom__button__5">
-                                <a class="default__button" href="#"> More About
-                                    <i class="icofont-long-arrow-right"></i>
-                                </a>
+                                    <li>
+                                        <i class="icofont-check"></i> <b>Comprehensive Portfolio & Presentation
+                                            Skills.</b>
+                                        {{-- Projects showing technical and conceptual growth, ability to pitch ideas
+                                        effectively. --}}
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
