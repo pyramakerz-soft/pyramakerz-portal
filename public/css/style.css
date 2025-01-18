@@ -73,8 +73,9 @@
     --headingColor: #222222;
     --contentColor: #5f6c76;
     --contentColor2: #5c727d;
-    --primaryColor: #5f2ded;
-    --secondaryColor: #f97233;
+    --primaryColor: #ff7918;
+    --primarylight: #f8af7b;
+    --secondaryColor: #4733f9;
     --secondaryColor2: #ff275a;
     --secondaryColor3: #ff2828;
     --blackColor: #000000;
@@ -11815,7 +11816,7 @@ Breadcrumb Area
     margin-bottom: 30px;
 }
 .dashboardarea__inner {
-    background-color: var(--naveBlue);
+    background-color: var(--primaryColor);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -11841,11 +11842,15 @@ Breadcrumb Area
     }
 }
 .dashboardarea__inner.student__dashboard__inner {
-    background: var(--skycolor);
+    background: var(--primarylight);
 }
 .dashboardarea__inner.student__dashboard__inner .default__button {
-    background-color: var(--secondaryColor);
-    border: 1px solid var(--secondaryColor);
+    background-color: var(--primaryColor);
+    border: 1px solid var(--primaryColor);
+}
+.dashboardarea__inner.student__dashboard__inner .default__button:hover {
+    background-color: var(--whiteColor);
+    border: 1px solid var(--primaryColor);
 }
 .dashboardarea__inner.admin__dashboard__inner {
     background-color: var(--primaryColor);
@@ -12101,11 +12106,11 @@ Breadcrumb Area
         font-size: 13px;
     }
 }
-.dashboard__table table tbody tr td span.dashboard__td--cancel {
-    background-color: var(--secondaryColor);
-}
 .dashboard__table table tbody tr td span.dashboard__td--over {
-    background-color: var(--primaryColor);
+    background-color: var(--lightGrey6);
+}
+.dashboard__table table tbody tr td span.dashboard__td--cancel {
+    background-color: var(--deepred);
 }
 .dashboard__table table tbody tr td span.dashboard__td--comming {
     background-color: var(--skycolor);
@@ -13996,3 +14001,13 @@ Dark Mode
 .is_dark .search__form .search__form__categories {
     background: var(--blackColor);
 } /*# sourceMappingURL=style.css.map */
+.round {
+    border-radius: var(--borderRadius2);
+}
+
+.small {
+    height: 150px;
+}
+.s-small {
+    height: 80px;
+}

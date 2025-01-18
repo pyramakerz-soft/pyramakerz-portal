@@ -6,7 +6,8 @@
                     <div class="headerarea__left">
                         <div class="headerarea__left__logo">
 
-                            <a href="../index.html"><img loading="lazy" src="../img/logo/logo_1.png" alt="logo"></a>
+                            <a href="home"><img class="s-small" loading="lazy" src="../img/logo/logo_1.png"
+                                    alt="logo"></a>
                         </div>
 
                     </div>

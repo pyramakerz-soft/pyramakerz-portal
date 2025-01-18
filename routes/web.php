@@ -75,7 +75,16 @@ Route::get('/session-details', function () {
 });
 
 Route::get('/home', function () {
-    return view('student.index');
+    return view('student.home');
+});
+
+Route::get('/all-courses', function () {
+    return view('student.all-courses');
+});
+
+
+Route::get('/message', function () {
+    return view('student.message');
 });
 Route::prefix('admin')->group(function () {
     Route::post('/create_course', [AdminController::class, 'createCourse'])->name('create_course');

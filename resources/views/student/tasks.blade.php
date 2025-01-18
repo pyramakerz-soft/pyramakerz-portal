@@ -43,51 +43,7 @@
                                     <h4>Assignment</h4>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-xl-6 col-lg-4 col-md-4 col-12">
-                                        <div class="dashboard__select__heading">
-                                            <span>Courses</span>
-                                        </div>
-                                        <div class="dashboard__selector">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>All</option>
-                                                <option value="1">Web Design</option>
-                                                <option value="2">Graphic</option>
-                                                <option value="3">English</option>
-                                                <option value="4">Spoken English</option>
-                                                <option value="5">Art Painting</option>
-                                                <option value="6">App Development</option>
-                                                <option value="7">Web Application</option>
-                                                <option value="7">Php Development</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-3 col-lg-4 col-md-4 col-12">
-                                        <div class="dashboard__select__heading">
-                                            <span>SHORT BY</span>
-                                        </div>
-                                        <div class="dashboard__selector">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Default</option>
-                                                <option value="1">Trending</option>
-                                                <option value="2">Price: low to high</option>
-                                                <option value="3">Price: low to low</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-3 col-lg-4 col-md-4 col-12">
-                                        <div class="dashboard__select__heading">
-                                            <span>SHORT BY OFFER</span>
-                                        </div>
-                                        <div class="dashboard__selector">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Free</option>
-                                                <option value="1">paid</option>
-                                                <option value="2">premimum</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <hr class="mt-40">
                                 <div class="row">
 
@@ -106,8 +62,8 @@
                                                     <tr>
                                                         <th>
 
-                                                            <span>Write a the 5</span>
-                                                            <p>course: <a href="#">Fundamentals</a></p>
+                                                            <span>Task Name</span>
+                                                            <p>course: <a href="#">AI Track</a></p>
                                                         </th>
                                                         <td>
                                                             <p>80</p>
@@ -138,8 +94,8 @@
                                                     <tr class="dashboard__table__row">
                                                         <th>
 
-                                                            <span>Write a the 5</span>
-                                                            <p>course: <a href="#">Fundamentals</a></p>
+                                                            <span>Task Name</span>
+                                                            <p>course: <a href="#">AI Track</a></p>
                                                         </th>
                                                         <td>
                                                             <p>80</p>
@@ -170,8 +126,8 @@
                                                     <tr>
                                                         <th>
 
-                                                            <span>Write a the 5</span>
-                                                            <p>course: <a href="#">Fundamentals</a></p>
+                                                            <span>Task Name</span>
+                                                            <p>course: <a href="#">AI Track</a></p>
                                                         </th>
                                                         <td>
                                                             <p>80</p>
@@ -203,8 +159,8 @@
                                                     <tr class="dashboard__table__row">
                                                         <th>
 
-                                                            <span>Write a the 5</span>
-                                                            <p>course: <a href="#">Fundamentals</a></p>
+                                                            <span>Task Name</span>
+                                                            <p>course: <a href="#">AI Track</a></p>
                                                         </th>
                                                         <td>
                                                             <p>80</p>

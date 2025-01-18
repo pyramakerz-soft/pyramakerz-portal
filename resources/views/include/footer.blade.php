@@ -1,15 +1,9 @@
 <!-- footer__section__start -->
-<div
-    class="footerarea footerarea__image"
-    style="background-image: url(img/footer/footer_bg_ai.png)"
->
+<div class="footerarea footerarea__image" style="background-image: url(img/footer/footer_bg_ai.png)">
     <div class="container">
         <div class="footerarea__newsletter__wraper">
             <div class="row">
-                <div
-                    class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12"
-                    data-aos="fade-up"
-                >
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-up">
                     <div class="footerarea__text">
                         <h3>Still You Need Our <span>Support</span> ?</h3>
                         <p>
@@ -18,22 +12,13 @@
                         </p>
                     </div>
                 </div>
-                <div
-                    class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12"
-                    data-aos="fade-up"
-                >
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-up">
                     <div class="footerarea__newsletter">
                         <div class="footerarea__newsletter__input">
                             <form action="#">
-                                <input
-                                    type="text"
-                                    placeholder="Enter your email here"
-                                />
+                                <input type="text" placeholder="Enter your email here" />
                                 <div class="footerarea__newsletter__button">
-                                    <button
-                                        type="submit"
-                                        class="subscribe__btn"
-                                    >
+                                    <button type="submit" class="subscribe__btn">
                                         Subscribe Now
                                     </button>
                                 </div>
@@ -44,12 +29,9 @@
             </div>
         </div>
 
-        <div class="footerarea__wrapper footerarea__wrapper__2">
+        {{-- <div class="footerarea__wrapper footerarea__wrapper__2">
             <div class="row">
-                <div
-                    class="col-xl-4 col-lg-4 col-md-6 col-sm-12"
-                    data-aos="fade-up"
-                >
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12" data-aos="fade-up">
                     <div class="footerarea__inner footerarea__about__us">
                         <div class="footerarea__heading">
                             <h3>About us</h3>
@@ -74,10 +56,7 @@
                         </div>
                     </div>
                 </div>
-                <div
-                    class="col-xl-2 col-lg-2 col-md-6 col-sm-6"
-                    data-aos="fade-up"
-                >
+                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6" data-aos="fade-up">
                     <div class="footerarea__inner">
                         <div class="footerarea__heading">
                             <h3>Usefull Links</h3>
@@ -103,10 +82,7 @@
                         </div>
                     </div>
                 </div>
-                <div
-                    class="col-xl-3 col-lg-3 col-md-6 col-sm-6"
-                    data-aos="fade-up"
-                >
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6" data-aos="fade-up">
                     <div class="footerarea__inner footerarea__padding__left">
                         <div class="footerarea__heading">
                             <h3>Course</h3>
@@ -133,10 +109,7 @@
                     </div>
                 </div>
 
-                <div
-                    class="col-xl-3 col-lg-3 col-md-6 col-sm-12"
-                    data-aos="fade-up"
-                >
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12" data-aos="fade-up">
                     <div class="footerarea__right__wraper footerarea__inner">
                         <div class="footerarea__heading">
                             <h3>Recent Post</h3>
@@ -146,11 +119,7 @@
                                 <li>
                                     <a href="#">
                                         <div class="footerarea__right__img">
-                                            <img
-                                                loading="lazy"
-                                                src="img/footer/footer__1.png"
-                                                alt="footerphoto"
-                                            />
+                                            <img loading="lazy" src="img/footer/footer__1.png" alt="footerphoto" />
                                         </div>
                                         <div class="footerarea__right__content">
                                             <span>02 Apr 2024 </span>
@@ -162,11 +131,7 @@
                                 <li>
                                     <a href="#">
                                         <div class="footerarea__right__img">
-                                            <img
-                                                loading="lazy"
-                                                src="img/footer/footer__2.png"
-                                                alt="footerphoto"
-                                            />
+                                            <img loading="lazy" src="img/footer/footer__2.png" alt="footerphoto" />
                                         </div>
                                         <div class="footerarea__right__content">
                                             <span>02 Apr 2024 </span>
@@ -178,11 +143,7 @@
                                 <li>
                                     <a href="#">
                                         <div class="footerarea__right__img">
-                                            <img
-                                                loading="lazy"
-                                                src="img/footer/footer__3.png"
-                                                alt="footerphoto"
-                                            />
+                                            <img loading="lazy" src="img/footer/footer__3.png" alt="footerphoto" />
                                         </div>
                                         <div class="footerarea__right__content">
                                             <span>02 Apr 2024 </span>
@@ -195,61 +156,42 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div
-            class="footerarea__copyright__wrapper footerarea__copyright__wrapper__2"
-        >
+        </div> --}}
+        <div class="footerarea__copyright__wrapper footerarea__copyright__wrapper__2">
             <div class="row">
                 <div class="col-xl-3 col-lg-3">
                     <div class="copyright__logo">
-                        <a href="/"
-                            ><img
-                                loading="lazy"
-                                src="img/logo/logo_2.png"
-                                alt="logo"
-                        /></a>
+                        <a href="/"><img loading="lazy" src="img/logo/ioon.png" alt="logo" /></a>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6">
-                    <div
-                        class="footerarea__copyright__content footerarea__copyright__content__2"
-                    >
+                    <div class="footerarea__copyright__content footerarea__copyright__content__2">
                         <p>
-                            Copyright © <span>2024</span> by edurock. All Rights
+                            Copyright © <span>2024</span> by pyramakerz. All Rights
                             Reserved.
                         </p>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-3">
-                    <div class="footerarea__icon footerarea__icon__2">
+                    {{-- <div class="footerarea__icon footerarea__icon__2">
                         <ul>
                             <li>
-                                <a href="//facebook.com"
-                                    ><i class="icofont-facebook"></i
-                                ></a>
+                                <a href="//facebook.com"><i class="icofont-facebook"></i></a>
                             </li>
                             <li>
-                                <a href="//twitter.com"
-                                    ><i class="icofont-twitter"></i
-                                ></a>
+                                <a href="//twitter.com"><i class="icofont-twitter"></i></a>
                             </li>
                             <li>
-                                <a href="//vimeo.com"
-                                    ><i class="icofont-vimeo"></i
-                                ></a>
+                                <a href="//vimeo.com"><i class="icofont-vimeo"></i></a>
                             </li>
                             <li>
-                                <a href="//linkedin.com"
-                                    ><i class="icofont-linkedin"></i
-                                ></a>
+                                <a href="//linkedin.com"><i class="icofont-linkedin"></i></a>
                             </li>
                             <li>
-                                <a href="//skype.com"
-                                    ><i class="icofont-skype"></i
-                                ></a>
+                                <a href="//skype.com"><i class="icofont-skype"></i></a>
                             </li>
                         </ul>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

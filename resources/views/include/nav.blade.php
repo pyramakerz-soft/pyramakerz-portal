@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="col-xl-7 col-lg-7 main_menu_wrap">
-                    <div class="headerarea__main__menu">
+                    {{-- <div class="headerarea__main__menu">
                         <nav>
                             <ul>
 
@@ -650,12 +650,12 @@
 
                             </ul>
                         </nav>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-6">
                     <div class="headerarea__right">
 
-                        <div class="header__cart">
+                        {{-- <div class="header__cart">
                             <a href="#"> <i class="icofont-cart-alt"></i></a>
                             <div class="header__right__dropdown__wrapper">
                                 <div class="header__right__dropdown__inner">
@@ -721,7 +721,7 @@
                                     <a href="ecommerce/checkout.html" class="blue__color">Checkout</a>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="headerarea__login">
                             <a href="login.html"><i class="icofont-user-alt-5"></i></a>
