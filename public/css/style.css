@@ -5360,7 +5360,7 @@ Grid Area
     .gridarea__img
     .gridarea__small__button
     .grid__badge.orange__color {
-    background: var(--orange);
+    background: var(--primaryColor);
 }
 .gridarea__wraper
     .gridarea__img
