@@ -48,14 +48,14 @@
                                 <div class="row">
 
                                     <div class="col-xl-12">
-                                        <div class="dashboard__table table-responsive">
+                                        <div class="dashboard__table table-responsive dashboardarea__star">
                                             <table>
                                                 <thead>
                                                     <tr>
                                                         <th>Quiz</th>
-                                                        <th>Qus</th>
-                                                        <th>TM</th>
-                                                        <th>CA</th>
+                                                        <th>Qusetions</th>
+                                                        <th>Total Mark</th>
+                                                        <th>Correct Answer</th>
                                                         <th>Result</th>
                                                         <th></th>
                                                     </tr>
@@ -85,9 +85,7 @@
                                                                 <a class="dashboard__small__btn__2"
                                                                     href="https://docs.google.com/forms/d/1L_HoAiwFs-JKJrakAT3bTpa6ZNkvPT6A3vDZvKfj5lo/viewform?edit_requested=true"
                                                                     target="_blank"> <i class="icofont-eye"></i>View</a>
-                                                                <a class="dashboard__small__btn__2 dashboard__small__btn__3"
-                                                                    href="#">
-                                                                    <i class="icofont-file-check"></i> Result</a>
+
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -115,9 +113,7 @@
                                                                 <a class="dashboard__small__btn__2" target="_blank"
                                                                     href="https://docs.google.com/forms/d/1ub7oTHj98ZweV3qo2DxdEki69T-M1m-9lZfyzRYN-Gs/viewform?edit_requested=true">
                                                                     <i class="icofont-eye"></i>View</a>
-                                                                <a class="dashboard__small__btn__2  dashboard__small__btn__3"
-                                                                    href="#">
-                                                                    <i class="icofont-file-check"></i> Result</a>
+
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -145,9 +141,7 @@
                                                                 <a class="dashboard__small__btn__2"
                                                                     href="https://docs.google.com/forms/d/1ub7oTHj98ZweV3qo2DxdEki69T-M1m-9lZfyzRYN-Gs/viewform?edit_requested=true"
                                                                     target="_blank"> <i class="icofont-eye"></i>View</a>
-                                                                <a class="dashboard__small__btn__2  dashboard__small__btn__3"
-                                                                    href="#">
-                                                                    <i class="icofont-file-check"></i> Result</a>
+
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -176,9 +170,7 @@
                                                                 <a class="dashboard__small__btn__2"
                                                                     href="https://docs.google.com/forms/d/1HJ_zZjZzftvw982EaAETzh1kdGbJwHHeWN9he6Ldoe8/viewform?edit_requested=true"
                                                                     target="_blank"> <i class="icofont-eye"></i>View</a>
-                                                                <a class="dashboard__small__btn__2 dashboard__small__btn__3"
-                                                                    href="#">
-                                                                    <i class="icofont-file-check"></i> Result</a>
+
                                                             </div>
                                                         </td>
                                                     </tr>

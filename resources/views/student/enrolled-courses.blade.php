@@ -49,11 +49,11 @@
                                                     data-bs-target="#projects__two" type="button" aria-selected="true"
                                                     role="tab">Active Courses</button>
                                             </li>
-                                            <li class="nav-item" role="presentation">
+                                            {{-- <li class="nav-item" role="presentation">
                                                 <button class="single__tab__link" data-bs-toggle="tab"
                                                     data-bs-target="#projects__three" type="button"
                                                     aria-selected="false" role="tab">Upcoming Courses</button>
-                                            </li>
+                                            </li> --}}
                                         </ul>
                                     </div>
 
@@ -61,45 +61,48 @@
                                         id="myTabContent" data-aos="fade-up">
 
                                         <!-- Enrolled Courses -->
-                                        @foreach($courses as $course)
-    <div class="tab-pane fade show" id="projects__one" role="tabpanel">
-        <div class="row">
-            <div class="col-xl-4 col-lg-6 col-md-6 col-12">
-                <div class="gridarea__wraper">
-                    <div class="gridarea__img">
-                        <a href="../course-details.html">
-                            <img loading="lazy" src="../img/grid/grid_1.png" alt="grid">
-                        </a>
-                        <div class="gridarea__small__button">
-                            <div class="grid__badge">{{ $course->course->slug }}</div>
-                        </div>
-                    </div>
-                    <div class="gridarea__content">
-                        <div class="gridarea__list">
-                            <ul>
-                                <li>
-                                    <i class="icofont-book-alt"></i> 
-                                    {{ $course->course->totalLessonsCount() }} Lessons
-                                </li>
-                                <li>
-                                    <i class="icofont-clock-time"></i> 
-                                    ~{{ ($course->course->totalLessonsCount() *30)/60 }} Hours
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="gridarea__heading">
-                            <h3><a href="../course-details.html">{{ $course->course->name }}</a></h3>
-                        </div>
-                        <div class="gridarea__price">
-                            <del>1000$</del>
-                            <span> <del class="del__2">Free</del></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endforeach
+                                        @foreach ($courses as $course)
+                                            <div class="tab-pane fade show" id="projects__one" role="tabpanel">
+                                                <div class="row">
+                                                    <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+                                                        <div class="gridarea__wraper">
+                                                            <div class="gridarea__img">
+                                                                <a href="/session-details">
+                                                                    <img loading="lazy" src="../img/grid/grid_1.png"
+                                                                        alt="grid">
+                                                                </a>
+                                                                <div class="gridarea__small__button">
+                                                                    <div class="grid__badge">{{ $course->course->slug }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="gridarea__content">
+                                                                <div class="gridarea__list">
+                                                                    <ul>
+                                                                        <li>
+                                                                            <i class="icofont-book-alt"></i>
+                                                                            {{ $course->course->totalLessonsCount() }}
+                                                                            Lessons
+                                                                        </li>
+                                                                        <li>
+                                                                            <i class="icofont-clock-time"></i>
+                                                                            ~{{ ($course->course->totalLessonsCount() * 30) / 60 }}
+                                                                            Hours
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="gridarea__heading">
+                                                                    <h3><a
+                                                                            href="/session-details">{{ $course->course->name }}</a>
+                                                                    </h3>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
 
                                         <!-- Active Courses -->
                                         <div class="tab-pane active fade" id="projects__two" role="tabpanel">
@@ -107,7 +110,8 @@
                                                 <div class="col-xl-4 col-lg-6 col-md-6 col-12">
                                                     <div class="gridarea__wraper">
                                                         <div class="gridarea__img">
-                                                            <img loading="lazy" src="../img/grid/grid_2.png" alt="grid">
+                                                            <img loading="lazy" src="../img/grid/grid_2.png"
+                                                                alt="grid">
                                                             <div class="gridarea__small__button">
                                                                 <div class="grid__badge blue__color">Mechanical</div>
                                                             </div>
@@ -124,12 +128,10 @@
                                                                 </ul>
                                                             </div>
                                                             <div class="gridarea__heading">
-                                                                <h3><a href="#">Understanding Mechanical Basics</a></h3>
+                                                                <h3><a href="session-details">Understanding Mechanical
+                                                                        Basics</a></h3>
                                                             </div>
-                                                            <div class="gridarea__price green__color">
-                                                                $32.00 <del>/$67.00</del>
-                                                                <span>.Free</span>
-                                                            </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -137,7 +139,7 @@
                                         </div>
 
                                         <!-- Completed Courses -->
-                                        <div class="tab-pane fade" id="projects__three" role="tabpanel">
+                                        {{-- <div class="tab-pane fade" id="projects__three" role="tabpanel">
                                             <div class="row">
                                                 <div class="col-xl-4 col-lg-6 col-md-6 col-12">
                                                     <div class="gridarea__wraper">
@@ -173,7 +175,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
 
                                     </div>
 

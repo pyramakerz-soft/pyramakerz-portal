@@ -5360,7 +5360,7 @@ Grid Area
     .gridarea__img
     .gridarea__small__button
     .grid__badge.orange__color {
-    background: var(--orange);
+    background: var(--primaryColor);
 }
 .gridarea__wraper
     .gridarea__img
@@ -5503,8 +5503,8 @@ Grid Area
     background: var(--whiteColor);
     margin-bottom: 25px;
     box-shadow: 0px 30px 40px 0px rgba(1, 11, 60, 0.06);
-    margin-right: 50px;
-    margin-left: 50px;
+    /* margin-right: 50px;
+    margin-left: 50px; */
     border-radius: var(--borderRadius);
     text-align: center;
 }
@@ -11842,15 +11842,17 @@ Breadcrumb Area
     }
 }
 .dashboardarea__inner.student__dashboard__inner {
-    background: var(--primarylight);
+    background: var(--primaryColor);
 }
 .dashboardarea__inner.student__dashboard__inner .default__button {
-    background-color: var(--primaryColor);
+    background-color: var(--whiteColor);
     border: 1px solid var(--primaryColor);
+    color: var(--primaryColor);
 }
 .dashboardarea__inner.student__dashboard__inner .default__button:hover {
     background-color: var(--whiteColor);
     border: 1px solid var(--primaryColor);
+    border-radius: 30px;
 }
 .dashboardarea__inner.admin__dashboard__inner {
     background-color: var(--primaryColor);
@@ -11919,9 +11921,10 @@ Breadcrumb Area
 .dashboardarea__star svg,
 .dashboardarea__star i {
     width: 16px;
-    color: var(--yellow);
+    color: var(--whiteColor);
     font-size: 16px;
 }
+
 .dashboardarea__star span {
     color: var(--whiteColor);
     font-size: 16px;
@@ -12216,9 +12219,14 @@ Breadcrumb Area
     width: 14px;
 }
 .dashboard__small__btn__3 {
-    background: var(--secondaryColor);
+    background: var(--deepgreen);
     color: var(--whiteColor);
-    border: 1px solid var(--secondaryColor);
+    border: 1px solid var(--deepgreen);
+}
+.dashboard__small__btn__3:hover {
+    background: var(--whiteColor);
+    color: var(--deepgreen);
+    border: 1px solid var(--deepgreen);
 }
 .dashboard__button__wrap li {
     margin-right: 10px;
@@ -14003,6 +14011,9 @@ Dark Mode
 } /*# sourceMappingURL=style.css.map */
 .round {
     border-radius: var(--borderRadius2);
+}
+.roundd {
+    border-radius: var(--borderRadius3);
 }
 
 .small {

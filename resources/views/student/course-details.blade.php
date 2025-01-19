@@ -71,11 +71,7 @@
                                             <span>(44)</span>
                                         </div>
                                     </li>
-                                    <li>
-                                        <div class="course__date">
-                                            <p>Last Update:<span> Sep 29, 2024</span></p>
-                                        </div>
-                                    </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -115,7 +111,7 @@
                                             <li class="nav-item" role="presentation">
                                                 <button class="single__tab__link" data-bs-toggle="tab"
                                                     data-bs-target="#projects__two" type="button"><i
-                                                        class="icofont-book-alt"></i>Curriculum</button>
+                                                        class="icofont-calendar"></i>Time Table</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
                                                 <button class="single__tab__link active" data-bs-toggle="tab"
@@ -127,11 +123,7 @@
                                                     data-bs-target="#projects__three" type="button"><i
                                                         class="icofont-star"></i>Reviews</button>
                                             </li>
-                                            <li class="nav-item" role="presentation">
-                                                <button class="single__tab__link" data-bs-toggle="tab"
-                                                    data-bs-target="#projects__four" type="button"><i
-                                                        class="icofont-teacher"></i>Instructor</button>
-                                            </li>
+
 
 
                                         </ul>
@@ -142,45 +134,14 @@
                                         aria-labelledby="projects__two">
 
                                         <div class="accordion content__cirriculum__wrap" id="accordionExample">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="headingOne">
-                                                    <button class="accordion-button" type="button"
-                                                        data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                        aria-expanded="true" aria-controls="collapseOne">
-                                                        Intro Course content <span>02hr 35min</span>
-                                                    </button>
-                                                </h2>
-                                                <div id="collapseOne" class="accordion-collapse collapse show"
-                                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
-
-
-                                                        <div class="scc__wrap">
-                                                            <div class="scc__info">
-                                                                <i class="icofont-video-alt"></i>
-                                                                <h5> <span>Video :</span> Lorem ipsum dolor sit amet.
-                                                                </h5>
-                                                            </div>
-                                                            <div class="scc__meta">
-                                                                <span class="time"> <i
-                                                                        class="icofont-clock-time"></i> 22
-                                                                    minutes</span>
-                                                                <a href="/session-details"><span class="question"><i
-                                                                            class="icofont-eye"></i> Preview</span></a>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="scc__wrap">
-                                                            <div class="scc__info">
-                                                                <i class="icofont-file-text"></i>
-                                                                <h5> <span>Lesson 03 Exam :</span></h5>
-                                                            </div>
-                                                            <div class="scc__meta">
-                                                                <span><i class="icofont-lock"></i> 20 Ques</span>
-                                                            </div>
-                                                        </div>
+                                            <div class="accordion-item roundd">
+                                                <h2 class="accordion-header">
+                                                    <div class="sp_top_30 col--30" type="text">
+                                                        Date <span>time</span>
                                                     </div>
-                                                </div>
+                                                </h2>
+                                                <p class="col--30">Session 1</p>
+
                                             </div>
 
 
@@ -383,91 +344,11 @@
 
                                         </div>
 
-                                        <form action="#" class="add__a__review__wrapper">
-                                            <h4>Add a Review</h4>
-                                            <div class="add__a__review">
-                                                <h6>Your Ratings:</h6>
-                                                <div class="property__sidebar__icon">
-                                                    <ul>
-                                                        <li><i class="icofont-star"></i></li>
-                                                        <li><i class="icofont-star"></i></li>
-                                                        <li><i class="icofont-star"></i></li>
-                                                        <li><i class="icofont-star"></i></li>
-                                                        <li><i class="icofont-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
 
-                                            <div class="add__a__review__input">
-                                                <textarea placeholder="Type your comments...."></textarea>
-                                            </div>
-                                            <div class="add__a__review__input">
-                                                <input type="text" placeholder="Type your name....">
-                                            </div>
-                                            <div class="add__a__review__input">
-                                                <input type="email" placeholder="Type your email....">
-                                            </div>
-                                            <div class="add__a__review__input">
-                                                <input type="text" name="website"
-                                                    placeholder="Type your website....">
-                                            </div>
-                                            <label class="mb-0"><input type="checkbox" name="agree"> Save my
-                                                name, email, and website in this browser for the next time I
-                                                comment.</label>
-                                            <div class="add__a__review__button">
-                                                <button class="default__button" type="submit">Submit</button>
-                                            </div>
-                                        </form>
 
                                     </div>
 
-                                    <div class="tab-pane fade" id="projects__four" role="tabpanel"
-                                        aria-labelledby="projects__four">
-                                        <div class="blogsidebar__content__wraper__2 tab__instructor">
-                                            <div class="blogsidebar__content__inner__2">
-                                                <div class="blogsidebar__img__2">
-                                                    <img loading="lazy" src="img/blog/blog_10.png" alt="blog">
-                                                </div>
 
-                                                <div class="tab__instructor__inner">
-                                                    <div class="blogsidebar__name__2">
-                                                        <h5>
-                                                            <a href="#"> Rosalina D. Willaim</a>
-
-                                                        </h5>
-                                                        <p>Blogger/Photographer</p>
-                                                    </div>
-                                                    <div class="blog__sidebar__text__2">
-                                                        <p>Lorem Ipsum is simply dummy text of the printing and
-                                                            typesetting industry. Lorem Ipsum has been the industry's
-                                                            standard dummy text ever since the 1500s, when an unknown
-                                                            printer took a galley</p>
-                                                    </div>
-                                                    <div class="blogsidbar__icon__2">
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#"><i class="icofont-facebook"></i></a>
-                                                            </li>
-
-                                                            <li>
-                                                                <a href="#"><i
-                                                                        class="icofont-youtube-play"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#"><i
-                                                                        class="icofont-instagram"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#"><i class="icofont-twitter"></i></a>
-                                                            </li>
-                                                        </ul>
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
 
                                 </div>
                             </div>
@@ -492,20 +373,7 @@
                                         <a href="#">data</a>
                                     </li>
                                 </ul>
-                                <ul class="share__list">
-                                    <li class="heading__tag">
-                                        Share
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icofont-twitter"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icofont-facebook"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="icofont-instagram"></i></a>
-                                    </li>
-                                </ul>
+
                             </div>
 
 
@@ -542,23 +410,10 @@
                                     </div>
                                 </div>
 
-                                <div class="event__price__wraper">
-
-                                    <div class="event__price">
-                                        $32.00 <del>/ $67.00</del>
-                                    </div>
-                                    <div class="event__Price__button">
-                                        <a href="#">68% OFF</a>
-                                    </div>
-                                </div>
 
                                 <div class="course__summery__button">
-                                    <a class="default__button" href="#">Add To Cart</a>
-                                    <a class="default__button default__button--2" href="#">Buy Now</a>
-                                    <span>
-                                        <i class="icofont-ui-rotation"></i>
-                                        45-Days Money-Back Guarantee
-                                    </span>
+                                    <a class="default__button" href="#">Enroll Now</a>
+
                                 </div>
 
                                 <div class="course__summery__lists">
