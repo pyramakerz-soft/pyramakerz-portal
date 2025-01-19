@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CoursesPath extends Model
 {
+    protected $guarded = [];
     protected $table = 'course_paths';
 
     public function course()
@@ -18,7 +19,7 @@ class CoursesPath extends Model
     }
     public function lessons()
     {
-        return $this->hasMany(Lesson::class,'course_path_id');
+        return $this->hasMany(Lesson::class, 'course_path_id');
     }
 
 }

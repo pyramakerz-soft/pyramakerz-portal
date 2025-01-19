@@ -277,55 +277,52 @@
 
                                 <div class="row">
 
-                                    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-6 col-12" data-aos="fade-up">
-                                        <div class="gridarea__wraper gridarea__wraper__2">
-                                            <div class="gridarea__img">
-                                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
-                                                <div class="gridarea__small__button">
-                                                    <div class="grid__badge orange__color">Aritifacial Intelligence
+                                    @foreach ($courses as $course)
+                                        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-6 col-12" data-aos="fade-up">
+                                            <div class="gridarea__wraper gridarea__wraper__2">
+                                                <div class="gridarea__img">
+                                                    <img loading="lazy" src="{{ asset('storage/' . $course->image) }}"
+                                                        alt="{{ $course->name }}">
+                                                    <div class="gridarea__small__button">
+                                                        <div class="grid__badge orange__color">
+                                                            {{ $course->course_path ?? 'General' }}</div>
+                                                    </div>
+                                                    <div class="gridarea__small__icon">
+                                                        <a href="#"><i class="icofont-heart-alt"></i></a>
                                                     </div>
                                                 </div>
-                                                <div class="gridarea__small__icon">
-                                                    <a href="#"><i class="icofont-heart-alt"></i></a>
-                                                </div>
-
-                                            </div>
-                                            <div class="gridarea__content">
-                                                <div class="gridarea__list">
-                                                    <ul>
-                                                        <li>
-                                                            <i class="icofont-book-alt"></i> 29 Lesson
-                                                        </li>
-                                                        <li>
-                                                            <i class="icofont-clock-time"></i> 2 hr 10 min
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="gridarea__heading">
-                                                    <h3><a href="course-details">Python level one</a></h3>
-
-                                                </div>
-                                                {{-- 
-                                                <div class="gridarea__bottom">
-                                                    <div class="gridarea__small__content">
-                                                        <h6>Aritifacial Intelligence</h6>
+                                                <div class="gridarea__content">
+                                                    <div class="gridarea__list">
+                                                        <ul>
+                                                            <li>
+                                                                <i class="icofont-book-alt"></i>
+                                                                {{ $course->totalLessonsCount() ?? 0 }} Lessons
+                                                            </li>
+                                                            <li>
+                                                                <i class="icofont-clock-time"></i>
+                                                                {{ $course->duration ?? 'N/A' }}
+                                                            </li>
+                                                        </ul>
                                                     </div>
-                                                </div> --}}
-
-
-
-                                                <div class="gridarea__bottom">
-                                                    <div class="gridarea__star">
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <i class="icofont-star"></i>
-                                                        <span>(44)</span>
+                                                    <div class="gridarea__heading">
+                                                        <h3>
+                                                            <a
+                                                                href="{{ route('courses.show', $course->id) }}">{{ $course->name }}</a>
+                                                        </h3>
+                                                    </div>
+                                                    <div class="gridarea__bottom">
+                                                        <div class="gridarea__star">
+                                                            <i class="icofont-star"></i>
+                                                            <i class="icofont-star"></i>
+                                                            <i class="icofont-star"></i>
+                                                            <i class="icofont-star"></i>
+                                                            <span>({{ $course->rating ?? 0 }})</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endforeach
 
                                 </div>
 

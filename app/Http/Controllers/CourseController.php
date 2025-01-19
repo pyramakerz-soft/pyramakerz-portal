@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\CoursesPath;
 use Illuminate\Http\Request;
 use Log;
 
@@ -13,7 +14,9 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        $courses = Course::with(['coursePaths', 'coursePaths.lessons'])->paginate(12);
+
+        return view('student.all-courses', compact('courses'));
     }
 
     /**
@@ -21,7 +24,8 @@ class CourseController extends Controller
      */
     public function create()
     {
-        return view("dashboard.create-course");
+        $coursePaths = CoursesPath::all();
+        return view("dashboard.create-course", compact("coursePaths"));
     }
 
     /**
@@ -30,9 +34,8 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'nullable|string|max:255',
             'slug' => 'nullable|string|max:255|unique:courses,slug',
-            'price' => 'required|numeric|min:0',
             'course_path' => 'nullable|string|max:255',
             'skill_level' => 'nullable|string|max:255',
             'language' => 'nullable|string|max:255',
@@ -41,49 +44,69 @@ class CourseController extends Controller
             'course_tags' => 'nullable|string',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'course_paths' => 'nullable|array',
+            'course_paths.*.name' => 'required_with:course_paths|string|max:255',
+            'course_paths.*.duration' => 'nullable|string|max:255',
+            'course_paths.*.price' => 'nullable|numeric|min:0',
+            'course_paths.*.description' => 'nullable|string',
+            'course_paths.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         try {
-            $course = new Course();
-            $course->name = $validatedData['name'];
-            $course->slug = $validatedData['slug'] ?? null;
-            $course->price = $validatedData['price'];
-            $course->course_path = $validatedData['course_path'] ?? null;
-            $course->skill_level = $validatedData['skill_level'] ?? null;
-            $course->language = $validatedData['language'] ?? null;
-            $course->prereq = isset($validatedData['prereq']) ? json_encode($validatedData['prereq']) : null;
-            $course->course_tags = isset($validatedData['course_tags']) ? json_encode(explode(',', $validatedData['course_tags'])) : null;
-            $course->description = $validatedData['description'] ?? null;
+            $course = null;
+            if (!empty($validatedData['name']) || !empty($validatedData['slug'])) {
+                $course = new Course();
+                $course->name = $validatedData['name'];
+                $course->slug = $validatedData['slug'] ?? null;
+                $course->course_path = $validatedData['course_path'] ?? null;
+                $course->skill_level = $validatedData['skill_level'] ?? null;
+                $course->language = $validatedData['language'] ?? null;
+                $course->prereq = isset($validatedData['prereq']) ? json_encode($validatedData['prereq']) : null;
+                $course->course_tags = isset($validatedData['course_tags']) ? json_encode(explode(',', $validatedData['course_tags'])) : null;
+                $course->description = $validatedData['description'] ?? null;
 
-            if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('course_images', 'public');
-                $course->image = $path;
+                if ($request->hasFile('image')) {
+                    $courseImagePath = $request->file('image')->store('course_images', 'public');
+                    $course->image = $courseImagePath;
+                }
+
+                $course->save();
             }
 
-            // if ($request->hasFile('image')) {
-            //     $file = $request->file('image');
-            //     Log::info('Uploaded file details:', [
-            //         'name' => $file->getClientOriginalName(),
-            //         'type' => $file->getMimeType(),
-            //         'extension' => $file->getClientOriginalExtension(),
-            //     ]);
-            // }
+            if (!empty($validatedData['course_paths'])) {
+                foreach ($validatedData['course_paths'] as $pathIndex => $path) {
+                    $pathImagePath = null;
+                    if (isset($path['image']) && $request->hasFile("course_paths.$pathIndex.image")) {
+                        $pathImagePath = $request->file("course_paths.$pathIndex.image")->store('path_images', 'public');
+                    }
 
-            $course->save();
+                    CoursesPath::create([
+                        'course_id' => $course ? $course->id : null,
+                        'name' => $path['name'],
+                        'description' => $path['description'] ?? null,
+                        'duration' => $path['duration'] ?? null,
+                        'price' => $path['price'] ?? null,
+                        'image' => $pathImagePath,
+                    ]);
+                }
+            }
 
-            return redirect()->back()->with('success', 'Course created successfully!');
+            return redirect()->back()->with('success', 'Data saved successfully!');
         } catch (\Exception $e) {
-            Log::error('Failed to create course: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while creating the course.');
+            Log::error('Failed to save data: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while saving data.');
         }
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        $course = Course::with(['coursePaths.lessons'])->findOrFail($id);
+
+        return view('student.course-details', compact('course'));
     }
 
     /**

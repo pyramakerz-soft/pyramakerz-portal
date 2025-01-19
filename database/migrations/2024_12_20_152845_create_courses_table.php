@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->foreignId('age_group_id')->constrained()->onDelete('cascade');
             $table->text('description')->nullable();
             $table->string('image')->nullable(); // Image URL
-            $table->decimal('price', 10, 2); // Price with decimal support
+            $table->decimal('price', 10, 2)->nullable(); // Price with decimal support
             $table->string('duration')->nullable(); // Duration in text format, e.g., "3 weeks"
             $table->enum('status', ['active', 'inactive', 'archived'])->default('active'); // Status with predefined options
             $table->timestamps();

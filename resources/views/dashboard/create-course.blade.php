@@ -1,6 +1,20 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
 @include('include.head')
+<style>
+    .form-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .border {
+        border: 2px solid #dee2e6 !important;
+    }
+
+    .bg-light {
+        background-color: #f8f9fa !important;
+    }
+</style>
 <main class="main_wrapper overflow-hidden">
 
     <!-- headar section start -->
@@ -215,6 +229,57 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="accordion-body">
+                                                        <div class="dashboard__form__wraper">
+                                                            <h4>Add Course Paths</h4>
+                                                            <div id="course-paths-container">
+                                                                <div class="course-path-item mt-4">
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <label for="path_name">Path Name</label>
+                                                                            <input type="text"
+                                                                                name="course_paths[${pathIndex}][name]"
+                                                                                placeholder="Path Name"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <label for="path_duration">Duration</label>
+                                                                            <input type="text"
+                                                                                name="course_paths[${pathIndex}][duration]"
+                                                                                placeholder="Duration"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row sp_top_20">
+                                                                        <div class="col-md-6">
+                                                                            <label for="path_price">Price</label>
+                                                                            <input type="number" step="0.01"
+                                                                                name="course_paths[${pathIndex}][price]"
+                                                                                placeholder="Price"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <label
+                                                                                for="path_description">Description</label>
+                                                                            <textarea name="course_paths[${pathIndex}][description]" class="form-control" placeholder="Description"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row sp_top_20">
+                                                                        <div class="col-md-12">
+                                                                            <label for="path_image">Path Image</label>
+                                                                            <input type="file"
+                                                                                name="course_paths[${pathIndex}][image]"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {{-- <button type="button" id="add-path-button"
+                                                                class="btn btn-secondary mt-3">Add Another
+                                                                Path</button> --}}
+                                                        </div>
+                                                    </div>
+
                                                     <div class="col-xl-12">
                                                         <div class="dashboard__form__button">
                                                             <button type="submit"
@@ -236,7 +301,7 @@
                         </div>
 
 
-                        <div class="accordion-item">
+                        {{-- <div class="accordion-item">
                             <h2 class="accordion-header" id="headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -272,198 +337,112 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
 
 
 
                         <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingThree">
+                            <h2 class="accordion-header" id="headingLessons">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseThree" aria-expanded="true"
-                                    aria-controls="collapseThree">
-                                    Course sessions
+                                    data-bs-target="#collapseLessons" aria-expanded="true"
+                                    aria-controls="collapseLessons">
+                                    Create Lesson
                                 </button>
                             </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse"
-                                aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                            <div id="collapseLessons" class="accordion-collapse collapse"
+                                aria-labelledby="headingLessons">
                                 <div class="accordion-body">
                                     <div class="become__instructor__form">
-                                        <div class="row ">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                <div class="dashboard__select__heading">
-                                                    <label>session Number</label>
-                                                </div>
-                                                <div class="dashboard__form__wraper">
-                                                    <div class="dashboard__form__input">
-
-                                                        <input type="text" placeholder="ex:1">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                <div class="dashboard__select__heading">
-                                                    <label>Lesson Title</label>
-                                                </div>
-                                                <div class="dashboard__form__wraper">
-                                                    <div class="dashboard__form__input">
-
-                                                        <input type="text" placeholder="Lesson Title">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                <div class="dashboard__select__heading">
-                                                    <label>Date</label>
-                                                </div>
-                                                <div class="dashboard__form__wraper">
-                                                    <div class="dashboard__form__input">
-
-                                                        <input type="date" placeholder="date">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                <div class="dashboard__select__heading">
-                                                    <label>Time</label>
-                                                </div>
-                                                <div class="dashboard__form__wraper">
-                                                    <div class="dashboard__form__input">
-
-                                                        <input type="time" placeholder="time">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                <div class="dashboard__select__heading">
-                                                    <label>Handout</label>
-                                                </div>
-                                                <div class="dashboard__form__wraper">
-                                                    <div class="dashboard__form__input">
-
-                                                        <input type="text" placeholder="URL">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                <div class="dashboard__select__heading">
-                                                    <label>QUIZ</label>
-                                                </div>
-                                                <div class="dashboard__form__wraper">
-                                                    <div class="dashboard__form__input">
-
-                                                        <input type="text" placeholder="URL">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="row">
-                                            <div class="col-xl-6 col-lg-6 col-md-12 col-12">
-                                                <div class="dashboard__form__wraper">
-                                                    <div class="dashboard__form__input">
-                                                        <div class="mb-3">
-                                                            <label for="formFile" class="form-label">Task</label>
-                                                            <input class="form-control" type="file"
-                                                                id="formFile">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                <div class="dashboard__form__wraper">
-                                                    <div class="dashboard__form__input">
-                                                        <div class="mb-3">
-                                                            <label for="formFile" class="form-label">Summary</label>
-                                                            <input class="form-control" type="file"
-                                                                id="formFile">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-12 col-12">
-                                                <div class="dashboard__form__wraper">
-                                                    <div class="dashboard__form__input">
-                                                        <div class="mb-3">
-                                                            <label for="formFile" class="form-label">Session
-                                                                record</label>
-                                                            <input class="form-control" type="file"
-                                                                id="formFile">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
-                                        </div>
-
-
-
-                                        <div class="create__course__button">
-                                            <a class="default__button" href="#">Add New session</a>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12"
-                                                data-aos="fade-up">
-
-                                                <div class="accordion content__cirriculum__wrap"
-                                                    id="accordionExample">
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingsession">
-                                                            <button class="accordion-button" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#collapsesession" aria-expanded="true"
-                                                                aria-controls="collapsesession">
-                                                                Lesson #01
-                                                            </button>
-                                                            <div class="scc__meta">
-
-                                                                <a href="lesson-2.html"><span
-                                                                        class="question btn-danger"><i
-                                                                            class="icofont-trash">Delete this
-                                                                            session</i> </span></a>
-
-                                                            </div>
-                                                        </h2>
-                                                        <div id="collapseOne" class="accordion-collapse collapse show"
-                                                            aria-labelledby="headingOne"
-                                                            data-bs-parent="#accordionExample">
-                                                            <div class="accordion-body">
-                                                                <div class="scc__wrap">
-                                                                    <div class="scc__info">
-                                                                        <i class="icofont-file-text"></i>
-                                                                        <h5> <a href="#"
-                                                                                target="_blank"><span>Course
-                                                                                    Materials</span></a></h5>
-                                                                    </div>
-                                                                    <div class="scc__meta">
-
-                                                                        <a href="lesson-2.html"><span
-                                                                                class="question"><i
-                                                                                    class="icofont-edit"></i>
-                                                                            </span></a>
-
-                                                                    </div>
-                                                                </div>
-
-
-                                                            </div>
-
-                                                        </div>
+                                            <form action="{{ route('lessons.store') }}" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="row g-4">
+                                                    <!-- Select Course Path -->
+                                                    <div class="col-md-6">
+                                                        <label for="course_path_id" class="form-label">Select Course
+                                                            Path</label>
+                                                        <select name="course_path_id" id="course_path_id"
+                                                            class="form-select" required>
+                                                            <option value="" disabled selected>Select a Course
+                                                                Path
+                                                            </option>
+                                                            @foreach ($coursePaths as $path)
+                                                                <option value="{{ $path->id }}">{{ $path->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
 
+                                                    <!-- Lesson Title -->
+                                                    <div class="col-md-6">
+                                                        <label for="title" class="form-label">Lesson Title</label>
+                                                        <input type="text" name="title" id="title"
+                                                            class="form-control" placeholder="Enter Lesson Title"
+                                                            required>
+                                                    </div>
 
+                                                    <!-- Lesson Description -->
+                                                    <div class="col-md-12">
+                                                        <label for="description"
+                                                            class="form-label">Description</label>
+                                                        <textarea name="description" id="description" class="form-control" rows="4"
+                                                            placeholder="Add a brief description"></textarea>
+                                                    </div>
 
+                                                    <div class="col-md-6">
+                                                        <label for="video_url" class="form-label">Video URL</label>
+                                                        <input type="url" name="video_url" id="video_url"
+                                                            class="form-control" placeholder="Enter Video URL">
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="resource_file" class="form-label">Upload Resource
+                                                            File</label>
+                                                        <input type="file" name="resource_file" id="resource_file"
+                                                            class="form-control">
+                                                        <small class="text-muted">Accepted formats: PDF, DOCX, ZIP
+                                                            (Max:
+                                                            2MB)</small>
+                                                    </div>
+
+                                                    <!-- Lesson Order -->
+                                                    {{-- <div class="col-md-6">
+                                                <label for="order" class="form-label">Order</label>
+                                                <input type="number" name="order" id="order"
+                                                    class="form-control" placeholder="Enter Lesson Order">
+                                            </div> --}}
+
+                                                    <!-- Is Active -->
+                                                    <div class="col-md-6">
+                                                        <label for="is_active" class="form-label">Active</label>
+                                                        <select name="is_active" id="is_active" class="form-select">
+                                                            <option value="1" selected>Yes</option>
+                                                            <option value="0">No</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
 
-                                            </div>
+                                                <!-- Dynamic Lesson Addition -->
+                                                <div id="lessons-container" class="mt-4"></div>
+                                                <button type="button" id="add-lesson-btn"
+                                                    class="btn btn-secondary mt-3">
+                                                    <i class="bi bi-plus-circle"></i> Add New Lesson
+                                                </button>
+
+                                                <!-- Submit Button -->
+                                                <div class="mt-4">
+                                                    <button type="submit" class="btn btn-primary">Add Lesson</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
+
 
 
 
@@ -564,7 +543,88 @@
 <script src="../js/plugins.js"></script>
 <script src="../js/swiper-bundle.min.js"></script>
 <script src="../js/main.js"></script>
+{{-- <script>
+    let pathIndex = 1;
+    document.getElementById('add-path-button').addEventListener('click', () => {
+        const container = document.getElementById('course-paths-container');
+        const newPath = `
+        <div class="course-path-item mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="path_name">Path Name</label>
+                    <input type="text" name="course_paths[${pathIndex}][name]" placeholder="Path Name" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label for="path_duration">Duration</label>
+                    <input type="text" name="course_paths[${pathIndex}][duration]" placeholder="Duration" class="form-control">
+                </div>
+            </div>
+            <div class="row sp_top_20">
+                <div class="col-md-6">
+                    <label for="path_price">Price</label>
+                    <input type="number" step="0.01" name="course_paths[${pathIndex}][price]" placeholder="Price" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label for="path_description">Description</label>
+                    <textarea name="course_paths[${pathIndex}][description]" class="form-control" placeholder="Description"></textarea>
+                </div>
+                <div class="row sp_top_20">
+                                                                        <div class="col-md-12">
+                                                                            <label for="path_image">Path Image</label>
+                                                                            <input type="file"
+                                                                                name="course_paths[${pathIndex}][image]"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                    </div>
+            </div>
+        </div>`;
+        container.insertAdjacentHTML('beforeend', newPath);
+        pathIndex++;
+    });
+</script> --}}
+<script>
+    let lessonIndex = 0;
 
+    document.getElementById('add-lesson-btn').addEventListener('click', () => {
+        const container = document.getElementById('lessons-container');
+        const lessonForm = `
+        <div class="lesson-form mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Lesson Title</label>
+                    <input type="text" name="lessons[${lessonIndex}][title]" class="form-control" placeholder="Lesson Title">
+                </div>
+                
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <label>Description</label>
+                    <textarea name="lessons[${lessonIndex}][description]" class="form-control" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="row">
+
+<div class="col-md-6">
+                                                        <label for="video_url" class="form-label">Video URL</label>
+                                                        <input type="url" name="lessons[${lessonIndex}][video_url]" id="video_url"
+                                                            class="form-control" placeholder="Enter Video URL">
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <label for="resource_file" class="form-label">Upload Resource
+                                                            File</label>
+                                                        <input type="file" name="lessons[${lessonIndex}][resource_file]" id="resource_file"
+                                                            class="form-control">
+                                                        <small class="text-muted">Accepted formats: PDF, DOCX, ZIP
+                                                            (Max:
+                                                            2MB)</small>
+                                                    </div>
+                </div
+        </div>`;
+        container.insertAdjacentHTML('beforeend', lessonForm);
+        lessonIndex++;
+    });
+</script>
 
 
 

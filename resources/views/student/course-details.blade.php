@@ -134,15 +134,43 @@
                                         aria-labelledby="projects__two">
 
                                         <div class="accordion content__cirriculum__wrap" id="accordionExample">
-                                            <div class="accordion-item roundd">
-                                                <h2 class="accordion-header">
-                                                    <div class="sp_top_30 col--30" type="text">
-                                                        Date <span>time</span>
+                                            @forelse ($course->coursePaths as $path)
+                                                @foreach ($path->lessons as $lesson)
+                                                    <div class="accordion-item roundd">
+                                                        <h2 class="accordion-header">
+                                                            <button class="accordion-button" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target="#lesson{{ $lesson->id }}"
+                                                                aria-expanded="false"
+                                                                aria-controls="lesson{{ $lesson->id }}">
+                                                                {{ $lesson->title }}
+                                                                <span>{{ $lesson->order ?? '' }}</span>
+                                                            </button>
+                                                        </h2>
+                                                        <div id="lesson{{ $lesson->id }}"
+                                                            class="accordion-collapse collapse"
+                                                            data-bs-parent="#accordionExample">
+                                                            <div class="accordion-body">
+                                                                <div class="video-container">
+                                                                    @if ($lesson->video_url)
+                                                                        <iframe src="{{ $lesson->video_url }}"
+                                                                            frameborder="0" allowfullscreen></iframe>
+                                                                    @else
+                                                                        <p>No video available for this lesson.</p>
+                                                                    @endif
+                                                                </div>
+                                                                <p>{{ $lesson->description }}</p>
+                                                                @if ($lesson->resource_file)
+                                                                    <a href="{{ asset('storage/' . $lesson->resource_file) }}"
+                                                                        download>Download Resource</a>
+                                                                @endif
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </h2>
-                                                <p class="col--30">Session 1</p>
-
-                                            </div>
+                                                @endforeach
+                                            @empty
+                                                <p>No lessons available for this course.</p>
+                                            @endforelse
 
 
                                         </div>
