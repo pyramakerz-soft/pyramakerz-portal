@@ -684,7 +684,7 @@
                                     </ul>
                                 </div>
                                 <div class="gridarea__heading">
-                                    <h3><a href="course-details">{{ $course->course_path ?? 'General' }}</a></h3>
+                                    <h3><a href="{{ route('courses.show', $course->id) }}">{{ $course->course_path ?? 'General' }}</a></h3>
 
                                 </div>
                                 {{-- 
