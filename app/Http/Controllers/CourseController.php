@@ -66,7 +66,7 @@ class CourseController extends Controller
                 $course->description = $validatedData['description'] ?? null;
 
                 if ($request->hasFile('image')) {
-                    $courseImagePath = $request->file('image')->store('course_images', 'public');
+                    $courseImagePath = $request->file('image')->store('course_images', 'public/storage');
                     $course->image = $courseImagePath;
                 }
 
