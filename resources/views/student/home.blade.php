@@ -623,194 +623,7 @@
 
 
         <!-- grid__section__start -->
-        <div class="gridarea">
-            <div class="container">
-                <div class="row">
-                    <div class="section__title text-center" data-aos="fade-up">
-                        <div class="section__title__button">
-                            <div class="default__small__button">Course List</div>
-                        </div>
-                        <div class="section__title__heading heading__underline">
-                            <h2>Programming Careers
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row" data-aos="fade-up">
-                    <div class="col-xl-12">
-                        <div class="gridfilter_nav grid__filter gridFilter">
-                            <button class="active" data-filter="*">All</button>
-                            <button data-filter=".filter1" class="">Computer Science</button>
-                            <button data-filter=".filter2" class="">Data science</button>
-                            <button data-filter=".filter3" class=""> Engineering </button>
-                            <button data-filter=".filter4" class="">Web Development</button>
-                            <button data-filter=".filter5" class=""> Architecture</button>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="row grid" data-aos="fade-up">
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter1 filter3">
-                        <div class="gridarea__wraper gridarea__wraper__2">
-                            <div class="gridarea__img">
-                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge orange__color">Aritifacial Intelligence
-                                    </div>
-                                </div>
-                                <div class="gridarea__small__icon">
-                                    <a href="#"><i class="icofont-heart-alt"></i></a>
-                                </div>
-
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li>
-                                            <i class="icofont-book-alt"></i> 29 Lesson
-                                        </li>
-                                        <li>
-                                            <i class="icofont-clock-time"></i> 2 hr 10 min
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3><a href="course-details">Python level one</a></h3>
-
-                                </div>
-                                {{-- 
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__small__content">
-                                        <h6>Aritifacial Intelligence</h6>
-                                    </div>
-                                </div> --}}
-
-
-
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__star">
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <span>(44)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter2 filter3">
-                        <div class="gridarea__wraper gridarea__wraper__2">
-                            <div class="gridarea__img">
-                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge orange__color">Aritifacial Intelligence
-                                    </div>
-                                </div>
-                                <div class="gridarea__small__icon">
-                                    <a href="#"><i class="icofont-heart-alt"></i></a>
-                                </div>
-
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li>
-                                            <i class="icofont-book-alt"></i> 29 Lesson
-                                        </li>
-                                        <li>
-                                            <i class="icofont-clock-time"></i> 2 hr 10 min
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3><a href="course-details">Python level one</a></h3>
-
-                                </div>
-                                {{-- 
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__small__content">
-                                        <h6>Aritifacial Intelligence</h6>
-                                    </div>
-                                </div> --}}
-
-
-
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__star">
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <span>(44)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter4 filter5">
-                        <div class="gridarea__wraper gridarea__wraper__2">
-                            <div class="gridarea__img">
-                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge orange__color">Aritifacial Intelligence
-                                    </div>
-                                </div>
-                                <div class="gridarea__small__icon">
-                                    <a href="#"><i class="icofont-heart-alt"></i></a>
-                                </div>
-
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li>
-                                            <i class="icofont-book-alt"></i> 29 Lesson
-                                        </li>
-                                        <li>
-                                            <i class="icofont-clock-time"></i> 2 hr 10 min
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3><a href="course-details">Python level one</a></h3>
-
-                                </div>
-                                {{-- 
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__small__content">
-                                        <h6>Aritifacial Intelligence</h6>
-                                    </div>
-                                </div> --}}
-
-
-
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__star">
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <span>(44)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-                </div>
-            </div>
-        </div>
+        
         <!-- grid__section__end -->
 
         <!-- grid__section__start -->
@@ -833,11 +646,11 @@
                     <div class="col-xl-12">
                         <div class="gridfilter_nav grid__filter gridFilter">
                             <button class="active" data-filter="*">All</button>
-                            <button data-filter=".filter1" class="">Computer Science</button>
-                            <button data-filter=".filter2" class="">Data science</button>
-                            <button data-filter=".filter3" class=""> Engineering </button>
-                            <button data-filter=".filter4" class="">Web Development</button>
-                            <button data-filter=".filter5" class=""> Architecture</button>
+                            <button data-filter=".filter1" class="">Web Development</button>
+                            <button data-filter=".filter2" class="">Mobile Development</button>
+                            <button data-filter=".filter3" class="">AI</button>
+                            <button data-filter=".filter4" class="">Game Development</button>
+                            <button data-filter=".filter5" class="">DevOps</button>
                         </div>
                     </div>
                 </div>
@@ -845,12 +658,13 @@
 
 
                 <div class="row grid" data-aos="fade-up">
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter1 filter3">
+                    @foreach($courses as $course)
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter1 filter2 filter3 filter4 filter5">
                         <div class="gridarea__wraper gridarea__wraper__2">
                             <div class="gridarea__img">
-                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
+                                <img loading="lazy" src="{{ asset('storage/' . $course->image) }}" alt="grid">
                                 <div class="gridarea__small__button">
-                                    <div class="grid__badge orange__color">Aritifacial Intelligence
+                                    <div class="grid__badge orange__color">{{$course->name}}
                                     </div>
                                 </div>
                                 <div class="gridarea__small__icon">
@@ -862,21 +676,21 @@
                                 <div class="gridarea__list">
                                     <ul>
                                         <li>
-                                            <i class="icofont-book-alt"></i> 29 Lesson
+                                            <i class="icofont-book-alt"></i> {{ $course->totalLessonsCount() ?? 0 }} Lessons
                                         </li>
                                         <li>
-                                            <i class="icofont-clock-time"></i> 2 hr 10 min
+                                            <i class="icofont-clock-time"></i>{{ $course->duration ?? 'N/A' }}
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="gridarea__heading">
-                                    <h3><a href="course-details">Python level one</a></h3>
+                                    <h3><a href="course-details">{{ $course->course_path ?? 'General' }}</a></h3>
 
                                 </div>
                                 {{-- 
                             <div class="gridarea__bottom">
                                 <div class="gridarea__small__content">
-                                    <h6>Aritifacial Intelligence</h6>
+                                    <h6>{{$course->name}}</h6>
                                 </div>
                             </div> --}}
 
@@ -894,106 +708,10 @@
                             </div>
                         </div>
                     </div>
+                @endforeach
+                    
 
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter2 filter3">
-                        <div class="gridarea__wraper gridarea__wraper__2">
-                            <div class="gridarea__img">
-                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge orange__color">Aritifacial Intelligence
-                                    </div>
-                                </div>
-                                <div class="gridarea__small__icon">
-                                    <a href="#"><i class="icofont-heart-alt"></i></a>
-                                </div>
-
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li>
-                                            <i class="icofont-book-alt"></i> 29 Lesson
-                                        </li>
-                                        <li>
-                                            <i class="icofont-clock-time"></i> 2 hr 10 min
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3><a href="course-details">Python level one</a></h3>
-
-                                </div>
-                                {{-- 
-                            <div class="gridarea__bottom">
-                                <div class="gridarea__small__content">
-                                    <h6>Aritifacial Intelligence</h6>
-                                </div>
-                            </div> --}}
-
-
-
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__star">
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <span>(44)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter4 filter5">
-                        <div class="gridarea__wraper gridarea__wraper__2">
-                            <div class="gridarea__img">
-                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge orange__color">Aritifacial Intelligence
-                                    </div>
-                                </div>
-                                <div class="gridarea__small__icon">
-                                    <a href="#"><i class="icofont-heart-alt"></i></a>
-                                </div>
-
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li>
-                                            <i class="icofont-book-alt"></i> 29 Lesson
-                                        </li>
-                                        <li>
-                                            <i class="icofont-clock-time"></i> 2 hr 10 min
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3><a href="course-details">Python level one</a></h3>
-
-                                </div>
-                                {{-- 
-                            <div class="gridarea__bottom">
-                                <div class="gridarea__small__content">
-                                    <h6>Aritifacial Intelligence</h6>
-                                </div>
-                            </div> --}}
-
-
-
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__star">
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <span>(44)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
 
 
 

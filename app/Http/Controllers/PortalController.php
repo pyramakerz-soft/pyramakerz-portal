@@ -18,8 +18,9 @@ class PortalController extends Controller
     public function homePage()
     {
         $languages = Language::all();
+        $courses = Course::with(['coursePaths', 'coursePaths.lessons'])->paginate(10);
 
-        return view('home', compact('languages'));
+        return view('student.home', compact('languages','courses'));
     }
     public function registerStudent(Request $request)
 {
