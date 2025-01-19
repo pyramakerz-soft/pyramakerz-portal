@@ -67,7 +67,7 @@ class CourseController extends Controller
 
                 if ($request->hasFile('image')) {
                     $courseImagePath = $request->file('image')->move(public_path('storage/course_images'), $request->file('image')->getClientOriginalName());
-$course->image = 'course_images/' . $request->file('image')->getClientOriginalName();
+                    $course->image = 'course_images/' . $request->file('image')->getClientOriginalName();
 
                 }
 
