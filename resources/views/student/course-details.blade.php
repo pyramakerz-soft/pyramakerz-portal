@@ -128,7 +128,24 @@
                                                                 <!-- Lesson Video -->
                                                                 <div class="video-container mb-3">
                                                                     @if ($lesson->video_url)
-                                                                        <iframe src="{{ $lesson->video_url }}"
+                                                                        @php
+                                                                            // Check if the video URL is from Google Drive
+                                                                            $isGoogleDrive = str_contains(
+                                                                                $lesson->video_url,
+                                                                                'drive.google.com',
+                                                                            );
+
+                                                                            // If it's a Google Drive URL, convert it to an embed link
+$embedUrl = $isGoogleDrive
+    ? preg_replace(
+        '/\/view\?usp=sharing$/',
+        '/preview',
+                                                                                    $lesson->video_url,
+                                                                                )
+                                                                                : $lesson->video_url;
+                                                                        @endphp
+
+                                                                        <iframe src="{{ $embedUrl }}"
                                                                             width="100%" height="400"
                                                                             frameborder="0" allowfullscreen></iframe>
                                                                     @else
@@ -219,23 +236,23 @@
     </main>
 
     <!-- JS here -->
-    <script src="{{asset("js/vendor/modernizr-3.5.0.min.js")}}"></script>
-    <script src="{{asset("js/vendor/jquery-3.6.0.min.js")}}"></script>
-    <script src="{{asset("js/popper.min.js")}}"></script>
-    <script src="{{asset("js/bootstrap.min.js")}}"></script>
-    <script src="{{asset("js/isotope.pkgd.min.js")}}"></script>
-    <script src="{{asset("js/slick.min.js")}}"></script>
-    <script src="{{asset("js/jquery.meanmenu.min.js")}}"></script>
-    <script src="{{asset("js/ajax-form.js")}}"></script>
-    <script src="{{asset("js/wow.min.js")}}"></script>
-    <script src="{{asset("js/jquery.scrollUp.min.js")}}"></script>
-    <script src="{{asset("js/imagesloaded.pkgd.min.js")}}"></script>
-    <script src="{{asset("js/jquery.magnific-popup.min.js")}}"></script>
-    <script src="{{asset("js/waypoints.min.js")}}"></script>
-    <script src="{{asset("js/jquery.counterup.min.js")}}"></script>
-    <script src="{{asset("js/plugins.js")}}"></script>
-    <script src="{{asset("js/swiper-bundle.min.js")}}"></script>
-    <script src="{{asset("js/main.js")}}"></script>
+    <script src="{{ asset('js/vendor/modernizr-3.5.0.min.js') }}"></script>
+    <script src="{{ asset('js/vendor/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ asset('js/slick.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.meanmenu.min.js') }}"></script>
+    <script src="{{ asset('js/ajax-form.js') }}"></script>
+    <script src="{{ asset('js/wow.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.scrollUp.min.js') }}"></script>
+    <script src="{{ asset('js/imagesloaded.pkgd.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('js/waypoints.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.counterup.min.js') }}"></script>
+    <script src="{{ asset('js/plugins.js') }}"></script>
+    <script src="{{ asset('js/swiper-bundle.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 </body>
 
 </html>
