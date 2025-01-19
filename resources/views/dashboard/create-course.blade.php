@@ -315,6 +315,28 @@
                                             </div>
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-12">
                                                 <div class="dashboard__select__heading">
+                                                    <label>Date</label>
+                                                </div>
+                                                <div class="dashboard__form__wraper">
+                                                    <div class="dashboard__form__input">
+
+                                                        <input type="date" placeholder="date">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                <div class="dashboard__select__heading">
+                                                    <label>Time</label>
+                                                </div>
+                                                <div class="dashboard__form__wraper">
+                                                    <div class="dashboard__form__input">
+
+                                                        <input type="time" placeholder="time">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                <div class="dashboard__select__heading">
                                                     <label>Handout</label>
                                                 </div>
                                                 <div class="dashboard__form__wraper">
@@ -324,6 +346,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-12">
                                                 <div class="dashboard__select__heading">
                                                     <label>QUIZ</label>
