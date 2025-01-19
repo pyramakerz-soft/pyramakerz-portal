@@ -54,8 +54,9 @@
                                                     <tr>
                                                         <th>Assignment Name</th>
                                                         <th>Total Marks</th>
-                                                        <th>Total Submit</th>
+                                                        <th>Result</th>
                                                         <th></th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -68,17 +69,18 @@
                                                         <td>
                                                             <p>80</p>
                                                         </td>
+
                                                         <td>
-                                                            <p>2</p>
+                                                            <span
+                                                                class="dashboard__td dashboard__td--cancel">Rejected</span>
                                                         </td>
+
 
 
                                                         <td>
                                                             <div class="dashboard__button__group">
 
-                                                                <a class="dashboard__small__btn__2" href="#">
-                                                                    <i class="icofont-edit"></i>Edit
-                                                                </a>
+
                                                                 <a class="dashboard__small__btn__2 dashboard__small__btn__3"
                                                                     href="#">
                                                                     <i class="icofont-paper-plane"></i> Submit
@@ -101,16 +103,15 @@
                                                             <p>80</p>
                                                         </td>
                                                         <td>
-                                                            <p>2</p>
+                                                            <span
+                                                                class="dashboard__td dashboard__td--pass">accepted</span>
                                                         </td>
 
 
                                                         <td>
                                                             <div class="dashboard__button__group">
 
-                                                                <a class="dashboard__small__btn__2" href="#">
-                                                                    <i class="icofont-edit"></i>Edit
-                                                                </a>
+
                                                                 <a class="dashboard__small__btn__2 dashboard__small__btn__3"
                                                                     href="#">
                                                                     <i class="icofont-paper-plane"></i> Submit
@@ -133,7 +134,8 @@
                                                             <p>80</p>
                                                         </td>
                                                         <td>
-                                                            <p>2</p>
+                                                            <span class="dashboard__td dashboard__td--over">Over
+                                                                due</span>
                                                         </td>
 
 
@@ -141,9 +143,7 @@
                                                         <td>
                                                             <div class="dashboard__button__group">
 
-                                                                <a class="dashboard__small__btn__2" href="#">
-                                                                    <i class="icofont-edit"></i>Edit
-                                                                </a>
+
                                                                 <a class="dashboard__small__btn__2 dashboard__small__btn__3"
                                                                     href="#">
                                                                     <i class="icofont-paper-plane"></i> Submit
@@ -166,16 +166,14 @@
                                                             <p>80</p>
                                                         </td>
                                                         <td>
-                                                            <p>2</p>
+                                                            <span
+                                                                class="dashboard__td dashboard__td--pass">accepted</span>
                                                         </td>
-
 
                                                         <td>
                                                             <div class="dashboard__button__group">
 
-                                                                <a class="dashboard__small__btn__2" href="#">
-                                                                    <i class="icofont-edit"></i>Edit
-                                                                </a>
+
                                                                 <a class="dashboard__small__btn__2 dashboard__small__btn__3"
                                                                     href="#">
                                                                     <i class="icofont-paper-plane"></i> Submit

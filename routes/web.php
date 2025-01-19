@@ -45,6 +45,9 @@ Route::get('/my-progress', function () {
 Route::get('/course-details', function () {
     return view('student.course-details');
 });
+Route::get('/view-course', function () {
+    return view('student.active');
+});
 
 Route::middleware('student.auth')->group(function () {
     Route::get('/profile', [StudentController::class, 'profile'])->name('student-profile');
