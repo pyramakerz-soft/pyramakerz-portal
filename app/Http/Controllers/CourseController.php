@@ -14,7 +14,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::with(['coursePaths', 'coursePaths.lessons'])->paginate(12);
+        $courses = Course::with(['coursePaths', 'coursePaths.lessons'])->paginate(10);
 
         return view('student.all-courses', compact('courses'));
     }

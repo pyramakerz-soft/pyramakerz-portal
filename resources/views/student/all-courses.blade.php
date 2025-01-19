@@ -325,76 +325,83 @@
                                     @endforeach
 
                                 </div>
-
+                                <div class="main__pagination__wrapper" data-aos="fade-up">
+                                    {{ $courses->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
-
+                            
 
                             <div class="tab-pane fade" id="projects__two" role="tabpanel"
                                 aria-labelledby="projects__two">
                                 @foreach ($courses as $course)
+                                    <div class="gridarea__wraper gridarea__wraper__2 gridarea__course__list"
+                                        data-aos="fade-up">
+                                        <div class="gridarea__img">
+                                            <a href="course-details.html"><img loading="lazy"
+                                                    src="{{ asset('storage/' . $course->image) }}"
+                                                    alt="{{ $course->name }}"></a>
+                                            <div class="gridarea__small__button">
+                                                <div class="grid__badge orange__color">
+                                                    {{ $course->course_path ?? 'General' }}</div>
+                                            </div>
+                                            <div class="gridarea__small__icon">
+                                                <a href="#"><i class="icofont-heart-alt"></i></a>
+                                            </div>
 
-                                <div class="gridarea__wraper gridarea__wraper__2 gridarea__course__list"
-                                    data-aos="fade-up">
-                                    <div class="gridarea__img">
-                                        <a href="course-details.html"><img loading="lazy" src="{{ asset('storage/' . $course->image) }}"
-                                                alt="{{ $course->name }}"></a>
-                                        <div class="gridarea__small__button">
-                                            <div class="grid__badge orange__color"> {{ $course->course_path ?? 'General' }}</div>
                                         </div>
-                                        <div class="gridarea__small__icon">
-                                            <a href="#"><i class="icofont-heart-alt"></i></a>
-                                        </div>
+                                        <div class="gridarea__content">
+                                            <div class="gridarea__list">
+                                                <ul>
+                                                    <li>
+                                                        <i class="icofont-book-alt"></i>
+                                                        {{ $course->totalLessonsCount() ?? 0 }} Lesson
+                                                    </li>
+                                                    <li>
+                                                        <i class="icofont-clock-time"></i>
+                                                        {{ $course->duration ?? 'N/A' }}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="gridarea__heading">
+                                                <h3><a href="course-details.html">Become a product Manager learn the
+                                                        skills & job.
+                                                    </a></h3>
+                                            </div>
 
-                                    </div>
-                                    <div class="gridarea__content">
-                                        <div class="gridarea__list">
-                                            <ul>
-                                                <li>
-                                                    <i class="icofont-book-alt"></i>  {{ $course->totalLessonsCount() ?? 0 }} Lesson
-                                                </li>
-                                                <li>
-                                                    <i class="icofont-clock-time"></i>  {{ $course->duration ?? 'N/A' }}
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="gridarea__heading">
-                                            <h3><a href="course-details.html">Become a product Manager learn the
-                                                    skills & job.
-                                                </a></h3>
-                                        </div>
-
-                                        <div class="gridarea__bottom">
-                                            <div class="gridarea__bottom__left">
+                                            <div class="gridarea__bottom">
+                                                <div class="gridarea__bottom__left">
 
 
-                                                <div class="gridarea__star">
-                                                    <i class="icofont-star"></i>
-                                                    <i class="icofont-star"></i>
-                                                    <i class="icofont-star"></i>
-                                                    <i class="icofont-star"></i>
-                                                    <span>({{ $course->rating ?? 0 }})</span>
+                                                    <div class="gridarea__star">
+                                                        <i class="icofont-star"></i>
+                                                        <i class="icofont-star"></i>
+                                                        <i class="icofont-star"></i>
+                                                        <i class="icofont-star"></i>
+                                                        <span>({{ $course->rating ?? 0 }})</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="gridarea__details">
+                                                    <a href="{{ route('courses.show', $course->id) }}">See Details
+                                                        <i class="icofont-arrow-right"></i>
+                                                    </a>
                                                 </div>
                                             </div>
-
-                                            <div class="gridarea__details">
-                                                <a href="{{ route('courses.show', $course->id) }}">See Details
-                                                    <i class="icofont-arrow-right"></i>
-                                                </a>
-                                            </div>
                                         </div>
                                     </div>
+                                @endforeach
+
+                                <div class="main__pagination__wrapper" data-aos="fade-up">
+                                    {{ $courses->links('pagination::bootstrap-5') }}
                                 </div>
-
-@endforeach
-
-
 
 
                             </div>
 
                         </div>
 
-                        <div class="main__pagination__wrapper" data-aos="fade-up">
+
+                        {{-- <div class="main__pagination__wrapper" data-aos="fade-up">
                             <ul class="main__page__pagination">
                                 <li><a class="disable" href="#"><i class="icofont-double-left"></i></a></li>
                                 <li><a class="active" href="#">1</a></li>
@@ -402,7 +409,7 @@
                                 <li><a href="#">3</a></li>
                                 <li><a href="#"><i class="icofont-double-right"></i></a></li>
                             </ul>
-                        </div>
+                        </div> --}}
 
                     </div>
 
