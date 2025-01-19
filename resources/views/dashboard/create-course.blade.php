@@ -127,16 +127,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                        <div class="dashboard__form__wraper">
-                                                            <div class="dashboard__form__input">
-                                                                <label for="#"> Price ($)</label>
-                                                                <input type="text" name="price"
-                                                                    placeholder=" Price ($)">
-                                                            </div>
 
-                                                        </div>
-                                                    </div>
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-12">
 
                                                         <label>Course Path</label>
@@ -163,58 +154,6 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    {{--
-                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                                        <div class="dashboard__form__wraper">
-                                                            <div class="dashboard__form__input">
-                                                                <label for="#">Discounted Price ($)</label>
-                                                                <input type="text" name="discounted_price"
-                                                                    placeholder="Discounted Price ($)">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    --}}
-                                                </div>
-
-                                                <div class="row ">
-
-
-                                                    {{-- <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-
-                                                        <label>Choose age group</label>
-
-                                                        <div class="dashboard__selector">
-                                                            <select class="form-select" name="age_group"
-                                                                aria-label="Default select example">
-                                                                @foreach (\App\Models\AgeGroup::all() as $age_group)
-                                                                    <option value="{{ $age_group->id }}">
-                                                                        {{ $age_group->name }}</option>
-                                                                @endforeach
-                                                                <!-- <option selected>6-8</option>
-                                                                <option value="1">9-12</option>
-                                                                <option value="2">13-17</option> -->
-                                                            </select>
-                                                        </div>
-                                                    </div> --}}
-                                                </div>
-
-                                                <div class="row sp_top_20">
-                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-
-                                                        <label>Skill Level</label>
-
-                                                        <div class="dashboard__selector">
-                                                            <select class="form-select" name='skill_level'
-                                                                aria-label="Default select example">
-                                                                <option selected value="1">1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
-                                                                <option value="4">4</option>
-
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-12">
                                                         <div class="dashboard__select__heading">
                                                             <label>Language</label>
@@ -229,6 +168,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
 
                                                 <div class="row sp_top_20">
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-12">
@@ -258,6 +198,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
 
                                                 <div class="row ">
 
@@ -292,63 +233,62 @@
                                     </form>
                                 </div>
                             </div>
+                        </div>
 
 
-                            {{-- 
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
-                                        aria-controls="collapseTwo">
-                                        Course Media
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse"
-                                    aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <div class="become__instructor__form">
-                                            <div class="row">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Course Media
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="become__instructor__form">
+                                        <div class="row">
 
 
-                                                <div class="col-xl-12">
-                                                    <div class="dashboard__form__wraper">
-                                                        <div class="dashboard__form__input">
-                                                            <label for="#">Add course intro Video URL</label>
-                                                            <input type="text"
-                                                                placeholder="Add your Video URL here">
-                                                        </div>
+                                            <div class="col-xl-12">
+                                                <div class="dashboard__form__wraper">
+                                                    <div class="dashboard__form__input">
+                                                        <label for="#">Add course intro Video URL</label>
+                                                        <input type="text" placeholder="Add your Video URL here">
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                                <small>Example: <a
-                                                        href="https://www.youtube.com/watch?v=yourvideoid">https://www.youtube.com/watch?v=yourvideoid</a></small>
+                                            <small>Example: <a
+                                                    href="https://www.youtube.com/watch?v=yourvideoid">https://www.youtube.com/watch?v=yourvideoid</a></small>
 
 
-                                                <div class="col-xl-12">
-                                                    <div class="dashboard__form__button">
-                                                        <a class="default__button" href="#">Save</a>
-                                                    </div>
+                                            <div class="col-xl-12">
+                                                <div class="dashboard__form__button">
+                                                    <a class="default__button" href="#">Save</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
 
 
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingThree">
-                                    <button class="accordion-button collapsed" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#collapseThree"
-                                        aria-expanded="true" aria-controls="collapseThree">
-                                        Course sessions
-                                    </button>
-                                </h2>
-                                <div id="collapseThree" class="accordion-collapse collapse"
-                                    aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
 
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree" aria-expanded="true"
+                                    aria-controls="collapseThree">
+                                    Course sessions
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse"
+                                aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="become__instructor__form">
                                         <div class="row ">
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-12">
                                                 <div class="dashboard__select__heading">
@@ -369,18 +309,62 @@
                                                 <div class="dashboard__form__wraper">
                                                     <div class="dashboard__form__input">
 
-                                                        <input type="text" placeholder="Lesson Title<">
+                                                        <input type="text" placeholder="Lesson Title">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                <div class="dashboard__select__heading">
+                                                    <label>Handout</label>
+                                                </div>
+                                                <div class="dashboard__form__wraper">
+                                                    <div class="dashboard__form__input">
+
+                                                        <input type="text" placeholder="URL">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                <div class="dashboard__select__heading">
+                                                    <label>QUIZ</label>
+                                                </div>
+                                                <div class="dashboard__form__wraper">
+                                                    <div class="dashboard__form__input">
+
+                                                        <input type="text" placeholder="URL">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                                            <div class="col-xl-6 col-lg-6 col-md-12 col-12">
                                                 <div class="dashboard__form__wraper">
                                                     <div class="dashboard__form__input">
                                                         <div class="mb-3">
-                                                            <label for="formFile" class="form-label">Upload lesson
-                                                                materials</label>
+                                                            <label for="formFile" class="form-label">Task</label>
+                                                            <input class="form-control" type="file"
+                                                                id="formFile">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                <div class="dashboard__form__wraper">
+                                                    <div class="dashboard__form__input">
+                                                        <div class="mb-3">
+                                                            <label for="formFile" class="form-label">Summary</label>
+                                                            <input class="form-control" type="file"
+                                                                id="formFile">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-12 col-12">
+                                                <div class="dashboard__form__wraper">
+                                                    <div class="dashboard__form__input">
+                                                        <div class="mb-3">
+                                                            <label for="formFile" class="form-label">Session
+                                                                record</label>
                                                             <input class="form-control" type="file"
                                                                 id="formFile">
                                                         </div>
@@ -388,9 +372,8 @@
                                                 </div>
                                             </div>
 
-
-
                                         </div>
+
 
 
                                         <div class="create__course__button">
@@ -449,73 +432,72 @@
 
 
 
-
-
                                                 </div>
+
                                             </div>
                                         </div>
+                                    </div>
 
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFive">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                    Certificate Template
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                            <div class="create__course__single__img">
+                                                <img loading="lazy" src="../img/dashbord/dashbord__8.jpg"
+                                                    alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                            <div class="create__course__single__img">
+                                                <img loading="lazy" src="../img/dashbord/dashbord__4.jpg"
+                                                    alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                            <div class="create__course__single__img">
+                                                <img loading="lazy" src="../img/dashbord/dashbord__5.jpg"
+                                                    alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                            <div class="create__course__single__img">
+                                                <img loading="lazy" src="../img/dashbord/dashbord__9.jpg"
+                                                    alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                            <div class="create__course__single__img">
+                                                <img loading="lazy" src="../img/dashbord/dashbord__7.jpg"
+                                                    alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                                            <div class="create__course__single__img">
+                                                <img loading="lazy" src="../img/dashbord/dashbord__8.jpg"
+                                                    alt="">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingFive">
-                                    <button class="accordion-button collapsed" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="true"
-                                        aria-controls="collapseFive">
-                                        Certificate Template
-                                    </button>
-                                </h2>
-                                <div id="collapseFive" class="accordion-collapse collapse"
-                                    aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                                <div class="create__course__single__img">
-                                                    <img loading="lazy" src="../img/dashbord/dashbord__8.jpg"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                                <div class="create__course__single__img">
-                                                    <img loading="lazy" src="../img/dashbord/dashbord__4.jpg"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                                <div class="create__course__single__img">
-                                                    <img loading="lazy" src="../img/dashbord/dashbord__5.jpg"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                                <div class="create__course__single__img">
-                                                    <img loading="lazy" src="../img/dashbord/dashbord__9.jpg"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                                <div class="create__course__single__img">
-                                                    <img loading="lazy" src="../img/dashbord/dashbord__7.jpg"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                                                <div class="create__course__single__img">
-                                                    <img loading="lazy" src="../img/dashbord/dashbord__8.jpg"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
-                    {{-- <div class="row">
+                </div>
+                {{-- <div class="row">
                         <div class="col-xl-4 col-lg-4 col-md-6 col-12">
                             <div class="create__course__bottom__button">
                                 <a href="#">Create New Course</a>
@@ -523,10 +505,10 @@
                         </div>
 
                     </div> --}}
-                </div>
-
             </div>
+
         </div>
+    </div>
     </div>
 
 
