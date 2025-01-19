@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
@@ -12,9 +13,11 @@ Route::get('/', function () {
 // Route::get('/home', function () {
 //     return view('home');
 // });
-Route::get('/create-course', function () {
-    return view('dashboard.create-course');
-});
+// Route::get('/create-course', function () {
+//     return view('dashboard.create-course');
+// });
+Route::resource("courses", CourseController::class);
+;
 
 Route::get('/activate-course', function () {
     return view('dashboard.activate-course');

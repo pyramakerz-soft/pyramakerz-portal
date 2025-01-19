@@ -61,13 +61,20 @@
                     <div class="create__course__accordion__wraper">
                         <div class="accordion" id="accordionExample">
                             @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            @if (session('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>Success!</strong> {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
                             @endif
 
 
@@ -80,16 +87,29 @@
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse show"
                                     aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                    <form action="{{ route('create_course') }}" method="post">
+                                    <form action="{{ route('courses.store') }}" enctype="multipart/form-data"  method="post">
                                         @csrf
                                         <div class="accordion-body">
                                             <div class="become__instructor__form">
                                                 <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="dashboard__form__wraper">
+                                                            <div class="dashboard__form__input">
+                                                                <div class="mb-3">
+                                                                    <label for="formFile" class="form-label">Upload course
+                                                                        cover</label>
+                                                                    <input class="form-control" type="file" name="image"
+                                                                        id="formFile">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-12">
                                                         <div class="dashboard__form__wraper">
                                                             <div class="dashboard__form__input">
                                                                 <label for="#">Course Title</label>
-                                                                <input type="text" name="name" placeholder="Course Title">
+                                                                <input type="text" name="name"
+                                                                    placeholder="Course Title">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -98,7 +118,8 @@
                                                         <div class="dashboard__form__wraper">
                                                             <div class="dashboard__form__input">
                                                                 <label for="#">Course Slug</label>
-                                                                <input type="text" name="slug" placeholder="Course Slug">
+                                                                <input type="text" name="slug"
+                                                                    placeholder="Course Slug">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -108,20 +129,23 @@
                                                         <div class="dashboard__form__wraper">
                                                             <div class="dashboard__form__input">
                                                                 <label for="#"> Price ($)</label>
-                                                                <input type="text" name="price" placeholder=" Price ($)">
+                                                                <input type="text" name="price"
+                                                                    placeholder=" Price ($)">
                                                             </div>
 
                                                         </div>
                                                     </div>
-
+                                                    {{--
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-12">
                                                         <div class="dashboard__form__wraper">
                                                             <div class="dashboard__form__input">
                                                                 <label for="#">Discounted Price ($)</label>
-                                                                <input type="text" name="discounted_price" placeholder="Discounted Price ($)">
+                                                                <input type="text" name="discounted_price"
+                                                                    placeholder="Discounted Price ($)">
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    --}}
                                                 </div>
 
                                                 <div class="row ">
@@ -130,7 +154,8 @@
                                                         <label>Course Path</label>
 
                                                         <div class="dashboard__selector">
-                                                            <select class="form-select" name="course_path" aria-label="Default select example">
+                                                            <select class="form-select" name="course_path"
+                                                                aria-label="Default select example">
                                                                 <option selected>All</option>
                                                                 <option value="1">Web Design</option>
                                                                 <option value="2">Graphic</option>
@@ -149,9 +174,11 @@
                                                         <label>Choose age group</label>
 
                                                         <div class="dashboard__selector">
-                                                            <select class="form-select" name="age_group" aria-label="Default select example">
+                                                            <select class="form-select" name="age_group"
+                                                                aria-label="Default select example">
                                                                 @foreach (\App\Models\AgeGroup::all() as $age_group)
-                                                                    <option value="{{$age_group->id}}">{{$age_group->name}}</option>
+                                                                    <option value="{{ $age_group->id }}">
+                                                                        {{ $age_group->name }}</option>
                                                                 @endforeach
                                                                 <!-- <option selected>6-8</option>
                                                                 <option value="1">9-12</option>
@@ -183,8 +210,8 @@
                                                             <label>Language</label>
                                                         </div>
                                                         <div class="dashboard__selector">
-                                                            <select class="form-select"
-                                                                name="language" aria-label="Default select example">
+                                                            <select class="form-select" name="language"
+                                                                aria-label="Default select example">
                                                                 <option selected value="English">English</option>
                                                                 <option value="Arabic">Arabic</option>
 
@@ -199,8 +226,8 @@
                                                             <label>Prerequisites</label>
                                                         </div>
                                                         <div class="dashboard__selector">
-                                                            <select class="form-select"
-                                                                name="prereq[]" multiple aria-label="Default select example">
+                                                            <select class="form-select" name="prereq[]" multiple
+                                                                aria-label="Default select example">
                                                                 <option value="python">Python</option>
                                                                 <option value="java">Java</option>
                                                                 <option value="php">PHP</option>
@@ -215,7 +242,8 @@
                                                         <div class="dashboard__form__wraper">
                                                             <div class="dashboard__form__input">
 
-                                                                <input type="text" name="course_tags" placeholder="Tag1,Tag2,Tag3,etc">
+                                                                <input type="text" name="course_tags"
+                                                                    placeholder="Tag1,Tag2,Tag3,etc">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -238,7 +266,10 @@
 
                                                     <div class="col-xl-12">
                                                         <div class="dashboard__form__button">
-                                                            <input type="submit" class="default__button" value="Save">
+                                                            <button type="submit"
+                                                                class="default__button">Save</button>
+                                                            {{-- <input type="submit" 
+                                                                value="Save"> --}}
                                                         </div>
                                                     </div>
 
@@ -267,18 +298,7 @@
                                     <div class="accordion-body">
                                         <div class="become__instructor__form">
                                             <div class="row">
-                                                <div class="col-xl-12">
-                                                    <div class="dashboard__form__wraper">
-                                                        <div class="dashboard__form__input">
-                                                            <div class="mb-3">
-                                                                <label for="formFile" class="form-label">Upload course
-                                                                    cover</label>
-                                                                <input class="form-control" type="file"
-                                                                    id="formFile">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                
 
                                                 <div class="col-xl-12">
                                                     <div class="dashboard__form__wraper">
