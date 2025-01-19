@@ -159,8 +159,7 @@ $embedUrl = $isGoogleDrive
                                                                 <!-- Lesson Resource -->
                                                                 @if ($lesson->resource_file)
                                                                     <a href="{{ asset('storage/' . $lesson->resource_file) }}"
-                                                                        class="btn btn-primary mt-2" download>Download
-                                                                        Resource</a>
+                                                                        download>Download Resource</a>
                                                                 @else
                                                                     <p>No resources available for this lesson.</p>
                                                                 @endif
