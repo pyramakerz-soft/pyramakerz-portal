@@ -87,7 +87,8 @@
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse show"
                                     aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                    <form action="{{ route('courses.store') }}" enctype="multipart/form-data"  method="post">
+                                    <form action="{{ route('courses.store') }}" enctype="multipart/form-data"
+                                        method="post">
                                         @csrf
                                         <div class="accordion-body">
                                             <div class="become__instructor__form">
@@ -96,10 +97,11 @@
                                                         <div class="dashboard__form__wraper">
                                                             <div class="dashboard__form__input">
                                                                 <div class="mb-3">
-                                                                    <label for="formFile" class="form-label">Upload course
+                                                                    <label for="formFile" class="form-label">Upload
+                                                                        course
                                                                         cover</label>
-                                                                    <input class="form-control" type="file" name="image"
-                                                                        id="formFile">
+                                                                    <input class="form-control" type="file"
+                                                                        name="image" id="formFile">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -135,6 +137,32 @@
 
                                                         </div>
                                                     </div>
+                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+
+                                                        <label>Course Path</label>
+
+                                                        <div class="dashboard__selector">
+                                                            <select class="form-select" name="course_path"
+                                                                aria-label="Default select example">
+                                                                {{-- <option selected>All</option> --}}
+                                                                <option value="Web Development">Web Development
+                                                                </option>
+                                                                <option value="Game Development">Game Development
+                                                                </option>
+                                                                <option value="Mobile App Development">Mobile App
+                                                                    Development</option>
+                                                                <option value="Robotics Design">Robotics Design
+                                                                </option>
+                                                                <option value="Soft Skills">Soft Skills</option>
+                                                                <option value="Aritifacial Intelligence">Aritifacial
+                                                                    Intelligence</option>
+                                                                <option value="Freelancing">Freelancing</option>
+                                                                <option value="Graphic Desgin">Graphic Desgin</option>
+                                                                <option value="cyber security">cyber security</option>
+                                                                <option value="Business">Business</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                     {{--
                                                     <div class="col-xl-6 col-lg-6 col-md-6 col-12">
                                                         <div class="dashboard__form__wraper">
@@ -149,27 +177,9 @@
                                                 </div>
 
                                                 <div class="row ">
-                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
 
-                                                        <label>Course Path</label>
 
-                                                        <div class="dashboard__selector">
-                                                            <select class="form-select" name="course_path"
-                                                                aria-label="Default select example">
-                                                                <option selected>All</option>
-                                                                <option value="1">Web Design</option>
-                                                                <option value="2">Graphic</option>
-                                                                <option value="3">English</option>
-                                                                <option value="4">Spoken English</option>
-                                                                <option value="5">Art Painting</option>
-                                                                <option value="6">App Development</option>
-                                                                <option value="7">Web Application</option>
-                                                                <option value="7">Php Development</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                                                    {{-- <div class="col-xl-6 col-lg-6 col-md-6 col-12">
 
                                                         <label>Choose age group</label>
 
@@ -185,7 +195,7 @@
                                                                 <option value="2">13-17</option> -->
                                                             </select>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
 
                                                 <div class="row sp_top_20">
@@ -284,7 +294,7 @@
                             </div>
 
 
-
+                            {{-- 
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="headingTwo">
                                     <button class="accordion-button collapsed" type="button"
@@ -298,7 +308,7 @@
                                     <div class="accordion-body">
                                         <div class="become__instructor__form">
                                             <div class="row">
-                                                
+
 
                                                 <div class="col-xl-12">
                                                     <div class="dashboard__form__wraper">
@@ -502,17 +512,17 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-xl-4 col-lg-4 col-md-6 col-12">
                             <div class="create__course__bottom__button">
                                 <a href="#">Create New Course</a>
                             </div>
                         </div>
 
-                    </div>
+                    </div> --}}
                 </div>
 
             </div>

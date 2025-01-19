@@ -55,19 +55,19 @@ class CourseController extends Controller
             $course->course_tags = isset($validatedData['course_tags']) ? json_encode(explode(',', $validatedData['course_tags'])) : null;
             $course->description = $validatedData['description'] ?? null;
 
-            // if ($request->hasFile('image')) {
-            //     $path = $request->file('image')->store('course_images', 'public');
-            //     $course->image = $path;
-            // }
-
             if ($request->hasFile('image')) {
-                $file = $request->file('image');
-                Log::info('Uploaded file details:', [
-                    'name' => $file->getClientOriginalName(),
-                    'type' => $file->getMimeType(),
-                    'extension' => $file->getClientOriginalExtension(),
-                ]);
+                $path = $request->file('image')->store('course_images', 'public');
+                $course->image = $path;
             }
+
+            // if ($request->hasFile('image')) {
+            //     $file = $request->file('image');
+            //     Log::info('Uploaded file details:', [
+            //         'name' => $file->getClientOriginalName(),
+            //         'type' => $file->getMimeType(),
+            //         'extension' => $file->getClientOriginalExtension(),
+            //     ]);
+            // }
 
             $course->save();
 
