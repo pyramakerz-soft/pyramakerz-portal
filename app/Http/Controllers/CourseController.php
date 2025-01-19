@@ -66,8 +66,9 @@ class CourseController extends Controller
                 $course->description = $validatedData['description'] ?? null;
 
                 if ($request->hasFile('image')) {
-                    $courseImagePath = $request->file('image')->store('course_images', 'public/storage');
-                    $course->image = $courseImagePath;
+                    $courseImagePath = $request->file('image')->move(public_path('storage/course_images'), $request->file('image')->getClientOriginalName());
+$course->image = 'course_images/' . $request->file('image')->getClientOriginalName();
+
                 }
 
                 $course->save();
