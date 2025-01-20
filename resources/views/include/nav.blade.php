@@ -5,10 +5,11 @@
             <div class="row">
                 <div class="col-xl-2 col-lg-2 col-md-6">
                     <div class="headerarea__left">
-                        <div class="headerarea__left__logo">
+                        <div class="headerarea__left__logo" style="padding: 20PX;">
 
-                            <a href="/pyramakerz"><img loading="lazy" src="img/logo/logo_1.png" alt="logo"
-                                    style="height:50px;"></a>
+                            <a href="/pyramakerz"><img loading="lazy"
+                                    src="https://pyramakerz.com/portal/pyramakerz-etisalat/public/img/logo/logo_1.png"
+                                    alt="logo" style="height:50px; "></a>
                         </div>
 
                     </div>
@@ -723,11 +724,9 @@
                             </div>
                         </div> --}}
 
-                        <div class="headerarea__login">
-                            <a href="login.html"><i class="icofont-user-alt-5"></i></a>
-                        </div>
+
                         <div class="headerarea__button">
-                            <a href="#">Get Start</a>
+                            <a href="/student-login">Get Start</a>
                         </div>
                     </div>
                 </div>
@@ -741,84 +740,15 @@
             <div class="row align-items-center">
                 <div class="col-6">
                     <div class="mobile-logo">
-                        <a class="logo__dark" href="/pyramakerz"><img loading="lazy" src="img/logo/logo_1.png"
+                        <a class="logo__dark" href="/pyramakerz"><img loading="lazy"
+                                src="https://pyramakerz.com/portal/pyramakerz-etisalat/public/img/logo/logo_1.png"
                                 alt="logo"></a>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="header-right-wrap">
 
-                        <div class="headerarea__right">
 
-                            <div class="header__cart">
-                                <a href="#"> <i class="icofont-cart-alt"></i></a>
-                                <div class="header__right__dropdown__wrapper">
-                                    <div class="header__right__dropdown__inner">
-                                        <div class="single__header__right__dropdown">
-
-                                            <div class="header__right__dropdown__img">
-                                                <a href="#">
-                                                    <img loading="lazy" src="img/grid/cart1.jpg" alt="photo">
-                                                </a>
-                                            </div>
-                                            <div class="header__right__dropdown__content">
-
-                                                <a href="shop-product.html">Web Directory</a>
-                                                <p>1 x <span class="price">$ 80.00</span></p>
-
-                                            </div>
-                                            <div class="header__right__dropdown__close">
-                                                <a href="#"><i class="icofont-close-line"></i></a>
-                                            </div>
-                                        </div>
-
-                                        <div class="single__header__right__dropdown">
-
-                                            <div class="header__right__dropdown__img">
-                                                <a href="#">
-                                                    <img loading="lazy" src="img/grid/cart2.jpg" alt="photo">
-                                                </a>
-                                            </div>
-                                            <div class="header__right__dropdown__content">
-
-                                                <a href="shop-product.html">Design Minois</a>
-                                                <p>1 x <span class="price">$ 60.00</span></p>
-
-                                            </div>
-                                            <div class="header__right__dropdown__close">
-                                                <a href="#"><i class="icofont-close-line"></i></a>
-                                            </div>
-                                        </div>
-
-                                        <div class="single__header__right__dropdown">
-
-                                            <div class="header__right__dropdown__img">
-                                                <a href="#">
-                                                    <img loading="lazy" src="img/grid/cart3.jpg" alt="photo">
-                                                </a>
-                                            </div>
-                                            <div class="header__right__dropdown__content">
-
-                                                <a href="shop-product.html">Crash Course</a>
-                                                <p>1 x <span class="price">$ 70.00</span></p>
-
-                                            </div>
-                                            <div class="header__right__dropdown__close">
-                                                <a href="#"><i class="icofont-close-line"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <p class="dropdown__price">Total: <span>$1,100.00</span>
-                                    </p>
-                                    <div class="header__right__dropdown__button">
-                                        <a href="#" class="white__color">VIEW
-                                            CART</a>
-                                        <a href="#" class="blue__color">CHECKOUT</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="mobile-off-canvas">
                             <a class="mobile-aside-button" href="#"><i class="icofont-navigation-menu"></i></a>
@@ -909,8 +839,8 @@
                                         <li><a href="error.html">Error 404</a></li>
                                         <li><a href="error-dark.html">Error (Dark)</a></li>
                                         <li><a href="event-details.html">Event Details</a></li>
-                                        <li><a href="zoom/zoom-meetings.html">Zoom<span
-                                                    class="mega__menu__label">Online Call</span></a></li>
+                                        <li><a href="zoom/zoom-meetings.html">Zoom<span class="mega__menu__label">Online
+                                                    Call</span></a></li>
                                         <li><a href="zoom/zoom-meetings-dark.html">Zoom Meeting (Dark)</a></li>
                                         <li><a href="zoom/zoom-meeting-details.html">Zoom Meeting Details</a>
                                         </li>

@@ -47,7 +47,7 @@
                     <div class="col-xl-5 col-lg-5 col-md-12 col-12" data-aos="fade-up">
                         <div class="educationarea__right__wraper" data-tilt>
                             <div class="educationarea__img">
-                                <img loading="lazy" class="education__img__1 round" src="img/hero.png" alt="education"
+                                <img loading="lazy" class="education__img__1 round" src="img/ai_5.jpg" alt="education"
                                     style="height: 350px;">
                                 <img loading="lazy" class="education__img__2 small" src="img/hat.png" alt="education">
                                 <img loading="lazy" class="education__img__3" src="img/education/education__2.png"
@@ -105,51 +105,41 @@
         <div class="trainingarea sp_bottom_20" data-aos="fade-up">
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                         <div class="trainingarea__wraper">
                             <div class="trainingarea__icon">
                                 <i class="icofont-video-alt"></i>
                                 <div class="trainingarea__content">
-                                    <h6><a href="#">Video Training</a></h6>
-                                    <p>With unlimited courses</p>
+                                    <h6><a href="#">Robust Learning Platform
+                                        </a></h6>
+                                    {{-- <p>facilitate seamless content delivery </p> --}}
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                         <div class="trainingarea__wraper trainingarea__wraper__2">
                             <div class="trainingarea__icon">
                                 <i class="icofont-business-man-alt-1"></i>
                                 <div class="trainingarea__content">
-                                    <h6><a href="#">Expert Teaceher</a></h6>
-                                    <p>With unlimited courses</p>
+                                    <h6><a href="#">Experienced Trainers<br>
+                                        </a></h6>
+                                    {{-- <p>Qualified trainers</p> --}}
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                        <div class="trainingarea__wraper trainingarea__wraper__3">
-                            <div class="trainingarea__icon">
-                                <i class="icofont-book-alt"></i>
-                                <div class="trainingarea__content">
-                                    <h6><a href="#">Versatile Course</a></h6>
-                                    <p>With unlimited courses</p>
-                                </div>
-                            </div>
 
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                         <div class="trainingarea__wraper trainingarea__wraper__3">
                             <div class="trainingarea__icon">
                                 <i class="icofont-book-alt"></i>
                                 <div class="trainingarea__content">
-                                    <h6><a href="#">Versatile Course</a></h6>
-                                    <p>With unlimited courses</p>
+                                    <h6><a href="#">Comprehensive Curriculum
+                                        </a></h6>
+                                    {{-- <p>With unlimited courses</p> --}}
                                 </div>
                             </div>
 
@@ -169,7 +159,8 @@
                         <div class="aboutarea__img__inner text-center">
                             <div class="aboutarea__img" data-tilt>
                                 <img loading="lazy" class="aboutimg__1" src="img/about/about_8.png" alt="aboutimg">
-                                <img loading="lazy" class="aboutimg__2" src="img/about/about_1.png" alt="aboutimg">
+                                <img loading="lazy" class="aboutimg__2" style="height: 400px;"
+                                    src="img/about/robot.png" alt="aboutimg">
                             </div>
                         </div>
 
@@ -181,30 +172,33 @@
                                 <div class="default__small__button">About Us</div>
                             </div>
                             <div class="aboutarea__headding heading__underline">
-                                <h2>Welcome to the <span>Online</span> Learning Center</h2>
+                                <h2>STEM-Accredited Curriculum</h2>
                             </div>
                             <div class="aboutarea__para">
-                                <p>Forging relationships between multi to national
-                                    <br>Governments and global NGOs begins.
+                                <p>Learn coding and technology using the same professional platforms that industry
+                                    experts use.
+                                    Our curriculum is rigorously designed to meet STEM standards, ensuring that you gain
+                                    skills relevant to today’s tech landscape.
                                 </p>
                             </div>
                             <div class="aboutarea__list">
                                 <ul>
                                     <li>
-                                        <i class="icofont-check"></i> Explore a variety of fresh educational teach
+                                        <i class="icofont-check"></i> Live Online Sessions
                                     </li>
+                                    <br>
 
                                     <li>
-                                        <i class="icofont-check"></i> Explore a variety of fresh educational teach
+                                        <i class="icofont-check"></i> Top Engineers as Tutors
                                     </li>
-
+                                    <br>
                                     <li>
-                                        <i class="icofont-check"></i> Explore a variety of fresh educational teach
+                                        <i class="icofont-check"></i> Diverse Tech Tracks
                                     </li>
                                 </ul>
                             </div>
                             <div class="aboutarea__bottom__button">
-                                <a class="default__button" href="#"> More About
+                                <a class="default__button" href="/all-courses"> More About
                                     <i class="icofont-long-arrow-right"></i>
                                 </a>
                             </div>
@@ -215,8 +209,89 @@
         </div>
         <!-- about__section__start -->
 
+
+        <!-- early__programs Start -->
+        <div class="early__programs research__programs sp_bottom_100">
+            <div class="container-fluid full__width__padding">
+
+                <div class="row">
+                    <div class="section__title text-center" data-aos="fade-up">
+                        <div class="section__title__button">
+                            <div class="default__small__button">#Research</div>
+                        </div>
+                        <div class="section__title__heading heading__underline">
+                            <h2>Selected <span>Programming</span> <br>Tracks.</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12" data-aos="fade-up">
+                        <div class="single__blog__wraper">
+                            <div class="single__blog__img">
+                                <img loading="lazy" src="img/app.jpg" alt="blog">
+                            </div>
+                            <div class="single__blog__content">
+                                <p>APP Inventor</p>
+                                <h4> <a href="/all-courses">APP Inventor</a></h4>
+                                <div class="single__blog__bottom__button">
+                                    <a href="/all-courses">Read More </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12" data-aos="fade-up">
+                        <div class="single__blog__wraper">
+                            <div class="single__blog__img">
+                                <img loading="lazy" src="img/web.jpg" alt="blog">
+                            </div>
+                            <div class="single__blog__content">
+                                <p>Web Development</p>
+                                <h4> <a href="/all-courses">Web</a></h4>
+                                <div class="single__blog__bottom__button">
+                                    <a href="/all-courses">Read More </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12" data-aos="fade-up">
+                        <div class="single__blog__wraper">
+                            <div class="single__blog__img">
+                                <img loading="lazy" src="img/programming.jpg" alt="blog">
+                            </div>
+                            <div class="single__blog__content">
+                                <p>Programming</p>
+                                <h4> <a href="/all-courses">Programming</a></h4>
+                                <div class="single__blog__bottom__button">
+                                    <a href="/all-courses">Read More </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12" data-aos="fade-up">
+                        <div class="single__blog__wraper">
+                            <div class="single__blog__img">
+                                <img loading="lazy" src="img/roblox.jpg" alt="blog">
+                            </div>
+                            <div class="single__blog__content">
+                                <p>roblox</p>
+                                <h4> <a href="/all-courses">roblox</a></h4>
+                                <div class="single__blog__bottom__button">
+                                    <a href="/all-courses">Read More </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- early__programs End -->
+
         <!-- populer__section__start -->
-        <div class="populerarea sp_top_80 sp_bottom_50">
+        {{-- <div class="populerarea sp_top_80 sp_bottom_50">
             <div class="container">
                 <div class="row populerarea__wraper" data-aos="fade-up">
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
@@ -232,7 +307,7 @@
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6" data-aos="fade-up">
                         <div class="populerarea__button">
-                            <a class="default__button" href="course.html">All Catagories
+                            <a class="default__button" href="/all-courses">All Catagories
                                 <i class="icofont-long-arrow-right"></i>
                             </a>
                         </div>
@@ -616,384 +691,118 @@
 
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- populer__section__end -->
 
 
 
 
         <!-- grid__section__start -->
-        <div class="gridarea">
-            <div class="container">
-                <div class="row">
-                    <div class="section__title text-center" data-aos="fade-up">
-                        <div class="section__title__button">
-                            <div class="default__small__button">Course List</div>
-                        </div>
-                        <div class="section__title__heading heading__underline">
-                            <h2>Programming Careers
-                            </h2>
-                        </div>
-                    </div>
-                </div>
 
-
-                <div class="row" data-aos="fade-up">
-                    <div class="col-xl-12">
-                        <div class="gridfilter_nav grid__filter gridFilter">
-                            <button class="active" data-filter="*">All</button>
-                            <button data-filter=".filter1" class="">Computer Science</button>
-                            <button data-filter=".filter2" class="">Data science</button>
-                            <button data-filter=".filter3" class=""> Engineering </button>
-                            <button data-filter=".filter4" class="">Web Development</button>
-                            <button data-filter=".filter5" class=""> Architecture</button>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="row grid" data-aos="fade-up">
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter1 filter3">
-                        <div class="gridarea__wraper gridarea__wraper__2">
-                            <div class="gridarea__img">
-                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge orange__color">Aritifacial Intelligence
-                                    </div>
-                                </div>
-                                <div class="gridarea__small__icon">
-                                    <a href="#"><i class="icofont-heart-alt"></i></a>
-                                </div>
-
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li>
-                                            <i class="icofont-book-alt"></i> 29 Lesson
-                                        </li>
-                                        <li>
-                                            <i class="icofont-clock-time"></i> 2 hr 10 min
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3><a href="course-details">Python level one</a></h3>
-
-                                </div>
-                                {{-- 
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__small__content">
-                                        <h6>Aritifacial Intelligence</h6>
-                                    </div>
-                                </div> --}}
-
-
-
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__star">
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <span>(44)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter2 filter3">
-                        <div class="gridarea__wraper gridarea__wraper__2">
-                            <div class="gridarea__img">
-                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge orange__color">Aritifacial Intelligence
-                                    </div>
-                                </div>
-                                <div class="gridarea__small__icon">
-                                    <a href="#"><i class="icofont-heart-alt"></i></a>
-                                </div>
-
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li>
-                                            <i class="icofont-book-alt"></i> 29 Lesson
-                                        </li>
-                                        <li>
-                                            <i class="icofont-clock-time"></i> 2 hr 10 min
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3><a href="course-details">Python level one</a></h3>
-
-                                </div>
-                                {{-- 
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__small__content">
-                                        <h6>Aritifacial Intelligence</h6>
-                                    </div>
-                                </div> --}}
-
-
-
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__star">
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <span>(44)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter4 filter5">
-                        <div class="gridarea__wraper gridarea__wraper__2">
-                            <div class="gridarea__img">
-                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge orange__color">Aritifacial Intelligence
-                                    </div>
-                                </div>
-                                <div class="gridarea__small__icon">
-                                    <a href="#"><i class="icofont-heart-alt"></i></a>
-                                </div>
-
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li>
-                                            <i class="icofont-book-alt"></i> 29 Lesson
-                                        </li>
-                                        <li>
-                                            <i class="icofont-clock-time"></i> 2 hr 10 min
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3><a href="course-details">Python level one</a></h3>
-
-                                </div>
-                                {{-- 
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__small__content">
-                                        <h6>Aritifacial Intelligence</h6>
-                                    </div>
-                                </div> --}}
-
-
-
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__star">
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <span>(44)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-                </div>
-            </div>
-        </div>
         <!-- grid__section__end -->
 
         <!-- grid__section__start -->
         <div class="gridarea">
             <div class="container">
                 <div class="row">
-                    <div class="section__title text-center" data-aos="fade-up">
+                    <div class="section__title " data-aos="fade-up">
                         <div class="section__title__button">
                             <div class="default__small__button">Course List</div>
                         </div>
                         <div class="section__title__heading heading__underline">
-                            <h2>Programming Careers
-                            </h2>
+                            <div class="row">
+                                <div class="col-xl-9 col-lg-9 col-md-6 col-sm-6" data-aos="fade-up">
+                                    <h2>Programming Careers
+                                    </h2>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6" data-aos="fade-up">
+                                    <div class="populerarea__button">
+                                        <a class="default__button" href="/all-courses">All Catagories
+                                            <i class="icofont-long-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-
+                {{-- 
                 <div class="row" data-aos="fade-up">
                     <div class="col-xl-12">
                         <div class="gridfilter_nav grid__filter gridFilter">
                             <button class="active" data-filter="*">All</button>
-                            <button data-filter=".filter1" class="">Computer Science</button>
-                            <button data-filter=".filter2" class="">Data science</button>
-                            <button data-filter=".filter3" class=""> Engineering </button>
-                            <button data-filter=".filter4" class="">Web Development</button>
-                            <button data-filter=".filter5" class=""> Architecture</button>
+                            <button data-filter=".filter1" class="">Web Development</button>
+                            <button data-filter=".filter2" class="">Mobile Development</button>
+                            <button data-filter=".filter3" class="">AI</button>
+                            <button data-filter=".filter4" class="">Game Development</button>
+                            <button data-filter=".filter5" class="">DevOps</button>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
 
 
                 <div class="row grid" data-aos="fade-up">
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter1 filter3">
-                        <div class="gridarea__wraper gridarea__wraper__2">
-                            <div class="gridarea__img">
-                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge orange__color">Aritifacial Intelligence
+                    @foreach ($courses as $course)
+                        <div
+                            class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter1 filter2 filter3 filter4 filter5">
+                            <div class="gridarea__wraper gridarea__wraper__2">
+                                <div class="gridarea__img">
+                                    <img loading="lazy" src="{{ asset('storage/' . $course->image) }}"
+                                        alt="grid">
+                                    <div class="gridarea__small__button">
+                                        <div class="grid__badge orange__color">{{ $course->name }}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="gridarea__small__icon">
-                                    <a href="#"><i class="icofont-heart-alt"></i></a>
-                                </div>
-
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li>
-                                            <i class="icofont-book-alt"></i> 29 Lesson
-                                        </li>
-                                        <li>
-                                            <i class="icofont-clock-time"></i> 2 hr 10 min
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3><a href="course-details">Python level one</a></h3>
+                                    <div class="gridarea__small__icon">
+                                        <a href="#"><i class="icofont-heart-alt"></i></a>
+                                    </div>
 
                                 </div>
-                                {{-- 
+                                <div class="gridarea__content">
+                                    <div class="gridarea__list">
+                                        <ul>
+                                            <li>
+                                                <i class="icofont-book-alt"></i>
+                                                {{ $course->totalLessonsCount() ?? 0 }} Lessons
+                                            </li>
+                                            <li>
+                                                <i class="icofont-clock-time"></i>{{ $course->duration ?? 'N/A' }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="gridarea__heading">
+                                        <h3><a
+                                                href="{{ route('courses.show', $course->id) }}">{{ $course->course_path ?? 'General' }}</a>
+                                        </h3>
+
+                                    </div>
+                                    {{-- 
                             <div class="gridarea__bottom">
                                 <div class="gridarea__small__content">
-                                    <h6>Aritifacial Intelligence</h6>
+                                    <h6>{{$course->name}}</h6>
                                 </div>
                             </div> --}}
 
 
 
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__star">
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <span>(44)</span>
+                                    <div class="gridarea__bottom">
+                                        <div class="gridarea__star">
+                                            <i class="icofont-star"></i>
+                                            <i class="icofont-star"></i>
+                                            <i class="icofont-star"></i>
+                                            <i class="icofont-star"></i>
+                                            <span>(44)</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter2 filter3">
-                        <div class="gridarea__wraper gridarea__wraper__2">
-                            <div class="gridarea__img">
-                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge orange__color">Aritifacial Intelligence
-                                    </div>
-                                </div>
-                                <div class="gridarea__small__icon">
-                                    <a href="#"><i class="icofont-heart-alt"></i></a>
-                                </div>
-
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li>
-                                            <i class="icofont-book-alt"></i> 29 Lesson
-                                        </li>
-                                        <li>
-                                            <i class="icofont-clock-time"></i> 2 hr 10 min
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3><a href="course-details">Python level one</a></h3>
-
-                                </div>
-                                {{-- 
-                            <div class="gridarea__bottom">
-                                <div class="gridarea__small__content">
-                                    <h6>Aritifacial Intelligence</h6>
-                                </div>
-                            </div> --}}
+                    @endforeach
 
 
 
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__star">
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <span>(44)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter4 filter5">
-                        <div class="gridarea__wraper gridarea__wraper__2">
-                            <div class="gridarea__img">
-                                <img loading="lazy" src="img/grid/grid_2.png" alt="grid">
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge orange__color">Aritifacial Intelligence
-                                    </div>
-                                </div>
-                                <div class="gridarea__small__icon">
-                                    <a href="#"><i class="icofont-heart-alt"></i></a>
-                                </div>
-
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li>
-                                            <i class="icofont-book-alt"></i> 29 Lesson
-                                        </li>
-                                        <li>
-                                            <i class="icofont-clock-time"></i> 2 hr 10 min
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3><a href="course-details">Python level one</a></h3>
-
-                                </div>
-                                {{-- 
-                            <div class="gridarea__bottom">
-                                <div class="gridarea__small__content">
-                                    <h6>Aritifacial Intelligence</h6>
-                                </div>
-                            </div> --}}
-
-
-
-                                <div class="gridarea__bottom">
-                                    <div class="gridarea__star">
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <i class="icofont-star"></i>
-                                        <span>(44)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
 
 

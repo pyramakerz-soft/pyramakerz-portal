@@ -193,7 +193,7 @@ $embedUrl = $isGoogleDrive
                         <div class="course__details__sidebar--2">
                             <div class="event__sidebar__wraper" data-aos="fade-up">
                                 <div class="blogarae__img__2 course__details__img__2" data-aos="fade-up">
-                                    <img loading="lazy" src="{{ asset('img/blog/blog_7.png') }}" alt="blog">
+                                    <img loading="lazy" src="{{ asset("storage/".$course->image) }}" alt="blog">
                                 </div>
 
                                 <div class="course__summery__button">
@@ -205,7 +205,7 @@ $embedUrl = $isGoogleDrive
                                         <li>
                                             <div class="course__summery__item">
                                                 <span class="sb_label">Instructor:</span>
-                                                <span class="sb_content"><a href="#">D. William</a></span>
+                                                <span class="sb_content"><a href="#">Eng. Ashraf</a></span>
                                             </div>
                                         </li>
                                         <li>

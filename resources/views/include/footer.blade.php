@@ -3,33 +3,31 @@
     <div class="container">
         <div class="footerarea__newsletter__wraper">
             <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-up">
-                    <div class="footerarea__text">
-                        <h3>Still You Need Our <span>Support</span> ?</h3>
-                        <p>
-                            Don’t wait make a smart & logical quote here. Its
-                            pretty easy.
-                        </p>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="copyright__logo">
+                            <a href="/"><img loading="lazy"class="s-small" src="img//logo/logo_1.png"
+                                    alt="logo" /></a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-up">
-                    <div class="footerarea__newsletter">
-                        <div class="footerarea__newsletter__input">
-                            <form action="#">
-                                <input type="text" placeholder="Enter your email here" />
-                                <div class="footerarea__newsletter__button">
-                                    <button type="submit" class="subscribe__btn">
-                                        Subscribe Now
-                                    </button>
-                                </div>
-                            </form>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-up">
+                        <div class="footerarea__newsletter">
+                            <div class="footerarea__newsletter__input">
+                                <form action="#">
+                                    <input type="text" placeholder="Enter your email here" />
+                                    <div class="footerarea__newsletter__button">
+                                        <button type="submit" class="subscribe__btn">
+                                            Subscribe Now
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        {{-- <div class="footerarea__wrapper footerarea__wrapper__2">
+            {{-- <div class="footerarea__wrapper footerarea__wrapper__2">
             <div class="row">
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12" data-aos="fade-up">
                     <div class="footerarea__inner footerarea__about__us">
@@ -157,13 +155,8 @@
                 </div>
             </div>
         </div> --}}
-        <div class="footerarea__copyright__wrapper footerarea__copyright__wrapper__2">
-            <div class="row">
-                <div class="col-xl-3 col-lg-3">
-                    <div class="copyright__logo">
-                        <a href="/"><img loading="lazy" src="img/logo/ioon.png" alt="logo" /></a>
-                    </div>
-                </div>
+            <div class="footerarea__copyright__wrapper footerarea__copyright__wrapper__2">
+
                 <div class="col-xl-6 col-lg-6">
                     <div class="footerarea__copyright__content footerarea__copyright__content__2">
                         <p>

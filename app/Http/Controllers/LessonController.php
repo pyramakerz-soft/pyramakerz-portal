@@ -30,8 +30,11 @@ class LessonController extends Controller
             $lesson->is_active = $validatedData['is_active'];
 
             if ($request->hasFile('resource_file')) {
-                $path = $request->file('resource_file')->store('lesson_resources', 'public');
-                $lesson->resource_file = $path;
+                // $path = $request->file('resource_file')->store('lesson_resources', 'storage/lesson_resources');
+                // $lesson->resource_file = $path;
+                
+                 $path = $request->file('resource_file')->move(public_path('storage/lesson_resources'), $request->file('resource_file')->getClientOriginalName());
+$lesson->resource_file = 'lesson_resources/' . $request->file('resource_file')->getClientOriginalName();
             }
 
             $lesson->save();

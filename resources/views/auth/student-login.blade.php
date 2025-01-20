@@ -82,7 +82,7 @@
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="single__tab__link" data-bs-toggle="tab" data-bs-target="#projects__two"
-                                    type="button">Sing up</button>
+                                    type="button">sign up</button>
                             </li>
                         </ul>
                     </div>
@@ -113,7 +113,8 @@
                                         </div>
                                         <div class="login__form">
                                             <label class="form__label">Password</label>
-                                            <input class="common__login__input" type="password" placeholder="Password" name="password">
+                                            <input class="common__login__input" type="password" placeholder="Password"
+                                                name="password">
 
                                         </div>
                                         <div class="login__form d-flex justify-content-between flex-wrap gap-2">
@@ -126,8 +127,8 @@
                                             </div>
                                         </div>
                                         <div class="login__button">
-                                            
-                                             <input class="default__button" type="submit" value="Log In">
+
+                                            <input class="default__button" type="submit" value="Log In">
                                         </div>
                                     </form>
 
@@ -147,11 +148,12 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="projects__two" role="tabpanel" aria-labelledby="projects__two">
+                        <div class="tab-pane fade" id="projects__two" role="tabpanel"
+                            aria-labelledby="projects__two">
                             <div class="col-xl-8 offset-md-2">
                                 <div class="loginarea__wraper">
                                     <div class="login__heading">
-                                        <h5 class="login__title">Sing Up</h5>
+                                        <h5 class="login__title">sign up</h5>
                                         <p class="login__description">Already have an account? <a href="#"
                                                 data-bs-toggle="modal" data-bs-target="#registerModal">Log In</a></p>
                                     </div>
