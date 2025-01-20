@@ -105,6 +105,7 @@ Route::post('/survey/{id}', [SurveyController::class, 'submitSurvey'])->name('su
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::get('/student-login', [AuthController::class, 'showStudentLoginForm'])->name('student-login');
 Route::post('/student-login', [AuthController::class, 'studentLogin'])->name('student-login');
 Route::middleware('auth:student')->group(function () {

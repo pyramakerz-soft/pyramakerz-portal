@@ -198,7 +198,7 @@
                                 </ul>
                             </div>
                             <div class="aboutarea__bottom__button">
-                                <a class="default__button" href="/all-courses"> More About
+                                <a class="default__button" href="{{ route('courses.all') }}"> More About
                                     <i class="icofont-long-arrow-right"></i>
                                 </a>
                             </div>
@@ -233,9 +233,9 @@
                             </div>
                             <div class="single__blog__content">
                                 <p>APP Inventor</p>
-                                <h4> <a href="/all-courses">APP Inventor</a></h4>
+                                <h4> <a href="{{ route('courses.all') }}">APP Inventor</a></h4>
                                 <div class="single__blog__bottom__button">
-                                    <a href="/all-courses">Read More </a>
+                                    <a href="{{ route('courses.all') }}">Read More </a>
                                 </div>
                             </div>
                         </div>
@@ -248,9 +248,9 @@
                             </div>
                             <div class="single__blog__content">
                                 <p>Web Development</p>
-                                <h4> <a href="/all-courses">Web</a></h4>
+                                <h4> <a href="{{ route('courses.all') }}">Web</a></h4>
                                 <div class="single__blog__bottom__button">
-                                    <a href="/all-courses">Read More </a>
+                                    <a href="{{ route('courses.all') }}">Read More </a>
                                 </div>
                             </div>
                         </div>
@@ -263,9 +263,9 @@
                             </div>
                             <div class="single__blog__content">
                                 <p>Programming</p>
-                                <h4> <a href="/all-courses">Programming</a></h4>
+                                <h4> <a href="{{ route('courses.all') }}">Programming</a></h4>
                                 <div class="single__blog__bottom__button">
-                                    <a href="/all-courses">Read More </a>
+                                    <a href="{{ route('courses.all') }}">Read More </a>
                                 </div>
                             </div>
                         </div>
@@ -278,9 +278,9 @@
                             </div>
                             <div class="single__blog__content">
                                 <p>roblox</p>
-                                <h4> <a href="/all-courses">roblox</a></h4>
+                                <h4> <a href="{{ route('courses.all') }}">roblox</a></h4>
                                 <div class="single__blog__bottom__button">
-                                    <a href="/all-courses">Read More </a>
+                                    <a href="{{ route('courses.all') }}">Read More </a>
                                 </div>
                             </div>
                         </div>
@@ -717,7 +717,7 @@
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6" data-aos="fade-up">
                                     <div class="populerarea__button">
-                                        <a class="default__button" href="/all-courses">All Catagories
+                                        <a class="default__button" href="{{ route('courses.all') }}">All Catagories
                                             <i class="icofont-long-arrow-right"></i>
                                         </a>
                                     </div>
@@ -749,7 +749,7 @@
                             class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter1 filter2 filter3 filter4 filter5">
                             <div class="gridarea__wraper gridarea__wraper__2">
                                 <div class="gridarea__img">
-                                    <img loading="lazy" src="{{ asset('storage/' . $course->image) }}"
+                                    <img loading="lazy" src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
                                         alt="grid">
                                     <div class="gridarea__small__button">
                                         <div class="grid__badge orange__color">{{ $course->name }}
