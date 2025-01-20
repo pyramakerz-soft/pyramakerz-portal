@@ -281,7 +281,7 @@
                                         <div class="col-xl-4 col-lg-6 col-md-12 col-sm-6 col-12" data-aos="fade-up">
                                             <div class="gridarea__wraper gridarea__wraper__2">
                                                 <div class="gridarea__img">
-                                                    <img loading="lazy" src="{{ asset('storage/' . $course->image) }}"
+                                                    <img loading="lazy" src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
                                                         alt="{{ $course->name }}">
                                                     <div class="gridarea__small__button">
                                                         <div class="grid__badge orange__color">
@@ -329,7 +329,7 @@
                                     {{ $courses->links('pagination::bootstrap-5') }}
                                 </div>
                             </div>
-                            
+
 
                             <div class="tab-pane fade" id="projects__two" role="tabpanel"
                                 aria-labelledby="projects__two">
@@ -338,7 +338,7 @@
                                         data-aos="fade-up">
                                         <div class="gridarea__img">
                                             <a href="course-details.html"><img loading="lazy"
-                                                    src="{{ asset('storage/' . $course->image) }}"
+                                                    src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
                                                     alt="{{ $course->name }}"></a>
                                             <div class="gridarea__small__button">
                                                 <div class="grid__badge orange__color">
