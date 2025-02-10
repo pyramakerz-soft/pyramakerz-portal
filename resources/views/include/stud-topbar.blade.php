@@ -38,7 +38,7 @@
                         </div>
                         <div class="dashboardarea__right">
                             <div class="dashboardarea__right__button">
-                                <a class="default__button" href="/all-courses">Enroll A New
+                                <a class="default__button" href="{{ route('courses.all') }}">Enroll A New
                                     Course
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

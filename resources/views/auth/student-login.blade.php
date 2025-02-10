@@ -106,9 +106,9 @@
                                     <form action="{{ route('student-login') }}" method="POST">
                                         @csrf
                                         <div class="login__form">
-                                            <label class="form__label">Username or email</label>
+                                            <label class="form__label">email</label>
                                             <input class="common__login__input" type="text" name="email"
-                                                placeholder="Your username or email">
+                                                placeholder="email">
 
                                         </div>
                                         <div class="login__form">
@@ -160,37 +160,38 @@
 
 
 
-                                    <form action="#">
+                                    <form action="{{ route('register') }}" method="post">
+                                        @csrf
                                         <div class="row">
                                             <div class="col-xl-6">
                                                 <div class="login__form">
-                                                    <label class="form__label">First Name</label>
+                                                    <label class="form__label"> Name</label>
                                                     <input class="common__login__input" type="text"
-                                                        placeholder="First Name">
+                                                        placeholder=" Name" name="name">
 
                                                 </div>
                                             </div>
-                                            <div class="col-xl-6">
+                                            {{-- <div class="col-xl-6">
                                                 <div class="login__form">
                                                     <label class="form__label">Last Name</label>
                                                     <input class="common__login__input" type="password"
                                                         placeholder="Last Name">
 
                                                 </div>
-                                            </div>
-                                            <div class="col-xl-6">
+                                            </div> --}}
+                                            {{-- <div class="col-xl-6">
                                                 <div class="login__form">
                                                     <label class="form__label">Username</label>
                                                     <input class="common__login__input" type="password"
                                                         placeholder="Username">
 
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="col-xl-6">
                                                 <div class="login__form">
                                                     <label class="form__label">Email</label>
-                                                    <input class="common__login__input" type="password"
-                                                        placeholder="Your Email">
+                                                    <input class="common__login__input" type="email"
+                                                        placeholder="Your Email" name="email">
 
                                                 </div>
                                             </div>
@@ -198,18 +199,18 @@
                                                 <div class="login__form">
                                                     <label class="form__label">Password</label>
                                                     <input class="common__login__input" type="password"
-                                                        placeholder="Password">
+                                                        placeholder="Password" name="password">
 
                                                 </div>
                                             </div>
-                                            <div class="col-xl-6">
+                                            {{-- <div class="col-xl-6">
                                                 <div class="login__form">
                                                     <label class="form__label">Re-Enter Password</label>
                                                     <input class="common__login__input" type="password"
                                                         placeholder="Re-Enter Password">
 
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
 
                                         <div class="login__form d-flex justify-content-between flex-wrap gap-2">
@@ -220,7 +221,7 @@
 
                                         </div>
                                         <div class="login__button">
-                                            <a class="default__button" href="#">Log In</a>
+                                            <button class="default__button" href="#">Log In</button>
                                         </div>
                                     </form>
 

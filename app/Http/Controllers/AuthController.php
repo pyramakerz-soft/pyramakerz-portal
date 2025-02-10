@@ -9,40 +9,57 @@ use App\Models\Student;
 use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
+    //     public function register(Request $request)
+// {
+//     // Validate and save student data
+//     $student = Student::create($request->all());
+
+    //     // Redirect to the survey page
+//     return redirect()->route('show_survey', ['id' => $student->id]);
+// }
     public function register(Request $request)
-{
-    // Validate and save student data
-    $student = Student::create($request->all());
+    {
+        // dd($request);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:students,email',
+            'password' => 'required|string|min:8',
+        ]);
 
-    // Redirect to the survey page
-    return redirect()->route('show_survey', ['id' => $student->id]);
-}
-public function showSurvey($id)
-{
-    $student = Student::findOrFail($id);
-    $languages = Language::all();
+        $student = Student::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-    return view('survey', compact('student', 'languages'));
-}
+        return redirect()->route('home');
+    }
+    public function showSurvey($id)
+    {
+        $student = Student::findOrFail($id);
+        $languages = Language::all();
 
-public function submitSurvey(Request $request, $id)
-{
-    $student = Student::findOrFail($id);
+        return view('survey', compact('student', 'languages'));
+    }
 
-    // Save survey responses
-    $student->survey()->create($request->all());
+    public function submitSurvey(Request $request, $id)
+    {
+        $student = Student::findOrFail($id);
 
-    return redirect()->route('thank_you'); // Redirect to a thank-you page
-}
+        // Save survey responses
+        $student->survey()->create($request->all());
+
+        return redirect()->route('thank_you'); // Redirect to a thank-you page
+    }
 
 
     public function showLoginForm()
     {
-        return view('auth.login');  
+        return view('auth.login');
     }
     public function showStudentLoginForm()
     {
-        return view('auth.student-login');  
+        return view('auth.student-login');
     }
 
     public function login(Request $request)
@@ -59,31 +76,32 @@ public function submitSurvey(Request $request, $id)
         return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
     }
 
-public function studentLogin(Request $request)
+    public function studentLogin(Request $request)
 {
-    // Validate input
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
     ]);
 
-    // Attempt to authenticate the student
     $student = Student::where('email', $request->email)->first();
 
     if ($student && Hash::check($request->password, $student->password)) {
         Auth::guard('student')->login($student);
 
-        return redirect()->route('student-profile'); // Use named routes for better maintainability
+        // Regenerate session to avoid session fixation attacks
+        $request->session()->regenerate();
+
+        return redirect()->route('student-profile');
     }
 
-    // Return with an error if credentials are invalid
     return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
 }
+
 
 
     public function logout(Request $request)
     {
         Auth::guard('student')->logout();
-        return redirect()->route('login');
+        return redirect()->route('student-login');
     }
 }

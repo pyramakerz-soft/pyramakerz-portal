@@ -7,7 +7,7 @@
                     <div class="headerarea__left">
                         <div class="headerarea__left__logo" style="padding: 20PX;">
 
-                            <a href="/pyramakerz"><img loading="lazy"
+                            <a href="{{ route('home') }}"><img loading="lazy"
                                     src="https://pyramakerz.com/portal/pyramakerz-etisalat/public/img/logo/logo_1.png"
                                     alt="logo" style="height:50px; "></a>
                         </div>
@@ -726,7 +726,7 @@
 
 
                         <div class="headerarea__button">
-                            <a href="/student-login">Get Start</a>
+                            <a href="{{ route('student-login') }}">Get Started</a>
                         </div>
                     </div>
                 </div>
@@ -740,7 +740,7 @@
             <div class="row align-items-center">
                 <div class="col-6">
                     <div class="mobile-logo">
-                        <a class="logo__dark" href="/pyramakerz"><img loading="lazy"
+                        <a class="logo__dark" href="{{ route('home') }}"><img loading="lazy"
                                 src="https://pyramakerz.com/portal/pyramakerz-etisalat/public/img/logo/logo_1.png"
                                 alt="logo"></a>
                     </div>

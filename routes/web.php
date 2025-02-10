@@ -8,6 +8,10 @@ use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
+use App\Http\Middleware\RoleMiddleware;
+use App\Models\Student;
+use Illuminate\Session\Middleware\StartSession;
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -21,14 +25,29 @@ Route::get('/', [PortalController::class, 'homePage'])->name('home');
 Route::resource("courses", CourseController::class);
 Route::post('/lessons', [LessonController::class, 'store'])->name('lessons.store');
 
-
+Route::middleware([
+    \App\Http\Middleware\RoleMiddleware::class
+])->group(function () {
+    Route::get('/admin', function () {
+        return view('dashboard.admin');
+    });
+});
 Route::get('/activate-course', function () {
     return view('dashboard.activate-course');
 })->name('course.details');
 
-Route::get('/admin', function () {
-    return view('dashboard.admin');
-});
+// Route::get('/admin', function () {
+//     return view('dashboard.admin');
+// });
+
+// Route::middleware([RoleMiddleware::class])->group(function () {
+//     Route::get('/admin', function () {
+//         return view('dashboard.admin');
+//     });
+// });
+// Route::get('/posts/create', function () {
+//     return view('posts.create');
+// })->middleware('role:editor,create-posts');
 
 Route::get('/admin-courses', function () {
     return view('dashboard.admin-courses');
@@ -55,10 +74,15 @@ Route::get('/view-course', function () {
     return view('student.active');
 });
 
-Route::middleware('student.auth')->group(function () {
+Route::middleware('auth:student')->group(function () {
     Route::get('/profile', [StudentController::class, 'profile'])->name('student-profile');
     Route::get('/my-courses', [StudentController::class, 'getCourses'])->name('my-courses');
     Route::get('/my-quizz', [StudentController::class, 'myQuiz'])->name('my-quizz');
+    Route::get('/my-tasks', [StudentController::class, 'myTasks'])->name('my-tasks');
+    Route::get('/test/{id}', [StudentController::class, 'show'])->name('view-test');
+Route::post('/test/{id}/submit', [StudentController::class, 'submitTest'])->name('submit-test');
+Route::get('/test/{id}/results', [StudentController::class, 'viewResults'])->name('test-results');
+
     // Route::get('/my-progress', [StudentController::class, 'profile'])->name('student-profile');
     // Add other routes here
 });
@@ -67,9 +91,9 @@ Route::middleware('student.auth')->group(function () {
 //     return view('student.my-quizz');
 // });
 
-Route::get('/my-tasks', function () {
-    return view('student.tasks');
-});
+// Route::get('/my-tasks', function () {
+//     return view('student.tasks');
+// });
 
 Route::get('/settings', function () {
     return view('student.settings');
@@ -128,9 +152,10 @@ Route::post('/survey/{id}', [SurveyController::class, 'submitSurvey'])->name('su
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::get('/student-login', [AuthController::class, 'showStudentLoginForm'])->name('student-login');
 Route::post('/student-login', [AuthController::class, 'studentLogin'])->name('student-login');
 Route::middleware('auth:student')->group(function () {
     Route::get('/student/courses', [StudentController::class, 'getCourses'])->name('student.courses');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
