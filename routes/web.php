@@ -76,9 +76,6 @@ Route::get('/settings', function () {
 });
 
 
-Route::get('/pyramakerz', function () {
-    return view('student.settings');
-});
 Route::get('/session-details', function () {
     return view('student.session-details');
 });
@@ -93,6 +90,32 @@ Route::get('/course/{id}', [CourseController::class, 'show'])->name('course.deta
 Route::get('/message', function () {
     return view('student.message');
 });
+// instructor
+Route::get('/time-table', function () {
+    return view('instructor.timetable');
+});
+Route::get('/instructor/profile', function () {
+    return view('instructor.profile');
+});
+Route::get('/instructor/settings', function () {
+    return view('instructor.settings');
+});
+Route::get('/my-courses', function () {
+    return view('instructor.course-details');
+});
+Route::get('/my-chat', function () {
+    return view('instructor.message');
+});
+
+
+// dashboard
+Route::get('/admin/profile', function () {
+    return view('dashboard.profile');
+});
+Route::get('/admin/settings', function () {
+    return view('dashboard.settings');
+});
+
 Route::prefix('admin')->group(function () {
     Route::post('/create_course', [AdminController::class, 'createCourse'])->name('create_course');
 });

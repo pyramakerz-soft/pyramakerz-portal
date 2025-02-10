@@ -700,7 +700,9 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="header__cart">
+                            <a href="#"> <i class="icofont-notification"></i></a>
+                        </div>
                         <div class="headerarea__login">
                             <a href="../login.html"><i class="icofont-user-alt-5"></i></a>
                         </div>
