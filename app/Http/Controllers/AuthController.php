@@ -77,30 +77,31 @@ class AuthController extends Controller
     }
 
     public function studentLogin(Request $request)
-    {
-        // Validate input
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        // Attempt to authenticate the student
-        $student = Student::where('email', $request->email)->first();
+    $student = Student::where('email', $request->email)->first();
 
-        if ($student && Hash::check($request->password, $student->password)) {
-            Auth::guard('student')->login($student);
+    if ($student && Hash::check($request->password, $student->password)) {
+        Auth::guard('student')->login($student);
 
-            return redirect()->route('student-profile'); // Use named routes for better maintainability
-        }
+        // Regenerate session to avoid session fixation attacks
+        $request->session()->regenerate();
 
-        // Return with an error if credentials are invalid
-        return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+        return redirect()->route('student-profile');
     }
+
+    return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+}
+
 
 
     public function logout(Request $request)
     {
         Auth::guard('student')->logout();
-        return redirect()->route('login');
+        return redirect()->route('student-login');
     }
 }

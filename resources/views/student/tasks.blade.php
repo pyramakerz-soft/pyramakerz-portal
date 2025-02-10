@@ -60,40 +60,43 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+
+                                                    @foreach($tasks as $task)
                                                     <tr>
                                                         <th>
 
-                                                            <span>Task Name</span>
-                                                            <p>course: <a href="#">AI Track</a></p>
+                                                            <span>{{$task->test->name}}</span>
+                                                            <p><a href="#">{{\App\models\PathOfPath::find($task->path_of_path_id)->name}}</a></p>
                                                         </th>
                                                         <td>
-                                                            <p>80</p>
+                                                            <p>100</p>
                                                         </td>
 
                                                         <td>
-                                                            <span
-                                                                class="dashboard__td dashboard__td--cancel">Rejected</span>
+                                                            {{-- <span
+                                                                class="dashboard__td dashboard__td--cancel">Rejected</span> --}}
+                                                                <span class="dashboard__td dashboard__td--pass">Accepted</span>
+                                                                {{-- <span class="dashboard__td dashboard__td--over">Over
+                                                                    due</span> --}}
+                                                                    {{-- <span
+                                                                class="dashboard__td dashboard__td--pass">accepted</span> --}}
+
                                                         </td>
 
 
 
                                                         <td>
                                                             <div class="dashboard__button__group">
-
-
                                                                 <a class="dashboard__small__btn__2 dashboard__small__btn__3"
-                                                                    href="#">
-                                                                    <i class="icofont-paper-plane"></i> Submit
-                                                                </a>
-
-                                                                <a class="dashboard__small__btn__2" href="#">
-                                                                    <i class="icofont-download"></i> Download
+                                                                    href="{{ route('view-test', $task->test->id) }}">
+                                                                    <i class="icofont-eye"></i> View Test
                                                                 </a>
                                                             </div>
                                                         </td>
+                                                        
                                                     </tr>
-
-                                                    <tr class="dashboard__table__row">
+                                                    @endforeach
+                                                    {{-- <tr class="dashboard__table__row">
                                                         <th>
 
                                                             <span>Task Name</span>
@@ -184,7 +187,7 @@
                                                                 </a>
                                                             </div>
                                                         </td>
-                                                    </tr>
+                                                    </tr> --}}
 
 
                                                 </tbody>
