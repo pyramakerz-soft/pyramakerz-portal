@@ -726,7 +726,7 @@
 
 
                         <div class="headerarea__button">
-                            <a href="{{ route('student-login') }}">Get Start</a>
+                            <a href="{{ route('student-login') }}">Get Started</a>
                         </div>
                     </div>
                 </div>

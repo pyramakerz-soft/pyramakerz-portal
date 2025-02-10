@@ -705,7 +705,7 @@
                             <a href="../login.html"><i class="icofont-user-alt-5"></i></a>
                         </div>
                         <div class="headerarea__button">
-                            <a href="#">Get Start</a>
+                            <a href="#">Get Started</a>
                         </div>
                     </div>
                 </div>
