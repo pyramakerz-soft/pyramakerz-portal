@@ -66,7 +66,7 @@
                                                         <th>
 
                                                             <span>{{$task->test->name}}</span>
-                                                            <p><a href="#">{{\App\models\PathOfPath::find($task->path_of_path_id)->name}}</a></p>
+                                                            <p><a href="#">{{\App\models\PathOfPath::find($task->path_of_path_id)->name ?? '-'}} </a></p>
                                                         </th>
                                                         <td>
                                                             <p>100</p>

@@ -51,7 +51,6 @@ class CourseController extends Controller
             'course_paths.*.description' => 'nullable|string',
             'course_paths.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
         try {
             $course = null;
             if (!empty($validatedData['name']) || !empty($validatedData['slug'])) {

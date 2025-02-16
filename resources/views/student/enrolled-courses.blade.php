@@ -40,14 +40,14 @@
                                         <ul class="nav about__button__wrap dashboard__button__wrap" id="myTab"
                                             role="tablist">
                                             <li class="nav-item" role="presentation">
-                                                <button class="single__tab__link " data-bs-toggle="tab"
+                                                <button class="single__tab__link active" data-bs-toggle="tab"
                                                     data-bs-target="#projects__one" type="button" aria-selected="false"
-                                                    role="tab">Finished Courses</button>
+                                                    role="tab">Current Courses</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <button class="single__tab__link active" data-bs-toggle="tab"
+                                                <button class="single__tab__link " data-bs-toggle="tab"
                                                     data-bs-target="#projects__two" type="button" aria-selected="true"
-                                                    role="tab">Active Courses</button>
+                                                    role="tab">Finished Courses</button>
                                             </li>
                                             {{-- <li class="nav-item" role="presentation">
                                                 <button class="single__tab__link" data-bs-toggle="tab"
@@ -82,7 +82,7 @@
                                                                         <li>
                                                                             <i class="icofont-book-alt"></i>
                                                                             {{ $course->course->totalLessonsCount() }}
-                                                                            Lessons
+                                                                            Lesson/s
                                                                         </li>
                                                                         <li>
                                                                             <i class="icofont-clock-time"></i>
@@ -96,7 +96,6 @@
                                                                             href="/session-details">{{ $course->course->name }}</a>
                                                                     </h3>
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -105,7 +104,7 @@
                                         @endforeach
 
                                         <!-- Active Courses -->
-                                        <div class="tab-pane active fade" id="projects__two" role="tabpanel">
+                                        {{-- <div class="tab-pane active fade" id="projects__two" role="tabpanel">
                                             <div class="row">
                                                 <div class="col-xl-4 col-lg-6 col-md-6 col-12">
                                                     <div class="gridarea__wraper">
@@ -136,7 +135,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
 
                                         <!-- Completed Courses -->
                                         {{-- <div class="tab-pane fade" id="projects__three" role="tabpanel">
