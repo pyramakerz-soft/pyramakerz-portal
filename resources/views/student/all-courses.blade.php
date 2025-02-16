@@ -117,68 +117,15 @@
                                 </div>
                                 <div class="course__categories__list">
                                     <ul>
-
-
-                                        <li>
-                                            <a href="#">
-                                                Web Development
-                                                <span>8</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                Game Development
-                                                <span>10</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                Mobile App Development
-                                                <span>6</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                Robotics Design
-                                                <span>16</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                Soft Skills
-                                                <span>4</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                Aritifacial Intelligence
-                                                <span>8</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                Freelancing
-                                                <span>6</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                Graphic Desgin
-                                                <span>4</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                cyber security
-                                                <span>10</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                Business
-                                                <span>8</span>
-                                            </a>
-                                        </li>
+                                        @foreach($categories as $category)
+                                            <li>
+                                                <a href="{{ route('courses.index', ['category' => $category->id]) }}">
+                                                    {{ $category->name }}
+                                                    <span>{{ $category->courses->count() }}</span>
+                                                </a>
+                                            </li>
+                                            @endforeach
+                                        
 
 
                                     </ul>
@@ -188,7 +135,7 @@
                             </div>
                         </div>
 
-                        <div class="course__sidebar__wraper" data-aos="fade-up">
+                        {{-- <div class="course__sidebar__wraper" data-aos="fade-up">
                             <div class="course__heading">
                                 <h5>Skill Level</h5>
                             </div>
@@ -220,8 +167,8 @@
                                 </ul>
                             </div>
 
-                        </div>
-                        <div class="course__sidebar__wraper" data-aos="fade-up">
+                        </div> --}}
+                        {{-- <div class="course__sidebar__wraper" data-aos="fade-up">
                             <div class="course__heading">
                                 <h5>Tag</h5>
                             </div>
@@ -261,7 +208,7 @@
                                 </ul>
                             </div>
 
-                        </div>
+                        </div> --}}
 
 
 

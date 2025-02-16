@@ -53,7 +53,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Quiz</th>
-                                                        <th>Qusetions</th>
+                                                        <th>Questions</th>
                                                         <th>Total Mark</th>
                                                         <th>Correct Answer</th>
                                                         <th>Result</th>
@@ -61,36 +61,42 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <th>
-                                                            <p>December 26, 2024</p>
-                                                            <span> AI Track Session four</span>
+                                                    @foreach($tasks as $studentTask)
+    <tr>
+        <th>
+            <p>{{ \Carbon\Carbon::parse($studentTask->due_date)->format('F d, Y') }}</p>
+            <span>{{ $studentTask->task->name }}</span> {{-- Assuming task relation exists --}}
+        </th>
+        <td>
+            <p>{{ $studentTask->task->course_id }}</p> {{-- Assuming task relation exists --}}
+        </td>
+        <td>
+            <p>{{ $studentTask->task->lesson_id }}</p> {{-- Assuming task relation exists --}}
+        </td>
+        <td>
+            <p>{{ $studentTask->student_id }}</p> 
+        </td>
+        <td>
+            <span class="dashboard__td {{ $studentTask->completed_at ? 'dashboard__td--success' : 'dashboard__td--cancel' }}">
+                {{ $studentTask->completed_at ? 'Completed' : 'Fail' }}
+            </span>
+        </td>
+        <td>
+            <div class="dashboard__button__group">
+                @if($studentTask->task->file) {{-- Assuming task relation exists --}}
+                    <a class="dashboard__small__btn__2" 
+                        href="{{ asset('storage/tasks/' . $studentTask->task->file) }}" target="_blank">
+                        <i class="icofont-eye"></i> View
+                    </a>
+                @else
+                    <span class="dashboard__small__btn__2 disabled">No File</span>
+                @endif
+            </div>
+        </td>
+    </tr>
+@endforeach
 
-                                                        </th>
-                                                        <td>
-                                                            <p>4</p>
-                                                        </td>
-                                                        <td>
-                                                            <p>8</p>
-                                                        </td>
-                                                        <td>
-                                                            <p>4</p>
-                                                        </td>
-                                                        <td>
-                                                            <span
-                                                                class="dashboard__td dashboard__td--cancel">fail</span>
-                                                        </td>
-                                                        <td>
-                                                            <div class="dashboard__button__group">
-                                                                <a class="dashboard__small__btn__2"
-                                                                    href="https://docs.google.com/forms/d/1L_HoAiwFs-JKJrakAT3bTpa6ZNkvPT6A3vDZvKfj5lo/viewform?edit_requested=true"
-                                                                    target="_blank"> <i class="icofont-eye"></i>View</a>
-
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr class="dashboard__table__row">
+                                                    {{-- <tr class="dashboard__table__row">
                                                         <th>
                                                             <p>December 16, 2024</p>
                                                             <span>AI Track Session three </span>
@@ -173,7 +179,7 @@
 
                                                             </div>
                                                         </td>
-                                                    </tr>
+                                                    </tr> --}}
 
                                                 </tbody>
                                             </table>

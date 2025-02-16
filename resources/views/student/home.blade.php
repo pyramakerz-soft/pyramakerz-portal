@@ -717,7 +717,7 @@
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6" data-aos="fade-up">
                                     <div class="populerarea__button">
-                                        <a class="default__button" href="{{ route('courses.all') }}">All Catagories
+                                        <a class="default__button" href="{{ route('courses.all') }}">All Categories
                                             <i class="icofont-long-arrow-right"></i>
                                         </a>
                                     </div>
@@ -752,7 +752,7 @@
                                     <img loading="lazy" src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
                                         alt="grid">
                                     <div class="gridarea__small__button">
-                                        <div class="grid__badge orange__color">{{ $course->name }}
+                                        <div class="grid__badge orange__color">{{ $course->name ?? '0' }}
                                         </div>
                                     </div>
                                     <div class="gridarea__small__icon">
@@ -768,22 +768,17 @@
                                                 {{ $course->totalLessonsCount() ?? 0 }} Lessons
                                             </li>
                                             <li>
-                                                <i class="icofont-clock-time"></i>{{ $course->duration ?? 'N/A' }}
+                                                <i class="icofont-clock-time"></i>{{ $course->duration ?? 'N/A' }} Minutes
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="gridarea__heading">
                                         <h3><a
-                                                href="{{ route('courses.show', $course->id) }}">{{ $course->course_path ?? 'General' }}</a>
+                                                href="{{ route('courses.show', $course->id) }}">{{ $course->name ?? 'General' }}</a>
                                         </h3>
 
                                     </div>
-                                    {{-- 
-                            <div class="gridarea__bottom">
-                                <div class="gridarea__small__content">
-                                    <h6>{{$course->name}}</h6>
-                                </div>
-                            </div> --}}
+                                    
 
 
 

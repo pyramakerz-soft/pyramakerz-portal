@@ -6,6 +6,7 @@ use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
@@ -61,6 +62,10 @@ class AuthController extends Controller
     {
         return view('auth.student-login');
     }
+    public function showAdminLoginForm()
+    {
+        return view('auth.admin-login');
+    }
 
     public function login(Request $request)
     {
@@ -92,6 +97,26 @@ class AuthController extends Controller
         $request->session()->regenerate();
 
         return redirect()->route('student-profile');
+    }
+
+    return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+}
+    public function adminLogin(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    $admin = User::where('email', $request->email)->first();
+
+    if ($admin && Hash::check($request->password, $admin->password)) {
+        Auth::guard('admin')->login($admin);
+
+        // Regenerate session to avoid session fixation attacks
+        $request->session()->regenerate();
+
+        return redirect()->route('admin-courses');
     }
 
     return back()->withErrors(['email' => 'Invalid credentials'])->withInput();

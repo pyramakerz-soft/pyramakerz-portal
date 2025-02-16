@@ -40,20 +40,15 @@
                                         <ul class="nav about__button__wrap dashboard__button__wrap" id="myTab"
                                             role="tablist">
                                             <li class="nav-item" role="presentation">
-                                                <button class="single__tab__link " data-bs-toggle="tab"
-                                                    data-bs-target="#projects__one" type="button" aria-selected="false"
-                                                    role="tab">Finished Courses</button>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
                                                 <button class="single__tab__link active" data-bs-toggle="tab"
-                                                    data-bs-target="#projects__two" type="button" aria-selected="true"
+                                                    data-bs-target="#projects__one" type="button" aria-selected="true"
                                                     role="tab">Active Courses</button>
                                             </li>
-                                            {{-- <li class="nav-item" role="presentation">
-                                                <button class="single__tab__link" data-bs-toggle="tab"
-                                                    data-bs-target="#projects__three" type="button"
-                                                    aria-selected="false" role="tab">Upcoming Courses</button>
-                                            </li> --}}
+                                            <li class="nav-item" role="presentation">
+                                                <button class="single__tab__link " data-bs-toggle="tab"
+                                                    data-bs-target="#projects__two" type="button" aria-selected="false"
+                                                    role="tab">Finished Courses</button>
+                                            </li>
                                         </ul>
                                     </div>
 

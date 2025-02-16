@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Course;
 use App\Models\CoursesPath;
 use Illuminate\Http\Request;
@@ -15,8 +16,8 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::with(['coursePaths', 'coursePaths.lessons'])->paginate(10);
-
-        return view('student.all-courses', compact('courses'));
+        $categories = Category::with('courses')->get();
+        return view('student.all-courses', compact('courses','categories'));
     }
 
     /**
@@ -99,16 +100,31 @@ class CourseController extends Controller
         }
     }
 
+    public function assignTeacher(Request $request)
+    {
+        $request->validate([
+            'course_id' => 'required|exists:courses,id',
+            'teacher_id' => 'required|exists:users,id',
+        ]);
 
+        $course = Course::findOrFail($request->course_id);
+        $course->instructor_id = $request->teacher_id;
+        $course->save();
+
+        return response()->json(['message' => 'Teacher assigned successfully!'], 200);
+    }
     /**
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        $course = Course::with(['coursePaths.lessons'])->findOrFail($id);
+{
+    $course = Course::with([
+        'coursePaths.paths.lessons' // Load course paths, their sub-paths, and lessons
+    ])->findOrFail($id);
 
-        return view('student.course-details', compact('course'));
-    }
+    return view('student.course-details', compact('course'));
+}
+
 
     /**
      * Show the form for editing the specified resource.

@@ -52,7 +52,7 @@
                                                 </div>
                                                 <div class="counter__content__wraper">
                                                     <div class="counter__number">
-                                                        <span class="counter">27</span>+
+                                                        <span class="counter">{{ $courses }}</span>+
 
                                                     </div>
                                                     <p>Enrolled Courses</p>

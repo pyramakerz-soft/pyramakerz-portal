@@ -45,4 +45,48 @@ $lesson->resource_file = 'lesson_resources/' . $request->file('resource_file')->
             return redirect()->back()->with('error', 'An error occurred while creating the lesson.');
         }
     }
+
+
+
+    public function storeLesson(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'order' => 'required|integer',
+        'video_url' => 'nullable|url',
+        'course_id' => 'required|exists:courses,id',
+        'course_path_id' => 'required|exists:course_paths,id',
+        'path_of_path_id' => 'required|exists:path_of_paths,id',
+    ]);
+
+    Lesson::create([
+        'title' => $request->title,
+        'order' => $request->order,
+        'video_url' => $request->video_url,
+        'course_id' => $request->course_id,
+        'course_path_id' => $request->course_path_id,
+        'path_of_path_id' => $request->path_of_path_id,
+    ]);
+
+    return response()->json(['message' => 'Lesson added successfully!'], 200);
+}
+
+
+    /**
+     * Upload material for a lesson.
+     */
+    public function uploadMaterial(Request $request)
+    {
+        $request->validate([
+            'lesson_id' => 'required|exists:lessons,id',
+            'material' => 'required|file|mimes:pdf,doc,docx,ppt,pptx,zip,rar|max:10240',
+        ]);
+
+        $lesson = Lesson::findOrFail($request->lesson_id);
+        $filePath = $request->file('material')->store('lesson_materials', 'public');
+
+        $lesson->update(['resource_file' => $filePath]);
+
+        return response()->json(['message' => 'Material uploaded successfully!'], 200);
+    }
 }

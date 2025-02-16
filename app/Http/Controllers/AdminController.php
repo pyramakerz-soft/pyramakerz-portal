@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Course;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    public function index()
+    {
+        $courses = Course::with(['coursePaths.paths', 'coursePaths.lessons'])->paginate(10);
+        $categories = Category::with('courses')->get();
+        $teachers = User::where('role', 'teacher')->get();
+        
+        return view('dashboard.admin-courses', compact('courses','categories','teachers'));
+    }
     public function createCourse(Request $request)
     {
         try {
@@ -20,8 +30,8 @@ class AdminController extends Controller
                 'age_group' => 'required|string|max:50',
                 'skill_level' => 'required|string|max:50',
                 'language' => 'required|string|max:50',
-                'prereq' => 'nullable|array', // Expecting an array for multiple select
-                'course_tags' => 'nullable', // Expecting an array for tags
+                'prereq' => 'nullable|array',
+                'course_tags' => 'nullable',
                 'description' => 'required|string',
             ]);
     
@@ -47,6 +57,19 @@ class AdminController extends Controller
             return redirect()->back()->withErrors($e->validator)->withInput();
         }
     }
-    
+    public function courseDetail(string $id)
+{
+    $course = Course::with([
+        'coursePaths.paths.lessons' // Load course paths, their sub-paths, and lessons
+    ])->findOrFail($id);
+    $teachers = User::where('role', 'teacher')->get();
+
+    // Debugging: Check if data exists
+    \Log::info('Loaded Course Data:', ['course' => $course->toArray()]);
+    \Log::info('Loaded Teachers:', ['teachers' => $teachers->toArray()]);
+
+    return view('dashboard.course-details', compact('course', 'teachers'));
+}
+
 
 }

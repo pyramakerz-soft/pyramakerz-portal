@@ -15,7 +15,7 @@ class CoursesPath extends Model
     }
     public function paths()
     {
-        return $this->hasMany(PathOfPath::class);
+        return $this->hasMany(PathOfPath::class,'course_path_id');
     }
     public function lessons()
     {
