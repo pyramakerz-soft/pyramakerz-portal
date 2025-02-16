@@ -15,7 +15,7 @@
                     Time Table</a>
             </li>
             <li>
-                <a href="/admin/profile">
+                <a href="/instructor/profile">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-user">
@@ -25,7 +25,7 @@
                     My Profile</a>
             </li>
             <li>
-                <a href="/admin/chat">
+                <a href="/my-chat">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-book-open">
@@ -66,7 +66,7 @@
                     Tasks</a>
             </li>
             <li>
-                <a href="/admin/settings">
+                <a href="/instructor/settings">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-settings">

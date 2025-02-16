@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\Course;
 use App\Models\StudentAnswer;
 use App\Models\StudentEnrollment;
+use App\Models\StudentTask;
 use App\Models\StudentTest;
 use App\Models\Test;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,7 @@ class StudentController extends Controller
         $student = Auth::guard('student')->user();
         return view('student.my-quizz', compact('student'));
     }
-    public function myTasks(){
+    public function myQuizes(){
         $student = Auth::guard('student')->user();
         $tasks = StudentTest::where('student_id', $student->id)->with('test.questions')->get();
         return view('student.tasks', compact('student', 'tasks'));
@@ -84,6 +85,16 @@ public function submitTest(Request $request, $testId)
         
         return view('student.enrolled-courses', compact('courses', 'student'));
     }
-    
+    public function mySummary(){
+        $student = Auth::guard('student')->user();
+        $courses = StudentEnrollment::where('student_id', $student->id)->count();
+        return view('student.dashboard', compact('student','courses'));
+    }
+
+    public function getTasks(Request $request, Test $test){
+        $student = Auth::guard('student')->user();
+        $tasks = StudentTask::where('student_id', $student->id)->get();
+        return view('student.my-quizz', compact('student', 'tasks'));
+    }
 
 }

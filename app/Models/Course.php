@@ -16,6 +16,10 @@ class Course extends Model
     {
         return $this->hasMany(StudentSuggesstion::class);
     }
+    public function instructor()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function totalLessonsCount()
     {
         return Lesson::whereIn('course_path_id', $this->coursePaths->pluck('id'))

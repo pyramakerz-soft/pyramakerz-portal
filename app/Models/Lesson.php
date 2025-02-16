@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lesson extends Model
 {
+    protected $guarded = [];
     public function coursePath()
     {
         return $this->belongsTo(CoursesPath::class);

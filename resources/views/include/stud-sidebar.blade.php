@@ -35,7 +35,7 @@
                     Message</a><span class="dashboard__label">12</span>
             </li>
             <li>
-                <a href="/my-courses">
+                <a href="{{route('student-courses')}}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-bookmark">
@@ -53,7 +53,7 @@
                         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                         <line x1="12" y1="17" x2="12.01" y2="17"></line>
                     </svg>
-                    My Quiz Attempts</a>
+                    Tasks</a>
             </li>
             <li>
                 <a href="/my-tasks">
@@ -63,7 +63,7 @@
                         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                         <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
                     </svg>
-                    Tasks</a>
+                    Quiz</a>
             </li>
             <li>
                 <a href="/settings">
