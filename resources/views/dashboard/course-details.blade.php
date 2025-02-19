@@ -106,83 +106,81 @@
                                 </div>
                                 <div class="tab-content tab__content__wrapper" id="myTabContent">
                                     <!-- Lessons Tab -->
-                                    <div class="tab-pane fade active show" id="lessons" role="tabpanel">
-                                        <div class="accordion content__cirriculum__wrap" id="accordionExample">
-                                            @if (isset($course))
-                                                @forelse ($course->coursePaths as $path)
-                                                    @foreach ($path->lessons as $lesson)
-                                                        <div class="accordion-item roundd">
-                                                            <h2 class="accordion-header">
-                                                                <button class="accordion-button" type="button"
-                                                                    data-bs-toggle="collapse"
-                                                                    data-bs-target="#lesson{{ $lesson->id }}"
-                                                                    aria-expanded="false"
-                                                                    aria-controls="lesson{{ $lesson->id }}">
-                                                                    {{ $lesson->title }} <span>Order:
-                                                                        {{ $lesson->order ?? 'N/A' }}</span>
-                                                                        <i class="icofont-plus-circle add-material-btn"
+                                    <!-- Lessons Tab -->
+<div class="tab-pane fade active show" id="lessons" role="tabpanel">
+    <div class="accordion content__cirriculum__wrap" id="accordionExample">
+        @if (isset($course))
+            @forelse ($course->coursePaths as $path)
+                @foreach ($path->lessons as $lesson)
+                    <div class="accordion-item roundd">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#lesson{{ $lesson->id }}" aria-expanded="false"
+                                aria-controls="lesson{{ $lesson->id }}">
+                                {{ $lesson->title }}
+                                <span>Order: {{ $lesson->order ?? 'N/A' }}</span>
+
+                                <!-- Add Material Icon -->
+                                <i class="icofont-plus-circle add-material-btn"
                                     data-lesson-id="{{ $lesson->id }}"
                                     title="Add Material"
                                     style="cursor: pointer; margin-left: auto; font-size: 1.2rem;">
                                 </i>
-                                                                </button>
-                                                            </h2>
-                                                            <div id="lesson{{ $lesson->id }}"
-                                                                class="accordion-collapse collapse"
-                                                                data-bs-parent="#accordionExample">
-                                                                <div class="accordion-body">
-                                                                    <!-- Lesson Video -->
-                                                                    <div class="video-container mb-3">
-                                                                        @if ($lesson->video_url)
-                                                                            @php
-                                                                                // Check if the video URL is from Google Drive
-                                                                                $isGoogleDrive = str_contains(
-                                                                                    $lesson->video_url,
-                                                                                    'drive.google.com',
-                                                                                );
 
-                                                                                // If it's a Google Drive URL, convert it to an embed link
-$embedUrl = $isGoogleDrive
-    ? preg_replace(
-        '/\/view\?usp=sharing$/',
-        '/preview',
-                                                                                        $lesson->video_url,
-                                                                                    )
-                                                                                    : $lesson->video_url;
-                                                                            @endphp
+                                <!-- Choose Date Button -->
+                                @if($lesson->lesson_date && $lesson->lesson_time)
+                                    <button class="btn btn-outline-success btn-sm" disabled style="float:right;color:white;font-weight:bold;">
+                                        Scheduled on {{ $lesson->lesson_date }} at {{ $lesson->lesson_time }}
+                                    </button>
+                                    @else
+                                <button class="btn btn-outline-info btn-sm choose-date-btn"
+                                    data-lesson-id="{{ $lesson->id }}"
+                                    style="margin-left: 10px;">
+                                    Choose Date
+                                </button>
+                                @endif
+                            </button>
+                        </h2>
+                        <div id="lesson{{ $lesson->id }}" class="accordion-collapse collapse"
+                            data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <!-- Lesson Video -->
+                                <div class="video-container mb-3">
+                                    @if ($lesson->video_url)
+                                        <iframe src="{{ $lesson->video_url }}" width="100%" height="400"
+                                            frameborder="0" allowfullscreen></iframe>
+                                    @else
+                                        <p>No video available for this lesson.</p>
+                                    @endif
+                                </div>
+                                <!-- Lesson Description -->
+                                <p><strong>Description:</strong>
+                                    {{ $lesson->description ?? 'No description available.' }}
+                                </p>
+                                <!-- Lesson Resource -->
+                                @if ($lesson->resource_file)
+                                    <a href="{{ asset('storage/' . $lesson->resource_file) }}" download>
+                                        Download Resource
+                                    </a>
+                                @else
+                                    <p>No resources available for this lesson.</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @empty
+                <p>No lessons available for this course.</p>
+            @endforelse
+        @endif
+    </div>
 
-                                                                            <iframe src="{{ $embedUrl }}"
-                                                                                width="100%" height="400"
-                                                                                frameborder="0"
-                                                                                allowfullscreen></iframe>
-                                                                        @else
-                                                                            <p>No video available for this lesson.</p>
-                                                                        @endif
-                                                                    </div>
-                                                                    <!-- Lesson Description -->
-                                                                    <p><strong>Description:</strong>
-                                                                        {{ $lesson->description ?? 'No description available.' }}
-                                                                    </p>
-                                                                    <!-- Lesson Resource -->
-                                                                    @if ($lesson->resource_file)
-                                                                        <a href="{{ asset('storage/' . $lesson->resource_file) }}"
-                                                                            download>Download Resource</a>
-                                                                    @else
-                                                                        <p>No resources available for this lesson.</p>
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                @empty
-                                                    <p>No lessons available for this course.</p>
-                                                @endforelse
-                                            @endif
-                                        </div>
-                                        <button class="btn btn-outline-primary mt-3 add-lesson-btn">
-                                            <i class="icofont-plus"></i> Add Lesson
-                                        </button>
-                                    </div>
+    <!-- Add Lesson Button -->
+    <button class="btn btn-outline-primary mt-3 add-lesson-btn">
+        <i class="icofont-plus"></i> Add Lesson
+    </button>
+</div>
+
 
                                     <!-- Description Tab -->
                                     <div class="tab-pane fade" id="description" role="tabpanel">
@@ -277,11 +275,68 @@ $embedUrl = $isGoogleDrive
     <script src="{{ asset('js/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
 
 <script>
     $(document).ready(function () {
-        
+        $(".choose-date-btn").click(function () {
+    let lessonId = $(this).data("lesson-id");
+
+    Swal.fire({
+        title: "Choose Lesson Date & Time",
+        html: `
+            <input type="text" id="lesson_date" class="swal2-input" placeholder="Select Date" readonly>
+            <input type="time" id="lesson_time" class="swal2-input" placeholder="Select Time">
+        `,
+        didOpen: () => {
+            flatpickr("#lesson_date", { enableTime: false, dateFormat: "Y-m-d" });
+        },
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        preConfirm: () => {
+            return {
+                lesson_id: lessonId,
+                date: $("#lesson_date").val(),
+                time: $("#lesson_time").val()
+            };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "{{ route('lesson.schedule') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    lesson_id: result.value.lesson_id,
+                    date: result.value.date,
+                    time: result.value.time
+                },
+                success: function () {
+                    Swal.fire("Success", "Lesson date saved!", "success");
+                },
+                error: function (xhr) {
+                    let errorMessage = "Something went wrong!";
+                    
+                    // Extract validation errors if available
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    } else if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        let errors = Object.values(xhr.responseJSON.errors).flat();
+                        errorMessage = errors.join("<br>"); // Join multiple errors
+                    }
+
+                    Swal.fire({
+                        icon: "error",
+                        title: "Validation Error",
+                        html: errorMessage
+                    });
+                }
+            });
+        }
+    });
+});
+
         // 🔹 ADD NEW LESSON
         $(".add-lesson-btn").click(function () {
             Swal.fire({

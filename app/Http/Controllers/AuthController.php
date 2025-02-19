@@ -75,7 +75,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::guard('student')->attempt($request->only('email', 'password'))) {
-            return redirect()->route('student.courses');
+            return redirect()->route('instructor.courses');
         }
 
         return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
@@ -127,6 +127,8 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('student')->logout();
+        Auth::guard('web')->logout();
+        Auth::guard('admin')->logout();
         return redirect()->route('student-login');
     }
 }

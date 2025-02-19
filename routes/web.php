@@ -1,14 +1,32 @@
 <?php
 
+use App\Http\Controllers\Admin\AttendanceController;
+use App\Http\Controllers\Admin\CourseProgressController;
+use App\Http\Controllers\Admin\EvaluationController;
+use App\Http\Controllers\Admin\InstructorCommentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\Admin\InstructorController as AdminInstructorController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PortalController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\RoleMiddleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+Auth::routes();
+
+Route::middleware('auth')->group(function () {
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
+});
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 /*
 |--------------------------------------------------------------------------
@@ -52,9 +70,9 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin-courses', [AdminController::class, 'index'])->name('admin-courses');
     Route::get('/admin/profile', function () { return view('dashboard.profile'); });
     Route::get('/admin/settings', function () { return view('dashboard.settings'); });
-    Route::get('/course_details/{id}', [AdminController::class, 'courseDetail'])->name('admin_course_details');
     Route::post('/create-course', [AdminController::class, 'createCourse'])->name('create-course');
     Route::get('/create-course', [AdminController::class, 'createCourse'])->name('create-course');
+    Route::post( '/lesson-schedule', [LessonController::class, 'scheduleLesson'])->name('lesson.schedule');
 Route::get('/activate-course', function () { return view('dashboard.activate-course'); })->name('activate-course');
 
 });
@@ -83,7 +101,25 @@ Route::middleware('auth:student')->group(function () {
     Route::post('/test/{id}/submit', [StudentController::class, 'submitTest'])->name('submit-test');
     Route::get('/test/{id}/results', [StudentController::class, 'viewResults'])->name('test-results');
     Route::get('/student/courses', [StudentController::class, 'getCourses'])->name('student.courses');
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+/*
+|--------------------------------------------------------------------------
+| Supervisor Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
+    // Route::get('/instructors', [SupervisorController::class, 'index'])->name('supervisor.instructors.index');
+    Route::post('/instructors/comment', [InstructorCommentController::class, 'store'])->name('admin.instructors.comment');
+    Route::get('/instructors/comments/{instructor_id}', [InstructorCommentController::class, 'getComments'])->name('admin.instructors.get_comments');
+    Route::get('/instructors', [AdminInstructorController::class, 'index'])->name('admin.instructors.index');
+    Route::post('/instructors/store', [AdminInstructorController::class, 'store'])->name('admin.instructors.store');
+    Route::get('/evaluations', [EvaluationController::class, 'index'])->name('admin.evaluations.index');
+    Route::get('/evaluations/manual', [EvaluationController::class, 'create'])->name('admin.evaluations.manual');
+    Route::post('/evaluations/store', [EvaluationController::class, 'store'])->name('admin.evaluations.store');
+    Route::get('/track-progress', [CourseProgressController::class, 'index'])->name('admin.track-progress.index');
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
+
+
 });
 
 /*
@@ -91,6 +127,30 @@ Route::middleware('auth:student')->group(function () {
 | Instructor Routes
 |--------------------------------------------------------------------------
 */
+Route::prefix('instructor')->middleware('admin.auth')->group(function () {
+    Route::get('/course_details/{id}', [InstructorController::class, 'courseDetail'])->name('instructor.course_details');
+    Route::get('/course/{id}/groups', [InstructorController::class, 'viewGroups'])
+    ->name('instructor.groups');
+    Route::post('/lesson/update-date', [InstructorController::class, 'updateLessonDate'])->name('lesson.update_date');
+
+    Route::get('/students', [InstructorController::class, 'getStudents'])
+    ->name('instructor.get_students');
+
+Route::post('/group/add-student', [InstructorController::class, 'addStudentToGroup'])
+    ->name('instructor.add_student');
+
+
+Route::post('/group/create', [InstructorController::class, 'createGroup'])
+    ->name('instructor.create_group');
+
+Route::get('/group/{id}', [InstructorController::class, 'groupDetails'])
+    ->name('instructor.group_details');
+
+Route::get('/courses', [InstructorController::class, 'index'])
+    ->name('instructor.courses');
+
+});
+
 Route::get('/time-table', function () { return view('instructor.timetable'); });
 Route::get('/instructor/profile', function () { return view('instructor.profile'); });
 Route::get('/instructor/settings', function () { return view('instructor.settings'); });
@@ -122,3 +182,7 @@ Route::get('/home', function () { return view('student.home'); });
 Route::middleware([RoleMiddleware::class])->group(function () {
     Route::get('/admin', function () { return view('dashboard.admin'); });
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

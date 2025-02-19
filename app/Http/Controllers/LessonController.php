@@ -47,7 +47,43 @@ $lesson->resource_file = 'lesson_resources/' . $request->file('resource_file')->
     }
 
 
+    public function scheduleLesson(Request $request)
+{
+    $request->validate([
+        'lesson_id' => 'required|exists:lessons,id',
+        'date' => 'required|date',
+        'time' => 'required'
+    ]);
 
+    $lesson = Lesson::findOrFail($request->lesson_id);
+
+    // ✅ Check if another lesson in the same `course_path_id` has this date
+    $existsInCoursePath = Lesson::where('course_path_id', $lesson->course_path_id)
+                                ->where('lesson_date', $request->date)
+                                ->where('id', '!=', $lesson->id) // Exclude current lesson
+                                ->exists();
+
+    // ✅ Check if another lesson in the same `path_of_path_id` has this date
+    $existsInPathOfPath = Lesson::where('path_of_path_id', $lesson->path_of_path_id)
+                                ->where('lesson_date', $request->date)
+                                ->where('id', '!=', $lesson->id) // Exclude current lesson
+                                ->exists();
+
+    if ($existsInCoursePath || $existsInPathOfPath) {
+        return response()->json(['message' => 'A lesson is already scheduled on this date!'], 422);
+    }
+
+    // ✅ Save lesson date and time
+    $lesson->update([
+        'lesson_date' => $request->date,
+        'lesson_time' => $request->time
+    ]);
+
+    return response()->json(['message' => 'Lesson date saved successfully!'], 200);
+}
+
+
+    
     public function storeLesson(Request $request)
 {
     $request->validate([

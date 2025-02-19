@@ -234,7 +234,7 @@
                                     </ul>
                                 </div>
                                 <div class="gridarea__heading">
-                                    <h3><a href="{{route('admin_course_details',$course->id)}}">{{ $course->name }}</a></h3>
+                                    <h3><a href="{{route('instructor.course_details',$course->id)}}">{{ $course->name }}</a></h3>
                                 </div>
                             </div>
                         </div>

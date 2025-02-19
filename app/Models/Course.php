@@ -11,7 +11,10 @@ class Course extends Model
     {
         return $this->hasMany(CoursesPath::class);
     }
-
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
     public function suggestions()
     {
         return $this->hasMany(StudentSuggesstion::class);
@@ -25,4 +28,9 @@ class Course extends Model
         return Lesson::whereIn('course_path_id', $this->coursePaths->pluck('id'))
             ->count();
     }
+    public function attendanceRecords() {
+        return $this->hasMany(Attendance::class);
+    }
+    
+        
 }

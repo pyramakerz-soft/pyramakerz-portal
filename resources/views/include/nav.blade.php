@@ -726,8 +726,13 @@
 
 
                         <div class="headerarea__button">
-                            <a href="{{ route('student-login') }}">Get Started</a>
+                            @if( Auth::guard('admin')->user())
+                                <a href="{{ route('admin-courses') }}">Hello, {{ Auth::guard('admin')->user()->name}}</a>
+                            @else
+                                <a href="{{ route('student-login') }}">Get Started</a>
+                            @endif
                         </div>
+                        
                     </div>
                 </div>
 
