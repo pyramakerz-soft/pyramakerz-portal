@@ -6,7 +6,9 @@
                     <div class="dashboardarea__inner student__dashboard__inner">
                         <div class="dashboardarea__left">
                             <div class="dashboardarea__left__img">
-                                <img loading="lazy" src="img/student.png" alt="">
+                                <img loading="lazy" src="{{ Auth::guard('student')->user()->photo ? asset('student_photos/' . Auth::guard('student')->user()->photo) : asset('student_photos/17348674791579649013569.jpg') }}" alt="User Photo">
+
+
                             </div>
                             <div class="dashboardarea__left__content">
                                 {{-- <h4>{{ $student->name }}</h4> --}}
@@ -36,7 +38,7 @@
 
                             </div>
                         </div>
-                        <div class="dashboardarea__right">
+                        {{-- <div class="dashboardarea__right">
                             <div class="dashboardarea__right__button">
                                 <a class="default__button" href="{{ route('courses.all') }}">Enroll A New
                                     Course
@@ -49,7 +51,7 @@
                                         <polyline points="12 5 19 12 12 19"></polyline>
                                     </svg></a>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>

@@ -13,6 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class InstructorController extends Controller
 {
@@ -40,6 +41,7 @@ public function createGroup(Request $request)
     if (!Auth::guard('admin')->user()->can('group-create')) {
         abort(403, 'Unauthorized');
     }
+
     $validatedData = $request->validate([
         'name' => 'required|string|max:255',
         'course_id' => 'required|exists:courses,id',
@@ -54,13 +56,13 @@ public function createGroup(Request $request)
     $course = Course::findOrFail($validatedData['course_id']);
     $courseDuration = $course->duration; // Duration in weeks
 
-    // Create the group
+    // ✅ Create the group
     $group = Group::create([
         'name' => $validatedData['name'],
         'course_id' => $validatedData['course_id']
     ]);
 
-    // Generate schedules using selected days
+    // ✅ Generate schedules using selected days
     $this->generateLessonSchedule(
         $group->id,
         $validatedData['start_date'],
@@ -68,13 +70,12 @@ public function createGroup(Request $request)
         $courseDuration,
         $validatedData['start_time'],
         $validatedData['end_time'],
-        $validatedData['course_id'],
+        $validatedData['course_id'], // ✅ Pass course_id correctly
         $validatedData['session_days']
     );
 
     return response()->json(['message' => 'Group created and lessons scheduled!'], 200);
 }
-
 
 private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $courseDuration, $startTime, $endTime, $courseId, $sessionDays)
 {
@@ -82,7 +83,7 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
     $lessonIndex = 0;
     $totalWeeks = $courseDuration;
     
-    // Fetch lessons in order for the given course
+    // ✅ Fetch lessons correctly by checking `course_path_id` (not `course_id`)
     $lessons = Lesson::whereHas('coursePath', function ($query) use ($courseId) {
                         $query->where('course_id', $courseId);
                     })
@@ -93,8 +94,8 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
                     })
                     ->orderBy('order', 'asc')
                     ->get();
-
     if ($lessons->isEmpty()) {
+        Log::warning("⚠ No lessons found for course ID: $courseId");
         return;
     }
 
@@ -103,11 +104,10 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
 
     $currentWeek = 0; // Track the number of weeks
 
-    // Iterate over all lessons, ensuring proper weekly spacing
+    // ✅ Ensure proper weekly lesson spacing
     while ($lessonIndex < $totalLessons && $currentWeek < $totalWeeks) {
         foreach ($sessionDays as $day) {
             if ($lessonIndex >= $totalLessons) break;
-
             $targetDate = $startDate->copy()->next($daysOfWeekMap[$day])->addWeeks($currentWeek);
 
             GroupSchedule::create([
@@ -118,12 +118,16 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
                 'date' => $targetDate->format('Y-m-d')
             ]);
 
+            Log::info("✅ Scheduled Lesson ID: {$lessons[$lessonIndex]->id} on {$targetDate->format('Y-m-d')}");
+
             $lessonIndex++; // Move to the next lesson
         }
 
         $currentWeek++; // Move to the next week
     }
+    Log::info("🟢 Lesson scheduling completed for Group ID: $groupId");
 }
+
 public function updateLessonDate(Request $request)
 {
     if (!Auth::guard('admin')->user()->can('groupschedule-edit')) {

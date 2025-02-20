@@ -101,6 +101,8 @@ Route::middleware('auth:student')->group(function () {
     Route::post('/test/{id}/submit', [StudentController::class, 'submitTest'])->name('submit-test');
     Route::get('/test/{id}/results', [StudentController::class, 'viewResults'])->name('test-results');
     Route::get('/student/courses', [StudentController::class, 'getCourses'])->name('student.courses');
+Route::get('/course_lessons/{id}',[StudentController::class, 'showCourseLessons'])->name('course_lessons');
+
 });
 /*
 |--------------------------------------------------------------------------
@@ -171,7 +173,6 @@ Route::post('/survey/{id}', [SurveyController::class, 'submitSurvey'])->name('su
 |--------------------------------------------------------------------------
 */
 Route::get('/settings', function () { return view('student.settings'); });
-Route::get('/session-details', function () { return view('student.session-details'); });
 Route::get('/home', function () { return view('student.home'); });
 
 /*

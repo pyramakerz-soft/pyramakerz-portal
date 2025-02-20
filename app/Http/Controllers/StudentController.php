@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Course;
+use App\Models\GroupStudent;
 use App\Models\StudentAnswer;
 use App\Models\StudentEnrollment;
 use App\Models\StudentTask;
@@ -29,6 +30,35 @@ class StudentController extends Controller
         $tasks = StudentTest::where('student_id', $student->id)->with('test.questions')->get();
         return view('student.tasks', compact('student', 'tasks'));
     }
+    public function showCourseLessons($courseId)
+{
+    $student = Auth::guard('student')->user();
+
+    // Get the group associated with the student for this course
+    $group = GroupStudent::where('student_id', $student->id)
+        ->whereHas('group', function ($query) use ($courseId) {
+            $query->where('course_id', $courseId);
+        })
+        ->with(['group.schedules.lesson.materials'])
+        ->first();
+    if (!$group) {
+        return redirect()->route('student.courses')->with('error', 'You are not enrolled in this course.');
+    }
+    // Fetch lessons from the schedule ordered by date
+    $lessons = $group->group->schedules->sortBy('date')->map(function ($schedule) {
+        return [
+            'id' => $schedule->lesson->id,
+            'title' => $schedule->lesson->title,
+            'date' => \Carbon\Carbon::parse($schedule->date)->format('Y-m-d'),
+            'start_time' => \Carbon\Carbon::parse($schedule->start_time)->format('h:i A'),
+            'end_time' => \Carbon\Carbon::parse($schedule->end_time)->format('h:i A'),
+            'materials' => $schedule->lesson->materials,
+        ];
+    });
+
+    return view('student.course-lessons', compact('group', 'lessons', 'student'));
+}
+
     public function show($id)
 {
     $test = Test::with('questions')->findOrFail($id);
@@ -75,16 +105,21 @@ public function submitTest(Request $request, $testId)
     }
     
     
-    public function getCourses(Request $request, Course $course){
-        $student = Auth::guard('student')->user();
-        $courses = StudentEnrollment::with([
-            'course' => function ($query) {
-                $query->with(['coursePaths.lessons']);
-            }
-        ])->where('student_id', $student->id)->get();
-        
-        return view('student.enrolled-courses', compact('courses', 'student'));
-    }
+    public function getCourses(Request $request)
+{
+    $student = Auth::guard('student')->user();
+
+    // Fetch the student's groups and related courses
+    $courses = GroupStudent::with([
+        'group.course',
+        'group.schedules.lesson'
+    ])
+    ->where('student_id', $student->id)
+    ->get();
+
+    return view('student.enrolled-courses', compact('courses', 'student'));
+}
+
     public function mySummary(){
         $student = Auth::guard('student')->user();
         $courses = StudentEnrollment::where('student_id', $student->id)->count();

@@ -5,7 +5,50 @@
 <body>
     <main class="main_wrapper overflow-hidden">
         @include('include.dash-nav')
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
 
+        <style>
+            /* Select2 Dropdown Styling */
+            .select2-container .select2-selection--single {
+                height: 40px !important;
+                padding: 6px 12px;
+                font-size: 14px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                background: #ffffff;
+                color: #333;
+            }
+        
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                color: #333 !important;
+                font-weight: 500;
+            }
+        
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        
+            .select2-dropdown {
+                background: #fff !important;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            }
+        
+            .select2-results__option {
+                padding: 10px;
+                font-size: 14px;
+                color: #333;
+                background: #fff;
+                transition: all 0.3s ease-in-out;
+            }
+        
+            .select2-results__option:hover {
+                background: #007bff !important;
+                color: #fff !important;
+            }
+        </style>
         <div class="dashboardarea sp_bottom_100">
             <div class="container-fluid full__width__padding">
                 <div class="row">
@@ -83,7 +126,7 @@
                                         [$instructorName, $day, $time, $status, $courseName] = explode('|', $group);
                                         $firstAttendance = $attendances->first();
                                         $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
-                                        $allSessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4'];
+                                        $allSessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4','Session 5','Session 6','Session 7','Session 8'];
                                     @endphp
 
                                     <div class="dashboard__section__title mt-4">

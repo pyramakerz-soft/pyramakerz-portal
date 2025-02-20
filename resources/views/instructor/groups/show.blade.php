@@ -219,41 +219,102 @@
 
     <script>
         $(document).ready(function() {
-            $(".edit-date-btn").click(function() {
-                let scheduleId = $(this).data("schedule-id");
+    $(".edit-date-btn").click(function() {
+        let scheduleId = $(this).data("schedule-id");
+
+        Swal.fire({
+            title: "Edit Lesson Date",
+            html: `<input type="text" id="new_lesson_date" class="swal2-input" placeholder="Select Date">`,
+            didOpen: () => {
+                flatpickr("#new_lesson_date", {
+                    dateFormat: "Y-m-d"
+                });
+            },
+            showCancelButton: true,
+            confirmButtonText: "Save",
+            preConfirm: () => {
+                return {
+                    schedule_id: scheduleId,
+                    new_date: $("#new_lesson_date").val()
+                };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post("{{ route('lesson.update_date') }}", {
+                    _token: "{{ csrf_token() }}",
+                    schedule_id: result.value.schedule_id,
+                    new_date: result.value.new_date
+                }, function() {
+                    Swal.fire("Success", "Lesson date updated!", "success").then(
+                    () => location.reload());
+                }).fail(() => {
+                    Swal.fire("Error", "Failed to update!", "error");
+                });
+            }
+        });
+    });
+
+    $(".add-student-btn").click(function () {
+        $.ajax({
+            url: "{{ route('instructor.get_students') }}",
+            type: "GET",
+            success: function (response) {
+                let options = '';
+                response.students.forEach(student => {
+                    options += `<option value="${student.id}">${student.name} (${student.email})</option>`;
+                });
 
                 Swal.fire({
-                    title: "Edit Lesson Date",
-                    html: `<input type="text" id="new_lesson_date" class="swal2-input" placeholder="Select Date">`,
+                    title: "Add Student",
+                    html: `
+                        <select id="student_id" class="swal2-select" style="width:100%">
+                            ${options}
+                        </select>
+                    `,
                     didOpen: () => {
-                        flatpickr("#new_lesson_date", {
-                            dateFormat: "Y-m-d"
-                        });
+                        setTimeout(() => {
+                            $("#student_id").select2({
+                                width: "100%",
+                                dropdownParent: $(".swal2-popup")
+                            });
+                        }, 100); // Ensure Select2 is applied after the modal opens
                     },
                     showCancelButton: true,
-                    confirmButtonText: "Save",
+                    confirmButtonText: "Add",
                     preConfirm: () => {
                         return {
-                            schedule_id: scheduleId,
-                            new_date: $("#new_lesson_date").val()
+                            student_id: $("#student_id").val()
                         };
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $.post("{{ route('lesson.update_date') }}", {
-                            _token: "{{ csrf_token() }}",
-                            schedule_id: result.value.schedule_id,
-                            new_date: result.value.new_date
-                        }, function() {
-                            Swal.fire("Success", "Lesson date updated!", "success").then(
-                            () => location.reload());
-                        }).fail(() => {
-                            Swal.fire("Error", "Failed to update!", "error");
+                        $.ajax({
+                            url: "{{ route('instructor.add_student') }}",
+                            type: "POST",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                group_id: {{ $group->id }},
+                                student_id: result.value.student_id
+                            },
+                            success: function () {
+                                Swal.fire("Success", "Student added successfully!", "success").then(
+                                    () => location.reload()
+                                );
+                            },
+                            error: function (xhr) {
+                                Swal.fire("Error", xhr.responseText, "error");
+                            }
                         });
                     }
                 });
-            });
+            },
+            error: function () {
+                Swal.fire("Error", "Failed to fetch students!", "error");
+            }
         });
+    });
+});
+
     </script>
 </body>
 

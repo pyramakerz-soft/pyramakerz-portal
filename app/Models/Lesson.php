@@ -16,6 +16,10 @@ class Lesson extends Model
     {
         return $this->belongsTo(PathOfPath::class);
     }
+    public function materials()
+    {
+        return $this->hasMany(LessonMaterial::class);
+    }
 
 
 }
