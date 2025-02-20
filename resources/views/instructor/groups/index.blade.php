@@ -25,18 +25,20 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xl-8">
-                        <div class="breadcrumb__content__wraper" >
+                        <div class="breadcrumb__content__wraper">
                             <div class="breadcrumb__inner text-start">
                                 <ul>
                                     <li><a href="/">Home</a></li>
-                                    <li><a href="{{ route('instructor.course_details', $course->id) }}">{{ $course->name }}</a></li>
+                                    <li><a
+                                            href="{{ route('instructor.course_details', $course->id) }}">{{ $course->name }}</a>
+                                    </li>
                                     <li>Groups</li>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="course__details__top--2">
-                            <div class="course__details__heading" >
+                            <div class="course__details__heading">
                                 <h3>Groups for {{ $course->name }}</h3>
                             </div>
                         </div>
@@ -45,10 +47,14 @@
             </div>
 
             <div class="shape__icon__2">
-                <img loading="lazy" class="shape__icon__img shape__icon__img__1" src="{{ asset('img/herobanner/herobanner__1.png') }}" alt="photo">
-                <img loading="lazy" class="shape__icon__img shape__icon__img__2" src="{{ asset('img/herobanner/herobanner__2.png') }}" alt="photo">
-                <img loading="lazy" class="shape__icon__img shape__icon__img__3" src="{{ asset('img/herobanner/herobanner__3.png') }}" alt="photo">
-                <img loading="lazy" class="shape__icon__img shape__icon__img__4" src="{{ asset('img/herobanner/herobanner__5.png') }}" alt="photo">
+                <img loading="lazy" class="shape__icon__img shape__icon__img__1"
+                    src="{{ asset('img/herobanner/herobanner__1.png') }}" alt="photo">
+                <img loading="lazy" class="shape__icon__img shape__icon__img__2"
+                    src="{{ asset('img/herobanner/herobanner__2.png') }}" alt="photo">
+                <img loading="lazy" class="shape__icon__img shape__icon__img__3"
+                    src="{{ asset('img/herobanner/herobanner__3.png') }}" alt="photo">
+                <img loading="lazy" class="shape__icon__img shape__icon__img__4"
+                    src="{{ asset('img/herobanner/herobanner__5.png') }}" alt="photo">
             </div>
         </div>
         <!-- breadcrumbarea__section__end-->
@@ -58,7 +64,7 @@
                 <div class="row">
                     <div class="col-xl-8 col-lg-8">
                         <div class="blog__details__content__wraper">
-                            <div class="course__details__tab__wrapper" >
+                            <div class="course__details__tab__wrapper">
                                 <div class="experence__heading">
                                     <h5>List of Groups</h5>
                                 </div>
@@ -75,23 +81,26 @@
                                         </thead>
                                         <tbody>
                                             @if ($course->groups->count() > 0)
-    @foreach ($course->groups as $group)
-        <tr>
-            <td>{{ $loop->iteration }}</td>
-            <td>{{ $group->name }}</td>
-            <td>{{ isset($group->students) ? $group->students->count() : 0 }}</td>
-            <td>
-                <a href="{{ route('instructor.group_details', $group->id) }}" class="btn btn-sm btn-info">
-                    <i class="icofont-eye"></i> View
-                </a>
-            </td>
-        </tr>
-    @endforeach
-@else
-    <tr>
-        <td colspan="4" class="text-center">No groups found for this course.</td>
-    </tr>
-@endif
+                                                @foreach ($course->groups as $group)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $group->name }}</td>
+                                                        <td>{{ isset($group->students) ? $group->students->count() : 0 }}
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('instructor.group_details', $group->id) }}"
+                                                                class="btn btn-sm btn-black">
+                                                                <i class="icofont-eye"></i> View
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="4" class="text-center">No groups found for this
+                                                        course.</td>
+                                                </tr>
+                                            @endif
 
                                         </tbody>
                                     </table>
@@ -108,13 +117,16 @@
                     <!-- Sidebar -->
                     <div class="col-xl-4 col-lg-4">
                         <div class="course__details__sidebar--2">
-                            <div class="event__sidebar__wraper" >
-                                <div class="blogarae__img__2 course__details__img__2" >
-                                    <img loading="lazy" src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}" alt="Course">
+                            <div class="event__sidebar__wraper">
+                                <div class="blogarae__img__2 course__details__img__2">
+                                    <img loading="lazy"
+                                        src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
+                                        alt="Course">
                                 </div>
 
                                 <div class="course__summery__button">
-                                    <a class="default__button" href="{{ route('instructor.course_details', $course->id) }}">
+                                    <a class="default__button"
+                                        href="{{ route('instructor.course_details', $course->id) }}">
                                         <i class="icofont-arrow-left"></i> Back to Course
                                     </a>
                                 </div>
@@ -130,7 +142,8 @@
                                         <li>
                                             <div class="course__summery__item">
                                                 <span class="sb_label">Total Students:</span>
-                                                <span class="sb_content">{{ isset($course->students_count) ? $course->students_count : 0 }}</span>
+                                                <span
+                                                    class="sb_content">{{ isset($course->students_count) ? $course->students_count : 0 }}</span>
                                             </div>
                                         </li>
                                     </ul>
@@ -167,14 +180,14 @@
     <script src="{{ asset('js/main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
-            $(".add-group-btn").click(function () {
-    Swal.fire({
-        title: "Create New Group",
-        html: `
+        $(document).ready(function() {
+            $(".add-group-btn").click(function() {
+                Swal.fire({
+                    title: "Create New Group",
+                    html: `
             <div style="width:600px; text-align: left; display: flex; flex-direction: column; gap: 10px;">
                 <label style="font-weight: 600;">Group Name</label>
                 <input type="text" id="group_name" class="swal2-input" placeholder="Enter group name">
@@ -194,96 +207,100 @@
                 <input type="time" id="end_time" class="swal2-input">
             </div>
         `,
-        didOpen: () => {
-            flatpickr("#start_date", { dateFormat: "Y-m-d" });
-        },
-        showCancelButton: true,
-        confirmButtonText: "Save",
-        preConfirm: () => {
-            let groupName = $("#group_name").val();
-            let weeklySessions = $("#weekly_sessions").val();
-            let startDate = $("#start_date").val();
-            let startTime = $("#start_time").val();
-            let endTime = $("#end_time").val();
+                    didOpen: () => {
+                        flatpickr("#start_date", {
+                            dateFormat: "Y-m-d"
+                        });
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: "Save",
+                    preConfirm: () => {
+                        let groupName = $("#group_name").val();
+                        let weeklySessions = $("#weekly_sessions").val();
+                        let startDate = $("#start_date").val();
+                        let startTime = $("#start_time").val();
+                        let endTime = $("#end_time").val();
 
-            let selectedDays = [];
-            $(".session_day").each(function () {
-                selectedDays.push($(this).val());
-            });
+                        let selectedDays = [];
+                        $(".session_day").each(function() {
+                            selectedDays.push($(this).val());
+                        });
 
-            if (!groupName || !weeklySessions || !startDate || !startTime || !endTime || selectedDays.length !== parseInt(weeklySessions)) {
-                Swal.showValidationMessage("All fields are required!");
-                return false;
-            }
+                        if (!groupName || !weeklySessions || !startDate || !startTime || !
+                            endTime || selectedDays.length !== parseInt(weeklySessions)) {
+                            Swal.showValidationMessage("All fields are required!");
+                            return false;
+                        }
 
-            return {
-                name: groupName,
-                weekly_sessions: weeklySessions,
-                start_date: startDate,
-                start_time: startTime,
-                end_time: endTime,
-                session_days: selectedDays,
-                course_id: {{ $course->id }}
-            };
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: "{{ route('instructor.create_group') }}",
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    name: result.value.name,
-                    weekly_sessions: result.value.weekly_sessions,
-                    start_date: result.value.start_date,
-                    start_time: result.value.start_time,
-                    end_time: result.value.end_time,
-                    session_days: result.value.session_days,
-                    course_id: result.value.course_id
-                },
-                success: function () {
-                    Swal.fire("Success", "Group created successfully!", "success");
-                    setTimeout(() => {
-                        window.location.href = window.location.href;
-                    }, 1000);
-                },
-                error: function (xhr) {
-                    let errorMessage = "Something went wrong!";
-                    if (xhr.responseJSON && xhr.responseJSON.message) {
-                        errorMessage = xhr.responseJSON.message;
+                        return {
+                            name: groupName,
+                            weekly_sessions: weeklySessions,
+                            start_date: startDate,
+                            start_time: startTime,
+                            end_time: endTime,
+                            session_days: selectedDays,
+                            course_id: {{ $course->id }}
+                        };
                     }
-                    Swal.fire("Error", errorMessage, "error");
-                }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('instructor.create_group') }}",
+                            type: "POST",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                name: result.value.name,
+                                weekly_sessions: result.value.weekly_sessions,
+                                start_date: result.value.start_date,
+                                start_time: result.value.start_time,
+                                end_time: result.value.end_time,
+                                session_days: result.value.session_days,
+                                course_id: result.value.course_id
+                            },
+                            success: function() {
+                                Swal.fire("Success", "Group created successfully!",
+                                    "success");
+                                setTimeout(() => {
+                                    window.location.href = window.location.href;
+                                }, 1000);
+                            },
+                            error: function(xhr) {
+                                let errorMessage = "Something went wrong!";
+                                if (xhr.responseJSON && xhr.responseJSON.message) {
+                                    errorMessage = xhr.responseJSON.message;
+                                }
+                                Swal.fire("Error", errorMessage, "error");
+                            }
+                        });
+                    }
+                });
             });
-        }
-    });
-});
 
 
 
 
         });
         // Function to generate session day dropdowns dynamically
-function generateSessionDays() {
-    let container = $("#session_days_container");
-    container.empty();
-    let numSessions = parseInt($("#weekly_sessions").val());
+        function generateSessionDays() {
+            let container = $("#session_days_container");
+            container.empty();
+            let numSessions = parseInt($("#weekly_sessions").val());
 
-    if (numSessions > 0 && numSessions <= 7) {
-        let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        for (let i = 0; i < numSessions; i++) {
-            let selectHTML = `
+            if (numSessions > 0 && numSessions <= 7) {
+                let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                for (let i = 0; i < numSessions; i++) {
+                    let selectHTML = `
                 <label style="font-weight: 600;">Session ${i + 1} Day</label>
                 <select class="swal2-input session_day" style="border-radius: 8px;">
                     <option value="">Select Day</option>
                     ${daysOfWeek.map(day => `<option value="${day}">${day}</option>`).join('')}
                 </select>
             `;
-            container.append(selectHTML);
+                    container.append(selectHTML);
+                }
+            }
         }
-    }
-}
-
     </script>
 </body>
+
 </html>

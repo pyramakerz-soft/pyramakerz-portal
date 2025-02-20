@@ -14380,3 +14380,21 @@ Dark Mode
         padding-right: 0;
     }
 }
+
+.headtb {
+    background-color: var(--primaryColor);
+}
+
+.btn-black {
+    background-color: var(--blackColor);
+    border: 1px solid var(--blackColor);
+    color: var(--whiteColor);
+    padding: 5px;
+    align-items: center;
+    margin: auto;
+}
+.btn-black:hover {
+    background-color: var(--whiteColor);
+    border: 1px solid var(--blackColor);
+    color: var(--blackColor);
+}

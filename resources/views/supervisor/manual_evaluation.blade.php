@@ -77,14 +77,15 @@
                                         <label class="form-label">Trainer Name:</label>
                                         <select class="form-control select2" id="trainer_id" name="trainer_id">
                                             <option value="">Select Trainer</option>
-                                            @foreach($trainers as $trainer)
+                                            @foreach ($trainers as $trainer)
                                                 <option value="{{ $trainer->id }}">{{ $trainer->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Date:</label>
-                                        <input type="text" class="form-control datepicker" id="date" name="date" placeholder="Select Date">
+                                        <input type="text" class="form-control datepicker" id="date"
+                                            name="date" placeholder="Select Date">
                                     </div>
                                 </div>
 
@@ -93,7 +94,7 @@
                                         <label class="form-label">Program:</label>
                                         <select class="form-control select2" id="program" name="program">
                                             <option value="">Select Program</option>
-                                            @foreach($programs as $program)
+                                            @foreach ($programs as $program)
                                                 <option value="{{ $program->name }}">{{ $program->name }}</option>
                                             @endforeach
                                         </select>
@@ -115,7 +116,7 @@
                                 <div class="mt-4">
                                     <h5>📊 Weekly Evaluation</h5>
                                     <table class="table table-bordered">
-                                        <thead class="bg-primary text-white">
+                                        <thead class="  headtb text-white">
                                             <tr>
                                                 <th>Evaluation Criteria</th>
                                                 <th>Score / 10</th>
@@ -125,17 +126,25 @@
                                         <tbody>
                                             @php
                                                 $criteria = [
-                                                    'Setup', 'Preparation', 'Objectives', 'Delivery Capacity',
-                                                    'Controlling the Session', 'Communication with Students',
-                                                    'Attendance and Evaluation Sheets', 'Personal Impact',
-                                                    'Training Techniques'
+                                                    'Setup',
+                                                    'Preparation',
+                                                    'Objectives',
+                                                    'Delivery Capacity',
+                                                    'Controlling the Session',
+                                                    'Communication with Students',
+                                                    'Attendance and Evaluation Sheets',
+                                                    'Personal Impact',
+                                                    'Training Techniques',
                                                 ];
                                             @endphp
-                                            @foreach($criteria as $criterion)
+                                            @foreach ($criteria as $criterion)
                                                 <tr>
                                                     <td>{{ $criterion }}</td>
-                                                    <td><input type="number" class="form-control score-input" name="scores[]" min="0" max="10" value="10"></td>
-                                                    <td><input type="text" class="form-control" name="comments[]" placeholder="Add Comment"></td>
+                                                    <td><input type="number" class="form-control score-input"
+                                                            name="scores[]" min="0" max="10"
+                                                            value="10"></td>
+                                                    <td><input type="text" class="form-control" name="comments[]"
+                                                            placeholder="Add Comment"></td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -146,20 +155,22 @@
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <label class="form-label">Evaluation Percentage %:</label>
-                                        <input type="text" class="form-control" id="evaluation_percentage" name="evaluation_percentage" readonly>
+                                        <input type="text" class="form-control" id="evaluation_percentage"
+                                            name="evaluation_percentage" readonly>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Supervisor:</label>
                                         <select class="form-control" disabled>
                                             <option>{{ Auth::guard('admin')->user()->name }}</option>
                                         </select>
-                                        <input type="hidden" name="supervisor" value="{{ Auth::guard('admin')->user()->name }}">
+                                        <input type="hidden" name="supervisor"
+                                            value="{{ Auth::guard('admin')->user()->name }}">
                                     </div>
                                 </div>
 
                                 <!-- Submit Button -->
                                 <div class="mt-4">
-                                    <button type="submit" class="btn btn-primary w-100">Submit Evaluation</button>
+                                    <button type="submit" class="btn btn-black w-100">Submit Evaluation</button>
                                 </div>
                             </form>
 
@@ -185,9 +196,9 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Initialize Select2
-        $(".select2").each(function () {
+        $(".select2").each(function() {
             $(this).select2({
                 dropdownParent: $(this).parent(),
                 width: "100%",
@@ -196,14 +207,17 @@
         });
 
         // Initialize Date Picker
-        $(".datepicker").flatpickr({ dateFormat: "Y-m-d", allowInput: true });
+        $(".datepicker").flatpickr({
+            dateFormat: "Y-m-d",
+            allowInput: true
+        });
 
         // Calculate Evaluation Percentage
-        $(".score-input").on("input", function () {
+        $(".score-input").on("input", function() {
             let totalScore = 0;
             let numCriteria = $(".score-input").length;
 
-            $(".score-input").each(function () {
+            $(".score-input").each(function() {
                 totalScore += parseFloat($(this).val()) || 0;
             });
 
@@ -212,13 +226,14 @@
         });
 
         // Submit Form
-        $("#manualEvaluationForm").submit(function (e) {
+        $("#manualEvaluationForm").submit(function(e) {
             e.preventDefault();
 
             let formData = $(this).serialize();
-            $.post("{{ route('admin.evaluations.store') }}", formData, function (response) {
-                Swal.fire("Success", "Evaluation Submitted!", "success").then(() => location.reload());
-            }).fail(function () {
+            $.post("{{ route('admin.evaluations.store') }}", formData, function(response) {
+                Swal.fire("Success", "Evaluation Submitted!", "success").then(() => location
+                    .reload());
+            }).fail(function() {
                 Swal.fire("Error", "Failed to submit evaluation!", "error");
             });
         });
@@ -235,28 +250,28 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Initialize Select2 with improved styling
-        $(".select2").each(function () {
+        $(".select2").each(function() {
             $(this).select2({
                 dropdownParent: $(this).parent(),
-                width: "100%",  // Ensures dropdown fits correctly
+                width: "100%", // Ensures dropdown fits correctly
                 theme: "classic" // Select2 styling fix
             });
         });
 
         // Initialize Flatpickr for date selection
-        $(".datepicker").flatpickr({ 
+        $(".datepicker").flatpickr({
             dateFormat: "Y-m-d",
             allowInput: true // Allows users to manually enter the date
         });
 
         // Calculate Evaluation Percentage Dynamically
-        $(".score-input").on("input", function () {
+        $(".score-input").on("input", function() {
             let totalScore = 0;
             let numCriteria = $(".score-input").length;
 
-            $(".score-input").each(function () {
+            $(".score-input").each(function() {
                 let value = parseFloat($(this).val()) || 0; // Default to 0 if empty
                 totalScore += value;
             });
@@ -266,16 +281,16 @@
         });
 
         // Form Submission with Validation
-        $("#manualEvaluationForm").submit(function (e) {
+        $("#manualEvaluationForm").submit(function(e) {
             e.preventDefault();
 
             let scores = [];
-            $(".score-input").each(function () {
+            $(".score-input").each(function() {
                 scores.push($(this).val() || 0);
             });
 
             let comments = [];
-            $("input[name='comments[]']").each(function () {
+            $("input[name='comments[]']").each(function() {
                 comments.push($(this).val().trim());
             });
 
@@ -290,10 +305,11 @@
             };
 
             $.post("{{ route('admin.evaluations.store') }}", formData)
-                .done(function () {
-                    Swal.fire("Success", "Evaluation Submitted!", "success").then(() => location.reload());
+                .done(function() {
+                    Swal.fire("Success", "Evaluation Submitted!", "success").then(() => location
+                        .reload());
                 })
-                .fail(function (xhr) {
+                .fail(function(xhr) {
                     let errorMessage = xhr.responseJSON?.message || "Failed to submit evaluation!";
                     Swal.fire("Error", errorMessage, "error");
                 });
@@ -302,4 +318,5 @@
 </script>
 
 </body>
+
 </html>

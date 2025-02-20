@@ -22,7 +22,9 @@
                             <div class="breadcrumb__inner text-start">
                                 <ul>
                                     <li><a href="/">Home</a></li>
-                                    <li><a href="{{ route('instructor.course_details', $course->id) }}">{{ $course->name }}</a></li>
+                                    <li><a
+                                            href="{{ route('instructor.course_details', $course->id) }}">{{ $course->name }}</a>
+                                    </li>
                                     <li>Create Group</li>
                                 </ul>
                             </div>
@@ -51,7 +53,7 @@
                             <form method="POST" action="{{ route('instructor.create_group') }}">
                                 @csrf
                                 <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                
+
                                 <div class="form-group">
                                     <label for="name">Group Name:</label>
                                     <input type="text" name="name" id="name" class="form-control" required>
@@ -62,7 +64,7 @@
                                     <textarea name="description" id="description" class="form-control"></textarea>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary mt-3">
+                                <button type="submit" class="btn btn-black mt-3">
                                     <i class="icofont-plus"></i> Create Group
                                 </button>
                             </form>
@@ -89,4 +91,5 @@
         @include('include.footer')
     </main>
 </body>
+
 </html>

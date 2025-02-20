@@ -80,7 +80,9 @@
                             <div class="breadcrumb__inner text-start">
                                 <ul>
                                     <li><a href="/">Home</a></li>
-                                    <li><a href="{{ route('instructor.course_details', $group->course->id) }}">{{ $group->course->name }}</a></li>
+                                    <li><a
+                                            href="{{ route('instructor.course_details', $group->course->id) }}">{{ $group->course->name }}</a>
+                                    </li>
                                     <li>{{ $group->name }}</li>
                                 </ul>
                             </div>
@@ -109,7 +111,7 @@
                             </div>
 
                             <table class="table table-bordered">
-                                <thead class="bg-primary text-white">
+                                <thead class="  headtb text-white">
                                     <tr>
                                         <th>#</th>
                                         <th>Lesson Name</th>
@@ -119,7 +121,7 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                
+
                                 <tbody>
                                     @forelse ($group->schedules->sortBy('date') as $schedule)
                                         <tr>
@@ -127,21 +129,23 @@
                                             <td>{{ $schedule->lesson->title ?? 'N/A' }}</td>
                                             <td>{{ \Carbon\Carbon::parse($schedule->date)->format('l') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($schedule->date)->format('Y-m-d') }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($schedule->start_time)->format('h:i A') }} - 
+                                            <td>{{ \Carbon\Carbon::parse($schedule->start_time)->format('h:i A') }} -
                                                 {{ \Carbon\Carbon::parse($schedule->end_time)->format('h:i A') }}</td>
 
                                             <td>
-                                                @if(Auth::guard('admin')->user()->can('groupschedule-edit'))
-    <button class="edit-date-btn" data-schedule-id="{{ $schedule->id }}">
-        <i class="icofont-edit"></i> Edit Date
-    </button>
-@endif
+                                                @if (Auth::guard('admin')->user()->can('groupschedule-edit'))
+                                                    <button class="edit-date-btn"
+                                                        data-schedule-id="{{ $schedule->id }}">
+                                                        <i class="icofont-edit"></i> Edit Date
+                                                    </button>
+                                                @endif
 
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center">No lessons scheduled for this group.</td>
+                                            <td colspan="6" class="text-center">No lessons scheduled for this group.
+                                            </td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -176,21 +180,23 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="2" class="text-center">No students assigned to this group.</td>
+                                                <td colspan="2" class="text-center">No students assigned to this
+                                                    group.</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
 
-                                @if(Auth::guard('admin')->user()->can('groupstudent-create'))
-    <button class="btn btn-outline-primary mt-3 add-student-btn">
-        <i class="icofont-plus"></i> Add Student
-    </button>
-@endif
+                                @if (Auth::guard('admin')->user()->can('groupstudent-create'))
+                                    <button class="btn btn-outline-primary mt-3 add-student-btn">
+                                        <i class="icofont-plus"></i> Add Student
+                                    </button>
+                                @endif
 
 
                                 <div class="course__summery__button mt-3">
-                                    <a class="default__button" href="{{ route('instructor.groups', $group->course->id) }}">
+                                    <a class="default__button"
+                                        href="{{ route('instructor.groups', $group->course->id) }}">
                                         <i class="icofont-arrow-left"></i> Back to Groups
                                     </a>
                                 </div>
@@ -212,15 +218,17 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
-        $(document).ready(function () {
-            $(".edit-date-btn").click(function () {
+        $(document).ready(function() {
+            $(".edit-date-btn").click(function() {
                 let scheduleId = $(this).data("schedule-id");
 
                 Swal.fire({
                     title: "Edit Lesson Date",
                     html: `<input type="text" id="new_lesson_date" class="swal2-input" placeholder="Select Date">`,
                     didOpen: () => {
-                        flatpickr("#new_lesson_date", { dateFormat: "Y-m-d" });
+                        flatpickr("#new_lesson_date", {
+                            dateFormat: "Y-m-d"
+                        });
                     },
                     showCancelButton: true,
                     confirmButtonText: "Save",
@@ -236,8 +244,9 @@
                             _token: "{{ csrf_token() }}",
                             schedule_id: result.value.schedule_id,
                             new_date: result.value.new_date
-                        }, function () {
-                            Swal.fire("Success", "Lesson date updated!", "success").then(() => location.reload());
+                        }, function() {
+                            Swal.fire("Success", "Lesson date updated!", "success").then(
+                            () => location.reload());
                         }).fail(() => {
                             Swal.fire("Error", "Failed to update!", "error");
                         });
@@ -247,4 +256,5 @@
         });
     </script>
 </body>
+
 </html>

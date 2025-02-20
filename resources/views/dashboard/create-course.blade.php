@@ -434,7 +434,7 @@
 
                                                 <!-- Submit Button -->
                                                 <div class="mt-4">
-                                                    <button type="submit" class="btn btn-primary">Add Lesson</button>
+                                                    <button type="submit" class="btn btn-black">Add Lesson</button>
                                                 </div>
                                             </form>
                                         </div>
