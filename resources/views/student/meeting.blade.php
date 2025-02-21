@@ -5,116 +5,184 @@
     @include('include.head')
 
     <style>
-      /* Main Layout */
-      .zoom-container {
-            display: flex;
-            flex-direction: row;
-            gap: 20px;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 30px;
-            max-width: 1200px;
-            margin: auto;
-        }
+       /* Main Layout */
+.zoom-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 30px;
+    max-width: 1200px;
+    margin: auto;
+}
 
-        /* Zoom Meeting Frame */
-        .zoom-frame {
-            flex: 2;
-            height: 500px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            background: #1e1e2f;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+/* Zoom Meeting Frame */
+.zoom-frame {
+    flex: 2;
+    height: 500px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background: transparent;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        #zoomContainer {
-            width: 100%;
-            height: 500px;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            background: transparent !important;
-            z-index: 9999 !important;
-        }
+#zoomContainer {
+    width: 100%;
+    height: 500px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    background: transparent;
+}
 
-        /* Fix Zoom Black Box */
-        #zmmtg-root {
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            background-color: transparent !important;
-            z-index: 9999 !important;
-            display: block !important;
-        }
+/* Sidebar Styling */
+.sidebar {
+    flex: 1;
+    background: #282c3f;
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
-        /* Sidebar Styling */
-        .sidebar {
-            flex: 1;
-            background: #282c3f;
-            padding: 20px;
-            border-radius: 12px;
-            color: white;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+/* Session Details Box */
+.session-details {
+    background: #2d3248;
+    padding: 15px;
+    border-radius: 12px;
+    color: #f8d210;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+}
 
-        /* Session Details Box */
-        .session-details {
-            background: #2d3248;
-            padding: 15px;
-            border-radius: 12px;
-            color: #f8d210;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            font-size: 16px;
-        }
+.session-details h5 {
+    font-size: 22px;
+    color: #f8d210;
+    margin-bottom: 10px;
+}
 
-        /* Student List */
-        .student-list {
-            list-style: none;
-            padding: 0;
-            max-height: 250px;
-            overflow-y: auto;
-            background: #2d3248;
-            border-radius: 12px;
-            padding: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+.session-details p {
+    font-size: 16px;
+    color: #f0f0f0;
+    margin: 6px 0;
+}
 
-        .present {
-            color: #28a745;
-            font-weight: bold;
-        }
+/* Student List */
+.student-list {
+    list-style: none;
+    padding: 0;
+    max-height: 250px;
+    overflow-y: auto;
+    background: #2d3248;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-        .absent {
-            color: #dc3545;
-            font-weight: bold;
-        }
+.student-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+}
 
-        /* Upload Homework */
-        .upload-homework {
-            background: #f8d210;
-            padding: 6px 12px;
-            border-radius: 6px;
-            color: #333;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.student-list li:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
 
-        /* Hide empty black spaces */
-        html, body {
-            overflow-x: hidden;
-            margin: 0;
-            padding: 0;
-            background: #1e1e2f;
-        }
+.present {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.absent {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Upload Homework Button */
+.upload-homework {
+    background: #f8d210;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.upload-homework:hover {
+    background: #ffcc00;
+}
+
+.submitted-homework {
+    background: #28a745;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* Homework Modal */
+#homeworkModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    z-index: 9999;
+}
+
+#homeworkModal input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+#homeworkModal button {
+    background: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#homeworkModal button:hover {
+    background: #0056b3;
+}
+
+/* Overlay Effect */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+}
 
 
 
@@ -140,8 +208,7 @@
         <div class="zoom-container">
             <!-- Zoom Meeting Frame -->
             <div class="zoom-frame">
-                {{-- <div id="zoomContainer" style="width: 100%; height: 500px;"></div> --}}
-
+                <div id="zoomContainer" style="width: 100%; height: 500px;"></div>
             </div>
 
             <!-- Sidebar with Session Details -->
@@ -173,10 +240,10 @@
                             ->where('path_of_path_id', $meeting->lesson->path_of_path_id)
                             ->first();
                     
-                        // Get the `sessions` field
+                        // Get the sessions field
                         $rawSessions = $attendance->sessions ?? '';
                     
-                        // Ensure `sessions` is in the correct format
+                        // Ensure sessions is in the correct format
                         if (is_string($rawSessions)) {
                             // Clean any extra characters before decoding
                             $cleanJson = trim(str_replace(["\r", "\n"], '', $rawSessions));
@@ -189,7 +256,7 @@
                             $sessions = [];
                         }
                     
-                        // Ensure `$sessions` is an array
+                        // Ensure $sessions is an array
                         $sessions = is_array($sessions) ? $sessions : [];
                     
                         // Determine if the student was present
@@ -249,31 +316,32 @@
             }
 
             ZoomMtg.init({
-                leaveUrl: "{{ route('home') }}",
-                isSupportAV: true,
-                disablePreview: false,
-                success: function () {
-                    document.getElementById("zmmtg-root").style.display = "none"; // Hide extra black space
-                    document.getElementById("zoomContainer").style.display = "block"; // Show meeting properly
-                    
-                    ZoomMtg.join({
-                        meetingNumber: "{{ $meeting['id'] }}",
-                        userName: "{{ auth()->user()->name }}",
-                        signature: data.signature,
-                        apiKey: "{{ env('ZOOM_CLIENT_ID') }}",
-                        passWord: "{{ $meeting['password'] }}",
-                        success: function () {
-                            console.log("Joined Zoom Meeting Successfully!");
-                        },
-                        error: function (err) {
-                            console.error("Zoom Join Error:", err);
-                        }
-                    });
-                },
-                error: function (err) {
-                    console.error("Zoom Init Error:", err);
-                }
-            });
+    leaveUrl: "{{ route('home') }}",
+    isSupportAV: true,
+    disablePreview: false,
+    success: function () {
+        console.log("Zoom SDK initialized successfully!");
+        document.getElementById("zmmtg-root").style.display = "none"; // Hide extra black space
+        document.getElementById("zoomContainer").style.display = "block"; // Show meeting properly
+        
+        ZoomMtg.join({
+            meetingNumber: "{{ $meeting['id'] }}",
+            userName: "{{ auth()->user()->name }}",
+            signature: data.signature,
+            apiKey: "{{ env('ZOOM_CLIENT_ID') }}",
+            passWord: "{{ $meeting['password'] }}",
+            success: function () {
+                console.log("Joined Zoom Meeting Successfully!");
+            },
+            error: function (err) {
+                console.error("Zoom Join Error:", err);
+            }
+        });
+    },
+    error: function (err) {
+        console.error("Zoom Init Error:", err);
+    }
+});
         })
         .catch(error => console.error("Error fetching signature:", error));
 });
@@ -337,9 +405,9 @@
                 }
 
                 data.students.forEach(student => {
-                    console.log(`Updating student ${student.id}: Present -> ${student.is_present}`);
+                    console.log(Updating student ${student.id}: Present -> ${student.is_present});
                     
-                    let statusElement = document.querySelector(`#student-${student.id} .attendance-status`);
+                    let statusElement = document.querySelector(#student-${student.id} .attendance-status);
 
                     if (statusElement) {
                         statusElement.classList.remove('present', 'absent');
