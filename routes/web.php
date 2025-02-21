@@ -10,6 +10,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\Admin\InstructorController as AdminInstructorController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
@@ -19,6 +20,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Services\ZoomService;
+use Firebase\JWT\JWT;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 Auth::routes();
 
@@ -102,8 +107,65 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/test/{id}/results', [StudentController::class, 'viewResults'])->name('test-results');
     Route::get('/student/courses', [StudentController::class, 'getCourses'])->name('student.courses');
 Route::get('/course_lessons/{id}',[StudentController::class, 'showCourseLessons'])->name('course_lessons');
+Route::get('/meetings/{id}', [MeetingController::class, 'show'])->name('meetings.show');
+Route::post('/upload-homework', [MeetingController::class, 'uploadHomework'])->name('homework.upload');
+Route::get('/fetch-attendance/{meeting}', [MeetingController::class, 'fetchAttendance'])->name('attendance.fetch');
+Route::get('/zoom-signature', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
+Route::get('/zoom-signature/{meetingNumber}/{role}', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
+
 
 });
+
+
+Route::get('/zoom/generate-signature/{meeting_id}', function ($meetingId) {
+    try {
+        $clientId = env('ZOOM_CLIENT_ID');
+        $clientSecret = env('ZOOM_CLIENT_SECRET');
+        $accountId = env('ZOOM_ACCOUNT_ID');
+
+        if (!$clientId || !$clientSecret) {
+            Log::error('Zoom credentials are missing.');
+            return response()->json(['error' => 'Zoom credentials missing'], 500);
+        }
+
+        // Request OAuth Token using the correct grant type
+        $response = Http::asForm()->post('https://zoom.us/oauth/token', [
+            'grant_type' => 'client_credentials', // ✅ Corrected Grant Type
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+        ]);
+
+        if ($response->failed()) {
+            Log::error('Failed to obtain Zoom access token.', ['response' => $response->body()]);
+            return response()->json([
+                'error' => 'Failed to obtain Zoom access token',
+                'details' => $response->json()
+            ], 500);
+        }
+
+        $accessToken = $response->json()['access_token'];
+
+        // Generate JWT Signature for Zoom SDK
+        $currentTime = time();
+        $payload = [
+            'sdkKey' => $clientId,
+            'mn' => $meetingId,
+            'role' => 0,
+            'iat' => $currentTime,
+            'exp' => $currentTime + 3600,
+            'tokenExp' => $currentTime + 3600
+        ];
+
+        $signature = JWT::encode($payload, $clientSecret, 'HS256');
+
+        return response()->json(['signature' => $signature]);
+
+    } catch (\Exception $e) {
+        Log::error('Error generating Zoom signature:', ['exception' => $e->getMessage()]);
+        return response()->json(['error' => 'Exception occurred', 'details' => $e->getMessage()], 500);
+    }
+})->name('zoom.generate_signature');
+
 /*
 |--------------------------------------------------------------------------
 | Supervisor Routes

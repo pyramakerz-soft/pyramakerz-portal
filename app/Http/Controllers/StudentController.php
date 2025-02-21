@@ -35,17 +35,22 @@ class StudentController extends Controller
     $student = Auth::guard('student')->user();
 
     // Get the group associated with the student for this course
-    $group = GroupStudent::where('student_id', $student->id)
+    $groupStudent = GroupStudent::where('student_id', $student->id)
         ->whereHas('group', function ($query) use ($courseId) {
             $query->where('course_id', $courseId);
         })
         ->with(['group.schedules.lesson.materials'])
         ->first();
-    if (!$group) {
+
+    if (!$groupStudent) {
         return redirect()->route('student.courses')->with('error', 'You are not enrolled in this course.');
     }
+
+    // Get the student's group
+    $group = $groupStudent->group;
+
     // Fetch lessons from the schedule ordered by date
-    $lessons = $group->group->schedules->sortBy('date')->map(function ($schedule) {
+    $lessons = $group->schedules->sortBy('date')->map(function ($schedule) use ($group) {
         return [
             'id' => $schedule->lesson->id,
             'title' => $schedule->lesson->title,
@@ -53,11 +58,14 @@ class StudentController extends Controller
             'start_time' => \Carbon\Carbon::parse($schedule->start_time)->format('h:i A'),
             'end_time' => \Carbon\Carbon::parse($schedule->end_time)->format('h:i A'),
             'materials' => $schedule->lesson->materials,
+            'group_id' => $group->id,  // ✅ Include group_id to fix the error
+            'schedule_id' => $schedule->id, // ✅ Include schedule_id in case it's needed for meetings
         ];
     });
 
     return view('student.course-lessons', compact('group', 'lessons', 'student'));
 }
+
 
     public function show($id)
 {

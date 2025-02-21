@@ -7,7 +7,7 @@
     <style>
         /* Lesson Cards Styling */
         .lesson-card {
-            background: #007bff !important; /* Default Blue */
+            background: #007bff !important;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 10px;
@@ -82,8 +82,6 @@
 
 <body class="body__wrapper">
 
-    {{-- @include('include.preload') --}}
-
     <main class="main_wrapper overflow-hidden">
         @include('include.nav')
 
@@ -100,31 +98,36 @@
                                     $startDateTime = \Carbon\Carbon::parse($lesson['date'] . ' ' . $lesson['start_time'])->timestamp * 1000;
                                     $endDateTime = \Carbon\Carbon::parse($lesson['date'] . ' ' . $lesson['end_time'])->timestamp * 1000;
                                     $videoUrl = $lesson['materials']->where('type', 'video')->first()->url ?? null;
+                                    $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
+                                        ->where('group_id', $lesson['group_id'])
+                                        ->where('group_schedule_id', $lesson['schedule_id'])
+                                        ->where('status', 'live')
+                                        ->first();
                                 @endphp
 
                                 <div class="lesson-card" id="lesson-card-{{ $index }}" 
-                                    onclick="selectLesson({{ $index }}, '{{ $lesson['title'] }}', '{{ $videoUrl }}', {{ $startDateTime }}, {{ $endDateTime }})">
+                                    onclick="selectLesson({{ $index }}, '{{ $lesson['title'] }}', '{{ $videoUrl }}', {{ $startDateTime }}, {{ $endDateTime }}, '{{ $meeting ? route('meetings.show', $meeting->id) : '' }}')">
                                     <h5>Lesson #{{ $index + 1 }} - {{ $lesson['title'] }}</h5>
                                     <p><strong>📅 Date:</strong> {{ $lesson['date'] }}</p>
                                     <p><strong>⏰ Time:</strong> {{ $lesson['start_time'] }} - {{ $lesson['end_time'] }}</p>
                                     @foreach ($lesson['materials'] as $material)
-                                    <div class="scc__wrap">
-                                        <div class="scc__info">
-                                            @if ($material->type == 'video')
-                                                <i class="icofont-video-alt"></i>
-                                            @elseif ($material->type == 'quiz')
-                                                <i class="icofont-audio"></i>
-                                            @elseif ($material->type == 'assignment')
-                                                <i class="icofont-file-text"></i>
-                                            @endif
-                                            <h5>
-                                                <a href="{{ $material->url }}" target="_blank">
-                                                    <span>{{ $material->title }}</span>
-                                                </a>
-                                            </h5>
+                                        <div class="scc__wrap">
+                                            <div class="scc__info">
+                                                @if ($material->type == 'video')
+                                                    <i class="icofont-video-alt"></i>
+                                                @elseif ($material->type == 'quiz')
+                                                    <i class="icofont-audio"></i>
+                                                @elseif ($material->type == 'assignment')
+                                                    <i class="icofont-file-text"></i>
+                                                @endif
+                                                <h5>
+                                                    <a href="{{ $material->url }}" target="_blank">
+                                                        <span>{{ $material->title }}</span>
+                                                    </a>
+                                                </h5>
+                                            </div>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
                                 </div>
                             @endforeach
                         </div>
@@ -164,9 +167,11 @@
     <script>
         let activeLessonIndex = 0;
         let countdownInterval;
+        let meetingUrl = '';
 
-        function selectLesson(index, title, videoUrl, startTime, endTime) {
+        function selectLesson(index, title, videoUrl, startTime, endTime, meetingLink) {
             activeLessonIndex = index;
+            meetingUrl = meetingLink;
 
             // Update lesson title
             document.getElementById('lesson-title').innerText = title;
@@ -195,27 +200,15 @@
                 let diff = startTime - now;
 
                 if (diff > 0) {
-    let minutes = Math.floor(diff / 60000);
-    let seconds = Math.floor((diff % 60000) / 1000);
-    timerElement.innerText = `Lesson starts in: ${minutes}m ${seconds}s`;
-} else if (now >= startTime - 300000 && now < startTime) {
-    timerElement.classList.add('status-start');
-    timerElement.innerHTML = `<a href="/lesson/start/${activeLessonIndex}" class="btn btn-success">Start Session</a>`;
-} else if (now > startTime && now < endTime) {
-    let lateBy = now - startTime;
-    let startSessionBtn = `<a href="/lesson/start/${activeLessonIndex}" class="btn btn-success">Start Session</a>`;
-
-    if (lateBy < 120000) {
-        timerElement.classList.add('status-late');
-        timerElement.innerHTML = `5 Minutes Late ${startSessionBtn}`;
-    } else if (lateBy < 600000) {
-        timerElement.classList.add('status-late');
-        timerElement.innerHTML = `5-10 Minutes Late ${startSessionBtn}`;
-    } else {
-        timerElement.classList.add('status-very-late');
-        timerElement.innerHTML = `More than 10 Minutes Late ${startSessionBtn}`;
-    }
-
+                    let minutes = Math.floor(diff / 60000);
+                    let seconds = Math.floor((diff % 60000) / 1000);
+                    timerElement.innerText = `Lesson starts in: ${minutes}m ${seconds}s`;
+                } else if (now >= startTime - 300000 && now < startTime) {
+                    timerElement.classList.add('status-start');
+                    timerElement.innerHTML = `<a href="${meetingUrl}" class="btn btn-success">Start Session</a>`;
+                } else if (now > startTime && now < endTime) {
+                    timerElement.classList.add('status-late');
+                    timerElement.innerHTML = `<a href="${meetingUrl}" class="btn btn-warning">Join Session Late</a>`;
                 } else {
                     timerElement.classList.add('status-very-late');
                     timerElement.innerText = "Session Ended";
@@ -226,12 +219,6 @@
             refreshTimer();
             countdownInterval = setInterval(refreshTimer, 1000);
         }
-
-        // Initialize first lesson
-        selectLesson(0, "{{ $lessons[0]['title'] }}", "{{ $lessons[0]['materials']->where('type', 'video')->first()->url ?? null }}", 
-            {{ \Carbon\Carbon::parse($lessons[0]['date'] . ' ' . $lessons[0]['start_time'])->timestamp * 1000 }},
-            {{ \Carbon\Carbon::parse($lessons[0]['date'] . ' ' . $lessons[0]['end_time'])->timestamp * 1000 }}
-        );
     </script>
 
 </body>
