@@ -26,7 +26,267 @@ class InstructorController extends Controller
         
         return view('instructor.admin-courses', compact('courses','categories','teachers'));
     }
+    public function showEvaluationPage($meetingId)
+    {
+        // Load meeting with related lesson, group (and its students) and course
+        $meeting = \App\Models\Meeting::with(['lesson', 'group.students', 'group.course'])->findOrFail($meetingId);
     
+        // Load evaluations for students in this group (if any)
+        $evaluations = \App\Models\InstructorToStudentEvaluation::whereIn('student_id', $meeting->group->students->pluck('id'))
+            ->where('course_id', $meeting->group->course->id)
+            ->get();
+    
+        return view('instructor.post-session', compact('meeting', 'evaluations'));
+    }
+    
+
+    public function evaluateSession(Request $request, $meetingId)
+{
+    $request->validate([
+        'evaluations' => 'required|array',
+        'evaluation_period_start' => 'required|date',
+        'evaluation_period_end'   => 'required|date|after_or_equal:evaluation_period_start',
+    ]);
+
+    // Load the meeting with group, course, and lesson details.
+    $meeting = \App\Models\Meeting::with(['group.students', 'group.course', 'lesson'])->findOrFail($meetingId);
+    $courseId = $meeting->group->course->id;
+    // Get course_path_id and path_of_path_id from the lesson record.
+    $coursePathId = $meeting->lesson->course_path_id;
+    $pathOfPathId = $meeting->lesson->path_of_path_id;
+
+    // Define score mappings.
+    $scoreMapping = [
+        'Excellent'  => 10,
+        'Very Good'  => 7,
+        'Good'       => 5,
+        'Fair'       => 2,
+    ];
+    $homeworkMapping = [
+        'Submitted homework'     => 10,
+        "Didn't submit homework" => 0,
+        'No homework'            => 10,
+    ];
+
+    foreach ($request->evaluations as $studentId => $data) {
+        // Get the joined date from the GroupStudent record if not provided.
+        $groupStudent = \App\Models\GroupStudent::where('student_id', $studentId)
+            ->where('group_id', $meeting->group->id)
+            ->first();
+        $joinedDate = $data['joined_at'] ?? ($groupStudent ? $groupStudent->created_at->format('Y-m-d') : null);
+    
+        // Check attendance status from the submitted hidden field.
+        $attendanceStatus = $data['attendance'] ?? 'present';
+        // Force lowercase to be safe.
+        $attendanceStatus = strtolower($attendanceStatus);
+    
+        // Calculate scores.
+        if ($attendanceStatus === 'absent') {
+            $interactionScore = 0;
+            $performanceScore = 0;
+            $homeworkScore    = 0;
+        } else {
+            $interactionScore = isset($scoreMapping[$data['interaction']]) ? $scoreMapping[$data['interaction']] : 0;
+            $performanceScore = isset($scoreMapping[$data['performance']]) ? $scoreMapping[$data['performance']] : 0;
+            $homeworkScore    = isset($homeworkMapping[$data['homework']]) ? $homeworkMapping[$data['homework']] : 0;
+        }
+        $sessionScore = $interactionScore + $performanceScore + $homeworkScore;
+        $sessionEvaluation = [
+            'interaction'   => $attendanceStatus === 'absent' ? 'Absent' : ($data['interaction'] ?? null),
+            'performance'   => $attendanceStatus === 'absent' ? 'Absent' : ($data['performance'] ?? null),
+            'homework'      => $attendanceStatus === 'absent' ? 'Absent' : ($data['homework'] ?? null),
+            'session_score' => $sessionScore,
+            'evaluated_at'  => now()->toDateTimeString(),
+            'joined_at'     => $joinedDate,
+            'attendance'    => $attendanceStatus, // 'absent' or 'present'
+        ];
+    
+        // Update or create the evaluation record for this student.
+        $evaluation = \App\Models\InstructorToStudentEvaluation::where('student_id', $studentId)
+            ->where('course_id', $courseId)
+            ->when($coursePathId, function($query) use ($coursePathId) {
+                return $query->where('course_path_id', $coursePathId);
+            })
+            ->when($pathOfPathId, function($query) use ($pathOfPathId) {
+                return $query->where('path_of_path_id', $pathOfPathId);
+            })
+            ->first();
+    
+        if ($evaluation) {
+            $sessions = $evaluation->evaluation_details ?? [];
+            $sessions[] = $sessionEvaluation;
+            $evaluation->evaluation_details = $sessions;
+            $total = 0;
+            foreach ($sessions as $sess) {
+                $total += $sess['session_score'] ?? 0;
+            }
+            $evaluation->total_score = $total;
+            $evaluation->evaluation_score = count($sessions) ? ($total / (count($sessions) * 30)) * 100 : null;
+            $evaluation->joined_at = $joinedDate;
+            $evaluation->evaluation_period_start = $request->input('evaluation_period_start');
+            $evaluation->evaluation_period_end   = $request->input('evaluation_period_end');
+            $evaluation->save();
+        } else {
+            $evaluationCode = 'pyra-' . $courseId . '-' . sprintf('%05d', $studentId);
+            $sessions = [$sessionEvaluation];
+            $total = $sessionScore;
+            $evaluationScore = ($total / 30) * 100;
+            \App\Models\InstructorToStudentEvaluation::create([
+                'code'                     => $evaluationCode,
+                'student_id'               => $studentId,
+                'course_id'                => $courseId,
+                'course_path_id'           => $coursePathId,
+                'path_of_path_id'          => $pathOfPathId,
+                'joined_at'                => $joinedDate,
+                'evaluation_period_start'  => $request->input('evaluation_period_start'),
+                'evaluation_period_end'    => $request->input('evaluation_period_end'),
+                'evaluation_details'       => $sessions,
+                'total_score'              => $total,
+                'evaluation_score'         => $evaluationScore,
+            ]);
+        }
+    
+        // --- Update Attendance for this student ---
+    
+        // Get all schedules for the group (across all lessons) ordered by date and start time.
+        $orderedSchedules = \App\Models\GroupSchedule::where('group_id', $meeting->group->id)
+            ->orderBy('date')
+            ->orderBy('start_time')
+            ->get();
+    
+        // Find the index of the current session using the meeting's group_schedule_id.
+        $currentSessionIndex = $orderedSchedules->search(function ($schedule) use ($meeting) {
+            return $schedule->id == $meeting->group_schedule_id;
+        });
+        if ($currentSessionIndex === false) {
+            $currentSessionIndex = 0;
+        }
+    
+        // Determine current attendance value: 0 if absent, 1 if present.
+        $currentValue = ($attendanceStatus === 'absent') ? 0 : 1;
+    
+        // Retrieve the attendance record for this student.
+        $attendance = \App\Models\Attendance::where('student_id', $studentId)
+            ->where('course_id', $courseId)
+            ->when($coursePathId, function($query) use ($coursePathId) {
+                return $query->where('course_path_id', $coursePathId);
+            })
+            ->when($pathOfPathId, function($query) use ($pathOfPathId) {
+                return $query->where('path_of_path_id', $pathOfPathId);
+            })
+            ->first();
+    
+        if ($attendance) {
+            $attendanceSessions = is_string($attendance->sessions)
+                ? json_decode($attendance->sessions, true)
+                : ($attendance->sessions ?? []);
+            // Fill in missing indices up to the current session index with 0.
+            for ($i = 0; $i <= $currentSessionIndex; $i++) {
+                if (!array_key_exists($i, $attendanceSessions)) {
+                    $attendanceSessions[$i] = 0;
+                }
+            }
+            // Set the current session's value.
+            $attendanceSessions[$currentSessionIndex] = $currentValue;
+            ksort($attendanceSessions);
+            $attendance->sessions = json_encode($attendanceSessions, JSON_FORCE_OBJECT);
+            $attendance->save();
+        } else {
+            // Create a new attendance record.
+            $newSessions = [];
+            for ($i = 0; $i <= $currentSessionIndex; $i++) {
+                $newSessions[$i] = 0;
+            }
+            $newSessions[$currentSessionIndex] = $currentValue;
+            $attendance = new \App\Models\Attendance();
+            $attendance->user_id = Auth::guard('admin')->user()->id;
+            $attendance->student_id = $studentId;
+            $attendance->course_id = $courseId;
+            $attendance->course_path_id = $coursePathId;
+            $attendance->path_of_path_id = $pathOfPathId;
+            $attendance->day = \Carbon\Carbon::parse($meeting->start_time)->format('l');
+            $attendance->time = \Carbon\Carbon::parse($meeting->start_time)->format('H:i:s');
+            $attendance->status = 'Online';
+            $attendance->sessions = json_encode($newSessions, JSON_FORCE_OBJECT);
+            $attendance->save();
+        }
+    }
+    
+
+
+
+
+
+
+
+    
+    return redirect()->back()->with('success', 'Evaluations saved successfully!');
+}
+
+    
+
+
+
+    public function instructorMeeting($id)
+    {
+        // Load meeting along with its group and lesson relationships.
+        $meeting = \App\Models\Meeting::with(['group.students', 'lesson'])->findOrFail($id);
+    
+        // Extract the group from the meeting.
+        $group = $meeting->group;
+    
+        // Pass both $meeting and $group to the view.
+        return view('instructor.meeting', compact('meeting', 'group'));
+    }
+    
+public function updateAttendance(Request $request)
+{
+    // Validate the incoming request
+    $validated = $request->validate([
+        'student_id' => 'required|exists:students,id',
+        'status'     => 'required|in:0,1',
+        'meeting_id' => 'required|exists:meetings,id',
+    ]);
+
+    // Retrieve the meeting and the related group/student attendance record.
+    // For example, assume each student has an attendance record for the meeting.
+    // Adjust the logic below according to your schema.
+    $student = \App\Models\Student::findOrFail($validated['student_id']);
+
+    // Here, update the attendance field on the pivot or related attendance model.
+    // This is just an example; you may need to customize it.
+    $updated = $student->attendance()->updateOrCreate(
+        ['meeting_id' => $validated['meeting_id']],
+        ['is_present' => $validated['status']]
+    );
+
+    if ($updated) {
+        return response()->json(['success' => true, 'message' => 'Attendance updated successfully!']);
+    }
+
+    return response()->json(['success' => false, 'message' => 'Attendance update failed!'], 400);
+}
+public function viewHomework(Request $request)
+{
+    $validated = $request->validate([
+        'student_id' => 'required|exists:students,id',
+        'meeting_id' => 'required|exists:meetings,id',
+    ]);
+
+    // Retrieve the homework record for the student in this meeting.
+    // Adjust the logic according to your database schema.
+    $homework = \App\Models\Homework::where('student_id', $validated['student_id'])
+        ->where('meeting_id', $validated['meeting_id'])
+        ->first();
+
+    if ($homework) {
+        // You can return an HTML snippet, or a URL to view the homework.
+        return response()->json(['homework' => view('instructor.partials.homework_view', compact('homework'))->render()]);
+    }
+
+    return response()->json(['homework' => null]);
+}
+
     public function viewGroups($id)
 {
     // Ensure the course is fetched with groups
@@ -79,6 +339,7 @@ public function createGroup(Request $request)
 
 private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $courseDuration, $startTime, $endTime, $courseId, $sessionDays)
 {
+    // dd($sessionDays, $courseId, $groupId, $startDate, $weeklySessions, $courseDuration, $startTime, $endTime);
     $startDate = Carbon::parse($startDate);
     $lessonIndex = 0;
     $totalWeeks = $courseDuration;
@@ -103,7 +364,6 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
     $daysOfWeekMap = ["Sunday" => 0, "Monday" => 1, "Tuesday" => 2, "Wednesday" => 3, "Thursday" => 4, "Friday" => 5, "Saturday" => 6];
 
     $currentWeek = 0; // Track the number of weeks
-
     // ✅ Ensure proper weekly lesson spacing
     while ($lessonIndex < $totalLessons && $currentWeek < $totalWeeks) {
         foreach ($sessionDays as $day) {
@@ -127,6 +387,86 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
     }
     Log::info("🟢 Lesson scheduling completed for Group ID: $groupId");
 }
+
+
+public function rescheduleGroupsForCourse(Request $request, $courseId)
+{
+    // Get all groups for the course.
+    $groups = Group::where('course_id', $courseId)->get();
+
+    // Fetch all lessons for the course, ordered as needed.
+    $lessons = Lesson::where('course_id', $courseId)
+                ->orderBy('order', 'asc')
+                ->get();
+
+    foreach ($groups as $group) {
+        // Get IDs of lessons already scheduled for this group.
+        $scheduledLessonIds = GroupSchedule::where('group_id', $group->id)
+                                    ->pluck('lesson_id')
+                                    ->toArray();
+
+        // Determine session days: you can retrieve this from existing schedules or define a default.
+        $sessionDays = [];
+        $schedules = GroupSchedule::where('group_id', $group->id)->get();
+        foreach ($schedules as $schedule) {
+            $sessionDays[] = Carbon::parse($schedule->date)->format('l');
+        }
+        if (empty($sessionDays)) {
+            // Default to a specific day if no session days are set.
+            $sessionDays[] = 'Monday';
+        }
+
+        // Determine the last scheduled date; use group's start date or today as a fallback.
+        $lastDateString = GroupSchedule::where('group_id', $group->id)
+                            ->orderBy('date', 'desc')
+                            ->value('date');
+        $start_time = GroupSchedule::where('group_id', $group->id)
+                            ->orderBy('date', 'desc')
+                            ->value('start_time');
+        $end_time = GroupSchedule::where('group_id', $group->id)
+                            ->orderBy('date', 'desc')
+                            ->value('end_time');
+        $lastDate = $lastDateString ? Carbon::parse($lastDateString) : Carbon::today();
+
+        // Define default start and end times.
+        // Alternatively, if lessons have a 'lesson_time', you might use that.
+        $defaultStartTime = '07:00:00';
+        $defaultEndTime   = '08:00:00';
+
+        // Iterate over lessons and schedule any that are not yet scheduled.
+        foreach ($lessons as $lesson) {
+            if (in_array($lesson->id, $scheduledLessonIds)) {
+                continue; // Skip already scheduled lessons.
+            }
+
+            // Calculate the next valid date based on the session days.
+            $nextDate = $lastDate->copy()->addDay();
+            while (!in_array($nextDate->format('l'), $sessionDays)) {
+                $nextDate->addDay();
+            }
+
+            // Create the new schedule entry.
+            GroupSchedule::create([
+                'group_id'   => $group->id,
+                'lesson_id'  => $lesson->id,
+                'start_time' => $start_time, // Ensure this is not null.
+                'end_time'   => $end_time,
+                'date'       => $nextDate->format('Y-m-d'),
+            ]);
+
+            // Update lastDate for subsequent scheduling.
+            $lastDate = $nextDate;
+        }
+    }
+
+    return response()->json(['message' => 'Group schedules updated with new lessons!'], 200);
+}
+
+
+
+
+
+
 
 public function updateLessonDate(Request $request)
 {
@@ -214,15 +554,89 @@ public function addStudentToGroup(Request $request)
 public function courseDetail(string $id)
 {
     $course = Course::with([
-        'coursePaths.paths.lessons' // Load course paths, their sub-paths, and lessons
+        'coursePaths.paths.lessons.resources'  // Eager load each lesson's resources
     ])->findOrFail($id);
     $teachers = User::where('role', 'teacher')->get();
 
-    // Debugging: Check if data exists
     \Log::info('Loaded Course Data:', ['course' => $course->toArray()]);
     \Log::info('Loaded Teachers:', ['teachers' => $teachers->toArray()]);
 
     return view('instructor.course-details', compact('course', 'teachers'));
 }
+public function createMeetingsForGroup(Request $request, $groupId)
+{
+    // Retrieve the group with its schedules and associated lessons
+    $group = \App\Models\Group::with(['schedules.lesson'])->findOrFail($groupId);
+
+    // Validate that there are no duplicate sessions on the same date and start time.
+    $sessionKeys = [];
+    foreach ($group->schedules as $schedule) {
+        $key = $schedule->date . ' ' . $schedule->start_time;
+        if (isset($sessionKeys[$key])) {
+            return redirect()->back()->with('error', 'Duplicate session found for date and time: ' . $key);
+        }
+        $sessionKeys[$key] = true;
+    }
+
+    $zoomService = new \App\Services\ZoomService();
+    $createdCount = 0;
+
+    foreach ($group->schedules as $schedule) {
+        // Skip if a meeting was already created for this schedule
+        if ($schedule->meeting_id) {
+            continue;
+        }
+
+        // Ensure that the lesson exists for this schedule
+        if (!$schedule->lesson) {
+            continue;
+        }
+
+        // Create a topic from the group name and lesson title
+        $topic = "Group: " . $group->name . " - Lesson: " . $schedule->lesson->title;
+
+        try {
+            // Call the ZoomService to create the meeting
+            $meetingData = $zoomService->createMeeting(
+                $topic,
+                $schedule->date,
+                $schedule->start_time,
+                $schedule->end_time
+            );
+
+            // Calculate the duration for storing in our meeting row
+            $startDateTime = \Carbon\Carbon::parse($schedule->date . ' ' . $schedule->start_time);
+            $endDateTime   = \Carbon\Carbon::parse($schedule->date . ' ' . $schedule->end_time);
+            $duration = $startDateTime->diffInMinutes($endDateTime);
+
+            // Create a meeting row in the meetings table
+            $meetingRow = new \App\Models\Meeting();
+            $meetingRow->zoom_meeting_id = $meetingData['id'] ?? null;
+            $meetingRow->topic           = $topic;
+            $meetingRow->start_time      = $startDateTime->toDateTimeString();
+            $meetingRow->duration        = $duration;
+            $meetingRow->join_url        = $meetingData['join_url'] ?? null;
+            $meetingRow->status          = 'live'; // Or set based on $meetingData if available
+            $meetingRow->lesson_id       = $schedule->lesson->id;
+            $meetingRow->group_id        = $group->id;
+            $meetingRow->group_schedule_id = $schedule->id;
+            $meetingRow->save();
+
+            // Update the group_schedule with the meeting id (foreign key to meetings table)
+            $schedule->meeting_id = $meetingRow->id;
+            $schedule->save();
+
+            $createdCount++;
+        } catch (\Exception $e) {
+            \Log::error('Error creating Zoom meeting for lesson: ' . $schedule->lesson->title . ' - ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error creating meeting: ' . $e->getMessage());
+        }
+    }
+
+    return redirect()->back()->with('success', "$createdCount meeting(s) created successfully.");
+}
+
+
+
 
 }

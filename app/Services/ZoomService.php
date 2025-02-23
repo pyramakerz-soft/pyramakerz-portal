@@ -5,6 +5,7 @@ namespace App\Services;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ZoomService
 {
@@ -25,9 +26,9 @@ class ZoomService
 
     public function getAccessToken()
     {
-        $clientId = env('ZOOM_CLIENT_ID');
-        $clientSecret = env('ZOOM_CLIENT_SECRET');
-        $accountId = env('ZOOM_ACCOUNT_ID');
+        $clientId = 'eoTsATzcQ82hCZFb5lrAMw';
+        $clientSecret = 'HpQ5g9uKo02hQYaLp718cf7gNtLIlpg1';
+        $accountId = 'Z90-x6MMSOWNZj5en7PEpQ';
 
         $response = Http::withBasicAuth($clientId, $clientSecret)
             ->asForm()
@@ -43,29 +44,46 @@ class ZoomService
         return $response->json()['access_token'];
     }
 
-    public function createMeeting($topic, $startTime, $duration = 60)
-    {
-        $accessToken = $this->getAccessToken();
+    
 
-        $response = $this->client->post("{$this->baseUrl}/users/me/meetings", [
-            'headers' => [
-                'Authorization' => "Bearer $accessToken",
-                'Content-Type' => 'application/json',
-            ],
-            'json' => [
-                'topic' => $topic,
-                'type' => 2,
-                'start_time' => $startTime,
-                'duration' => $duration,
-                'timezone' => 'Africa/Cairo',
-                'settings' => [
-                    'host_video' => true,
-                    'participant_video' => true,
-                    'waiting_room' => false,
-                ],
-            ],
-        ]);
+public function createMeeting($topic, $sessionDate, $startTime, $endTime)
+{
+    $startDateTime = \Carbon\Carbon::parse($sessionDate . ' ' . $startTime);
+    $endDateTime = \Carbon\Carbon::parse($sessionDate . ' ' . $endTime);
 
-        return json_decode($response->getBody(), true);
+    $duration = $startDateTime->diffInMinutes($endDateTime);
+    $accessToken = $this->getAccessToken();
+
+    if (!$accessToken) {
+        throw new \Exception('Zoom access token is missing.');
     }
+
+    $response = Http::withHeaders([
+        'Authorization' => "Bearer $accessToken",
+        'Content-Type'  => 'application/json',
+    ])->post("https://api.zoom.us/v2/users/me/meetings", [
+        'topic'      => $topic,
+        'type'       => 2, // Scheduled meeting
+        'start_time' => $startDateTime->toIso8601String(),
+        'duration'   => $duration,
+        'timezone'   => 'Africa/Cairo',
+        'settings'   => [
+            'host_video'        => true,
+            'participant_video' => true,
+            'waiting_room'      => false,
+        ],
+    ]);
+
+    if ($response->failed()) {
+        \Log::error('Zoom API error: ' . $response->body());
+        throw new \Exception('Failed to create Zoom meeting: ' . $response->body());
+    }
+
+    return $response->json();
+}
+
+    
+
+
+
 }

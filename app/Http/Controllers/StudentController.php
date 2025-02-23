@@ -39,7 +39,7 @@ class StudentController extends Controller
         ->whereHas('group', function ($query) use ($courseId) {
             $query->where('course_id', $courseId);
         })
-        ->with(['group.schedules.lesson.materials'])
+        ->with(['group.schedules.lesson.resources']) // Ensure the resources are loaded
         ->first();
 
     if (!$groupStudent) {
@@ -49,22 +49,25 @@ class StudentController extends Controller
     // Get the student's group
     $group = $groupStudent->group;
 
-    // Fetch lessons from the schedule ordered by date
+    // Map lessons from the group's schedules (sorted by date)
     $lessons = $group->schedules->sortBy('date')->map(function ($schedule) use ($group) {
         return [
-            'id' => $schedule->lesson->id,
-            'title' => $schedule->lesson->title,
-            'date' => \Carbon\Carbon::parse($schedule->date)->format('Y-m-d'),
-            'start_time' => \Carbon\Carbon::parse($schedule->start_time)->format('h:i A'),
-            'end_time' => \Carbon\Carbon::parse($schedule->end_time)->format('h:i A'),
-            'materials' => $schedule->lesson->materials,
-            'group_id' => $group->id,  // ✅ Include group_id to fix the error
-            'schedule_id' => $schedule->id, // ✅ Include schedule_id in case it's needed for meetings
+            'id'          => $schedule->lesson->id,
+        'title'       => $schedule->lesson->title,
+        'date'        => \Carbon\Carbon::parse($schedule->date)->format('Y-m-d'),
+        'start_time'  => \Carbon\Carbon::parse($schedule->start_time)->format('h:i A'),
+        'end_time'    => \Carbon\Carbon::parse($schedule->end_time)->format('h:i A'),
+        'video_url'   => $schedule->lesson->video_url, // Include the lesson introduction video URL
+        'materials'   => $schedule->lesson->resources ?? collect([]),
+        'group_id'    => $group->id,
+        'schedule_id' => $schedule->id,
         ];
     });
 
     return view('student.course-lessons', compact('group', 'lessons', 'student'));
 }
+
+    
 
 
     public function show($id)
@@ -119,7 +122,7 @@ public function submitTest(Request $request, $testId)
 
     // Fetch the student's groups and related courses
     $courses = GroupStudent::with([
-        'group.course',
+        'group.course.instructor',
         'group.schedules.lesson'
     ])
     ->where('student_id', $student->id)

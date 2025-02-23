@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lesson;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Log;
 
 class LessonController extends Controller
@@ -84,45 +85,90 @@ $lesson->resource_file = 'lesson_resources/' . $request->file('resource_file')->
 
 
     
-    public function storeLesson(Request $request)
+public function storeLesson(Request $request)
 {
     $request->validate([
-        'title' => 'required|string|max:255',
-        'order' => 'required|integer',
-        'video_url' => 'nullable|url',
-        'course_id' => 'required|exists:courses,id',
-        'course_path_id' => 'required|exists:course_paths,id',
-        'path_of_path_id' => 'required|exists:path_of_paths,id',
+        'title'            => 'required|string|max:255',
+        'order'            => 'required|integer',
+        'video_url'        => 'nullable|url',
+        'course_id'        => 'required|exists:courses,id',
+        'course_path_id'   => 'required|exists:course_paths,id',
+        'path_of_path_id'  => 'required|exists:path_of_paths,id',
     ]);
 
-    Lesson::create([
-        'title' => $request->title,
-        'order' => $request->order,
-        'video_url' => $request->video_url,
-        'course_id' => $request->course_id,
-        'course_path_id' => $request->course_path_id,
+    // Create the new lesson.
+    $lesson = Lesson::create([
+        'title'           => $request->title,
+        'order'           => $request->order,
+        'video_url'       => $request->video_url,
+        'course_id'       => $request->course_id,
+        'course_path_id'  => $request->course_path_id,
         'path_of_path_id' => $request->path_of_path_id,
     ]);
 
-    return response()->json(['message' => 'Lesson added successfully!'], 200);
+    // Define default scheduling parameters.
+    // These could come from the course/group settings; here we use example defaults.
+    $defaultParameters = [
+        'start_date'      => now()->format('Y-m-d'),
+        'weekly_sessions' => 1,                 // Example: one session per week
+        'course_duration' => 4,                 // Example: course lasts 4 weeks
+        'start_time'      => '07:00:00',
+        'end_time'        => '08:00:00',
+        'session_days'    => ['Monday'],        // Example: sessions are on Monday
+    ];
+
+    // Create a new Request instance using these defaults.
+    $fakeRequest = new \Illuminate\Http\Request($defaultParameters);
+
+    // Call the InstructorController's scheduling method.
+    // (Alternatively, you might extract the scheduling logic to a service so it can be reused.)
+    $instructorController = app(\App\Http\Controllers\InstructorController::class);
+    $instructorController->rescheduleGroupsForCourse($fakeRequest, $lesson->course_id);
+
+    return response()->json(['message' => 'Lesson added and group schedules updated successfully!'], 200);
 }
+
 
 
     /**
      * Upload material for a lesson.
      */
-    public function uploadMaterial(Request $request)
-    {
-        $request->validate([
-            'lesson_id' => 'required|exists:lessons,id',
-            'material' => 'required|file|mimes:pdf,doc,docx,ppt,pptx,zip,rar|max:10240',
-        ]);
+    public function uploadResource(Request $request)
+{
+    // Validate the incoming request.
+    $request->validate([
+        'lesson_id'          => 'required|exists:lessons,id',
+        'material'           => 'required|file|mimes:pdf,doc,docx,ppt,pptx,zip,rar|max:10240',
+        // Optionally, you can pass these if the resource is specific to a group/session.
+        'group_id'           => 'nullable|exists:groups,id',
+        'group_schedule_id'  => 'nullable|exists:group_schedules,id',
+        'title'              => 'nullable|string|max:255',
+        'description'        => 'nullable|string',
+    ]);
 
-        $lesson = Lesson::findOrFail($request->lesson_id);
-        $filePath = $request->file('material')->store('lesson_materials', 'public');
+    // Store the uploaded file.
+    $filePath = $request->file('material')->store('lesson_materials', 'public');
+    
+    // Optional: Determine a resource type from the file extension.
+    $extension = $request->file('material')->getClientOriginalExtension();
+    $resourceType = strtolower($extension);
+    
+    // Create a new lesson resource record.
+    $resource = \App\Models\LessonResource::create([
+         'lesson_id'          => $request->lesson_id,
+         'group_id'           => $request->group_id, // Optional; can be null
+         'group_schedule_id'  => $request->group_schedule_id, // Optional; can be null
+         'uploader_id'        => Auth::guard('admin')->user()->id,
+         'title'              => $request->input('title') ?? $request->file('material')->getClientOriginalName(),
+         'description'        => $request->input('description'),
+         'file_path'          => $filePath,
+         'resource_type'      => $resourceType,
+    ]);
 
-        $lesson->update(['resource_file' => $filePath]);
+    return response()->json([
+        'message'  => 'Resource uploaded successfully!',
+        'resource' => $resource
+    ], 200);
+}
 
-        return response()->json(['message' => 'Material uploaded successfully!'], 200);
-    }
 }

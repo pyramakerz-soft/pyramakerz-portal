@@ -109,7 +109,14 @@
                             <div class="experence__heading">
                                 <h5>📅 Scheduled Lessons</h5>
                             </div>
-
+                            <form action="{{ route('instructor.meetings.create_all', $group->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">
+                                    Create Meetings for All Scheduled Lessons
+                                </button>
+                            </form>
+                            
+                            
                             <table class="table table-bordered">
                                 <thead class="  headtb text-white">
                                     <tr>
@@ -253,6 +260,18 @@
             }
         });
     });
+    $('.create-meetings-btn').click(function(e) {
+    e.preventDefault();
+    let groupId = $(this).data('group-id');
+    $.post("{{ route('instructor.meetings.create_all', '') }}/" + groupId, {
+        _token: "{{ csrf_token() }}"
+    }, function(response) {
+        Swal.fire("Success", response.message, "success")
+            .then(() => location.reload());
+    }).fail(function(xhr) {
+        Swal.fire("Error", xhr.responseText, "error");
+    });
+});
 
     $(".add-student-btn").click(function () {
         $.ajax({

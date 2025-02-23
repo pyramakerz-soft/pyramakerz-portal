@@ -20,6 +20,11 @@ class Lesson extends Model
     {
         return $this->hasMany(LessonMaterial::class);
     }
+public function resources()
+{
+    return $this->hasMany(LessonResource::class);
+}
+
 
 
 }

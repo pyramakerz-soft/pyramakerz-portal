@@ -22,12 +22,12 @@
             display: flex;
             flex-direction: column;
         }
-        /* Ensure the embedded Zoom element expands fully */
+        /* Embedded Zoom element */
         #meetingSDKElement {
             width: 100%;
             flex: 1;
         }
-        /* Sidebar */
+        /* Sidebar for session details and student list */
         .sidebar {
             flex: 1;
             min-width: 300px;
@@ -40,7 +40,7 @@
             flex-direction: column;
             justify-content: space-between;
         }
-        /* Session Details and Student List */
+        /* Session Details */
         .sidebar h5 {
             font-size: 20px;
             margin-bottom: 12px;
@@ -51,10 +51,11 @@
             margin: 6px 0;
             opacity: 0.9;
         }
+        /* Student List */
         .student-list {
             list-style: none;
             padding: 0;
-            max-height: 200px;
+            max-height: 300px;
             overflow-y: auto;
         }
         .student-list li {
@@ -70,9 +71,36 @@
         .student-list li:hover {
             background: rgba(255, 255, 255, 0.2);
         }
+        .attendance-status {
+            margin-right: 10px;
+        }
         .present { color: #28a745; font-weight: bold; }
         .absent { color: #dc3545; font-weight: bold; }
-        /* Homework Modal & Overlay */
+        /* Button styles */
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9em;
+        }
+        .present-btn {
+            background: #28a745;
+            color: #fff;
+        }
+        .absent-btn {
+            background: #dc3545;
+            color: #fff;
+        }
+        .view-homework-btn {
+            background: #f8d210;
+            color: #333;
+        }
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+        /* Homework Modal & Overlay (if needed) */
         #homeworkModal {
             display: none;
             position: fixed;
@@ -130,82 +158,68 @@
 </head>
 <body class="body__wrapper">
     @include('include.nav')
-    <!-- Dependencies for Component View via CDN -->
+    <!-- Zoom SDK dependencies -->
     <script src="https://source.zoom.us/3.6.0/lib/vendor/react.min.js"></script>
     <script src="https://source.zoom.us/3.6.0/lib/vendor/react-dom.min.js"></script>
     <script src="https://source.zoom.us/3.6.0/lib/vendor/redux.min.js"></script>
     <script src="https://source.zoom.us/3.6.0/lib/vendor/redux-thunk.min.js"></script>
     <script src="https://source.zoom.us/3.6.0/lib/vendor/lodash.min.js"></script>
-    <!-- CDN for Component View -->
+    <!-- Embedded Component SDK -->
     <script src="https://source.zoom.us/zoom-meeting-embedded-3.6.0.min.js"></script>
+    <!-- SweetAlert Library -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <main class="main_wrapper overflow-hidden">
-        @include('include.stud-topbar')
+        @include('include.admin-topbar')
         <div class="zoom-container">
-            <!-- Zoom Meeting Frame (Component View) -->
+            <!-- Zoom Meeting Frame (Embedded SDK) -->
             <div class="zoom-frame">
                 <div id="meetingSDKElement"></div>
             </div>
-            <!-- Sidebar with Session Details -->
+            <!-- Sidebar: Session Details and Student List for Instructor -->
             <div class="sidebar">
                 <div>
                     <h5>📝 Session Details</h5>
                     <p><strong>📅 Date:</strong> {{ \Carbon\Carbon::parse($meeting->start_time)->format('M d, Y') }}</p>
                     <p><strong>⏳ Duration:</strong> {{ $meeting->duration }} mins</p>
-                    <p><strong>👨‍🎓 Students:</strong> {{ count($students) }}</p>
+                    <p><strong>👨‍🎓 Group:</strong> {{ $meeting->group->name ?? 'N/A' }}</p>
+
                 </div>
                 <div>
                     <h5>🎓 Students</h5>
                     <ul class="student-list">
-                        @foreach ($students as $student)
-                            @php
-                                $allSchedules = \App\Models\GroupSchedule::where('group_id', $meeting->group_id)
-                                    ->orderBy('lesson_id', 'asc')
-                                    ->pluck('lesson_id')
-                                    ->toArray();
-                                $sessionIndex = array_search($meeting->lesson->id, $allSchedules);
-                                $attendance = \App\Models\Attendance::where('student_id', $student->id)
-                                    ->where('course_path_id', $meeting->lesson->course_path_id)
-                                    ->where('path_of_path_id', $meeting->lesson->path_of_path_id)
-                                    ->first();
-                                $rawSessions = $attendance->sessions ?? '';
-                                if (is_string($rawSessions)) {
-                                    $cleanJson = trim(str_replace(["\r", "\n"], '', $rawSessions));
-                                    $sessions = json_decode($cleanJson, true);
-                                } elseif (is_array($rawSessions)) {
-                                    $sessions = $rawSessions;
-                                } else {
-                                    $sessions = [];
-                                }
-                                $sessions = is_array($sessions) ? $sessions : [];
-                                $isPresent = isset($sessions[$sessionIndex]) && $sessions[$sessionIndex] == 1;
-                            @endphp
-                            <li id="student-{{ $student->id }}">
-                                <span>{{ $student->name }}</span>
-                                <span class="attendance-status {{ $isPresent ? 'present' : 'absent' }}">
-                                    {{ $isPresent ? '✔️ Present' : '❌ Absent' }}
-                                </span>
-                                @if ($student->id == auth()->id())
-                                    <span id="homework-{{ $student->id }}" class="upload-homework" onclick="uploadHomework()">📂 Upload</span>
-                                @endif
-                            </li>
+                        @foreach ($meeting->group->students as $student)
+                        <li id="student-{{ $student->id }}">
+                            <span>{{ $student->name }}</span>
+                            <span class="attendance-status {{ $student->attendance ? 'present' : 'absent' }}">
+                                {{ $student->attendance ? '✔️ Present' : '❌ Absent' }}
+                            </span>
+                            <!-- If the student has uploaded homework, show "View Homework"; else show attendance buttons -->
+                            @if($student->homework_uploaded)
+                                <button class="action-btn view-homework-btn" onclick="viewHomework({{ $student->id }})">View Homework</button>
+                            @else
+                                <button class="action-btn present-btn" onclick="markAttendance({{ $student->id }}, 1)">Mark Present</button>
+                                <button class="action-btn absent-btn" onclick="markAttendance({{ $student->id }}, 0)">Mark Absent</button>
+                            @endif
+                        </li>
                         @endforeach
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Homework Upload Modal -->
+        <!-- (Optional) Homework Upload Modal for instructor if needed -->
         <div class="overlay" id="overlay" onclick="closeModal()"></div>
         <div id="homeworkModal">
-            <h4>📂 Upload Your Homework</h4>
-            <input type="file" id="homeworkFile">
-            <button onclick="submitHomework()">Upload</button>
-            <button onclick="closeModal()" style="background: red; margin-left: 10px;">Cancel</button>
+            <h4>📂 Homework Details</h4>
+            <div id="homeworkContent">
+                <!-- Homework details will be loaded here -->
+            </div>
+            <button onclick="closeModal()">Close</button>
         </div>
     </main>
 
-    <!-- Zoom Meeting SDK Component View Script -->
+    <!-- Zoom Meeting SDK Embedded Script -->
     <script>
         var meetingDetails = @json($meeting);
         console.log("Meeting details:", meetingDetails);
@@ -213,6 +227,7 @@
         const client = ZoomMtgEmbedded.createClient();
         const meetingSDKElement = document.getElementById('meetingSDKElement');
 
+        // Initialize with customized video & share sizes
         client.init({
           zoomAppRoot: meetingSDKElement,
           language: 'en-US',
@@ -231,7 +246,6 @@
                 }
               }
             },
-            // Adding a share customization block to control the shared screen size
             share: {
               isResizable: false,
               viewSizes: {
@@ -243,7 +257,7 @@
             }
           }
         }).then(() => {
-          fetch("{{ route('zoom.generate_signature', ['meeting_id' => $meeting['zoom_meeting_id']]) }}")
+          fetch("{{ route('zoom.generate_host_signature', ['meeting_id' => $meeting['zoom_meeting_id']]) }}")
             .then(response => response.json())
             .then(data => {
               if (!data.signature) {
@@ -256,7 +270,7 @@
                 signature: data.signature,
                 meetingNumber: meetingDetails.zoom_meeting_id,
                 password: "{{ $meeting['password'] }}",
-                userName: "{{ auth()->user()->name }}"
+                userName: "{{ Auth::guard('admin')->user()->name}}"
               }).then(() => {
                 console.log('Joined meeting successfully!');
               }).catch(error => {
@@ -273,73 +287,89 @@
         });
     </script>
 
-    <!-- Homework and Attendance Scripts -->
+    <!-- Instructor-Specific Scripts -->
+    <script>
+        // Mark a student's attendance. status: 1 = Present, 0 = Absent.
+        function markAttendance(studentId, status) {
+            fetch("{{ route('instructor.attendance.update') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ student_id: studentId, status: status, meeting_id: "{{ $meeting['id'] }}" })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    swal("Attendance Updated", data.message, "success");
+                    // Optionally, update the student's status in the UI.
+                    let statusEl = document.querySelector(`#student-${studentId} .attendance-status`);
+                    if(statusEl) {
+                        statusEl.innerText = status === 1 ? '✔️ Present' : '❌ Absent';
+                        statusEl.className = "attendance-status " + (status === 1 ? 'present' : 'absent');
+                    }
+                } else {
+                    swal("Error", data.message, "error");
+                }
+            })
+            .catch(error => {
+                console.error("Attendance update error:", error);
+                swal("Error", "There was a problem updating attendance.", "error");
+            });
+        }
+
+        // View the student's homework. This could open a modal with homework details.
+        function viewHomework(studentId) {
+            // For example, fetch the homework details via AJAX.
+            fetch("{{ route('instructor.homework.view') }}?student_id=" + studentId + "&meeting_id={{ $meeting['id'] }}")
+            .then(response => response.json())
+            .then(data => {
+                if(data.homework) {
+                    document.getElementById('homeworkContent').innerHTML = data.homework;
+                    document.getElementById('overlay').style.display = 'block';
+                    document.getElementById('homeworkModal').style.display = 'block';
+                } else {
+                    swal("No Homework", "This student has not uploaded any homework.", "info");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching homework:", error);
+                swal("Error", "Could not load homework details.", "error");
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('homeworkModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // (Optional) Function to update attendance periodically if needed.
+        function updateAttendance() {
+            fetch("{{ route('attendance.fetch', ['meeting' => $meeting->id]) }}")
+                .then(response => response.json())
+                .then(data => {
+                    // Update each student's attendance in the UI
+                    data.students.forEach(student => {
+                        let statusEl = document.querySelector(`#student-${student.id} .attendance-status`);
+                        if(statusEl) {
+                            statusEl.innerText = student.is_present ? '✔️ Present' : '❌ Absent';
+                            statusEl.className = "attendance-status " + (student.is_present ? 'present' : 'absent');
+                        }
+                    });
+                })
+                .catch(error => console.error("Error fetching attendance:", error));
+        }
+        setInterval(updateAttendance, 60000); // Update every 60 seconds
+    </script>
+
+    <!-- (Optional) Homework Upload Scripts for instructor if needed -->
     <script>
         function uploadHomework() {
             document.getElementById('homeworkModal').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
         }
-        function closeModal() {
-            document.getElementById('homeworkModal').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
-        function submitHomework() {
-            let file = document.getElementById('homeworkFile').files[0];
-            if (!file) {
-                alert("📂 Please select a file!");
-                return;
-            }
-            let formData = new FormData();
-            formData.append("homework", file);
-            formData.append("_token", "{{ csrf_token() }}");
-            fetch("{{ route('homework.upload') }}", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(() => {
-                alert("✅ Homework uploaded successfully!");
-                let homeworkButton = document.getElementById('homework-' + {{ auth()->id() }});
-                if (homeworkButton) {
-                    homeworkButton.classList.remove('upload-homework');
-                    homeworkButton.classList.add('submitted-homework');
-                    homeworkButton.innerText = "✅ Submitted";
-                }
-                closeModal();
-            })
-            .catch(() => {
-                alert("❌ Upload failed! Please try again.");
-            });
-        }
-        function updateAttendance() {
-            fetch("{{ route('attendance.fetch', ['meeting' => $meeting->id]) }}")
-                .then(response => response.text())
-                .then(text => {
-                    console.log("Raw server response:", text);
-                    try {
-                        let data = JSON.parse(text);
-                        if (!data.students || !Array.isArray(data.students)) {
-                            console.error("Unexpected response format:", data);
-                            return;
-                        }
-                        data.students.forEach(student => {
-                            let statusElement = document.querySelector(`#student-${student.id} .attendance-status`);
-                            if (statusElement) {
-                                statusElement.classList.remove('present', 'absent');
-                                statusElement.classList.add(student.is_present ? 'present' : 'absent');
-                                statusElement.innerText = student.is_present ? '✔️ Present' : '❌ Absent';
-                            }
-                        });
-                    } catch (error) {
-                        console.error("Error parsing JSON:", error, text);
-                    }
-                })
-                .catch(error => console.error("Error fetching attendance:", error));
-        }
-        setInterval(updateAttendance, 50000);
     </script>
-
-    <!-- SweetAlert Library (include via CDN) -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>

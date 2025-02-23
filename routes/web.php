@@ -50,7 +50,7 @@ Route::get('/message', function () { return view('student.message'); });
 */
 Route::get('/admin-login', [AuthController::class, 'showAdminLoginForm'])->name('admin-login');
 Route::post('/admin-login', [AuthController::class, 'adminLogin'])->name('admin-login');
-Route::get('/login', [AuthController::class, 'showStudentLoginForm'])->name('login');
+Route::get('/login', [AuthController::class, 'showStudentLoginForm'])->name('student-login');
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::get('/student-login', [AuthController::class, 'showStudentLoginForm'])->name('student-login');
 Route::post('/student-login', [AuthController::class, 'studentLogin'])->name('student-login');
@@ -86,7 +86,7 @@ Route::get('/activate-course', function () { return view('dashboard.activate-cou
 Route::post('/lesson/store', [LessonController::class, 'storeLesson'])->name('lesson.store');
 
 // Upload material to a lesson
-Route::post('/lesson/upload-material', [LessonController::class, 'uploadMaterial'])->name('lesson.uploadMaterial');
+Route::post('/lesson/upload-material', [LessonController::class, 'uploadResource'])->name('lesson.uploadMaterial');
 
 // Assign teacher to course
 Route::post('/course/assign-teacher', [CourseController::class, 'assignTeacher'])->name('course.assignTeacher');
@@ -117,54 +117,59 @@ Route::get('/zoom-signature/{meetingNumber}/{role}', [MeetingController::class, 
 });
 
 
-Route::get('/zoom/generate-signature/{meeting_id}', function ($meetingId) {
-    try {
-        $clientId = env('ZOOM_CLIENT_ID');
-        $clientSecret = env('ZOOM_CLIENT_SECRET');
-        $accountId = env('ZOOM_ACCOUNT_ID');
+// Route::get('/zoom/generate-signature/{meeting_id}', function ($meetingId) {
+//     try {
+//         $clientId = env('ZOOM_CLIENT_ID');
+//         $clientSecret = env('ZOOM_CLIENT_SECRET');
+//         $accountId = env('ZOOM_ACCOUNT_ID');
 
-        if (!$clientId || !$clientSecret) {
-            Log::error('Zoom credentials are missing.');
-            return response()->json(['error' => 'Zoom credentials missing'], 500);
-        }
+//         if (!$clientId || !$clientSecret) {
+//             Log::error('Zoom credentials are missing.');
+//             return response()->json(['error' => 'Zoom credentials missing'], 500);
+//         }
 
-        // Request OAuth Token using the correct grant type
-        $response = Http::asForm()->post('https://zoom.us/oauth/token', [
-            'grant_type' => 'client_credentials', // ✅ Corrected Grant Type
-            'client_id' => $clientId,
-            'client_secret' => $clientSecret,
-        ]);
+//         // Request OAuth Token using the correct grant type
+//         $response = Http::asForm()->post('https://zoom.us/oauth/token', [
+//             'grant_type' => 'client_credentials', // ✅ Corrected Grant Type
+//             'client_id' => $clientId,
+//             'client_secret' => $clientSecret,
+//         ]);
 
-        if ($response->failed()) {
-            Log::error('Failed to obtain Zoom access token.', ['response' => $response->body()]);
-            return response()->json([
-                'error' => 'Failed to obtain Zoom access token',
-                'details' => $response->json()
-            ], 500);
-        }
+//         if ($response->failed()) {
+//             Log::error('Failed to obtain Zoom access token.', ['response' => $response->body()]);
+//             return response()->json([
+//                 'error' => 'Failed to obtain Zoom access token',
+//                 'details' => $response->json()
+//             ], 500);
+//         }
 
-        $accessToken = $response->json()['access_token'];
+//         $accessToken = $response->json()['access_token'];
 
-        // Generate JWT Signature for Zoom SDK
-        $currentTime = time();
-        $payload = [
-            'sdkKey' => $clientId,
-            'mn' => $meetingId,
-            'role' => 0,
-            'iat' => $currentTime,
-            'exp' => $currentTime + 3600,
-            'tokenExp' => $currentTime + 3600
-        ];
+//         // Generate JWT Signature for Zoom SDK
+//         $currentTime = time();
+//         $payload = [
+//             'sdkKey' => $clientId,
+//             'mn' => $meetingId,
+//             'role' => 0,
+//             'iat' => $currentTime,
+//             'exp' => $currentTime + 3600,
+//             'tokenExp' => $currentTime + 3600
+//         ];
 
-        $signature = JWT::encode($payload, $clientSecret, 'HS256');
+//         $signature = JWT::encode($payload, $clientSecret, 'HS256');
 
-        return response()->json(['signature' => $signature]);
+//         return response()->json(['signature' => $signature]);
 
-    } catch (\Exception $e) {
-        Log::error('Error generating Zoom signature:', ['exception' => $e->getMessage()]);
-        return response()->json(['error' => 'Exception occurred', 'details' => $e->getMessage()], 500);
-    }
-})->name('zoom.generate_signature');
+//     } catch (\Exception $e) {
+//         Log::error('Error generating Zoom signature:', ['exception' => $e->getMessage()]);
+//         return response()->json(['error' => 'Exception occurred', 'details' => $e->getMessage()], 500);
+//     }
+// })->name('zoom.generate_signature');
+
+// routes/web.php or routes/api.php
+Route::get('/zoom/generate-signature', [App\Http\Controllers\MeetingController::class, 'generateSignature'])->name("zoom.generate_signature");
+Route::get('/zoom/generate-host-signature', [App\Http\Controllers\MeetingController::class, 'generateHostSignature'])->name("zoom.generate_host_signature");
+
 
 /*
 |--------------------------------------------------------------------------
@@ -212,6 +217,27 @@ Route::get('/group/{id}', [InstructorController::class, 'groupDetails'])
 
 Route::get('/courses', [InstructorController::class, 'index'])
     ->name('instructor.courses');
+
+    Route::get('/meetings/{id}', [InstructorController::class, 'instructorMeeting'])->name('instructor.meeting');
+
+    // Routes for AJAX endpoints used by the instructor page:
+    Route::post('/attendance/update', [InstructorController::class, 'updateAttendance'])->name('instructor.attendance.update');
+    Route::get('/homework/view', [InstructorController::class, 'viewHomework'])->name('instructor.homework.view');
+
+    Route::post('/meetings/create-all/{group}', [InstructorController::class, 'createMeetingsForGroup'])
+    ->name('instructor.meetings.create_all');
+    Route::post('/course/{courseId}/reschedule', [InstructorController::class, 'rescheduleGroupsForCourse'])
+    ->name('instructor.reschedule_groups');
+
+
+// Display the evaluation page for a meeting
+Route::get('/meetings/{meeting}/evaluate', [InstructorController::class, 'showEvaluationPage'])
+    ->name('instructor.evaluate_page');
+
+// Handle evaluation submission for a meeting
+Route::post('/meetings/{meeting}/evaluate', [InstructorController::class, 'evaluateSession'])
+    ->name('instructor.evaluate_session');
+
 
 });
 

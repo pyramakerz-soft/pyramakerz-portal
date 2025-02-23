@@ -12,6 +12,7 @@ use App\Services\ZoomService;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class MeetingController extends Controller
@@ -154,17 +155,68 @@ class MeetingController extends Controller
      */
     public function generateSignature(Request $request)
     {
-        $meetingNumber = $request->meetingNumber;
-        $role = $request->role; // 0 for attendee, 1 for host
+        // Use the correct Zoom meeting number (passed as meeting_id, e.g., "82623684746")
+        $meetingNumber = (string) $request->input('meeting_id');
+        \Log::info('Generating signature for meeting number: ' . $meetingNumber);
 
-        $sdkKey = env('ZOOM_CLIENT_ID');
-        $sdkSecret = env('ZOOM_CLIENT_SECRET');
+        $clientId     = '40Oxf8mkRWWSzwkWzZrTJw';
+        $clientSecret = ('TTHQoVLQr7nWgvfoC9Nh5QARVmiRbHn6');
+        $role         = 0; // 0 for participant, 1 for host
 
-        $time = time() * 1000 - 30000; // in milliseconds
-        $data = base64_encode($sdkKey . $meetingNumber . $time . $role);
-        $hash = hash_hmac('sha256', $data, $sdkSecret, true);
-        $signature = base64_encode($sdkKey . "." . $meetingNumber . "." . $time . "." . $role . "." . base64_encode($hash));
+        // Set issued-at and expiration times (in seconds)
+        $iat = time() - 30;
+        $exp = $iat + (60 * 60 * 2); // valid for 2 hours
 
-        return response()->json(['signature' => rtrim($signature, '=')]);
+        $payload = [
+            'sdkKey'   => $clientId,
+            'mn'       => $meetingNumber,
+            'role'     => $role,
+            'iat'      => $iat,
+            'exp'      => $exp,
+            'appKey'   => $clientId,
+            'tokenExp' => $exp
+        ];
+
+        // Generate the JWT signature using HS256
+        $jwt = JWT::encode($payload, $clientSecret, 'HS256');
+
+        // Convert the JWT to a URL-safe base64 string by replacing '+' with '-' and '/' with '_', and trim any '='
+        $signature = rtrim(strtr($jwt, '+/', '-_'), '=');
+
+        return response()->json(['signature' => $signature]);
     }
+    public function generateHostSignature(Request $request)
+    {
+        // Use the correct Zoom meeting number (passed as meeting_id, e.g., "82623684746")
+        $meetingNumber = (string) $request->input('meeting_id');
+        \Log::info('Generating signature for meeting number: ' . $meetingNumber);
+
+        $clientId     = '40Oxf8mkRWWSzwkWzZrTJw';
+        $clientSecret = 'TTHQoVLQr7nWgvfoC9Nh5QARVmiRbHn6';
+        $role         = 1; // 0 for participant, 1 for host
+
+        // Set issued-at and expiration times (in seconds)
+        $iat = time() - 30;
+        $exp = $iat + (60 * 60 * 2); // valid for 2 hours
+
+        $payload = [
+            'sdkKey'   => $clientId,
+            'mn'       => $meetingNumber,
+            'role'     => $role,
+            'iat'      => $iat,
+            'exp'      => $exp,
+            'appKey'   => $clientId,
+            'tokenExp' => $exp
+        ];
+        // Generate the JWT signature using HS256
+        $jwt = JWT::encode($payload, $clientSecret, 'HS256');
+
+        // Convert the JWT to a URL-safe base64 string by replacing '+' with '-' and '/' with '_', and trim any '='
+        $signature = rtrim(strtr($jwt, '+/', '-_'), '=');
+
+        return response()->json(['signature' => $signature]);
+    }
+
+    
+
 }

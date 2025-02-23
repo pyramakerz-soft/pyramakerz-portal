@@ -78,11 +78,10 @@
                                                 return \Carbon\Carbon::parse($date)->format('l');
                                             })->unique()->implode(', ');
                                         @endphp
-
                                         <!-- Group Information (Above Course Card) -->
                                         <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
                                             <div class="group-info-box">
-                                                <p><strong>👨‍🏫 Instructor:</strong> {{ $instructor ? $instructor->name : 'Not Assigned' }}</p>
+                                                <p><strong>👨‍🏫 Instructor:</strong> {{ $group->course ? $group->course->instructor->name : 'Not Assigned' }}</p>
                                                 <p><strong>📌 Group Name:</strong> {{ $group->name }}</p>
                                                 <p><strong>📅 Total Lessons:</strong> {{ $lessonCount }}</p>
                                                 <p><strong>⏳ Estimated Study Time:</strong> ~{{ $totalHours }} Hours</p>
