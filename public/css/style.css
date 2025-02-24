@@ -5454,7 +5454,7 @@ Grid Area
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 15px;
+    padding: 15px;
 }
 @media (max-width: 767px) {
     .gridarea__wraper .gridarea__content .gridarea__bottom {
@@ -12011,7 +12011,7 @@ Breadcrumb Area
     margin: 0;
 }
 .dashboard__single__counter {
-    padding: 50px 40px;
+    padding: 15px 20px;
     background: var(--lightGrey5);
     margin-bottom: 20px;
     border-radius: var(--borderRadius3);
@@ -14243,9 +14243,6 @@ Dark Mode
 
 #table-body .col {
     border: 1px solid transparent;
-}
-
-#table-body {
 }
 
 #table-body .row {
