@@ -50,7 +50,8 @@ Route::get('/message', function () { return view('student.message'); });
 */
 Route::get('/admin-login', [AuthController::class, 'showAdminLoginForm'])->name('admin-login');
 Route::post('/admin-login', [AuthController::class, 'adminLogin'])->name('admin-login');
-Route::get('/login', [AuthController::class, 'showStudentLoginForm'])->name('student-login');
+Route::get('/login', [AuthController::class, 'showStudentLoginForm'])->name('login');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::get('/student-login', [AuthController::class, 'showStudentLoginForm'])->name('student-login');
 Route::post('/student-login', [AuthController::class, 'studentLogin'])->name('student-login');

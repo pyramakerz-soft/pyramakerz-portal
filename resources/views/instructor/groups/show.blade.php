@@ -111,7 +111,7 @@
                             </div>
                             <form action="{{ route('instructor.meetings.create_all', $group->id) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-success">
                                     Create Meetings for All Scheduled Lessons
                                 </button>
                             </form>

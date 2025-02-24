@@ -74,7 +74,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::guard('student')->attempt($request->only('email', 'password'))) {
+        if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
             return redirect()->route('instructor.courses');
         }
 

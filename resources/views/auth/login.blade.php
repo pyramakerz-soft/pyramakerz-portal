@@ -104,7 +104,7 @@
 
 
 
-                                    <form action="{{ route('student-login') }}" method="POST">
+                                    <form action="{{ route('login') }}" method="POST">
                                         @csrf
                                         <div class="login__form">
                                             <label class="form__label">email</label>

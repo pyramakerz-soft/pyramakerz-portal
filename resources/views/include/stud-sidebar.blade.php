@@ -24,7 +24,7 @@
                     </svg>
                     My Profile</a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="/message">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -33,7 +33,7 @@
                         <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                     </svg>
                     Message</a><span class="dashboard__label">12</span>
-            </li>
+            </li> --}}
             <li>
                 <a href="{{route('student-courses')}}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -44,7 +44,7 @@
                     Enrolled Courses</a>
             </li>
 
-            <li>
+            {{-- <li>
                 <a href="/my-quizz">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -64,7 +64,7 @@
                         <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
                     </svg>
                     Quiz</a>
-            </li>
+            </li> --}}
             <li>
                 <a href="/settings">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
