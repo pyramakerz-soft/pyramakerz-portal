@@ -4,7 +4,8 @@
 
 <body class="body__wrapper">
 
-    {{-- @include('include.preload') --}}
+    {{--  @include('include.load')
+    @include('include.preload') --}}
 
     <main class="main_wrapper overflow-hidden">
         @include('include.dash-nav')

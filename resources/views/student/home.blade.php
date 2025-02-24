@@ -10,6 +10,7 @@
 
 <body class="body__wrapper">
 
+    @include('include.load')
     @include('include.preload')
 
 
@@ -749,7 +750,8 @@
                             class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 grid-item filter1 filter2 filter3 filter4 filter5">
                             <div class="gridarea__wraper gridarea__wraper__2">
                                 <div class="gridarea__img">
-                                    <img loading="lazy" src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
+                                    <img loading="lazy"
+                                        src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
                                         alt="grid">
                                     <div class="gridarea__small__button">
                                         <div class="grid__badge orange__color">{{ $course->name ?? '0' }}
@@ -768,7 +770,8 @@
                                                 {{ $course->totalLessonsCount() ?? 0 }} Lessons
                                             </li>
                                             <li>
-                                                <i class="icofont-clock-time"></i>{{ $course->duration ?? 'N/A' }} Minutes
+                                                <i class="icofont-clock-time"></i>{{ $course->duration ?? 'N/A' }}
+                                                Minutes
                                             </li>
                                         </ul>
                                     </div>
@@ -778,7 +781,7 @@
                                         </h3>
 
                                     </div>
-                                    
+
 
 
 

@@ -4,6 +4,7 @@
 
 <body class="body__wrapper">
 
+    @include('include.load')
     @include('include.preload')
 
     <main class="main_wrapper overflow-hidden">

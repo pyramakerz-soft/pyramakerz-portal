@@ -10,6 +10,7 @@
 
 <body class="body__wrapper">
 
+    @include('include.load')
     @include('include.preload')
 
 
@@ -61,40 +62,49 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($tasks as $studentTask)
-    <tr>
-        <th>
-            <p>{{ \Carbon\Carbon::parse($studentTask->due_date)->format('F d, Y') }}</p>
-            <span>{{ $studentTask->task->name }}</span> {{-- Assuming task relation exists --}}
-        </th>
-        <td>
-            <p>{{ $studentTask->task->course_id }}</p> {{-- Assuming task relation exists --}}
-        </td>
-        <td>
-            <p>{{ $studentTask->task->lesson_id }}</p> {{-- Assuming task relation exists --}}
-        </td>
-        <td>
-            <p>{{ $studentTask->student_id }}</p> 
-        </td>
-        <td>
-            <span class="dashboard__td {{ $studentTask->completed_at ? 'dashboard__td--success' : 'dashboard__td--cancel' }}">
-                {{ $studentTask->completed_at ? 'Completed' : 'Fail' }}
-            </span>
-        </td>
-        <td>
-            <div class="dashboard__button__group">
-                @if($studentTask->task->file) {{-- Assuming task relation exists --}}
-                    <a class="dashboard__small__btn__2" 
-                        href="{{ asset('storage/tasks/' . $studentTask->task->file) }}" target="_blank">
-                        <i class="icofont-eye"></i> View
-                    </a>
-                @else
-                    <span class="dashboard__small__btn__2 disabled">No File</span>
-                @endif
-            </div>
-        </td>
-    </tr>
-@endforeach
+                                                    @foreach ($tasks as $studentTask)
+                                                        <tr>
+                                                            <th>
+                                                                <p>{{ \Carbon\Carbon::parse($studentTask->due_date)->format('F d, Y') }}
+                                                                </p>
+                                                                <span>{{ $studentTask->task->name }}</span>
+                                                                {{-- Assuming task relation exists --}}
+                                                            </th>
+                                                            <td>
+                                                                <p>{{ $studentTask->task->course_id }}</p>
+                                                                {{-- Assuming task relation exists --}}
+                                                            </td>
+                                                            <td>
+                                                                <p>{{ $studentTask->task->lesson_id }}</p>
+                                                                {{-- Assuming task relation exists --}}
+                                                            </td>
+                                                            <td>
+                                                                <p>{{ $studentTask->student_id }}</p>
+                                                            </td>
+                                                            <td>
+                                                                <span
+                                                                    class="dashboard__td {{ $studentTask->completed_at ? 'dashboard__td--success' : 'dashboard__td--cancel' }}">
+                                                                    {{ $studentTask->completed_at ? 'Completed' : 'Fail' }}
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <div class="dashboard__button__group">
+                                                                    @if ($studentTask->task->file)
+                                                                        {{-- Assuming task relation exists --}}
+                                                                        <a class="dashboard__small__btn__2"
+                                                                            href="{{ asset('storage/tasks/' . $studentTask->task->file) }}"
+                                                                            target="_blank">
+                                                                            <i class="icofont-eye"></i> View
+                                                                        </a>
+                                                                    @else
+                                                                        <span
+                                                                            class="dashboard__small__btn__2 disabled">No
+                                                                            File</span>
+                                                                    @endif
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
 
                                                     {{-- <tr class="dashboard__table__row">
                                                         <th>

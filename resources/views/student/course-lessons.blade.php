@@ -1,73 +1,14 @@
 <!DOCTYPE html>
-<html class="no-js is_dark" lang="zxx">
+<html class="no-js " lang="zxx">
+
 <head>
     @include('include.head')
-    <style>
-        /* Lesson Cards Styling */
-        .lesson-card {
-            background: #007bff !important;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: 0.3s;
-            cursor: pointer;
-            color: white;
-        }
-        .lesson-card:hover {
-            background: #0056b3 !important;
-        }
-        .lesson-card.active {
-            background: var(--primaryColor) !important;
-        }
-        .lesson-card h5 {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .lesson-card p {
-            font-size: 14px;
-            margin: 2px 0;
-        }
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-            background: black;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        /* Countdown Timer */
-        .countdown-strip {
-            background: #007bff;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .status-start {
-            background: var(--primaryColor) !important;
-        }
-        .status-late {
-            background: #ffc107 !important;
-            color: black !important;
-        }
-        .status-very-late {
-            background: #dc3545 !important;
-        }
-    </style>
+
 </head>
+
 <body class="body__wrapper">
+    @include('include.load')
+
     @include('include.nav')
     <div class="tution sp_bottom_100 sp_top_50">
         @include('include.stud-topbar')
@@ -80,34 +21,42 @@
                         @foreach ($lessons as $index => $lesson)
                             @php
                                 // Convert lesson date and times to timestamps (milliseconds)
-                                $startDateTime = \Carbon\Carbon::parse($lesson['date'] . ' ' . $lesson['start_time'])->timestamp * 1000;
-                                $endDateTime = \Carbon\Carbon::parse($lesson['date'] . ' ' . $lesson['end_time'])->timestamp * 1000;
+                                $startDateTime =
+                                    \Carbon\Carbon::parse($lesson['date'] . ' ' . $lesson['start_time'])->timestamp *
+                                    1000;
+                                $endDateTime =
+                                    \Carbon\Carbon::parse($lesson['date'] . ' ' . $lesson['end_time'])->timestamp *
+                                    1000;
                                 // Use the lesson's video_url directly from the lesson table
-                                $videoUrl = $lesson['video_url'];
-                                // Get meeting URL if meeting exists (if applicable)
-                                $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
-                                    ->where('group_id', $lesson['group_id'])
-                                    ->where('group_schedule_id', $lesson['schedule_id'])
-                                    ->where('status', 'live')
+$videoUrl = $lesson['video_url'];
+// Get meeting URL if meeting exists (if applicable)
+$meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
+    ->where('group_id', $lesson['group_id'])
+    ->where('group_schedule_id', $lesson['schedule_id'])
+    ->where('status', 'live')
                                     ->first();
                             @endphp
-                            <div class="lesson-card" id="lesson-card-{{ $index }}" 
-                            onclick="selectLesson({{ $index }}, '{{ $lesson['title'] }}', '{{ $videoUrl }}', {{ $startDateTime }}, {{ $endDateTime }}, '{{ $meeting ? $meeting->id : '' }}')">
+                            <div class="dashboard__single__counter" id="lesson-card-{{ $index }}"
+                                onclick="selectLesson({{ $index }}, '{{ $lesson['title'] }}', '{{ $videoUrl }}', {{ $startDateTime }}, {{ $endDateTime }}, '{{ $meeting ? $meeting->id : '' }}')">
                                 <h5>Lesson #{{ $index + 1 }} - {{ $lesson['title'] }}</h5>
                                 <p><strong>📅 Date:</strong> {{ $lesson['date'] }}</p>
-                                <p><strong>⏰ Time:</strong> {{ $lesson['start_time'] }} - {{ $lesson['end_time'] }}</p>
-                                
+                                <p><strong>⏰ Time:</strong> {{ $lesson['start_time'] }} - {{ $lesson['end_time'] }}
+                                </p>
+
                                 <!-- Lesson Resources -->
                                 @if (($lesson['materials'] ?? collect([]))->isNotEmpty())
                                     <div class="lesson-resources mt-3">
                                         @foreach ($lesson['materials'] as $resource)
-                                            @if ((is_null($resource->group_id) || $resource->group_id == $lesson['group_id']) &&
-                                                 (is_null($resource->group_schedule_id) || $resource->group_schedule_id == $lesson['schedule_id']))
+                                            @if (
+                                                (is_null($resource->group_id) || $resource->group_id == $lesson['group_id']) &&
+                                                    (is_null($resource->group_schedule_id) || $resource->group_schedule_id == $lesson['schedule_id']))
                                                 <div class="resource-item mb-2">
-                                                    <a href="{{ asset('storage/' . $resource->file_path) }}" target="_blank">
+                                                    <a href="{{ asset('storage/' . $resource->file_path) }}"
+                                                        target="_blank">
                                                         {{ $resource->title ?? basename($resource->file_path) }}
                                                     </a>
-                                                    <a href="{{ asset('storage/' . $resource->file_path) }}" download class="btn btn-sm btn-outline-primary ml-2">
+                                                    <a href="{{ asset('storage/' . $resource->file_path) }}" download
+                                                        class="btn btn-sm btn-outline-primary ml-2">
                                                         Download
                                                     </a>
                                                 </div>
@@ -163,7 +112,8 @@
 
             // Update video content
             if (videoUrl) {
-                document.getElementById('lesson-video').innerHTML = `<iframe src="${videoUrl}" allowfullscreen allow="autoplay"></iframe>`;
+                document.getElementById('lesson-video').innerHTML =
+                    `<iframe src="${videoUrl}" allowfullscreen allow="autoplay"></iframe>`;
             } else {
                 document.getElementById('lesson-video').innerHTML = "<p>No video available for this lesson.</p>";
             }
@@ -193,7 +143,8 @@
                     timerElement.innerHTML = `<a href="/meetings/${meetingUrl}" class="btn btn-success">Start Session</a>`;
                 } else if (now > startTime && now < endTime) {
                     timerElement.classList.add('status-late');
-                    timerElement.innerHTML = `<a href="/meetings/${meetingUrl}" class="btn btn-warning">Join Session Late</a>`;
+                    timerElement.innerHTML =
+                        `<a href="/meetings/${meetingUrl}" class="btn btn-warning">Join Session Late</a>`;
                 } else {
                     timerElement.classList.add('status-very-late');
                     timerElement.innerText = "Session Ended";
@@ -205,5 +156,26 @@
             countdownInterval = setInterval(refreshTimer, 1000);
         }
     </script>
+
+    <!-- JS here -->
+    <script src="../js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="../js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/isotope.pkgd.min.js"></script>
+    <script src="../js/slick.min.js"></script>
+    <script src="../js/jquery.meanmenu.min.js"></script>
+    <script src="../js/ajax-form.js"></script>
+    <script src="../js/wow.min.js"></script>
+    <script src="../js/jquery.scrollUp.min.js"></script>
+    <script src="../js/imagesloaded.pkgd.min.js"></script>
+    <script src="../js/jquery.magnific-popup.min.js"></script>
+    <script src="../js/waypoints.min.js"></script>
+    <script src="../js/jquery.counterup.min.js"></script>
+    <script src="../js/plugins.js"></script>
+    <script src="../js/swiper-bundle.min.js"></script>
+    <script src="../js/main.js"></script>
+
 </body>
+
 </html>

@@ -6,6 +6,7 @@
 </head>
 
 <body class="body__wrapper">
+    @include('include.load')
     @include('include.preload')
 
     <main class="main_wrapper overflow-hidden">
@@ -119,14 +120,18 @@
                                                             {{ $path->name }}
                                                         </button>
                                                     </h2>
-                                                    <div id="path{{ $path->id }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                                    <div id="path{{ $path->id }}"
+                                                        class="accordion-collapse collapse"
+                                                        data-bs-parent="#accordionExample">
                                                         <div class="accordion-body">
                                                             <!-- Loop through path_of_paths inside this course path -->
-                                                            <div class="accordion" id="subPathAccordion{{ $path->id }}">
+                                                            <div class="accordion"
+                                                                id="subPathAccordion{{ $path->id }}">
                                                                 @forelse ($path->paths as $subPath)
                                                                     <div class="accordion-item">
                                                                         <h2 class="accordion-header">
-                                                                            <button class="accordion-button collapsed" type="button"
+                                                                            <button class="accordion-button collapsed"
+                                                                                type="button"
                                                                                 data-bs-toggle="collapse"
                                                                                 data-bs-target="#subPath{{ $subPath->id }}"
                                                                                 aria-expanded="false"
@@ -134,48 +139,84 @@
                                                                                 {{ $subPath->name }}
                                                                             </button>
                                                                         </h2>
-                                                                        <div id="subPath{{ $subPath->id }}" class="accordion-collapse collapse" data-bs-parent="#subPathAccordion{{ $path->id }}">
+                                                                        <div id="subPath{{ $subPath->id }}"
+                                                                            class="accordion-collapse collapse"
+                                                                            data-bs-parent="#subPathAccordion{{ $path->id }}">
                                                                             <div class="accordion-body">
                                                                                 <!-- Nested accordion for lessons -->
-                                                                                <div class="accordion" id="lessonAccordion{{ $subPath->id }}">
+                                                                                <div class="accordion"
+                                                                                    id="lessonAccordion{{ $subPath->id }}">
                                                                                     @forelse ($subPath->lessons->sortBy('order') as $lesson)
                                                                                         <div class="accordion-item">
-                                                                                            <h2 class="accordion-header">
-                                                                                                <button class="accordion-button collapsed" type="button"
+                                                                                            <h2
+                                                                                                class="accordion-header">
+                                                                                                <button
+                                                                                                    class="accordion-button collapsed"
+                                                                                                    type="button"
                                                                                                     data-bs-toggle="collapse"
                                                                                                     data-bs-target="#lesson{{ $lesson->id }}"
                                                                                                     aria-expanded="false"
                                                                                                     aria-controls="lesson{{ $lesson->id }}">
-                                                                                                    {{ $lesson->title }} <span>Order: {{ $lesson->order ?? 'N/A' }}</span>
+                                                                                                    {{ $lesson->title }}
+                                                                                                    <span>Order:
+                                                                                                        {{ $lesson->order ?? 'N/A' }}</span>
                                                                                                 </button>
                                                                                             </h2>
-                                                                                            <div id="lesson{{ $lesson->id }}" class="accordion-collapse collapse" data-bs-parent="#lessonAccordion{{ $subPath->id }}">
-                                                                                                <div class="accordion-body">
+                                                                                            <div id="lesson{{ $lesson->id }}"
+                                                                                                class="accordion-collapse collapse"
+                                                                                                data-bs-parent="#lessonAccordion{{ $subPath->id }}">
+                                                                                                <div
+                                                                                                    class="accordion-body">
                                                                                                     <!-- Lesson Video -->
-                                                                                                    <div class="video-container mb-3">
+                                                                                                    <div
+                                                                                                        class="video-container mb-3">
                                                                                                         @if ($lesson->video_url)
                                                                                                             @php
-                                                                                                                $isGoogleDrive = str_contains($lesson->video_url, 'drive.google.com');
+                                                                                                                $isGoogleDrive = str_contains(
+                                                                                                                    $lesson->video_url,
+                                                                                                                    'drive.google.com',
+                                                                                                                );
                                                                                                                 $embedUrl = $isGoogleDrive
-                                                                                                                    ? preg_replace('/\/view\?usp=sharing$/', '/preview', $lesson->video_url)
+                                                                                                                    ? preg_replace(
+                                                                                                                        '/\/view\?usp=sharing$/',
+                                                                                                                        '/preview',
+                                                                                                                        $lesson->video_url,
+                                                                                                                    )
                                                                                                                     : $lesson->video_url;
                                                                                                             @endphp
-                                                                                                            <iframe src="{{ $embedUrl }}" width="100%" height="400" frameborder="0" allowfullscreen></iframe>
+                                                                                                            <iframe
+                                                                                                                src="{{ $embedUrl }}"
+                                                                                                                width="100%"
+                                                                                                                height="400"
+                                                                                                                frameborder="0"
+                                                                                                                allowfullscreen></iframe>
                                                                                                         @else
-                                                                                                            <p>No video available for this lesson.</p>
+                                                                                                            <p>No video
+                                                                                                                available
+                                                                                                                for this
+                                                                                                                lesson.
+                                                                                                            </p>
                                                                                                         @endif
                                                                                                     </div>
-                                                                                                    <p><strong>Description:</strong> {{ $lesson->description ?? 'No description available.' }}</p>
+                                                                                                    <p><strong>Description:</strong>
+                                                                                                        {{ $lesson->description ?? 'No description available.' }}
+                                                                                                    </p>
                                                                                                     @if ($lesson->resource_file)
-                                                                                                        <a href="{{ asset('storage/' . $lesson->resource_file) }}" download>Download Resource</a>
+                                                                                                        <a href="{{ asset('storage/' . $lesson->resource_file) }}"
+                                                                                                            download>Download
+                                                                                                            Resource</a>
                                                                                                     @else
-                                                                                                        <p>No resources available for this lesson.</p>
+                                                                                                        <p>No resources
+                                                                                                            available
+                                                                                                            for this
+                                                                                                            lesson.</p>
                                                                                                     @endif
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     @empty
-                                                                                        <p>No lessons available in this sub-path.</p>
+                                                                                        <p>No lessons available in this
+                                                                                            sub-path.</p>
                                                                                     @endforelse
                                                                                 </div>
                                                                             </div>
@@ -193,10 +234,10 @@
                                             @endforelse
                                         </div>
                                     </div>
-                                    
-                                    
-                                    
-                                    
+
+
+
+
 
                                     <!-- Description Tab -->
                                     <div class="tab-pane fade" id="description" role="tabpanel">
@@ -218,7 +259,9 @@
                         <div class="course__details__sidebar--2">
                             <div class="event__sidebar__wraper" data-aos="fade-up">
                                 <div class="blogarae__img__2 course__details__img__2" data-aos="fade-up">
-                                    <img loading="lazy" src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}" alt="blog">
+                                    <img loading="lazy"
+                                        src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
+                                        alt="blog">
                                 </div>
 
                                 <div class="course__summery__button">

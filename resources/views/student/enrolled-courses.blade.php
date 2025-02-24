@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js is_dark" lang="zxx">
+<html class="no-js " lang="zxx">
 
 <head>
     @include('include.head')
@@ -8,7 +8,10 @@
 
 <body class="body__wrapper">
 
-    @include('include.preload')
+
+
+    @include('include.load')
+
 
     <main class="main_wrapper overflow-hidden">
         @include('include.nav')
@@ -129,7 +132,7 @@
                                                                 <div class="gridarea__heading">
                                                                     <h3>
                                                                         <a
-                                                                            href="/session-details">{{ $course->name }}</a>
+                                                                            href="/course_lessons/{{ $course->id }}">{{ $course->name }}</a>
                                                                     </h3>
                                                                 </div>
                                                                 <div class="gridarea__bottom">
@@ -241,7 +244,7 @@
                                                                 <div class="gridarea__heading">
                                                                     <h3>
                                                                         <a
-                                                                            href="/session-details">{{ $course->name }}</a>
+                                                                            href="/course_lessons/{{ $course->id }}">{{ $course->name }}</a>
                                                                     </h3>
                                                                 </div>
                                                                 <div class="gridarea__bottom">
@@ -352,7 +355,7 @@
                                                                 <div class="gridarea__heading">
                                                                     <h3>
                                                                         <a
-                                                                            href="/session-details">{{ $course->name }}</a>
+                                                                            href="/course_lessons/{{ $course->id }}">{{ $course->name }}</a>
                                                                     </h3>
                                                                 </div>
                                                                 <div class="gridarea__bottom">

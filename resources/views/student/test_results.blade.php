@@ -6,6 +6,7 @@
 </head>
 
 <body class="body__wrapper">
+    @include('include.load')
     @include('include.preload')
 
     <main class="main_wrapper overflow-hidden">
@@ -37,30 +38,33 @@
 
                                 <hr class="mt-40">
 
-                                @foreach($test->questions as $question)
-                                <div class="mb-4">
-                                    <h5>{{ $loop->iteration }}. {{ $question->text }}</h5>
+                                @foreach ($test->questions as $question)
+                                    <div class="mb-4">
+                                        <h5>{{ $loop->iteration }}. {{ $question->text }}</h5>
 
-                                    @php
-                                        $choices = json_decode($question->choices, true);
-                                        $studentAnswer = $studentAnswers->where('question_id', $question->id)->first();
-                                    @endphp
+                                        @php
+                                            $choices = json_decode($question->choices, true);
+                                            $studentAnswer = $studentAnswers
+                                                ->where('question_id', $question->id)
+                                                ->first();
+                                        @endphp
 
-                                    @if(is_array($choices))
-                                    <ul class="list-group">
-                                        @foreach($choices as $choice)
-                                        <li class="list-group-item 
-                                            @if($studentAnswer && $studentAnswer->selected_choice == $choice) list-group-item-success @endif
+                                        @if (is_array($choices))
+                                            <ul class="list-group">
+                                                @foreach ($choices as $choice)
+                                                    <li
+                                                        class="list-group-item 
+                                            @if ($studentAnswer && $studentAnswer->selected_choice == $choice) list-group-item-success @endif
                                             ">
-                                            {{ $choice }} 
-                                            @if($studentAnswer && $studentAnswer->selected_choice == $choice)
-                                                ✅ Your Answer
-                                            @endif
-                                        </li>
-                                        @endforeach
-                                    </ul>
-                                    @endif
-                                </div>
+                                                        {{ $choice }}
+                                                        @if ($studentAnswer && $studentAnswer->selected_choice == $choice)
+                                                            ✅ Your Answer
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </div>
                                 @endforeach
 
                                 <div class="mt-4">

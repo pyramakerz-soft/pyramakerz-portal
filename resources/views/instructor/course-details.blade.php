@@ -6,6 +6,7 @@
 </head>
 
 <body class="body__wrapper">
+    @include('include.load')
     @include('include.preload')
 
     <main class="main_wrapper overflow-hidden">
@@ -158,10 +159,13 @@
                                                                         <div class="lesson-resources">
                                                                             @foreach ($lesson->resources as $resource)
                                                                                 <div class="resource-item mb-2">
-                                                                                    <a href="{{ asset('storage/' . $resource->file_path) }}" target="_blank">
+                                                                                    <a href="{{ asset('storage/' . $resource->file_path) }}"
+                                                                                        target="_blank">
                                                                                         {{ $resource->title ?? basename($resource->file_path) }}
                                                                                     </a>
-                                                                                    <a href="{{ asset('storage/' . $resource->file_path) }}" download class="btn btn-sm btn-outline-primary ml-2">
+                                                                                    <a href="{{ asset('storage/' . $resource->file_path) }}"
+                                                                                        download
+                                                                                        class="btn btn-sm btn-outline-primary ml-2">
                                                                                         Download
                                                                                     </a>
                                                                                 </div>
@@ -192,7 +196,8 @@
                                             <h5>Course Description</h5>
                                         </div>
                                         <div class="experence__description">
-                                            <p>{{ $course->description ?? 'No description available for this course.' }}</p>
+                                            <p>{{ $course->description ?? 'No description available for this course.' }}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -356,8 +361,9 @@
                             contentType: false,
                             data: formData,
                             success: function() {
-                                Swal.fire("Success", "Material uploaded successfully!", "success")
-                                .then(() => location.reload());
+                                Swal.fire("Success", "Material uploaded successfully!",
+                                        "success")
+                                    .then(() => location.reload());
                             },
                             error: function() {
                                 Swal.fire("Error", "Upload failed!", "error");
@@ -370,53 +376,53 @@
             // Additional code for assigning teacher, choosing date, etc...
         });
         // 🔹 ASSIGN TEACHER / INSTRUCTOR BUTTON
-$(".assign-teacher-btn").click(function() {
-    let courseId = $(this).data("course-id");
+        $(".assign-teacher-btn").click(function() {
+            let courseId = $(this).data("course-id");
 
-    Swal.fire({
-        title: "Assign Teacher",
-        html: `
+            Swal.fire({
+                title: "Assign Teacher",
+                html: `
             <select id="teacher_id" class="swal2-input form-control" style="border-radius: 8px; padding: 8px;">
                 @foreach ($teachers as $teacher)
                     <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
                 @endforeach
             </select>
         `,
-        showCancelButton: true,
-        confirmButtonText: "Assign",
-        preConfirm: () => {
-            return {
-                course_id: courseId,
-                teacher_id: $("#teacher_id").val()
-            };
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: "{{ route('course.assignTeacher') }}",
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    course_id: result.value.course_id,
-                    teacher_id: result.value.teacher_id
-                },
-                success: function() {
-                    Swal.fire("Success", "Teacher assigned successfully!", "success");
-                    location.reload();
-                },
-                error: function() {
-                    Swal.fire("Error", "Something went wrong!", "error");
+                showCancelButton: true,
+                confirmButtonText: "Assign",
+                preConfirm: () => {
+                    return {
+                        course_id: courseId,
+                        teacher_id: $("#teacher_id").val()
+                    };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('course.assignTeacher') }}",
+                        type: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            course_id: result.value.course_id,
+                            teacher_id: result.value.teacher_id
+                        },
+                        success: function() {
+                            Swal.fire("Success", "Teacher assigned successfully!", "success");
+                            location.reload();
+                        },
+                        error: function() {
+                            Swal.fire("Error", "Something went wrong!", "error");
+                        }
+                    });
                 }
             });
-        }
-    });
-});
+        });
 
-// 🔹 ADD LESSON BUTTON
-$(".add-lesson-btn").click(function() {
-    Swal.fire({
-        title: "Add New Lesson",
-        html: `
+        // 🔹 ADD LESSON BUTTON
+        $(".add-lesson-btn").click(function() {
+            Swal.fire({
+                title: "Add New Lesson",
+                html: `
             <div style="display: flex; flex-direction: column; gap: 10px; text-align: left;">
                 <label style="font-weight: 600;">Lesson Title</label>
                 <input type="text" id="lesson_title" class="swal2-input" placeholder="Enter Lesson Title" style="border-radius: 8px;">
@@ -441,67 +447,66 @@ $(".add-lesson-btn").click(function() {
                 </select>
             </div>
         `,
-        showCancelButton: true,
-        confirmButtonText: "Save",
-        confirmButtonColor: "#28a745",
-        cancelButtonColor: "#dc3545",
-        customClass: {
-            popup: 'swal-wide',
-            confirmButton: 'btn btn-success',
-            cancelButton: 'btn btn-danger',
-        },
-        preConfirm: () => {
-            return {
-                title: $("#lesson_title").val(),
-                order: $("#lesson_order").val(),
-                video_url: $("#lesson_video").val(),
-                course_path_id: $("#course_path_id").val(),
-                path_of_path_id: $("#path_of_path_id").val(),
-                course_id: {{ $course->id }}
-            };
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: "{{ route('lesson.store') }}",
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    title: result.value.title,
-                    order: result.value.order,
-                    video_url: result.value.video_url,
-                    course_path_id: result.value.course_path_id,
-                    path_of_path_id: result.value.path_of_path_id,
-                    course_id: result.value.course_id
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                confirmButtonColor: "#28a745",
+                cancelButtonColor: "#dc3545",
+                customClass: {
+                    popup: 'swal-wide',
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger',
                 },
-                success: function() {
-                    Swal.fire("Success", "Lesson added successfully!", "success");
-                    location.reload();
-                },
-                error: function() {
-                    Swal.fire("Error", "Something went wrong!", "error");
+                preConfirm: () => {
+                    return {
+                        title: $("#lesson_title").val(),
+                        order: $("#lesson_order").val(),
+                        video_url: $("#lesson_video").val(),
+                        course_path_id: $("#course_path_id").val(),
+                        path_of_path_id: $("#path_of_path_id").val(),
+                        course_id: {{ $course->id }}
+                    };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('lesson.store') }}",
+                        type: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            title: result.value.title,
+                            order: result.value.order,
+                            video_url: result.value.video_url,
+                            course_path_id: result.value.course_path_id,
+                            path_of_path_id: result.value.path_of_path_id,
+                            course_id: result.value.course_id
+                        },
+                        success: function() {
+                            Swal.fire("Success", "Lesson added successfully!", "success");
+                            location.reload();
+                        },
+                        error: function() {
+                            Swal.fire("Error", "Something went wrong!", "error");
+                        }
+                    });
                 }
             });
-        }
-    });
-});
-
-// Function to update the "Path of Path" dropdown when a course path is selected.
-function updatePathOfPath() {
-    let selectedPath = $("#course_path_id option:selected");
-    let pathOfPathDropdown = $("#path_of_path_id");
-    let paths = selectedPath.data("paths"); // Get paths from selected option
-
-    // Clear and add default option
-    pathOfPathDropdown.empty().append(`<option value="">Select Path of Path</option>`);
-
-    if (paths) {
-        paths.forEach((path) => {
-            pathOfPathDropdown.append(`<option value="${path.id}">${path.name}</option>`);
         });
-    }
-}
 
+        // Function to update the "Path of Path" dropdown when a course path is selected.
+        function updatePathOfPath() {
+            let selectedPath = $("#course_path_id option:selected");
+            let pathOfPathDropdown = $("#path_of_path_id");
+            let paths = selectedPath.data("paths"); // Get paths from selected option
+
+            // Clear and add default option
+            pathOfPathDropdown.empty().append(`<option value="">Select Path of Path</option>`);
+
+            if (paths) {
+                paths.forEach((path) => {
+                    pathOfPathDropdown.append(`<option value="${path.id}">${path.name}</option>`);
+                });
+            }
+        }
     </script>
 
 </body>

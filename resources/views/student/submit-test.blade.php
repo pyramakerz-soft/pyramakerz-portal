@@ -6,6 +6,7 @@
 </head>
 
 <body class="body__wrapper">
+    @include('include.load')
     @include('include.preload')
 
     <main class="main_wrapper overflow-hidden">
@@ -39,32 +40,38 @@
 
                                 <form action="{{ route('submit-test', $test->id) }}" method="POST">
                                     @csrf
-                                    
-                                    @foreach($test->questions as $question)
-                                    <div class="mb-4">
-                                        <h5>{{ $loop->iteration }}. {{ $question->text }}</h5>
 
-                                        @php
-                                            $choices = json_decode($question->choices, true); // Convert JSON to array
-                                        @endphp
+                                    @foreach ($test->questions as $question)
+                                        <div class="mb-4">
+                                            <h5>{{ $loop->iteration }}. {{ $question->text }}</h5>
 
-                                        @if(is_array($choices))
-                                        <div class="mt-2">
-                                            @foreach($choices as $choice)
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="answers[{{ $question->id }}]" value="{{ $choice }}" id="choice_{{ $question->id }}_{{ $loop->index }}" required>
-                                                <label class="form-check-label" for="choice_{{ $question->id }}_{{ $loop->index }}">
-                                                    {{ $choice }}
-                                                </label>
-                                            </div>
-                                            @endforeach
+                                            @php
+                                                $choices = json_decode($question->choices, true); // Convert JSON to array
+                                            @endphp
+
+                                            @if (is_array($choices))
+                                                <div class="mt-2">
+                                                    @foreach ($choices as $choice)
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="answers[{{ $question->id }}]"
+                                                                value="{{ $choice }}"
+                                                                id="choice_{{ $question->id }}_{{ $loop->index }}"
+                                                                required>
+                                                            <label class="form-check-label"
+                                                                for="choice_{{ $question->id }}_{{ $loop->index }}">
+                                                                {{ $choice }}
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @endif
                                         </div>
-                                        @endif
-                                    </div>
                                     @endforeach
 
                                     <div class="mt-4">
-                                        <button type="submit" class="dashboard__small__btn__2 dashboard__small__btn__3">
+                                        <button type="submit"
+                                            class="dashboard__small__btn__2 dashboard__small__btn__3">
                                             <i class="icofont-paper-plane"></i> Submit Answers
                                         </button>
                                     </div>

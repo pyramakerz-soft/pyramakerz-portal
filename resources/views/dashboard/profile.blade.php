@@ -10,6 +10,7 @@
 
 <body class="body__wrapper">
 
+    @include('include.load')
     @include('include.preload')
 
 

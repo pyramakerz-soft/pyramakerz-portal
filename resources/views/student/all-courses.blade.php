@@ -9,6 +9,7 @@
 
 <body class="body__wrapper">
 
+    @include('include.load')
     @include('include.preload')
 
 
@@ -117,15 +118,15 @@
                                 </div>
                                 <div class="course__categories__list">
                                     <ul>
-                                        @foreach($categories as $category)
+                                        @foreach ($categories as $category)
                                             <li>
                                                 <a href="{{ route('courses.index', ['category' => $category->id]) }}">
                                                     {{ $category->name }}
                                                     <span>{{ $category->courses->count() }}</span>
                                                 </a>
                                             </li>
-                                            @endforeach
-                                        
+                                        @endforeach
+
 
 
                                     </ul>
@@ -228,7 +229,8 @@
                                         <div class="col-xl-4 col-lg-6 col-md-12 col-sm-6 col-12" data-aos="fade-up">
                                             <div class="gridarea__wraper gridarea__wraper__2">
                                                 <div class="gridarea__img">
-                                                    <img loading="lazy" src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
+                                                    <img loading="lazy"
+                                                        src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
                                                         alt="{{ $course->name }}">
                                                     <div class="gridarea__small__button">
                                                         <div class="grid__badge orange__color">

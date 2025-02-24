@@ -6,6 +6,7 @@
 </head>
 
 <body class="body__wrapper">
+    @include('include.load')
     @include('include.preload')
 
     <main class="main_wrapper overflow-hidden">
@@ -33,13 +34,14 @@
                             <div class="dashboard__content__wraper">
                                 <div class="dashboard__section__title">
                                     <h4>{{ $test->name }}</h4>
-                                    <p><strong>Instructions:</strong> Select the correct answer for each question and submit.</p>
+                                    <p><strong>Instructions:</strong> Select the correct answer for each question and
+                                        submit.</p>
                                 </div>
 
                                 <hr class="mt-40">
 
                                 <!-- Check if the student has already completed this test -->
-                                @if($testCompleted)
+                                @if ($testCompleted)
                                     <div class="alert alert-success">
                                         <strong>✅ Test Already Submitted!</strong> You cannot submit this test again.
                                     </div>
@@ -48,43 +50,43 @@
                                 <form action="{{ route('submit-test', $test->id) }}" method="POST">
                                     @csrf
 
-                                    @foreach($test->questions as $question)
-                                    <div class="mb-4">
-                                        <h5>{{ $loop->iteration }}. {{ $question->question }}</h5>
+                                    @foreach ($test->questions as $question)
+                                        <div class="mb-4">
+                                            <h5>{{ $loop->iteration }}. {{ $question->question }}</h5>
 
-                                        @php
-                                            $choices = json_decode($question->options, true);
-                                            $studentAnswer = $studentAnswers->where('question_id', $question->id)->first();
-                                            $isDisabled = $testCompleted ? 'disabled' : '';
-                                        @endphp
+                                            @php
+                                                $choices = json_decode($question->options, true);
+                                                $studentAnswer = $studentAnswers
+                                                    ->where('question_id', $question->id)
+                                                    ->first();
+                                                $isDisabled = $testCompleted ? 'disabled' : '';
+                                            @endphp
 
-                                        @if(is_array($choices))
-                                        <div class="mt-2">
-                                            @foreach($choices as $choice)
-                                            <div class="form-check">
-                                                <input class="form-check-input"
-                                                    type="radio"
-                                                    name="answers[{{ $question->id }}]"
-                                                    value="{{ $choice }}"
-                                                    id="choice_{{ $question->id }}_{{ $loop->index }}"
-                                                    {{ $studentAnswer && $studentAnswer->selected_choice == $choice ? 'checked' : '' }}
-                                                    {{ $isDisabled }}
-                                                    required>
-                                                
-                                                <label class="form-check-label" for="choice_{{ $question->id }}_{{ $loop->index }}">
-                                                    {{ $choice }}
-                                                </label>
-                                            </div>
-                                            @endforeach
+                                            @if (is_array($choices))
+                                                <div class="mt-2">
+                                                    @foreach ($choices as $choice)
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="answers[{{ $question->id }}]"
+                                                                value="{{ $choice }}"
+                                                                id="choice_{{ $question->id }}_{{ $loop->index }}"
+                                                                {{ $studentAnswer && $studentAnswer->selected_choice == $choice ? 'checked' : '' }}
+                                                                {{ $isDisabled }} required>
+
+                                                            <label class="form-check-label"
+                                                                for="choice_{{ $question->id }}_{{ $loop->index }}">
+                                                                {{ $choice }}
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @endif
                                         </div>
-                                        @endif
-                                    </div>
                                     @endforeach
 
                                     <div class="mt-4">
-                                        <button type="submit"
-                                            class="dashboard__small__btn__2 dashboard__small__btn__3"
-                                            @if($testCompleted) disabled @endif>
+                                        <button type="submit" class="dashboard__small__btn__2 dashboard__small__btn__3"
+                                            @if ($testCompleted) disabled @endif>
                                             <i class="icofont-paper-plane"></i> Submit Answers
                                         </button>
                                     </div>

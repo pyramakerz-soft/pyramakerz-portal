@@ -10,6 +10,7 @@
 
 <body class="body__wrapper">
 
+    @include('include.load')
     @include('include.preload')
 
 
@@ -52,10 +53,10 @@
                                                 </div>
                                                 <div class="counter__content__wraper">
                                                     <div class="counter__number">
-                                                        <span class="counter">{{ $courses }}</span>+
+                                                        <span class="counter">{{ $courses }}</span>
 
                                                     </div>
-                                                    <p>Enrolled Courses</p>
+                                                    <p>Total Points</p>
 
                                                 </div>
                                             </div>
@@ -70,7 +71,7 @@
                                                 </div>
                                                 <div class="counter__content__wraper">
                                                     <div class="counter__number">
-                                                        <span class="counter">08</span>+
+                                                        <span class="counter">08</span>
 
                                                     </div>
                                                     <p>Complete Courses</p>
@@ -91,7 +92,7 @@
                                                         <span class="counter">12</span>
 
                                                     </div>
-                                                    <p>Complete Lessons</p>
+                                                    <p>Earned Hours</p>
 
                                                 </div>
                                             </div>

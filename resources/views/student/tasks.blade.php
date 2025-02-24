@@ -10,6 +10,7 @@
 
 <body class="body__wrapper">
 
+    @include('include.load')
     @include('include.preload')
 
 
@@ -61,40 +62,42 @@
                                                 </thead>
                                                 <tbody>
 
-                                                    @foreach($tasks as $task)
-                                                    <tr>
-                                                        <th>
+                                                    @foreach ($tasks as $task)
+                                                        <tr>
+                                                            <th>
 
-                                                            <span>{{$task->test->name}}</span>
-                                                            <p><a href="#">{{\App\models\PathOfPath::find($task->path_of_path_id)->name ?? '-'}} </a></p>
-                                                        </th>
-                                                        <td>
-                                                            <p>100</p>
-                                                        </td>
+                                                                <span>{{ $task->test->name }}</span>
+                                                                <p><a href="#">{{ \App\models\PathOfPath::find($task->path_of_path_id)->name ?? '-' }}
+                                                                    </a></p>
+                                                            </th>
+                                                            <td>
+                                                                <p>100</p>
+                                                            </td>
 
-                                                        <td>
-                                                            {{-- <span
+                                                            <td>
+                                                                {{-- <span
                                                                 class="dashboard__td dashboard__td--cancel">Rejected</span> --}}
-                                                                <span class="dashboard__td dashboard__td--pass">Accepted</span>
+                                                                <span
+                                                                    class="dashboard__td dashboard__td--pass">Accepted</span>
                                                                 {{-- <span class="dashboard__td dashboard__td--over">Over
                                                                     due</span> --}}
-                                                                    {{-- <span
+                                                                {{-- <span
                                                                 class="dashboard__td dashboard__td--pass">accepted</span> --}}
 
-                                                        </td>
+                                                            </td>
 
 
 
-                                                        <td>
-                                                            <div class="dashboard__button__group">
-                                                                <a class="dashboard__small__btn__2 dashboard__small__btn__3"
-                                                                    href="{{ route('view-test', $task->test->id) }}">
-                                                                    <i class="icofont-eye"></i> View Test
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                        
-                                                    </tr>
+                                                            <td>
+                                                                <div class="dashboard__button__group">
+                                                                    <a class="dashboard__small__btn__2 dashboard__small__btn__3"
+                                                                        href="{{ route('view-test', $task->test->id) }}">
+                                                                        <i class="icofont-eye"></i> View Test
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+
+                                                        </tr>
                                                     @endforeach
                                                     {{-- <tr class="dashboard__table__row">
                                                         <th>
