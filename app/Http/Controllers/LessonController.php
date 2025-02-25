@@ -118,12 +118,12 @@ public function storeLesson(Request $request)
     ];
 
     // Create a new Request instance using these defaults.
-    $fakeRequest = new \Illuminate\Http\Request($defaultParameters);
+    // $fakeRequest = new \Illuminate\Http\Request($defaultParameters);
 
     // Call the InstructorController's scheduling method.
     // (Alternatively, you might extract the scheduling logic to a service so it can be reused.)
-    $instructorController = app(\App\Http\Controllers\InstructorController::class);
-    $instructorController->rescheduleGroupsForCourse($fakeRequest, $lesson->course_id);
+    // $instructorController = app(\App\Http\Controllers\InstructorController::class);
+    // $instructorController->rescheduleGroupsForCourse($fakeRequest, $lesson->course_id);
 
     return response()->json(['message' => 'Lesson added and group schedules updated successfully!'], 200);
 }

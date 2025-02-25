@@ -26,7 +26,6 @@ class StudentController extends Controller
 {
     // Get the authenticated student
     $student = Auth::guard('student')->user(); // Assuming 'student' guard is used
-
     // Fetch groups the student is enrolled in
     $groups = \App\Models\Group::whereHas('students', function ($query) use ($student) {
         $query->where('student_id', $student->id);

@@ -45,7 +45,7 @@
         @include('include.nav')
 
         <div class="dashboardarea sp_bottom_100">
-            @include('include.admin-topbar')
+            @include('include.stud-topbar')
 
             <div class="dashboard">
                 <div class="container-fluid full__width__padding">

@@ -112,6 +112,7 @@ Route::post('/course/assign-teacher', [CourseController::class, 'assignTeacher']
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth:student')->group(function () {
+    Route::get('/time-table', [StudentController::class, 'timetable'])->name('time-table');
     Route::get('/my-progress', [StudentController::class, 'mySummary'])->name('my-progress');
     Route::get('/profile', [StudentController::class, 'profile'])->name('student-profile');
     Route::get('/student-courses', [StudentController::class, 'getCourses'])->name('student-courses');
@@ -269,9 +270,9 @@ Route::prefix('instructor')->middleware('admin.auth')->group(function () {
 
 });
 
-Route::get('/time-table', function () {
-    return view('instructor.timetable');
-});
+// Route::get('/time-table', function () {
+//     return view('student.timetable');
+// });
 // Route::get('/instructor/profile', function () { return view('instructor.profile'); });
 Route::get('/instructor/settings', function () {
     return view('instructor.settings');
