@@ -3,13 +3,13 @@
 
 <head>
     @include('include.head')
-    {{-- calendar --}}
+    <!-- FullCalendar CSS -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    
     <style>
-        /* body { background-color: #f4f6f9; } */
         .breadcrumbarea { margin-bottom: 20px; }
-        .instructor-profile {
+        .profile-container {
             background: #fff;
             padding: 20px;
             border-radius: 8px;
@@ -34,49 +34,34 @@
             border: 1px solid #ccc;
             width: 200px;
         }
-        span, p, h2, h1, ul { color: var(--primaryColor) !important; }
-        a, h4, h3, li { color: blue !important; }
     </style>
 </head>
 
-
 <body class="body__wrapper">
-
     @include('include.load')
-    @include('include.preload')
-
+    {{-- @include('include.preload') --}}
 
     <main class="main_wrapper overflow-hidden">
         @include('include.nav')
 
-
-        <!-- theme fixed shadow -->
-        <div>
-            <div class="theme__shadow__circle"></div>
-            <div class="theme__shadow__circle shadow__right"></div>
-        </div>
-        <!-- theme fixed shadow -->
-        <!-- breadcrumbarea__section__start -->
-
-
-
-        <!-- dashboardarea__area__start  -->
         <div class="dashboardarea sp_bottom_100">
             @include('include.admin-topbar')
+
             <div class="dashboard">
                 <div class="container-fluid full__width__padding">
                     <div class="row">
+                        <!-- Student Sidebar -->
                         <div class="col-xl-3 col-lg-3 col-md-12">
-                            @include('include.inst-sidebar')
-
+                            @include('include.stud-sidebar')
                         </div>
+
+                        <!-- Main Content -->
                         <div class="col-xl-9 col-lg-9 col-md-12">
                             <div class="dashboard__content__wraper">
-
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <div class="calendar-container">
-                                        <h4 style="color:var(--primaryColor)">Group Schedule Calendar</h4>
-                    
+                                        <h4 style="color:var(--primaryColor)">📅 My Timetable</h4>
+
                                         <!-- Filters -->
                                         <div class="filters-container">
                                             <select id="groupFilter" class="filter-dropdown">
@@ -85,7 +70,7 @@
                                                     <option value="{{ $group->id }}">{{ $group->name }}</option>
                                                 @endforeach
                                             </select>
-                    
+
                                             <select id="courseFilter" class="filter-dropdown">
                                                 <option value="all">All Courses</option>
                                                 @foreach($courses as $course)
@@ -93,31 +78,26 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                    
+
                                         <div id="calendar"></div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <!-- dashboardarea__area__end   -->
+            </div>
+        </div>
 
-                <!-- footer__section__start -->
-                @include('include.footer')
-                <!-- footer__section__end -->
-
-
+        @include('include.footer')
     </main>
 
-
+    <!-- JS Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
@@ -153,20 +133,26 @@
                 },
                 events: allEvents,
 
-                // Handle date click
                 dateClick: function(info) {
                     var selectedDate = info.dateStr;
                     var eventsForDate = allEvents.filter(event => event.extendedProps.date === selectedDate);
 
                     if (eventsForDate.length > 0) {
                         var eventDetails = eventsForDate.map(event => `
-                            <p><strong>Lesson:</strong> ${event.extendedProps.lessonTitle}</p>
-                            <p><strong>Group:</strong> ${event.extendedProps.groupName}</p>
-                            <p><strong>Start Time:</strong> ${event.extendedProps.start_time}</p>
-                            <p><strong>End Time:</strong> ${event.extendedProps.end_time}</p>
-                            <p><strong>Meeting ID:</strong> ${event.extendedProps.meetingId ? event.extendedProps.meetingId : 'Not Set'}</p>
-                            <hr>
-                        `).join('');
+    <p><strong>Lesson:</strong> ${event.extendedProps.lessonTitle}</p>
+    <p><strong>Group:</strong> ${event.extendedProps.groupName}</p>
+    <p><strong>Start Time:</strong> ${event.extendedProps.start_time}</p>
+    <p><strong>End Time:</strong> ${event.extendedProps.end_time}</p>
+    <p><strong>Meeting ID:</strong> ${event.extendedProps.meetingId ? event.extendedProps.meetingId : 'Not Set'}</p>
+    
+    ${event.extendedProps.meetingId 
+        ? `<p><button><a href="/meetings/${event.extendedProps.meetingId}" class="btn btn-danger" style="text-decoration:none;color:white;">Join Session</a></button></p>` 
+        : ''
+    }
+    
+    <hr>
+`).join('');
+
 
                         Swal.fire({
                             title: `Sessions on ${selectedDate}`,
@@ -182,7 +168,6 @@
                     }
                 },
 
-                // Handle event click
                 eventClick: function(info) {
                     var ev = info.event;
                     Swal.fire({
@@ -198,7 +183,6 @@
                 }
             });
 
-            // Filter Function
             function filterEvents() {
                 var selectedGroup = document.getElementById("groupFilter").value;
                 var selectedCourse = document.getElementById("courseFilter").value;
@@ -218,31 +202,5 @@
             calendar.render();
         });
     </script>
-
-    <!-- JS Dependencies -->
-    <script src="../js/vendor/modernizr-3.5.0.min.js"></script>
-    <script src="../js/vendor/jquery-3.6.0.min.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/isotope.pkgd.min.js"></script>
-    <script src="../js/slick.min.js"></script>
-    <script src="../js/jquery.meanmenu.min.js"></script>
-    <script src="../js/ajax-form.js"></script>
-    <script src="../js/wow.min.js"></script>
-    <script src="../js/jquery.scrollUp.min.js"></script>
-    <script src="../js/imagesloaded.pkgd.min.js"></script>
-    <script src="../js/jquery.magnific-popup.min.js"></script>
-    <script src="../js/waypoints.min.js"></script>
-    <script src="../js/jquery.counterup.min.js"></script>
-    <script src="../js/plugins.js"></script>
-    <script src="../js/swiper-bundle.min.js"></script>
-    <script src="../js/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-
 </body>
-
 </html>

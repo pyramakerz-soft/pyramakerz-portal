@@ -43,20 +43,27 @@ class InstructorController extends Controller
 }
 
 
+public function profile(){
+    $instructor = Auth::guard('admin')->user();
+    return view('instructor.profile', compact('instructor'));
+}
 
+public function timetable()
+{
+    // Get the authenticated instructor
+    $instructor = Auth::guard('admin')->user();
 
-    public function profile()
-    {
-        // Get the authenticated instructor
-        $instructor = Auth::guard('admin')->user();
-    
-        // Fetch the groups the instructor is assigned to
-        $groups = \App\Models\Group::where('instructor_id', $instructor->id)
-            ->with(['course', 'schedules.lesson', 'schedules.group']) // Ensure group is loaded
-            ->get();
-    
-        return view('instructor.profile', compact('instructor', 'groups'));
-    }
+    // Fetch the groups the instructor is assigned to
+    $groups = \App\Models\Group::where('instructor_id', $instructor->id)
+        ->with(['course', 'schedules.lesson', 'schedules.group']) // Ensure group is loaded
+        ->get();
+
+    // Extract unique courses from the groups
+    $courses = $groups->pluck('course')->unique(); 
+
+    return view('instructor.timetable', compact('instructor', 'groups', 'courses'));
+}
+
     
 
     public function showEvaluationPage($meetingId)
@@ -78,7 +85,7 @@ class InstructorController extends Controller
     $request->validate([
         'evaluations' => 'required|array',
         'evaluation_period_start' => 'required|date',
-        'evaluation_period_end'   => 'required|date|after_or_equal:evaluation_period_start',
+        'evaluation_period_end'   => 'required|date',
     ]);
 
     // Load the meeting with group, course, and lesson details.
@@ -100,7 +107,6 @@ class InstructorController extends Controller
         "Didn't submit homework" => 0,
         'No homework'            => 10,
     ];
-
     foreach ($request->evaluations as $studentId => $data) {
         // Get the joined date from the GroupStudent record if not provided.
         $groupStudent = \App\Models\GroupStudent::where('student_id', $studentId)
@@ -133,7 +139,6 @@ class InstructorController extends Controller
             'joined_at'     => $joinedDate,
             'attendance'    => $attendanceStatus, // 'absent' or 'present'
         ];
-    
         // Update or create the evaluation record for this student.
         $evaluation = \App\Models\InstructorToStudentEvaluation::where('student_id', $studentId)
             ->where('course_id', $courseId)

@@ -21,6 +21,23 @@ class StudentController extends Controller
         $student = Auth::guard('student')->user();
         return view('student.profile', compact('student'));
     }
+
+    public function timetable()
+{
+    // Get the authenticated student
+    $student = Auth::guard('student')->user(); // Assuming 'student' guard is used
+
+    // Fetch groups the student is enrolled in
+    $groups = \App\Models\Group::whereHas('students', function ($query) use ($student) {
+        $query->where('student_id', $student->id);
+    })->with(['course', 'schedules.lesson', 'schedules.group'])->get();
+
+    // Extract unique courses from the student's groups
+    $courses = $groups->pluck('course')->unique();
+
+    return view('student.timetable', compact('student', 'groups', 'courses'));
+}
+
     public function myQuiz(){
         $student = Auth::guard('student')->user();
         return view('student.my-quizz', compact('student'));

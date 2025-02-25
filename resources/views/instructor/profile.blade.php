@@ -1,114 +1,126 @@
 <!doctype html>
 <html class="no-js is_dark" lang="zxx">
+
 <head>
     @include('include.head')
-    <!-- FullCalendar CSS (using version 5) -->
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet" />
-    <!-- SweetAlert2 CSS (optional, if not already included) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    <style>
-        body { background-color: #f4f6f9; }
-        .breadcrumbarea { margin-bottom: 20px; }
-        .instructor-profile {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .instructor-profile h4 { color: #007bff; }
-        .calendar-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        /* FullCalendar container styling */
-        #calendar {
-            max-width: 100%;
-            margin: 0 auto;
-        }
-       span,p,h2,h1,ul{
-            color: var(--primaryColor) !important;
-        }
-        a,h4,h3,li{
-            color: blue !important;
-        }
-    </style>
+
 </head>
+
+
 <body class="body__wrapper">
-    @include('include.nav')
-    {{-- @include('include.preload') --}}
-    @include('include.dash-head')
-    <!-- Breadcrumb -->
 
-    <div class="breadcrumbarea" style="background:var(--primaryColor) !important">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-8">
-                    <div class="breadcrumb__content__wraper">
-                        <div class="breadcrumb__inner text-start">
-                            <ul>
-                                <li><a href="/">Home</a></li>
-                                {{-- @foreach ($groups as $group)
-    <li>
-        <a href="{{ route('instructor.course_details', $group->course->id) }}">
-            {{ $group->course->name }} (ID: pyra-{{ $group->course->id }})
-        </a>
-    </li>
-    <li>{{ $group->name }}</li>
-@endforeach --}}
+    @include('include.load')
+    @include('include.preload')
 
-                                <li>Instructor Profile</li>
-                            </ul>
+
+    <main class="main_wrapper overflow-hidden">
+
+
+        @include('include.nav')
+
+        <!-- theme fixed shadow -->
+        <div>
+            <div class="theme__shadow__circle"></div>
+            <div class="theme__shadow__circle shadow__right"></div>
+        </div>
+        <!-- theme fixed shadow -->
+
+
+
+        <!-- dashboardarea__area__start  -->
+        <div class="dashboardarea sp_bottom_100">
+            @include('include.admin-topbar')
+            <div class="dashboard">
+                <div class="container-fluid full__width__padding">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-3 col-md-12">
+                            @include('include.inst-sidebar')
+
                         </div>
-                    </div>
-                    <div class="course__details__heading">
-                        <h3>Instructor Profile & Group Schedule</h3>
+
+                        <div class="col-xl-9 col-lg-9 col-md-12">
+                            <div class="dashboard__content__wraper">
+                                <div class="dashboard__section__title">
+                                    <h4>My Profile</h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="dashboard__form">Registration Date</div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="dashboard__form">{{ $instructor->created_at ?? '-' }}</div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="dashboard__form dashboard__form__margin">First Name</div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="dashboard__form dashboard__form__margin">
+                                            {{ explode(' ', $instructor->name)[0] ?? '-' }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="dashboard__form dashboard__form__margin">Last Name</div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="dashboard__form dashboard__form__margin">
+                                            {{ explode(' ', $instructor->name)[1] ?? '' ?? '-' }}
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="dashboard__form dashboard__form__margin">Email</div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="dashboard__form dashboard__form__margin">{{ $instructor->email ?? '-' }}</div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="dashboard__form dashboard__form__margin">Phone Number</div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="dashboard__form dashboard__form__margin">{{ $instructor->phone ?? '-' }}</div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="dashboard__form dashboard__form__margin">Country</div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="dashboard__form dashboard__form__margin">{{ $instructor->country ?? '-' }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="dashboard__form dashboard__form__margin">City</div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="dashboard__form dashboard__form__margin">{{ $instructor->city ?? '-' }}</div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="dashboard__form dashboard__form__margin">Birthdate</div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="dashboard__form dashboard__form__margin">{{ $instructor->bday ?? '-' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <main class="container" style="padding: 30px;">
-        <div class="row">
-            <!-- Instructor Profile Sidebar -->
-            <div class="col-md-4">
-                <div class="instructor-profile">
-    @include('include.admin-sidebar')
-<br>
-                    <h4 style="color:var(--primaryColor)">My Profile</h4>
-                    <p style="color:black !important"><strong>Name:</strong> {{ $instructor->name }}</p>
-                    <p style="color:black !important"><strong>Email:</strong> {{ $instructor->email }}</p>
-                    <p style="color:black !important"><strong>Phone:</strong> {{ $instructor->phone }}</p>
-                    <!-- Add more instructor fields as needed -->
-                </div>
-            </div>
-            <!-- Calendar and Group Schedules -->
-            <div class="col-md-8">
-                <div class="calendar-container">
-                    <h4 style="color:var(--primaryColor)">Group Schedule Calendar</h4>
-                    <div id="calendar"></div>
-                </div>
-            </div>
-        </div>
+
+        <!-- dashboardarea__menu__end   -->
+
+
+        <!-- footer__section__start -->
+        @include('include.footer')
+        <!-- footer__section__end -->
+
+
+
     </main>
-
-    @include('include.footer')
-
-    <!-- JS Dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- FullCalendar JS -->
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
-
-           
-
-
 
 
     <!-- JS here -->
@@ -130,88 +142,6 @@
     <script src="../js/swiper-bundle.min.js"></script>
     <script src="../js/main.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var allEvents = [];
-    
-            @foreach ($groups as $group)
-                allEvents = allEvents.concat({!! json_encode($group->schedules->map(function($schedule) {
-                    return [
-                        'id' => $schedule->id,
-                        'title' => $schedule->lesson->title,
-                        'start' => $schedule->date . 'T' . $schedule->start_time,
-                        'end'   => $schedule->date . 'T' . $schedule->end_time,
-                        'extendedProps' => [
-                            'groupName' => $schedule->group->name,
-                            'lessonTitle' => $schedule->lesson->title,
-                            'meetingId' => $schedule->meeting_id,
-                            'date' => $schedule->date,
-                            'start_time' => $schedule->start_time,
-                            'end_time' => $schedule->end_time,
-                        ]
-                    ];
-                })) !!});
-            @endforeach
-    
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-                events: allEvents,
-                
-                // Handle click on a specific date (show all sessions for that day)
-                dateClick: function(info) {
-                    var selectedDate = info.dateStr;
-                    var eventsForDate = allEvents.filter(event => event.extendedProps.date === selectedDate);
-                    
-                    if (eventsForDate.length > 0) {
-                        var eventDetails = eventsForDate.map(event => `
-                            <p><strong>Lesson:</strong> ${event.extendedProps.lessonTitle}</p>
-                            <p><strong>Group:</strong> ${event.extendedProps.groupName}</p>
-                            <p><strong>Start Time:</strong> ${event.extendedProps.start_time}</p>
-                            <p><strong>End Time:</strong> ${event.extendedProps.end_time}</p>
-                            <p><strong>Meeting ID:</strong> ${event.extendedProps.meetingId ? event.extendedProps.meetingId : 'Not Set'}</p>
-                            <hr>
-                        `).join('');
-    
-                        Swal.fire({
-                            title: `Sessions on ${selectedDate}`,
-                            html: eventDetails,
-                            icon: 'info'
-                        });
-                    } else {
-                        Swal.fire({
-                            title: "No Sessions",
-                            text: "No scheduled sessions on this day.",
-                            icon: "warning"
-                        });
-                    }
-                },
-    
-                // Handle event click (open session details)
-                eventClick: function(info) {
-                    var ev = info.event;
-                    Swal.fire({
-                        title: ev.extendedProps.lessonTitle + " (" + ev.extendedProps.groupName + ")",
-                        html: `
-                            <p><strong>Date:</strong> ${ev.extendedProps.date}</p>
-                            <p><strong>Start Time:</strong> ${ev.extendedProps.start_time}</p>
-                            <p><strong>End Time:</strong> ${ev.extendedProps.end_time}</p>
-                            <p><strong>Meeting ID:</strong> ${ev.extendedProps.meetingId ? ev.extendedProps.meetingId : 'Not Set'}</p>
-                        `,
-                        icon: 'info'
-                    });
-                }
-            });
-    
-            calendar.render();
-        });
-    </script>
-    
 
 
 

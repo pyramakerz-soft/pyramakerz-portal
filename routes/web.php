@@ -121,12 +121,14 @@ Route::middleware('auth:student')->group(function () {
     Route::post('/test/{id}/submit', [StudentController::class, 'submitTest'])->name('submit-test');
     Route::get('/test/{id}/results', [StudentController::class, 'viewResults'])->name('test-results');
     Route::get('/student/courses', [StudentController::class, 'getCourses'])->name('student.courses');
-    Route::get('/course_lessons/{id}', [StudentController::class, 'showCourseLessons'])->name('course_lessons');
-    Route::get('/meetings/{id}', [MeetingController::class, 'show'])->name('meetings.show');
-    Route::post('/upload-homework', [MeetingController::class, 'uploadHomework'])->name('homework.upload');
-    Route::get('/fetch-attendance/{meeting}', [MeetingController::class, 'fetchAttendance'])->name('attendance.fetch');
-    Route::get('/zoom-signature', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
-    Route::get('/zoom-signature/{meetingNumber}/{role}', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
+Route::get('/course_lessons/{id}',[StudentController::class, 'showCourseLessons'])->name('course_lessons');
+Route::get('/meetings/{id}', [MeetingController::class, 'show'])->name('meetings.show');
+Route::post('/upload-homework', [MeetingController::class, 'uploadHomework'])->name('homework.upload');
+Route::get('/fetch-attendance/{meeting}', [MeetingController::class, 'fetchAttendance'])->name('attendance.fetch');
+Route::get('/zoom-signature', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
+Route::get('/zoom-signature/{meetingNumber}/{role}', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
+Route::get('/time-table', [StudentController::class, 'timetable'])->name('student.time-table');
+
 
 
 });
@@ -221,6 +223,7 @@ Route::get('/session-details', function () {
 Route::prefix('instructor')->middleware('admin.auth')->group(function () {
 
     Route::get('/profile', [InstructorController::class, 'profile'])->name('instructor.profile');
+    Route::get('/time-table', [InstructorController::class, 'timetable'])->name('instructor.time-table');
     Route::get('/zoom_meetings', [InstructorController::class, 'zoomMeetings'])->name('instructor.zoom_meetings');
     Route::get('/course_details/{id}', [InstructorController::class, 'courseDetail'])->name('instructor.course_details');
     Route::get('/course/{id}/groups', [InstructorController::class, 'viewGroups'])
