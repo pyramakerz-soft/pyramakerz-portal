@@ -39,9 +39,15 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 |--------------------------------------------------------------------------
 */
 Route::get('/', [PortalController::class, 'homePage'])->name('home');
-Route::get('/course-details', function () { return view('student.course-details'); });
-Route::get('/view-course', function () { return view('student.active'); });
-Route::get('/message', function () { return view('student.message'); });
+Route::get('/course-details', function () {
+    return view('student.course-details');
+});
+Route::get('/view-course', function () {
+    return view('student.active');
+});
+Route::get('/message', function () {
+    return view('student.message');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -72,14 +78,22 @@ Route::get('/course/{id}', [CourseController::class, 'show'])->name('course.deta
 |--------------------------------------------------------------------------
 */
 Route::middleware('admin.auth')->group(function () {
-    Route::get('/admin-dashboard', function () { return view('dashboard.admin'); });
+    Route::get('/admin-dashboard', function () {
+        return view('dashboard.admin');
+    });
     Route::get('/admin-courses', [AdminController::class, 'index'])->name('admin-courses');
-    Route::get('/admin/profile', function () { return view('dashboard.profile'); });
-    Route::get('/admin/settings', function () { return view('dashboard.settings'); });
+    Route::get('/admin/profile', function () {
+        return view('dashboard.profile');
+    });
+    Route::get('/admin/settings', function () {
+        return view('dashboard.settings');
+    });
     Route::post('/create-course', [AdminController::class, 'createCourse'])->name('create-course');
     Route::get('/create-course', [AdminController::class, 'createCourse'])->name('create-course');
-    Route::post( '/lesson-schedule', [LessonController::class, 'scheduleLesson'])->name('lesson.schedule');
-Route::get('/activate-course', function () { return view('dashboard.activate-course'); })->name('activate-course');
+    Route::post('/lesson-schedule', [LessonController::class, 'scheduleLesson'])->name('lesson.schedule');
+    Route::get('/activate-course', function () {
+        return view('dashboard.activate-course');
+    })->name('activate-course');
 
 });
 
@@ -107,12 +121,12 @@ Route::middleware('auth:student')->group(function () {
     Route::post('/test/{id}/submit', [StudentController::class, 'submitTest'])->name('submit-test');
     Route::get('/test/{id}/results', [StudentController::class, 'viewResults'])->name('test-results');
     Route::get('/student/courses', [StudentController::class, 'getCourses'])->name('student.courses');
-Route::get('/course_lessons/{id}',[StudentController::class, 'showCourseLessons'])->name('course_lessons');
-Route::get('/meetings/{id}', [MeetingController::class, 'show'])->name('meetings.show');
-Route::post('/upload-homework', [MeetingController::class, 'uploadHomework'])->name('homework.upload');
-Route::get('/fetch-attendance/{meeting}', [MeetingController::class, 'fetchAttendance'])->name('attendance.fetch');
-Route::get('/zoom-signature', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
-Route::get('/zoom-signature/{meetingNumber}/{role}', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
+    Route::get('/course_lessons/{id}', [StudentController::class, 'showCourseLessons'])->name('course_lessons');
+    Route::get('/meetings/{id}', [MeetingController::class, 'show'])->name('meetings.show');
+    Route::post('/upload-homework', [MeetingController::class, 'uploadHomework'])->name('homework.upload');
+    Route::get('/fetch-attendance/{meeting}', [MeetingController::class, 'fetchAttendance'])->name('attendance.fetch');
+    Route::get('/zoom-signature', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
+    Route::get('/zoom-signature/{meetingNumber}/{role}', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
 
 
 });
@@ -197,29 +211,37 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
 | Instructor Routes
 |--------------------------------------------------------------------------
 */
+Route::get('/session-details', function () {
+    return view('general.session-details');
+});
+
+Route::get('/session-details', function () {
+    return view('general.session-details');
+});
 Route::prefix('instructor')->middleware('admin.auth')->group(function () {
+
     Route::get('/profile', [InstructorController::class, 'profile'])->name('instructor.profile');
     Route::get('/zoom_meetings', [InstructorController::class, 'zoomMeetings'])->name('instructor.zoom_meetings');
     Route::get('/course_details/{id}', [InstructorController::class, 'courseDetail'])->name('instructor.course_details');
     Route::get('/course/{id}/groups', [InstructorController::class, 'viewGroups'])
-    ->name('instructor.groups');
+        ->name('instructor.groups');
     Route::post('/lesson/update-date', [InstructorController::class, 'updateLessonDate'])->name('lesson.update_date');
 
     Route::get('/students', [InstructorController::class, 'getStudents'])
-    ->name('instructor.get_students');
+        ->name('instructor.get_students');
 
-Route::post('/group/add-student', [InstructorController::class, 'addStudentToGroup'])
-    ->name('instructor.add_student');
+    Route::post('/group/add-student', [InstructorController::class, 'addStudentToGroup'])
+        ->name('instructor.add_student');
 
 
-Route::post('/group/create', [InstructorController::class, 'createGroup'])
-    ->name('instructor.create_group');
+    Route::post('/group/create', [InstructorController::class, 'createGroup'])
+        ->name('instructor.create_group');
 
-Route::get('/group/{id}', [InstructorController::class, 'groupDetails'])
-    ->name('instructor.group_details');
+    Route::get('/group/{id}', [InstructorController::class, 'groupDetails'])
+        ->name('instructor.group_details');
 
-Route::get('/courses', [InstructorController::class, 'index'])
-    ->name('instructor.courses');
+    Route::get('/courses', [InstructorController::class, 'index'])
+        ->name('instructor.courses');
 
     Route::get('/meetings/{id}', [InstructorController::class, 'instructorMeeting'])->name('instructor.meeting');
 
@@ -228,27 +250,35 @@ Route::get('/courses', [InstructorController::class, 'index'])
     Route::get('/homework/view', [InstructorController::class, 'viewHomework'])->name('instructor.homework.view');
 
     Route::post('/meetings/create-all/{group}', [InstructorController::class, 'createMeetingsForGroup'])
-    ->name('instructor.meetings.create_all');
+        ->name('instructor.meetings.create_all');
     Route::post('/course/{courseId}/reschedule', [InstructorController::class, 'rescheduleGroupsForCourse'])
-    ->name('instructor.reschedule_groups');
+        ->name('instructor.reschedule_groups');
 
 
-// Display the evaluation page for a meeting
-Route::get('/meetings/{meeting}/evaluate', [InstructorController::class, 'showEvaluationPage'])
-    ->name('instructor.evaluate_page');
+    // Display the evaluation page for a meeting
+    Route::get('/meetings/{meeting}/evaluate', [InstructorController::class, 'showEvaluationPage'])
+        ->name('instructor.evaluate_page');
 
-// Handle evaluation submission for a meeting
-Route::post('/meetings/{meeting}/evaluate', [InstructorController::class, 'evaluateSession'])
-    ->name('instructor.evaluate_session');
+    // Handle evaluation submission for a meeting
+    Route::post('/meetings/{meeting}/evaluate', [InstructorController::class, 'evaluateSession'])
+        ->name('instructor.evaluate_session');
 
 
 });
 
-Route::get('/time-table', function () { return view('instructor.timetable'); });
+Route::get('/time-table', function () {
+    return view('instructor.timetable');
+});
 // Route::get('/instructor/profile', function () { return view('instructor.profile'); });
-Route::get('/instructor/settings', function () { return view('instructor.settings'); });
-Route::get('/my-courses', function () { return view('instructor.course-details'); });
-Route::get('/my-chat', function () { return view('instructor.message'); });
+Route::get('/instructor/settings', function () {
+    return view('instructor.settings');
+});
+Route::get('/my-courses', function () {
+    return view('instructor.course-details');
+});
+Route::get('/my-chat', function () {
+    return view('instructor.message');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -263,8 +293,12 @@ Route::post('/survey/{id}', [SurveyController::class, 'submitSurvey'])->name('su
 | Miscellaneous Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/settings', function () { return view('student.settings'); });
-Route::get('/home', function () { return view('student.home'); });
+Route::get('/settings', function () {
+    return view('student.settings');
+});
+Route::get('/home', function () {
+    return view('student.home');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -272,7 +306,9 @@ Route::get('/home', function () { return view('student.home'); });
 |--------------------------------------------------------------------------
 */
 Route::middleware([RoleMiddleware::class])->group(function () {
-    Route::get('/admin', function () { return view('dashboard.admin'); });
+    Route::get('/admin', function () {
+        return view('dashboard.admin');
+    });
 });
 
 Auth::routes();

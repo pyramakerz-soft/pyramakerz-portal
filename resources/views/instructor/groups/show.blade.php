@@ -12,18 +12,6 @@
 
     <!-- Custom CSS -->
     <style>
-        /* Custom Styling */
-        .table th {
-            background-color: #007bff;
-            color: white;
-            text-align: center;
-        }
-
-        .table td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
         .student-card {
             background: rgb(35, 0, 233);
             border-radius: 10px;
@@ -115,48 +103,53 @@
                                     Create Meetings for All Scheduled Lessons
                                 </button>
                             </form>
-                            
-                            
-                            <table class="table table-bordered">
-                                <thead class="  headtb text-white">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Lesson Name</th>
-                                        <th>Day</th>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
 
-                                <tbody>
-                                    @forelse ($group->schedules->sortBy('date') as $schedule)
+
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <thead class="  headtb text-white">
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $schedule->lesson->title ?? 'N/A' }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($schedule->date)->format('l') }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($schedule->date)->format('Y-m-d') }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($schedule->start_time)->format('h:i A') }} -
-                                                {{ \Carbon\Carbon::parse($schedule->end_time)->format('h:i A') }}</td>
-
-                                            <td>
-                                                @if (Auth::guard('admin')->user()->can('groupschedule-edit'))
-                                                    <button class="edit-date-btn"
-                                                        data-schedule-id="{{ $schedule->id }}">
-                                                        <i class="icofont-edit"></i> Edit Date
-                                                    </button>
-                                                @endif
-
-                                            </td>
+                                            <th>#</th>
+                                            <th>Lesson Name</th>
+                                            <th>Day</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Action</th>
                                         </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="6" class="text-center">No lessons scheduled for this group.
-                                            </td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+                                    </thead>
+
+                                    <tbody>
+                                        @forelse ($group->schedules->sortBy('date') as $schedule)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $schedule->lesson->title ?? 'N/A' }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($schedule->date)->format('l') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($schedule->date)->format('Y-m-d') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($schedule->start_time)->format('h:i A') }}
+                                                    -
+                                                    {{ \Carbon\Carbon::parse($schedule->end_time)->format('h:i A') }}
+                                                </td>
+
+                                                <td>
+                                                    @if (Auth::guard('admin')->user()->can('groupschedule-edit'))
+                                                        <button class="edit-date-btn"
+                                                            data-schedule-id="{{ $schedule->id }}">
+                                                            <i class="icofont-edit"></i> Edit Date
+                                                        </button>
+                                                    @endif
+
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="6" class="text-center">No lessons scheduled for this
+                                                    group.
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
@@ -168,31 +161,30 @@
                                     <h5>👩‍🎓 Students in this Group</h5>
                                 </div>
 
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            {{-- <th>Action</th> --}}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($group->students as $student)
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead class="  headtb text-white">
+
                                             <tr>
-                                                <td>{{ $student->name }}</td>
-                                                <td>
-                                                    {{-- <button class="remove-student-btn" data-student-id="{{ $student->id }}">
-                                                        <i class="icofont-trash"></i> Remove
-                                                    </button> --}}
-                                                </td>
+                                                <th>Name</th>
+                                                {{-- <th>Action</th> --}}
                                             </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="2" class="text-center">No students assigned to this
-                                                    group.</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($group->students as $student)
+                                                <tr>
+                                                    <td>{{ $student->name }}</td>
+
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="2" class="text-center">No students assigned to this
+                                                        group.</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
 
                                 @if (Auth::guard('admin')->user()->can('groupstudent-create'))
                                     <button class="btn btn-outline-primary mt-3 add-student-btn">
@@ -226,114 +218,120 @@
 
     <script>
         $(document).ready(function() {
-    $(".edit-date-btn").click(function() {
-        let scheduleId = $(this).data("schedule-id");
-
-        Swal.fire({
-            title: "Edit Lesson Date",
-            html: `<input type="text" id="new_lesson_date" class="swal2-input" placeholder="Select Date">`,
-            didOpen: () => {
-                flatpickr("#new_lesson_date", {
-                    dateFormat: "Y-m-d"
-                });
-            },
-            showCancelButton: true,
-            confirmButtonText: "Save",
-            preConfirm: () => {
-                return {
-                    schedule_id: scheduleId,
-                    new_date: $("#new_lesson_date").val()
-                };
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.post("{{ route('lesson.update_date') }}", {
-                    _token: "{{ csrf_token() }}",
-                    schedule_id: result.value.schedule_id,
-                    new_date: result.value.new_date
-                }, function() {
-                    Swal.fire("Success", "Lesson date updated!", "success").then(
-                    () => location.reload());
-                }).fail(() => {
-                    Swal.fire("Error", "Failed to update!", "error");
-                });
-            }
-        });
-    });
-    $('.create-meetings-btn').click(function(e) {
-    e.preventDefault();
-    let groupId = $(this).data('group-id');
-    $.post("{{ route('instructor.meetings.create_all', '') }}/" + groupId, {
-        _token: "{{ csrf_token() }}"
-    }, function(response) {
-        Swal.fire("Success", response.message, "success")
-            .then(() => location.reload());
-    }).fail(function(xhr) {
-        Swal.fire("Error", xhr.responseText, "error");
-    });
-});
-
-    $(".add-student-btn").click(function () {
-        $.ajax({
-            url: "{{ route('instructor.get_students') }}",
-            type: "GET",
-            success: function (response) {
-                let options = '';
-                response.students.forEach(student => {
-                    options += `<option value="${student.id}">${student.name} (${student.email})</option>`;
-                });
+            $(".edit-date-btn").click(function() {
+                let scheduleId = $(this).data("schedule-id");
 
                 Swal.fire({
-                    title: "Add Student",
-                    html: `
-                        <select id="student_id" class="swal2-select" style="width:100%">
-                            ${options}
-                        </select>
-                    `,
+                    title: "Edit Lesson Date",
+                    html: `<input type="text" id="new_lesson_date" class="swal2-input" placeholder="Select Date">`,
                     didOpen: () => {
-                        setTimeout(() => {
-                            $("#student_id").select2({
-                                width: "100%",
-                                dropdownParent: $(".swal2-popup")
-                            });
-                        }, 100); // Ensure Select2 is applied after the modal opens
+                        flatpickr("#new_lesson_date", {
+                            dateFormat: "Y-m-d"
+                        });
                     },
                     showCancelButton: true,
-                    confirmButtonText: "Add",
+                    confirmButtonText: "Save",
                     preConfirm: () => {
                         return {
-                            student_id: $("#student_id").val()
+                            schedule_id: scheduleId,
+                            new_date: $("#new_lesson_date").val()
                         };
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $.ajax({
-                            url: "{{ route('instructor.add_student') }}",
-                            type: "POST",
-                            data: {
-                                _token: "{{ csrf_token() }}",
-                                group_id: {{ $group->id }},
-                                student_id: result.value.student_id
-                            },
-                            success: function () {
-                                Swal.fire("Success", "Student added successfully!", "success").then(
-                                    () => location.reload()
-                                );
-                            },
-                            error: function (xhr) {
-                                Swal.fire("Error", xhr.responseText, "error");
-                            }
+                        $.post("{{ route('lesson.update_date') }}", {
+                            _token: "{{ csrf_token() }}",
+                            schedule_id: result.value.schedule_id,
+                            new_date: result.value.new_date
+                        }, function() {
+                            Swal.fire("Success", "Lesson date updated!", "success").then(
+                                () => location.reload());
+                        }).fail(() => {
+                            Swal.fire("Error", "Failed to update!", "error");
                         });
                     }
                 });
-            },
-            error: function () {
-                Swal.fire("Error", "Failed to fetch students!", "error");
-            }
-        });
-    });
-});
+            });
+            $('.create-meetings-btn').click(function(e) {
+                e.preventDefault();
+                let groupId = $(this).data('group-id');
+                $.post("{{ route('instructor.meetings.create_all', '') }}/" + groupId, {
+                    _token: "{{ csrf_token() }}"
+                }, function(response) {
+                    Swal.fire("Success", response.message, "success")
+                        .then(() => location.reload());
+                }).fail(function(xhr) {
+                    Swal.fire("Error", xhr.responseText, "error");
+                });
+            });
 
+            $(".add-student-btn").click(function() {
+                $.ajax({
+                    url: "{{ route('instructor.get_students') }}",
+                    type: "GET",
+                    success: function(response) {
+                        let options = '';
+                        response.students.forEach(student => {
+                            options +=
+                                `<option value="${student.id}">${student.name} (${student.email})</option>`;
+                        });
+
+                        Swal.fire({
+                            title: "Add Student",
+                            html: `
+                        <select id="student_id" class="swal2-select" style="width:100%">
+                            ${options}
+                        </select>
+                    `,
+                            didOpen: () => {
+                                setTimeout(() => {
+                                        $("#student_id").select2({
+                                            width: "100%",
+                                            dropdownParent: $(
+                                                ".swal2-popup")
+                                        });
+                                    },
+                                    100
+                                ); // Ensure Select2 is applied after the modal opens
+                            },
+                            showCancelButton: true,
+                            confirmButtonText: "Add",
+                            preConfirm: () => {
+                                return {
+                                    student_id: $("#student_id").val()
+                                };
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: "{{ route('instructor.add_student') }}",
+                                    type: "POST",
+                                    data: {
+                                        _token: "{{ csrf_token() }}",
+                                        group_id: {{ $group->id }},
+                                        student_id: result.value.student_id
+                                    },
+                                    success: function() {
+                                        Swal.fire("Success",
+                                            "Student added successfully!",
+                                            "success").then(
+                                            () => location.reload()
+                                        );
+                                    },
+                                    error: function(xhr) {
+                                        Swal.fire("Error", xhr.responseText,
+                                            "error");
+                                    }
+                                });
+                            }
+                        });
+                    },
+                    error: function() {
+                        Swal.fire("Error", "Failed to fetch students!", "error");
+                    }
+                });
+            });
+        });
     </script>
 </body>
 
