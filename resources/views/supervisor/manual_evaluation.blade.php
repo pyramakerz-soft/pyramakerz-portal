@@ -53,7 +53,7 @@
 
     <!-- Supervisor Dashboard Area -->
     <div class="dashboardarea">
-        @include('include.stud-topbar')
+        @include('include.admin-topbar')
         <div class="dashboard">
             <div class="container-fluid full__width__padding">
                 <div class="row">

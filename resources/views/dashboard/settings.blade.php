@@ -30,12 +30,12 @@
 
         <!-- dashboardarea__area__start  -->
         <div class="dashboardarea sp_bottom_100">
-            @include('include.stud-topbar')
+            @include('include.admin-topbar')
             <div class="dashboard">
                 <div class="container-fluid full__width__padding">
                     <div class="row">
                         <div class="col-xl-3 col-lg-3 col-md-12">
-                            @include('include.stud-sidebar')
+                            @include('include.admin-sidebar')
 
                         </div>
                         <div class="col-xl-9 col-lg-9 col-md-12">

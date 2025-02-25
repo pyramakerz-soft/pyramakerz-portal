@@ -12,12 +12,10 @@
     <main class="main_wrapper overflow-hidden">
         @include('include.nav')
 
-        <!-- theme fixed shadow -->
         <div>
             <div class="theme__shadow__circle"></div>
             <div class="theme__shadow__circle shadow__right"></div>
         </div>
-        <!-- theme fixed shadow -->
 
         <!-- breadcrumbarea__section__start -->
         <div class="breadcrumbarea breadcrumbarea--2">
@@ -34,56 +32,21 @@
                         </div>
 
                         <div class="course__details__top--2">
-                            <div class="course__button__wraper" data-aos="fade-up">
-                                <div class="course__button">
-                                    <a href="#">Featured</a>
-                                    <a class="course__2" href="#">{{ $course->skill_level ?? 'N/A' }}</a>
-                                </div>
-                            </div>
                             <div class="course__details__heading" data-aos="fade-up">
                                 <h3>{{ $course->name ?? 'Course Title' }}</h3>
 
-                                <a class="btn btn-black btn-sm" href="{{ route('instructor.groups', $course->id) }}">
-                                    <i class="icofont-users"></i> View Groups
-                                </a>
-                            </div>
-
-                            <div class="course__details__price" data-aos="fade-up">
-                                <ul>
-                                    <li>
-                                        <div class="course__details__date">
-                                            <i class="icofont-book-alt"></i>
-                                            {{ isset($course) ? $course->totalLessonsCount() : 0 }} Lessons
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="course__star">
-                                            <i class="icofont-star"></i>
-                                            <i class="icofont-star"></i>
-                                            <i class="icofont-star"></i>
-                                            <i class="icofont-star"></i>
-                                            <i class="icofont-star"></i>
-                                            <span>(44 Reviews)</span>
-                                        </div>
-                                    </li>
-                                </ul>
+                                @if(Auth::guard('admin')->user()->can('group-list'))
+                                    <a class="btn btn-black btn-sm" href="{{ route('instructor.groups', $course->id) }}">
+                                        <i class="icofont-users"></i> View Groups
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="shape__icon__2">
-                <img loading="lazy" class="shape__icon__img shape__icon__img__1"
-                    src="{{ asset('img/herobanner/herobanner__1.png') }}" alt="photo">
-                <img loading="lazy" class="shape__icon__img shape__icon__img__2"
-                    src="{{ asset('img/herobanner/herobanner__2.png') }}" alt="photo">
-                <img loading="lazy" class="shape__icon__img shape__icon__img__3"
-                    src="{{ asset('img/herobanner/herobanner__3.png') }}" alt="photo">
-                <img loading="lazy" class="shape__icon__img shape__icon__img__4"
-                    src="{{ asset('img/herobanner/herobanner__5.png') }}" alt="photo">
-            </div>
         </div>
+
         <!-- breadcrumbarea__section__end-->
 
         <div class="blogarea__2 sp_top_100 sp_bottom_100">
@@ -92,30 +55,12 @@
                     <div class="col-xl-8 col-lg-8">
                         <div class="blog__details__content__wraper">
                             <div class="course__details__tab__wrapper" data-aos="fade-up">
-                                <div class="row">
-                                    <div class="col-xl-12">
-                                        <ul class="nav course__tap__wrap" id="myTab" role="tablist">
-                                            <li class="nav-item" role="presentation">
-                                                <button class="single__tab__link active" data-bs-toggle="tab"
-                                                    data-bs-target="#lessons" type="button">
-                                                    <i class="icofont-book-alt"></i> Lessons
-                                                </button>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
-                                                <button class="single__tab__link" data-bs-toggle="tab"
-                                                    data-bs-target="#description" type="button">
-                                                    <i class="icofont-paper"></i> Description
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
                                 <div class="tab-content tab__content__wrapper" id="myTabContent">
                                     <!-- Lessons Tab -->
                                     <div class="tab-pane fade active show" id="lessons" role="tabpanel">
                                         <div class="accordion content__cirriculum__wrap" id="accordionExample">
                                             @if (isset($course))
-                                                @forelse ($course->coursePaths as $path)
+                                                @foreach ($course->coursePaths as $path)
                                                     @foreach ($path->lessons as $lesson)
                                                         <div class="accordion-item roundd">
                                                             <h2 class="accordion-header">
@@ -127,30 +72,20 @@
                                                                     {{ $lesson->title }}
                                                                     <span>Order: {{ $lesson->order ?? 'N/A' }}</span>
 
-                                                                    <!-- Add Material Icon -->
-                                                                    <i class="icofont-plus-circle add-material-btn"
-                                                                        data-lesson-id="{{ $lesson->id }}"
-                                                                        title="Add Material"
-                                                                        style="cursor: pointer; margin-left: auto; font-size: 1.2rem;">
-                                                                    </i>
+                                                                    @if(Auth::guard('admin')->user()->can('lessonresource-create'))
+                                                                        <!-- Add Material Button -->
+                                                                        <i class="icofont-plus-circle add-material-btn"
+                                                                            data-lesson-id="{{ $lesson->id }}"
+                                                                            title="Add Material"
+                                                                            style="cursor: pointer; margin-left: auto; font-size: 1.2rem;">
+                                                                        </i>
+                                                                    @endif
                                                                 </button>
                                                             </h2>
                                                             <div id="lesson{{ $lesson->id }}"
                                                                 class="accordion-collapse collapse"
                                                                 data-bs-parent="#accordionExample">
                                                                 <div class="accordion-body">
-                                                                    <!-- Lesson Video -->
-                                                                    <div class="video-container mb-3">
-                                                                        @if ($lesson->video_url)
-                                                                            <iframe src="{{ $lesson->video_url }}"
-                                                                                width="100%" height="400"
-                                                                                frameborder="0"
-                                                                                allowfullscreen></iframe>
-                                                                        @else
-                                                                            <p>No video available for this lesson.</p>
-                                                                        @endif
-                                                                    </div>
-                                                                    <!-- Lesson Description -->
                                                                     <p><strong>Description:</strong>
                                                                         {{ $lesson->description ?? 'No description available.' }}
                                                                     </p>
@@ -178,16 +113,15 @@
                                                             </div>
                                                         </div>
                                                     @endforeach
-                                                @empty
-                                                    <p>No lessons available for this course.</p>
-                                                @endforelse
+                                                @endforeach
                                             @endif
                                         </div>
 
-                                        <!-- Add Lesson Button -->
-                                        <button class="btn btn-outline-primary mt-3 add-lesson-btn">
-                                            <i class="icofont-plus"></i> Add Lesson
-                                        </button>
+                                        @if(Auth::guard('admin')->user()->can('lesson-create'))
+                                            <button class="btn btn-outline-primary mt-3 add-lesson-btn">
+                                                <i class="icofont-plus"></i> Add Lesson
+                                            </button>
+                                        @endif
                                     </div>
 
                                     <!-- Description Tab -->
@@ -203,7 +137,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> 
 
                     <!-- Sidebar -->
                     <div class="col-xl-4 col-lg-4">
@@ -214,7 +148,6 @@
                                         src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
                                         alt="blog">
                                 </div>
-
                                 <div class="course__summery__lists">
                                     <ul>
                                         <li>
@@ -223,33 +156,21 @@
                                                 <span class="sb_content">
                                                     @if ($course->instructor)
                                                         {{ $course->instructor->name }}
-                                                        <button
-                                                            class="btn btn-sm btn-outline-warning assign-teacher-btn"
-                                                            data-course-id="{{ $course->id }}"
-                                                            style="border: none;">
-                                                            Change Instructor
-                                                        </button>
+                                                        @if(Auth::guard('admin')->user()->can('course-edit') || Auth::guard('admin')->user()->can('course-create'))
+                                                            <button class="btn btn-sm btn-outline-warning assign-teacher-btn"
+                                                                data-course-id="{{ $course->id }}" style="border: none;">
+                                                                Change Instructor
+                                                            </button>
+                                                        @endif
                                                     @else
-                                                        <button
-                                                            class="btn btn-sm btn-outline-success assign-teacher-btn"
-                                                            data-course-id="{{ $course->id }}"
-                                                            style="border: none;">
-                                                            + Assign Instructor
-                                                        </button>
+                                                        @if(Auth::guard('admin')->user()->can('course-edit') || Auth::guard('admin')->user()->can('course-create'))
+                                                            <button class="btn btn-sm btn-outline-success assign-teacher-btn"
+                                                                data-course-id="{{ $course->id }}" style="border: none;">
+                                                                + Assign Instructor
+                                                            </button>
+                                                        @endif
                                                     @endif
                                                 </span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="course__summery__item">
-                                                <span class="sb_label">Skill Level:</span>
-                                                <span class="sb_content">{{ $course->skill_level ?? 'N/A' }}</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="course__summery__item">
-                                                <span class="sb_label">Language:</span>
-                                                <span class="sb_content">{{ $course->language ?? 'N/A' }}</span>
                                             </div>
                                         </li>
                                     </ul>
@@ -261,12 +182,10 @@
             </div>
         </div>
 
-        <!-- footer__section__start -->
         @include('include.footer')
-        <!-- footer__section__end -->
     </main>
 
-    <!-- JS here -->
+    <!-- JS Scripts -->
     <script src="{{ asset('js/vendor/modernizr-3.5.0.min.js') }}"></script>
     <script src="{{ asset('js/vendor/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
@@ -510,5 +429,4 @@
     </script>
 
 </body>
-
 </html>

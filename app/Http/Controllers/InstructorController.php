@@ -26,6 +26,39 @@ class InstructorController extends Controller
         
         return view('instructor.admin-courses', compact('courses','categories','teachers'));
     }
+    public function zoomMeetings()
+{
+    // Get the authenticated instructor
+    $instructor = Auth::guard('admin')->user();
+
+    // Fetch the meetings for groups that the instructor teaches
+    $meetings = \App\Models\Meeting::whereHas('group', function ($query) use ($instructor) {
+        $query->where('instructor_id', $instructor->id);
+    })
+    ->with(['group.course', 'lesson'])
+    ->orderBy('start_time', 'asc')
+    ->get();
+
+    return view('zoom.zoom-meetings', compact('meetings', 'instructor'));
+}
+
+
+
+
+    public function profile()
+    {
+        // Get the authenticated instructor
+        $instructor = Auth::guard('admin')->user();
+    
+        // Fetch the groups the instructor is assigned to
+        $groups = \App\Models\Group::where('instructor_id', $instructor->id)
+            ->with(['course', 'schedules.lesson', 'schedules.group']) // Ensure group is loaded
+            ->get();
+    
+        return view('instructor.profile', compact('instructor', 'groups'));
+    }
+    
+
     public function showEvaluationPage($meetingId)
     {
         // Load meeting with related lesson, group (and its students) and course

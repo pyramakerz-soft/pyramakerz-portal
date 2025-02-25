@@ -11,4 +11,8 @@ class GroupSchedule extends Model
     {
         return $this->belongsTo(Lesson::class);
     }
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
 }

@@ -168,7 +168,27 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                @endforeach
+                                                    @endforeach
+                                                </div>
+                                                <div class="gridarea__content">
+                                                    <div class="gridarea__list">
+                                                        <ul>
+                                                            <li>
+                                                                <i class="icofont-book-alt"></i>
+                                                                {{ $lessonCount }} Lesson/s
+                                                            </li>
+                                                            <li>
+                                                                <i class="icofont-clock-time"></i>
+                                                                ~{{ $totalHours }} Hours
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="gridarea__heading">
+                                                        <h3>
+                                                            <a href="/course_lessons/{{ $course->id }}">{{ $course->name }}</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 

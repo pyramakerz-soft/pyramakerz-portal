@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="no-js is_dark" lang="zxx">
+    <head>
+        @include('include.head')
+        <style>
+            /* Zoom Session and Sidebar Styling */
+            .zoom-container {
+                display: flex;
+                flex-direction: row;
+                gap: 20px;
+            }
+            .zoom-frame {
+                width: 70%;
+                height: 500px;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                background: #1a1a2e;
+            }
+            .sidebar {
+                width: 30%;
+                background: #222;
+                padding: 15px;
+                border-radius: 10px;
+                color: white;
+            }
+            .student-list {
+                list-style: none;
+                padding: 0;
+            }
+            .student-list li {
+                display: flex;
+                justify-content: space-between;
+                padding: 8px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            .present {
+                color: #28a745;
+            }
+            .absent {
+                color: #dc3545;
+            }
+            .session-metrics {
+                margin-top: 20px;
+                background: #333;
+                padding: 10px;
+                border-radius: 5px;
+                text-align: center;
+            }
+            .upload-homework {
+                color: #f8d210;
+                font-weight: bold;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+
+    <body class="body__wrapper">
+        @include('include.load') @include('include.preload')
+
+        <main class="main_wrapper overflow-hidden">
+            @include('include.nav')
+
+            <div class="dashboardarea sp_bottom_100">
+                @include('include.stud-topbar')
+
+                <div class="dashboard">
+                    <div class="container-fluid full__width__padding">
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-12">
+                                @include('include.stud-sidebar')
+                            </div>
+
+                            <div class="col-xl-9 col-lg-9 col-md-12">
+                                <div class="dashboard__content__wraper">
+                                    <div class="dashboard__section__title">
+                                        <h4>Meeting Session</h4>
+                                    </div>
+
+                                    <div class="zoom-container">
+                                        <!-- Zoom Embedded Frame -->
+                                        <div class="zoom-frame">
+                                            <iframe
+                                                src="{{ $meeting->join_url }}"
+                                                width="100%"
+                                                height="100%"
+                                                frameborder="0"
+                                                allowfullscreen
+                                            ></iframe>
+                                        </div>
+
+                                        <!-- Sidebar with Student List and Session Info -->
+                                        <div class="sidebar">
+                                            <h5>📝 Session Details</h5>
+                                            <p>
+                                                <strong>📅 Date:</strong> {{
+                                                \Carbon\Carbon::parse($meeting->start_time)->format('M
+                                                d, Y') }}
+                                            </p>
+                                            <p>
+                                                <strong>⏳ Duration:</strong> {{
+                                                $meeting->duration }} mins
+                                            </p>
+                                            <p>
+                                                <strong>⏲ Time Left:</strong>
+                                                <span id="timeLeft"
+                                                    >{{ $meeting->duration
+                                                    }}</span
+                                                >
+                                                mins
+                                            </p>
+                                            <p>
+                                                <strong>👨‍🎓 Students:</strong>
+                                                <span id="studentCount"
+                                                    >{{ count($students)
+                                                    }}</span
+                                                >
+                                            </p>
+                                            <p>
+                                                <strong>✅ Present:</strong>
+                                                <span id="presentCount">0</span>
+                                            </p>
+                                            <p>
+                                                <strong>❌ Absent:</strong>
+                                                <span id="absentCount">0</span>
+                                            </p>
+
+                                            <h5>🎓 Students</h5>
+                                            <ul class="student-list">
+                                                @foreach ($students as $student)
+                                                <li>
+                                                    <span
+                                                        >{{ $student->name
+                                                        }}</span
+                                                    >
+                                                    <span
+                                                        class="{{ $student->is_present ? 'present' : 'absent' }}"
+                                                    >
+                                                        {{ $student->is_present
+                                                        ? '✔️ Present' : '❌
+                                                        Absent' }}
+                                                    </span>
+                                                    @if ($student->id ==
+                                                    auth()->id())
+                                                    <span
+                                                        class="upload-homework"
+                                                        onclick="uploadHomework()"
+                                                        >📂 Upload
+                                                        Homework</span
+                                                    >
+                                                    @endif
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- Upload Homework Modal -->
+                                    <div
+                                        id="homeworkModal"
+                                        style="display: none"
+                                    >
+                                        <input type="file" id="homeworkFile" />
+                                        <button onclick="submitHomework()">
+                                            Upload
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @include('include.footer')
+        </main>
+
+        <!-- JS -->
+        <script src="../js/vendor/jquery-3.6.0.min.js"></script>
+        <script>
+            // Timer for session countdown
+            let timeLeft = {{ $meeting->duration }};
+            function updateTimer() {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    document.getElementById('timeLeft').textContent = timeLeft;
+                    setTimeout(updateTimer, 60000);
+                }
+            }
+            updateTimer();
+
+            // Upload Homework Modal
+            function uploadHomework() {
+                document.getElementById('homeworkModal').style.display = 'block';
+            }
+
+            function submitHomework() {
+                let file = document.getElementById('homeworkFile').files[0];
+                if (!file) {
+                    alert("Please select a file!");
+                    return;
+                }
+
+                let formData = new FormData();
+                formData.append("homework", file);
+                formData.append("_token", "{{ csrf_token() }}");
+
+                fetch("{{ route('homework.upload') }}", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Homework uploaded successfully!");
+                    document.getElementById('homeworkModal').style.display = 'none';
+                })
+                .catch(error => console.error("Error uploading:", error));
+            }
+        </script>
+    </body>
+</html>

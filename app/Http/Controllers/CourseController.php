@@ -87,6 +87,7 @@ class CourseController extends Controller
              $course->course_path = $validatedData['course_path'] ?? null;
              $course->skill_level = $validatedData['skill_level'] ?? null;
              $course->language = $validatedData['language'];
+             $course->duration = "12";
              $course->price = $validatedData['price'];
              $course->age_group_id = (int) $validatedData['age_group_id'];
              $course->prereq = isset($validatedData['prereq']) ? json_encode($validatedData['prereq']) : null;

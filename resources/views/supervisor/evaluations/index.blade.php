@@ -11,7 +11,7 @@
         @include('include.dash-nav')
 
         <div class="dashboardarea sp_bottom_100">
-            @include('include.stud-topbar')
+            @include('include.admin-topbar')
             <div class="dashboard">
                 <div class="container-fluid full__width__padding">
                     <div class="row">
