@@ -36,7 +36,7 @@ $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
     ->where('status', 'live')
                                     ->first();
                             @endphp
-                            <div class="dashboard__single__counter" id="lesson-card-{{ $index }}"
+                            <div class="dashboard__single__counter lesson-card" id="lesson-card-{{ $index }}"
                                 onclick="selectLesson({{ $index }}, '{{ $lesson['title'] }}', '{{ $videoUrl }}', {{ $startDateTime }}, {{ $endDateTime }}, '{{ $meeting ? $meeting->id : '' }}')">
                                 <h5>Lesson #{{ $index + 1 }} - {{ $lesson['title'] }}</h5>
                                 <p><strong>📅 Date:</strong> {{ $lesson['date'] }}</p>

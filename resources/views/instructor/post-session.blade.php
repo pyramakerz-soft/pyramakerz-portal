@@ -11,8 +11,8 @@
 <body class="body__wrapper">
 
 
-    {{-- 
-    @include('include.load') --}}
+
+    {{-- @include('include.load') --}}
 
 
     <main class="main_wrapper overflow-hidden">
@@ -308,6 +308,7 @@
             });
         });
     </script>
+
 
 
 
