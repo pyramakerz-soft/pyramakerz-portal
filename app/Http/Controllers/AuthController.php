@@ -112,9 +112,16 @@ class AuthController extends Controller
 
     if ($admin && Hash::check($request->password, $admin->password)) {
         Auth::guard('admin')->login($admin);
+        $request->session()->regenerate();
+        if(Auth::guard('admin')->user()->roles[0]->name == "Full Instructor"){
+            return redirect()->route('instructor.courses');
+        }
+        if(Auth::guard('admin')->user()->roles[0]->name == "Admin"){
+            return redirect()->route('admin.instructors.index');
+        }
+
 
         // Regenerate session to avoid session fixation attacks
-        $request->session()->regenerate();
 
         return redirect()->route('admin-courses');
     }
