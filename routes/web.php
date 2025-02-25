@@ -198,6 +198,8 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::prefix('instructor')->middleware('admin.auth')->group(function () {
+    Route::get('/profile', [InstructorController::class, 'profile'])->name('instructor.profile');
+    Route::get('/zoom_meetings', [InstructorController::class, 'zoomMeetings'])->name('instructor.zoom_meetings');
     Route::get('/course_details/{id}', [InstructorController::class, 'courseDetail'])->name('instructor.course_details');
     Route::get('/course/{id}/groups', [InstructorController::class, 'viewGroups'])
     ->name('instructor.groups');
@@ -243,7 +245,7 @@ Route::post('/meetings/{meeting}/evaluate', [InstructorController::class, 'evalu
 });
 
 Route::get('/time-table', function () { return view('instructor.timetable'); });
-Route::get('/instructor/profile', function () { return view('instructor.profile'); });
+// Route::get('/instructor/profile', function () { return view('instructor.profile'); });
 Route::get('/instructor/settings', function () { return view('instructor.settings'); });
 Route::get('/my-courses', function () { return view('instructor.course-details'); });
 Route::get('/my-chat', function () { return view('instructor.message'); });

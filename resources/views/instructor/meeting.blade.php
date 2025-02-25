@@ -286,7 +286,7 @@
           console.error("Init error:", error);
         });
     </script>
-
+    
     <!-- Instructor-Specific Scripts -->
     <script>
         // Mark a student's attendance. status: 1 = Present, 0 = Absent.
