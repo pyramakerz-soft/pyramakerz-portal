@@ -142,7 +142,7 @@
                         <div class="gridarea__wraper">
                             <div class="gridarea__img">
                                 <a href="/session-details">
-                                    <img loading="lazy" src="../img/grid/grid_1.png" alt="grid">
+                                    <img loading="lazy" src="{{asset('img/grid/grid_1.png')}}" alt="grid">
                                 </a>
                                 <div class="gridarea__small__button">
                                     <div class="grid__badge">{{ $course->slug }}</div>
