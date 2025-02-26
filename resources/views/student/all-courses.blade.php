@@ -230,7 +230,7 @@
                                             <div class="gridarea__wraper gridarea__wraper__2">
                                                 <div class="gridarea__img">
                                                     <img loading="lazy"
-                                                        src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
+                                                        src="{{ $course->image ? asset($course->image) : asset('img/course.jpg') }}"
                                                         alt="{{ $course->name }}">
                                                     <div class="gridarea__small__button">
                                                         <div class="grid__badge orange__color">
@@ -287,7 +287,7 @@
                                         data-aos="fade-up">
                                         <div class="gridarea__img">
                                             <a href="course-details.html"><img loading="lazy"
-                                                    src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
+                                                    src="{{ $course->image ? asset($course->image) : asset('img/course.jpg') }}"
                                                     alt="{{ $course->name }}"></a>
                                             <div class="gridarea__small__button">
                                                 <div class="grid__badge orange__color">

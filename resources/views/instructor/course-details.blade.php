@@ -94,11 +94,11 @@
                                                                         <div class="lesson-resources">
                                                                             @foreach ($lesson->resources as $resource)
                                                                                 <div class="resource-item mb-2">
-                                                                                    <a href="{{ asset('storage/' . $resource->file_path) }}"
+                                                                                    <a href="{{ asset($resource->file_path) }}"
                                                                                         target="_blank">
                                                                                         {{ $resource->title ?? basename($resource->file_path) }}
                                                                                     </a>
-                                                                                    <a href="{{ asset('storage/' . $resource->file_path) }}"
+                                                                                    <a href="{{ asset($resource->file_path) }}"
                                                                                         download
                                                                                         class="btn btn-sm btn-outline-primary ml-2">
                                                                                         Download
@@ -145,7 +145,7 @@
                             <div class="event__sidebar__wraper" data-aos="fade-up">
                                 <div class="blogarae__img__2 course__details__img__2" data-aos="fade-up">
                                     <img loading="lazy"
-                                        src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
+                                        src="{{ $course->image ? asset($course->image) : asset('img/course.jpg') }}"
                                         alt="blog">
                                 </div>
                                 <div class="course__summery__lists">

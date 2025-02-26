@@ -121,7 +121,7 @@
                             <div class="event__sidebar__wraper">
                                 <div class="blogarae__img__2 course__details__img__2">
                                     <img loading="lazy"
-                                        src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
+                                        src="{{ $course->image ? asset($course->image) : asset('img/course.jpg') }}"
                                         alt="Course">
                                 </div>
 

@@ -751,7 +751,7 @@
                             <div class="gridarea__wraper gridarea__wraper__2">
                                 <div class="gridarea__img">
                                     <img loading="lazy"
-                                        src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
+                                        src="{{ $course->image ? asset($course->image) : asset('img/course.jpg') }}"
                                         alt="grid">
                                     <div class="gridarea__small__button">
                                         <div class="grid__badge orange__color">{{ $course->name ?? '0' }}

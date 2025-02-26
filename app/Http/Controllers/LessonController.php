@@ -34,7 +34,7 @@ class LessonController extends Controller
                 // $path = $request->file('resource_file')->store('lesson_resources', 'storage/lesson_resources');
                 // $lesson->resource_file = $path;
                 
-                 $path = $request->file('resource_file')->move(public_path('storage/lesson_resources'), $request->file('resource_file')->getClientOriginalName());
+                 $path = $request->file('resource_file')->move(public_path('lesson_resources'), $request->file('resource_file')->getClientOriginalName());
 $lesson->resource_file = 'lesson_resources/' . $request->file('resource_file')->getClientOriginalName();
             }
 

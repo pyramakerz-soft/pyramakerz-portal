@@ -92,7 +92,7 @@
                                                                     @if ($studentTask->task->file)
                                                                         {{-- Assuming task relation exists --}}
                                                                         <a class="dashboard__small__btn__2"
-                                                                            href="{{ asset('storage/tasks/' . $studentTask->task->file) }}"
+                                                                            href="{{ asset('tasks/' . $studentTask->task->file) }}"
                                                                             target="_blank">
                                                                             <i class="icofont-eye"></i> View
                                                                         </a>

@@ -202,7 +202,7 @@
                                                                                                         {{ $lesson->description ?? 'No description available.' }}
                                                                                                     </p>
                                                                                                     @if ($lesson->resource_file)
-                                                                                                        <a href="{{ asset('storage/' . $lesson->resource_file) }}"
+                                                                                                        <a href="{{ asset($lesson->resource_file) }}"
                                                                                                             download>Download
                                                                                                             Resource</a>
                                                                                                     @else
@@ -260,7 +260,7 @@
                             <div class="event__sidebar__wraper" data-aos="fade-up">
                                 <div class="blogarae__img__2 course__details__img__2" data-aos="fade-up">
                                     <img loading="lazy"
-                                        src="{{ $course->image ? asset('storage/' . $course->image) : asset('img/course.jpg') }}"
+                                        src="{{ $course->image ? asset($course->image) : asset('img/course.jpg') }}"
                                         alt="blog">
                                 </div>
 

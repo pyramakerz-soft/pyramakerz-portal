@@ -51,11 +51,11 @@ $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
                                                 (is_null($resource->group_id) || $resource->group_id == $lesson['group_id']) &&
                                                     (is_null($resource->group_schedule_id) || $resource->group_schedule_id == $lesson['schedule_id']))
                                                 <div class="resource-item mb-2">
-                                                    <a href="{{ asset('storage/' . $resource->file_path) }}"
+                                                    <a href="{{ asset($resource->file_path) }}"
                                                         target="_blank">
                                                         {{ $resource->title ?? basename($resource->file_path) }}
                                                     </a>
-                                                    <a href="{{ asset('storage/' . $resource->file_path) }}" download
+                                                    <a href="{{ asset($resource->file_path) }}" download
                                                         class="btn btn-sm btn-outline-primary ml-2">
                                                         Download
                                                     </a>
