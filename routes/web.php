@@ -87,7 +87,7 @@ Route::middleware('admin.auth')->group(function () {
     });
     Route::get('/admin/settings', function () {
         return view('dashboard.settings');
-    });
+    })->name('admin-settings');
     Route::post('/create-course', [AdminController::class, 'createCourse'])->name('create-course');
     Route::get('/create-course', [AdminController::class, 'createCourse'])->name('create-course');
     Route::post('/lesson-schedule', [LessonController::class, 'scheduleLesson'])->name('lesson.schedule');
@@ -112,7 +112,7 @@ Route::post('/course/assign-teacher', [CourseController::class, 'assignTeacher']
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth:student')->group(function () {
-    Route::get('/time-table', [StudentController::class, 'timetable'])->name('time-table');
+    // Route::get('/time-table', [StudentController::class, 'timetable'])->name('time-table');
     Route::get('/my-progress', [StudentController::class, 'mySummary'])->name('my-progress');
     Route::get('/profile', [StudentController::class, 'profile'])->name('student-profile');
     Route::get('/student-courses', [StudentController::class, 'getCourses'])->name('student-courses');
@@ -283,7 +283,7 @@ Route::get('/my-courses', function () {
 });
 Route::get('/my-chat', function () {
     return view('instructor.message');
-});
+})->name('instructor-chat');
 
 /*
 |--------------------------------------------------------------------------
@@ -300,7 +300,7 @@ Route::post('/survey/{id}', [SurveyController::class, 'submitSurvey'])->name('su
 */
 Route::get('/settings', function () {
     return view('student.settings');
-});
+})->name('student-settings');
 Route::get('/home', function () {
     return view('student.home');
 });
