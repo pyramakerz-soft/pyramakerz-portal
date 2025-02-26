@@ -24,7 +24,7 @@
                             <div class="dashboardarea__inner admin__dashboard__inner">
                                 <div class="dashboardarea__left">
                                     <div class="dashboardarea__left__img">
-                                        <img loading="lazy" src="../img/dashbord/dashbord__2.jpg" alt="">
+                                        <img loading="lazy" src="{{asset('img/dashbord/dashbord__2.jpg')}}" alt="">
                                     </div>
                                     <div class="dashboardarea__left__content">
                                         <h5>Hello</h5>

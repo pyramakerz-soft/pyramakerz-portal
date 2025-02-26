@@ -25,7 +25,7 @@
                                     <div class="dashboard__single__counter">
                                         <div class="counterarea__text__wraper">
                                             <div class="counter__img">
-                                                <img loading="lazy" src="../img/counter/counter__2.png" alt="counter">
+                                                <img loading="lazy" src="{{asset('img/counter/counter__2.png')}}" alt="counter">
                                             </div>
                                             <div class="counter__content__wraper">
                                                 <div class="counter__number">
@@ -48,7 +48,7 @@
                                     <div class="dashboard__single__counter">
                                         <div class="counterarea__text__wraper">
                                             <div class="counter__img">
-                                                <img loading="lazy" src="../img/counter/counter__3.png" alt="counter">
+                                                <img loading="lazy" src="{{asset('img/counter/counter__3.png')}}" alt="counter">
                                             </div>
                                             <div class="counter__content__wraper">
                                                 <div class="counter__number">

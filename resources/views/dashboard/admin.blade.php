@@ -57,7 +57,7 @@
                             <div class="dashboardarea__inner admin__dashboard__inner">
                                 <div class="dashboardarea__left">
                                     <div class="dashboardarea__left__img">
-                                        <img loading="lazy" src="../img/dashbord/dashbord__2.jpg" alt="">
+                                        <img loading="lazy" src="{{asset('img/dashbord/dashbord__2.jpg')}}" alt="">
                                     </div>
                                     <div class="dashboardarea__left__content">
                                         <h5>Hello</h5>
@@ -229,7 +229,7 @@
                                     <div class="dashboard__single__counter">
                                         <div class="counterarea__text__wraper">
                                             <div class="counter__img">
-                                                <img loading="lazy" src="../img/counter/counter__1.png"
+                                                <img loading="lazy" src="{{asset('img/counter/counter__1.png')}}"
                                                     alt="counter">
                                             </div>
                                             <div class="counter__content__wraper">
@@ -247,7 +247,7 @@
                                     <div class="dashboard__single__counter">
                                         <div class="counterarea__text__wraper">
                                             <div class="counter__img">
-                                                <img loading="lazy" src="../img/counter/counter__2.png"
+                                                <img loading="lazy" src="{{asset('img/counter/counter__2.png')}}"
                                                     alt="counter">
                                             </div>
                                             <div class="counter__content__wraper">
@@ -265,7 +265,7 @@
                                     <div class="dashboard__single__counter">
                                         <div class="counterarea__text__wraper">
                                             <div class="counter__img">
-                                                <img loading="lazy" src="../img/counter/counter__3.png"
+                                                <img loading="lazy" src="{{asset('img/counter/counter__3.png')}}"
                                                     alt="counter">
                                             </div>
                                             <div class="counter__content__wraper">
@@ -283,7 +283,7 @@
                                     <div class="dashboard__single__counter">
                                         <div class="counterarea__text__wraper">
                                             <div class="counter__img">
-                                                <img loading="lazy" src="../img/counter/counter__4.png"
+                                                <img loading="lazy" src="{{asset('img/counter/counter__4.png')}}"
                                                     alt="counter">
                                             </div>
                                             <div class="counter__content__wraper">
@@ -302,7 +302,7 @@
                                     <div class="dashboard__single__counter">
                                         <div class="counterarea__text__wraper">
                                             <div class="counter__img">
-                                                <img loading="lazy" src="../img/counter/counter__3.png"
+                                                <img loading="lazy" src="{{asset('img/counter/counter__3.png')}}"
                                                     alt="counter">
                                             </div>
                                             <div class="counter__content__wraper">
@@ -320,7 +320,7 @@
                                     <div class="dashboard__single__counter">
                                         <div class="counterarea__text__wraper">
                                             <div class="counter__img">
-                                                <img loading="lazy" src="../img/counter/counter__4.png"
+                                                <img loading="lazy" src="{{asset('img/counter/counter__4.png')}}"
                                                     alt="counter">
                                             </div>
                                             <div class="counter__content__wraper">
@@ -382,7 +382,7 @@
 
                                         <div class="dashboard__popular__instructor__single">
                                             <div class="dashboard__popular__instructor__img">
-                                                <img loading="lazy" src="../img/teacher/teacher__1.png"
+                                                <img loading="lazy" src="{{asset('img/teacher/teacher__1.png')}}"
                                                     alt="">
                                             </div>
                                             <div class="dashboard__popular__instructor__content">
@@ -408,7 +408,7 @@
 
                                         <div class="dashboard__popular__instructor__single">
                                             <div class="dashboard__popular__instructor__img">
-                                                <img loading="lazy" src="../img/teacher/teacher__2.png"
+                                                <img loading="lazy" src="{{asset('img/teacher/teacher__2.png')}}"
                                                     alt="">
                                             </div>
                                             <div class="dashboard__popular__instructor__content">
@@ -435,7 +435,7 @@
 
                                         <div class="dashboard__popular__instructor__single">
                                             <div class="dashboard__popular__instructor__img">
-                                                <img loading="lazy" src="../img/teacher/teacher__3.png"
+                                                <img loading="lazy" src="{{asset('img/teacher/teacher__3.png')}}"
                                                     alt="">
                                             </div>
                                             <div class="dashboard__popular__instructor__content">
@@ -462,7 +462,7 @@
 
                                         <div class="dashboard__popular__instructor__single">
                                             <div class="dashboard__popular__instructor__img">
-                                                <img loading="lazy" src="../img/teacher/teacher__4.png"
+                                                <img loading="lazy" src="{{asset('img/teacher/teacher__4.png')}}"
                                                     alt="">
                                             </div>
                                             <div class="dashboard__popular__instructor__content">
@@ -488,7 +488,7 @@
 
                                         <div class="dashboard__popular__instructor__single">
                                             <div class="dashboard__popular__instructor__img">
-                                                <img loading="lazy" src="../img/teacher/teacher__5.png"
+                                                <img loading="lazy" src="{{asset('img/teacher/teacher__5.png')}}"
                                                     alt="">
                                             </div>
                                             <div class="dashboard__popular__instructor__content">
@@ -527,7 +527,7 @@
                                         <div class="dashboard__recent__course__single">
                                             <div class="dashboard__recent__course__img">
                                                 <a href="../course-details.html"><img loading="lazy"
-                                                        src="../img/grid/grid_1.png" alt="grid"></a>
+                                                        src="{{asset('img/grid/grid_1.png')}}" alt="grid"></a>
 
                                             </div>
                                             <div class="dashboard__recent__course__content">
@@ -556,7 +556,7 @@
                                         <div class="dashboard__recent__course__single">
                                             <div class="dashboard__recent__course__img">
                                                 <a href="../course-details.html"><img loading="lazy"
-                                                        src="../img/grid/grid_2.png" alt="grid"></a>
+                                                        src="{{asset('img/grid/grid_2.png')}}" alt="grid"></a>
 
                                             </div>
                                             <div class="dashboard__recent__course__content">
@@ -585,7 +585,7 @@
                                         <div class="dashboard__recent__course__single">
                                             <div class="dashboard__recent__course__img">
                                                 <a href="../course-details.html"><img loading="lazy"
-                                                        src="../img/grid/grid_3.png" alt="grid"></a>
+                                                        src="{{asset('img/grid/grid_3.png')}}" alt="grid"></a>
 
                                             </div>
                                             <div class="dashboard__recent__course__content">
@@ -614,7 +614,7 @@
                                         <div class="dashboard__recent__course__single">
                                             <div class="dashboard__recent__course__img">
                                                 <a href="../course-details.html"><img loading="lazy"
-                                                        src="../img/grid/grid_4.png" alt="grid"></a>
+                                                        src="{{asset('img/grid/grid_4.png')}}" alt="grid"></a>
 
                                             </div>
                                             <div class="dashboard__recent__course__content">
@@ -657,7 +657,7 @@
                                         <div class="dashboard__recent__course__single">
                                             <div class="dashboard__recent__course__img">
                                                 <a href="../course-details.html"><img loading="lazy"
-                                                        src="../img/blog/blog_6.png" alt="grid"></a>
+                                                        src="{{asset('img/blog/blog_6.png')}}" alt="grid"></a>
                                             </div>
                                             <div class="dashboard__recent__course__content">
                                                 <div class="dashboard__recent__course__heading">
@@ -674,7 +674,7 @@
                                         <div class="dashboard__recent__course__single">
                                             <div class="dashboard__recent__course__img">
                                                 <a href="../course-details.html"><img loading="lazy"
-                                                        src="../img/blog/blog_7.png" alt="grid"></a>
+                                                        src="{{asset('img/blog/blog_7.png')}}" alt="grid"></a>
                                             </div>
                                             <div class="dashboard__recent__course__content">
                                                 <div class="dashboard__recent__course__heading">
@@ -691,7 +691,7 @@
                                         <div class="dashboard__recent__course__single">
                                             <div class="dashboard__recent__course__img">
                                                 <a href="../course-details.html"><img loading="lazy"
-                                                        src="../img/blog/blog_8.png" alt="grid"></a>
+                                                        src="{{asset('img/blog/blog_8.png')}}" alt="grid"></a>
                                             </div>
                                             <div class="dashboard__recent__course__content">
                                                 <div class="dashboard__recent__course__heading">
@@ -708,7 +708,7 @@
                                         <div class="dashboard__recent__course__single">
                                             <div class="dashboard__recent__course__img">
                                                 <a href="../course-details.html"><img loading="lazy"
-                                                        src="../img/blog/blog_9.png" alt="grid"></a>
+                                                        src="{{asset('img/blog/blog_9.png')}}" alt="grid"></a>
                                             </div>
                                             <div class="dashboard__recent__course__content">
                                                 <div class="dashboard__recent__course__heading">
@@ -725,7 +725,7 @@
                                         <div class="dashboard__recent__course__single">
                                             <div class="dashboard__recent__course__img">
                                                 <a href="../course-details.html"><img loading="lazy"
-                                                        src="../img/blog/blog_4.png" alt="grid"></a>
+                                                        src="{{asset('img/blog/blog_4.png')}}" alt="grid"></a>
                                             </div>
                                             <div class="dashboard__recent__course__content">
                                                 <div class="dashboard__recent__course__heading">
@@ -752,7 +752,7 @@
 
                                         <div class="dashboard__popular__instructor__single">
                                             <div class="dashboard__popular__instructor__img">
-                                                <img loading="lazy" src="../img/dashbord/profile.png" alt="">
+                                                <img loading="lazy" src="{{asset('img/dashbord/profile.png')}}" alt="">
                                             </div>
                                             <div class="dashboard__popular__instructor__content">
                                                 <h4>
@@ -764,7 +764,7 @@
 
                                         <div class="dashboard__popular__instructor__single">
                                             <div class="dashboard__popular__instructor__img">
-                                                <img loading="lazy" src="../img/dashbord/lock.png" alt="">
+                                                <img loading="lazy" src="{{asset('img/dashbord/lock.png')}}" alt="">
                                             </div>
                                             <div class="dashboard__popular__instructor__content">
                                                 <h4>
@@ -776,7 +776,7 @@
 
                                         <div class="dashboard__popular__instructor__single">
                                             <div class="dashboard__popular__instructor__img">
-                                                <img loading="lazy" src="../img/dashbord/verify.png" alt="">
+                                                <img loading="lazy" src="{{asset('img/dashbord/verify.png')}}" alt="">
                                             </div>
                                             <div class="dashboard__popular__instructor__content">
                                                 <h4>
@@ -789,7 +789,7 @@
 
                                         <div class="dashboard__popular__instructor__single">
                                             <div class="dashboard__popular__instructor__img">
-                                                <img loading="lazy" src="../img/dashbord/success.png" alt="">
+                                                <img loading="lazy" src="{{asset('img/dashbord/success.png')}}" alt="">
                                             </div>
                                             <div class="dashboard__popular__instructor__content">
                                                 <h4>
@@ -801,7 +801,7 @@
 
                                         <div class="dashboard__popular__instructor__single">
                                             <div class="dashboard__popular__instructor__img">
-                                                <img loading="lazy" src="../img/dashbord/video.png" alt="">
+                                                <img loading="lazy" src="{{asset('img/dashbord/video.png')}}" alt="">
                                             </div>
                                             <div class="dashboard__popular__instructor__content">
                                                 <h4>

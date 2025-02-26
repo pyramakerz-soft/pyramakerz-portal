@@ -109,7 +109,7 @@
                                                         <div class="gridarea__wraper">
                                                             <div class="gridarea__img">
                                                                 <a href="/course_lessons/{{ $course->id }}">
-                                                                    <img loading="lazy" src="../img/grid/grid_1.png"
+                                                                    <img loading="lazy" src="{{asset('img/grid/grid_1.png')}}"
                                                                         alt="grid">
                                                                 </a>
                                                                 <div class="gridarea__small__button">
@@ -140,7 +140,7 @@
 
                                                                     <div class="gridarea__small__img">
                                                                         <img loading="lazy"
-                                                                            src="../img/grid/grid_small_1.jpg"
+                                                                            src="{{asset('img/grid/grid_small_1.jpg')}}"
                                                                             alt="grid">
                                                                         <div class="gridarea__small__content">
                                                                             <h6>
@@ -241,7 +241,7 @@
                                                         <div class="gridarea__wraper">
                                                             <div class="gridarea__img">
                                                                 <a href="/course_lessons/{{ $course->id }}">
-                                                                    <img loading="lazy" src="../img/grid/grid_1.png"
+                                                                    <img loading="lazy" src="{{asset('img/grid/grid_1.png')}}"
                                                                         alt="grid">
                                                                 </a>
                                                                 <div class="gridarea__small__button">
@@ -272,7 +272,7 @@
 
                                                                     <div class="gridarea__small__img">
                                                                         <img loading="lazy"
-                                                                            src="../img/grid/grid_small_1.jpg"
+                                                                            src="{{asset('img/grid/grid_small_1.jpg')}}"
                                                                             alt="grid">
                                                                         <div class="gridarea__small__content">
                                                                             <h6>
@@ -352,7 +352,7 @@
                                                         <div class="gridarea__wraper">
                                                             <div class="gridarea__img">
                                                                 <a href="/course_lessons/{{ $course->id }}">
-                                                                    <img loading="lazy" src="../img/grid/grid_1.png"
+                                                                    <img loading="lazy" src="{{asset('img/grid/grid_1.png')}}"
                                                                         alt="grid">
                                                                 </a>
                                                                 <div class="gridarea__small__button">
@@ -383,7 +383,7 @@
 
                                                                     <div class="gridarea__small__img">
                                                                         <img loading="lazy"
-                                                                            src="../img/grid/grid_small_1.jpg"
+                                                                            src="{{asset('img/grid/grid_small_1.jpg')}}"
                                                                             alt="grid">
                                                                         <div class="gridarea__small__content">
                                                                             <h6>
