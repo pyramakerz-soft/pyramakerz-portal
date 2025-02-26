@@ -46,6 +46,18 @@ class AttendanceController extends Controller {
     
         return view('supervisor.attendance', compact('attendanceRecords', 'sessions', 'instructors', 'courses'));
     }
+    public function studentDetails($id){
+        $student = User::findOrFail($id);
+        $courses = Course::all();
+        // $sessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4'];
+        $attendanceRecords = Attendance::where('student_id', $id)->get();
+        // return route('admin.student-details', compact('attendanceRecords', 'student', 'courses'));
+        //compact 3 variables to student-details while passing id aswell as parameter
+        return view('supervisor.student-details', compact('attendanceRecords', 'student', 'courses'));
+
+
+        // return route('admin.student-details', $id)-> with('attendanceRecords', 'student', 'courses'));
+    }
     
     
 }

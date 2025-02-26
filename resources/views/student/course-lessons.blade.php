@@ -96,6 +96,7 @@ $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
     </div>
 
     @include('include.footer')
+@include('include.scripts')
 
     <!-- JS Scripts -->
     <script>

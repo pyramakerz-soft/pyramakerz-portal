@@ -205,6 +205,7 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
     Route::post('/evaluations/store', [EvaluationController::class, 'store'])->name('admin.evaluations.store');
     Route::get('/track-progress', [CourseProgressController::class, 'index'])->name('admin.track-progress.index');
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
+    Route::get('/student-details/{id}', [AttendanceController::class, 'studentDetails'])->name('admin.student-details');
 
 
 });
@@ -214,9 +215,9 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
 | Instructor Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/session-details', function () {
-    return view('general.session-details');
-});
+// Route::get('/student-details', function () {
+//     return view('general.student-details');
+// });
 
 Route::get('/session-details', function () {
     return view('general.session-details');

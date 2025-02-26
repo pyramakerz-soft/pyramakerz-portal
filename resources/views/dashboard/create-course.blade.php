@@ -117,6 +117,7 @@
     </div>
 
     @include('include.dash-footer')
+@include('include.scripts')
 
 </main>
 

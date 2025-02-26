@@ -284,6 +284,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
+@include('include.scripts')
         <!-- footer__section__end -->
 
 

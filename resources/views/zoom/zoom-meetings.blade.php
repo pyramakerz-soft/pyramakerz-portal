@@ -135,6 +135,7 @@
     </div>
 
     @include('include.dash-footer')
+@include('include.scripts')
 
     <!-- JS Dependencies -->
     <script src="../js/vendor/modernizr-3.5.0.min.js"></script>

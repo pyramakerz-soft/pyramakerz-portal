@@ -5,6 +5,11 @@
 
 <head>
     @include('include.head')
+ <!-- Select2 CSS -->
+ <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+ <!-- Flatpickr CSS -->
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 </head>
 
@@ -68,7 +73,9 @@
                     </div>
 
                 <!-- Main Panel: Evaluation & Resource Upload -->
+                
                 <div class="col-xl-8 col-lg-8">
+                    <div class="dashboard__content__wraper""
                     @if(Auth::guard('admin')->user()->can('instructortostudentevaluation-create'))
                     <!-- Evaluation Section -->
                     <div class="evaluation-section">
@@ -86,8 +93,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-bordered mt-3">
-                                <thead>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <thead class="  headtb text-white">
                                     <tr>
                                         <th>Student Name</th>
                                         <th>Absent?</th>
@@ -148,7 +156,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <button type="submit" class="btn btn-custom">Save Evaluation</button>
+                            </div>
+
+                            <button type="submit" class="btn default__button">Save Evaluation</button>
                         </form>
                     </div>
                     @endif
@@ -195,17 +205,15 @@
                     @endif
                 </div>
             </div>
+            </div>
         </div>
     </main>
 
     @include('include.footer')
+@include('include.scripts')
 
     <!-- JS Scripts -->
-    <script src="{{ asset('js/vendor/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
     <script>
         $(document).ready(function() {
             $("#lesson_id").select2({

@@ -1355,6 +1355,7 @@
         <!-- blog__section__end -->
 
         @include('include.footer')
+@include('include.scripts')
 
 
 

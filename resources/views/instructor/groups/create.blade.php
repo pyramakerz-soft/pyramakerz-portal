@@ -90,6 +90,7 @@
         </div>
 
         @include('include.footer')
+@include('include.scripts')
     </main>
 </body>
 
