@@ -69,8 +69,9 @@ class EvaluationController extends Controller
         // Fetch Data
         $evaluations = $query->with('instructor')->get();
         $manualEvaluations = $manualQuery->with('trainer', 'supervisor')->get();
+        $student_to_inst = StudentToInst::with('meeting.group.course.instructor')->get();
     
-        return view('supervisor.evaluations.index', compact('evaluations', 'manualEvaluations', 'instructors'));
+        return view('supervisor.evaluations.index', compact('evaluations', 'manualEvaluations', 'instructors','student_to_inst'));
     }
     
 

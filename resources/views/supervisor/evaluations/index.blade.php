@@ -149,6 +149,59 @@
                                     </table>
                                 </div>
 
+
+{{-- @dd($student_to_inst); --}}
+                                <div class="dashboard__section__title mt-5">
+                                    <h4>✍️ Manual Evaluations</h4>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead class="bg-success text-white">
+                                            <tr>
+                                                <th>Student</th>
+                                                <th>Instructor</th>
+                                                <th>Course</th>
+                                                <th>Content Quality</th>
+                                                <th>Instructor Quality</th>
+                                                <th>Engagment</th>
+                                                <th>Pace</th>
+                                                <th>Technology Usage</th>
+                                                <th>Overall Experience</th>
+                                                <th>Feedback</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($student_to_inst as $eval)
+                                            {{-- @dd($eval->meeting->group->course->instructor->name) --}}
+                                                <tr>
+                                                    <td>{{ $eval->student->name }}</td>
+                                                    <td>{{ $eval->meeting->group->course->instructor->name }}</td>
+                                                    <td>{{ $eval->meeting->group->course->name }}
+                                                    </td>
+                                                    <td>{{ $eval->content_quality }}</td>
+                                                    <td>{{ $eval->instructor_clarity }}</td>
+                                                    <td>{{ $eval->engagement }}
+                                                    <td>{{ $eval->pace }}
+                                                    <td>{{ $eval->technology_usage }}
+                                                    </td>
+                                                    <td>{{ $eval->overall_experience }}</td>
+                                                    <td>{{ $eval->feedback }}</td>
+                                                    
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="7" class="text-center">No Manual Evaluations Found.
+                                                    </td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+
                                 <div class="mt-3">
                                     <a href="{{ route('admin.instructors.index') }}" class="btn btn-outline-secondary">
                                         <i class="icofont-arrow-left"></i> Back to Instructors

@@ -357,7 +357,8 @@ public function createGroup(Request $request)
     // ✅ Create the group
     $group = Group::create([
         'name' => $validatedData['name'],
-        'course_id' => $validatedData['course_id']
+        'course_id' => $validatedData['course_id'],
+        'instructor_id' => $course->instructor_id
     ]);
 
     // ✅ Generate schedules using selected days
