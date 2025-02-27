@@ -5,7 +5,7 @@
 <body class="body__wrapper">
 
     @include('include.load')
-    @include('include.preload')
+
 
     <main class="main_wrapper overflow-hidden">
         @include('include.dash-nav')
@@ -95,7 +95,7 @@
                 </div>
             </div>
         </div>
-
+        @include('include.scripts')
     </main>
 
     <!-- JS -->
@@ -131,6 +131,7 @@
                     `,
                         showCancelButton: true,
                         confirmButtonText: "Add Comment",
+                        confirmButtonColor: '#ff7918',
                         preConfirm: () => {
                             return {
                                 instructor_id: instructorId,
@@ -144,16 +145,25 @@
                                 instructor_id: result.value.instructor_id,
                                 comment: result.value.comment
                             }, function() {
-                                Swal.fire("Success", "Comment added!", "success")
+                                Swal.fire({
+                                        title: "Success",
+                                        text: "Comment added!",
+                                        icon: "success",
+                                        confirmButtonColor: "#ff7918"
+                                    })
                                     .then(() => location.reload());
                             }).fail(() => {
-                                Swal.fire("Error", "Failed to add comment!",
-                                    "error");
+                                ({
+                                    title: "Error",
+                                    text: "Failed to add comment!",
+                                    icon: "error",
+                                    confirmButtonColor: "#ff7918"
+                                });
                             });
                         }
                     });
                 }).fail(() => {
-                    Swal.fire("Error", "Could not fetch comments!", "error");
+                    Swal.fire("Error", "Could not fetch comments!", "error", );
                 });
             });
 
@@ -169,6 +179,7 @@
                 `,
                     showCancelButton: true,
                     confirmButtonText: "Add Instructor",
+                    confirmButtonColor: '#ff7918',
                     preConfirm: () => {
                         return {
                             name: $("#instructor_name").val(),
@@ -193,8 +204,12 @@
                                 role: 'instructor'
                             },
                             success: function() {
-                                Swal.fire("Success", "Instructor added successfully!",
-                                    "success");
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Instructor added successfully!",
+                                    icon: "success",
+                                    confirmButtonColor: "#ff7918"
+                                });
                                 setTimeout(() => {
                                     location.reload();
                                 }, 1000);
@@ -204,7 +219,13 @@
                                 if (xhr.responseJSON && xhr.responseJSON.message) {
                                     errorMessage = xhr.responseJSON.message;
                                 }
-                                Swal.fire("Error", errorMessage, "error");
+                                Swal.fire({
+                                    title: "Error",
+                                    text: errorMessage,
+                                    icon: "error",
+                                    confirmButtonColor: "#ff7918"
+                                });
+
                             }
                         });
                     }

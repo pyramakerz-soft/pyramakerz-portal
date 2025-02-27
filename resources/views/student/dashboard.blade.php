@@ -5,41 +5,14 @@
     @include('include.head')
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <style>
-        .breadcrumbarea { margin-bottom: 20px; }
-        .profile-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .calendar-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        #calendar { max-width: 100%; margin: 0 auto; }
-        .filters-container {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        .filter-dropdown {
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            width: 200px;
-        }
-    </style>
+
 </head>
 
 
 <body class="body__wrapper">
 
     @include('include.load')
-    @include('include.preload')
+
 
 
     <main class="main_wrapper overflow-hidden">
@@ -76,7 +49,7 @@
                                         <div class="dashboard__single__counter">
                                             <div class="counterarea__text__wraper">
                                                 <div class="counter__img">
-                                                    <img loading="lazy" src="{{asset('img/counter/counter__1.png')}}"
+                                                    <img loading="lazy" src="{{ asset('img/counter/counter__1.png') }}"
                                                         alt="counter">
                                                 </div>
                                                 <div class="counter__content__wraper">
@@ -94,7 +67,7 @@
                                         <div class="dashboard__single__counter">
                                             <div class="counterarea__text__wraper">
                                                 <div class="counter__img">
-                                                    <img loading="lazy" src="{{asset('img/counter/counter__2.png')}}"
+                                                    <img loading="lazy" src="{{ asset('img/counter/counter__2.png') }}"
                                                         alt="counter">
                                                 </div>
                                                 <div class="counter__content__wraper">
@@ -112,7 +85,7 @@
                                         <div class="dashboard__single__counter">
                                             <div class="counterarea__text__wraper">
                                                 <div class="counter__img">
-                                                    <img loading="lazy" src="{{asset('img/counter/counter__3.png')}}"
+                                                    <img loading="lazy" src="{{ asset('img/counter/counter__3.png') }}"
                                                         alt="counter">
                                                 </div>
                                                 <div class="counter__content__wraper">
@@ -123,51 +96,53 @@
                                                     <p>Earned Hours</p>
 
                                                 </div>
-                                                
+
                                             </div>
-                                            
+
                                         </div>
-                                        
+
                                     </div>
-                                    
+
                                 </div>
                                 <div class="col-xl-12 col-lg-12 col-md-12">
                                     <div class="dashboard__content__wraper">
                                         <div class="col-md-12">
                                             <div class="calendar-container">
                                                 <h4 style="color:var(--primaryColor)">📅 My Timetable</h4>
-        
+
                                                 <!-- Filters -->
                                                 <div class="filters-container">
                                                     <select id="groupFilter" class="filter-dropdown">
                                                         <option value="all">All Groups</option>
-                                                        @foreach($groups as $group)
-                                                            <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                                        @foreach ($groups as $group)
+                                                            <option value="{{ $group->id }}">{{ $group->name }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
-        
+
                                                     <select id="courseFilter" class="filter-dropdown">
                                                         <option value="all">All Courses</option>
-                                                        @foreach($courses as $course)
-                                                            <option value="{{ $course->id }}">{{ $course->name }}</option>
+                                                        @foreach ($courses as $course)
+                                                            <option value="{{ $course->id }}">{{ $course->name }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
-        
+
                                                 <div id="calendar"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
 
 
                     </div>
-                    
+
                 </div>
-                
+
             </div>
 
         </div>
@@ -175,7 +150,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
         <!-- footer__section__end -->
 
 
@@ -199,7 +174,7 @@
     <script src="../js/jquery.counterup.min.js"></script>
     <script src="../js/plugins.js"></script>
     <script src="../js/swiper-bundle.min.js"></script>
-    <script src="../js/main.js"></script>
+    {{-- <script src="../js/main.js"></script> --}}
 
 
     <script>
@@ -208,24 +183,26 @@
             var allEvents = [];
 
             @foreach ($groups as $group)
-                allEvents = allEvents.concat({!! json_encode($group->schedules->map(function($schedule) {
-                    return [
-                        'id' => $schedule->id,
-                        'title' => $schedule->lesson->title,
-                        'start' => $schedule->date . 'T' . $schedule->start_time,
-                        'end' => $schedule->date . 'T' . $schedule->end_time,
-                        'groupId' => $schedule->group->id,
-                        'courseId' => $schedule->group->course->id,
-                        'extendedProps' => [
-                            'groupName' => $schedule->group->name,
-                            'lessonTitle' => $schedule->lesson->title,
-                            'meetingId' => $schedule->meeting_id,
-                            'date' => $schedule->date,
-                            'start_time' => $schedule->start_time,
-                            'end_time' => $schedule->end_time,
-                        ]
-                    ];
-                })) !!});
+                allEvents = allEvents.concat({!! json_encode(
+                    $group->schedules->map(function ($schedule) {
+                        return [
+                            'id' => $schedule->id,
+                            'title' => $schedule->lesson->title,
+                            'start' => $schedule->date . 'T' . $schedule->start_time,
+                            'end' => $schedule->date . 'T' . $schedule->end_time,
+                            'groupId' => $schedule->group->id,
+                            'courseId' => $schedule->group->course->id,
+                            'extendedProps' => [
+                                'groupName' => $schedule->group->name,
+                                'lessonTitle' => $schedule->lesson->title,
+                                'meetingId' => $schedule->meeting_id,
+                                'date' => $schedule->date,
+                                'start_time' => $schedule->start_time,
+                                'end_time' => $schedule->end_time,
+                            ],
+                        ];
+                    }),
+                ) !!});
             @endforeach
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -239,18 +216,19 @@
 
                 dateClick: function(info) {
                     var selectedDate = info.dateStr;
-                    var eventsForDate = allEvents.filter(event => event.extendedProps.date === selectedDate);
+                    var eventsForDate = allEvents.filter(event => event.extendedProps.date ===
+                        selectedDate);
 
                     if (eventsForDate.length > 0) {
                         var eventDetails = eventsForDate.map(event => `
-    <p><strong>Lesson:</strong> ${event.extendedProps.lessonTitle}</p>
-    <p><strong>Group:</strong> ${event.extendedProps.groupName}</p>
-    <p><strong>Start Time:</strong> ${event.extendedProps.start_time}</p>
-    <p><strong>End Time:</strong> ${event.extendedProps.end_time}</p>
-    <p><strong>Meeting ID:</strong> ${event.extendedProps.meetingId ? event.extendedProps.meetingId : 'Not Set'}</p>
+                        <p style="color:black"><strong style="color:#ff7918">Lesson:</strong> ${event.extendedProps.lessonTitle}</p>
+                        <p style="color:black"><strong style="color:#ff7918">Group:</strong> ${event.extendedProps.groupName}</p>
+                        <p style="color:black"><strong style="color:#ff7918">Start Time:</strong> ${event.extendedProps.start_time}</p>
+                        <p style="color:black"><strong style="color:#ff7918">End Time:</strong> ${event.extendedProps.end_time}</p>
+                        <p style="color:black"><strong style="color:#ff7918">Meeting ID:</strong> ${event.extendedProps.meetingId ? event.extendedProps.meetingId : 'Not Set'}</p>
     
     ${event.extendedProps.meetingId 
-        ? `<p><button><a href="/meetings/${event.extendedProps.meetingId}" class="btn btn-danger" style="text-decoration:none;color:white;">Join Session</a></button></p>` 
+        ? `<p><button ><a href="/meetings/${event.extendedProps.meetingId}" class="btn default_button" style="background-color:#ff7918; text-decoration:none;color:white;">Join Session</a></button></p>` 
         : ''
     }
     
@@ -261,13 +239,14 @@
                         Swal.fire({
                             title: `Sessions on ${selectedDate}`,
                             html: eventDetails,
-                            icon: 'info'
+                            icon: 'warning'
                         });
                     } else {
                         Swal.fire({
                             title: "No Sessions",
                             text: "No scheduled sessions on this day.",
-                            icon: "warning"
+                            icon: "warning",
+                            confirmButtonColor: '#ff7918'
                         });
                     }
                 },
@@ -275,14 +254,16 @@
                 eventClick: function(info) {
                     var ev = info.event;
                     Swal.fire({
-                        title: ev.extendedProps.lessonTitle + " (" + ev.extendedProps.groupName + ")",
+                        title: ev.extendedProps.lessonTitle + " (" + ev.extendedProps
+                            .groupName + ")",
                         html: `
-                            <p><strong>Date:</strong> ${ev.extendedProps.date}</p>
-                            <p><strong>Start Time:</strong> ${ev.extendedProps.start_time}</p>
-                            <p><strong>End Time:</strong> ${ev.extendedProps.end_time}</p>
-                            <p><strong>Meeting ID:</strong> ${ev.extendedProps.meetingId ? ev.extendedProps.meetingId : 'Not Set'}</p>
+                            <p style="color:black;"><strong style="color:#ff7918">Date:</strong> ${ev.extendedProps.date}</p>
+                            <p style="color:black"><strong style="color:#ff7918">Start Time:</strong> ${ev.extendedProps.start_time}</p>
+                            <p style="color:black"><strong style="color:#ff7918">End Time:</strong> ${ev.extendedProps.end_time}</p>
+                            <p style="color:black"><strong style="color:#ff7918">Meeting ID:</strong> ${ev.extendedProps.meetingId ? ev.extendedProps.meetingId : 'Not Set'}</p>
                         `,
-                        icon: 'info'
+                        icon: 'warning',
+                        confirmButtonColor: '#ff7918'
                     });
                 }
             });
