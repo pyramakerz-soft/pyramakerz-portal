@@ -48,6 +48,9 @@ class StudentController extends Controller
     }
     public function showCourseLessons($courseId)
 {
+
+    // $instructorController = app(\App\Http\Controllers\WhatsAppController::class);
+    // $instructorController->sendWhatsAppMessage();
     $student = Auth::guard('student')->user();
 
     // Get the group associated with the student for this course
@@ -148,9 +151,20 @@ public function submitTest(Request $request, $testId)
 }
 
     public function mySummary(){
+
+        $student = Auth::guard('student')->user(); // Assuming 'student' guard is used
+    // Fetch groups the student is enrolled in
+    $groups = \App\Models\Group::whereHas('students', function ($query) use ($student) {
+        $query->where('student_id', $student->id);
+    })->with(['course', 'schedules.lesson', 'schedules.group'])->get();
+
+    // Extract unique courses from the student's groups
+    $courses = $groups->pluck('course')->unique();
+
+
         $student = Auth::guard('student')->user();
-        $courses = StudentEnrollment::where('student_id', $student->id)->count();
-        return view('student.dashboard', compact('student','courses'));
+        // $courses = StudentEnrollment::where('student_id', $student->id)->count();
+        return view('student.dashboard', compact('student','courses', 'groups'));
     }
 
     public function getTasks(Request $request, Test $test){

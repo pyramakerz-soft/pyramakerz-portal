@@ -15,6 +15,10 @@ class Group extends Model
     {
         return $this->belongsTo(Course::class);
     }
+    public function instructor()
+    {
+        return $this->belongsTo(User::class,'instructor_id');
+    }
     public function schedules()
     {
         return $this->hasMany(GroupSchedule::class);

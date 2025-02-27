@@ -27,6 +27,12 @@ class Student extends Authenticatable
     {
         return $this->hasMany(StudentSuggesstion::class);
     }
+    public function attendedMeetings()
+{
+    return $this->belongsToMany(Meeting::class, 'attendance_records')
+                ->withTimestamps();
+}
+
     public function progress()
     {
         return $this->hasMany(StudentProgress::class, 'student_id', 'id');

@@ -129,6 +129,14 @@ Route::get('/fetch-attendance/{meeting}', [MeetingController::class, 'fetchAtten
 Route::get('/zoom-signature', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
 Route::get('/zoom-signature/{meetingNumber}/{role}', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
 Route::get('/time-table', [StudentController::class, 'timetable'])->name('student.time-table');
+Route::get('/meetings/{meeting}/evaluate_inst', [EvaluationController::class, 'showEvaluationForm'])
+    ->middleware(['auth:student'])
+    ->name('meetings.evaluate');
+
+Route::post('/meetings/{meeting}/evaluate_inst', [EvaluationController::class, 'submitEvaluation'])
+    ->middleware(['auth:student'])
+    ->name('meetings.evaluate.submit');
+
 
 
 

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\CoursesPath;
 use App\Models\Evaluation;
 use App\Models\ManualEvaluation;
+use App\Models\Meeting;
 use App\Models\PathOfPath;
+use App\Models\StudentToInst;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -121,5 +123,62 @@ public function store(Request $request)
 
     return response()->json(['message' => 'Evaluation recorded successfully!'], 200);
 }
+
+
+// Show the evaluation form
+public function showEvaluationForm($meetingId)
+{
+    $meeting = Meeting::with('group', 'lesson')->findOrFail($meetingId);
+
+    // Check if the session has ended
+    // Combine end date and end time to create a full Carbon datetime object
+    $meetingEndDateTime = Carbon::parse($meeting->date . ' ' . $meeting->end_time);
+
+    // Check if the current time is before the meeting end time
+    if (now()->lt($meetingEndDateTime)) {
+        return redirect()->back()->with('error', 'You can only evaluate a completed session.');
+    }
+    return view('student.evaluate-session', compact('meeting'));
+}
+
+// Handle evaluation submission
+public function submitEvaluation(Request $request, $meeting_id)
+{
+    // Validate Input
+    $request->validate([
+        'content_quality' => 'required|integer|min:1|max:5',
+        'instructor_clarity' => 'required|integer|min:1|max:5',
+        'engagement' => 'required|integer|min:1|max:5',
+        'pace' => 'required|integer|min:1|max:5',
+        'technology_usage' => 'required|integer|min:1|max:5',
+        'overall_experience' => 'required|integer|min:1|max:5',
+        'feedback' => 'nullable|string|max:1000',
+    ]);
+
+    // Ensure meeting has ended before allowing evaluation
+    $meeting = Meeting::with('groupSchedule')->findOrFail($meeting_id);
+    $meetingEndDateTime = Carbon::parse($meeting->groupSchedule->date . ' ' . $meeting->groupSchedule->end_time);
+    
+    if (now()->lt($meetingEndDateTime)) {
+        return redirect()->back()->with('error', 'You can only evaluate a completed session.');
+    }
+
+    // Store Evaluation
+    StudentToInst::create([
+        'student_id' => Auth::guard('student')->user()->id,
+        'meeting_id' => $meeting_id,
+        'content_quality' => $request->content_quality,
+        'instructor_clarity' => $request->instructor_clarity,
+        'engagement' => $request->engagement,
+        'pace' => $request->pace,
+        'technology_usage' => $request->technology_usage,
+        'overall_experience' => $request->overall_experience,
+        'feedback' => $request->feedback,
+    ]);
+
+    return redirect()->route('student.time-table')->with('success', 'Evaluation submitted successfully!');
+}
+
+
 
 }
