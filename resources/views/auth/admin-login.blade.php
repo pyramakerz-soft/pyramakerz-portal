@@ -127,13 +127,13 @@
                                                 <a href="#">Forgot your password?</a>
                                             </div>
                                         </div>
-                                        <div class="login__button">
+                                        <div class="login__social__option">
 
                                             <input class="default__button" type="submit" value="Log In">
                                         </div>
                                     </form>
 
-                                    <div class="login__social__option">
+                                    {{-- <div class="login__social__option">
                                         <p>or Log-in with</p>
 
                                         <ul class="login__social__btn">
@@ -142,15 +142,14 @@
                                             <li><a class="default__button" href="#"><i
                                                         class="icofont-google-plus"></i> Google</a></li>
                                         </ul>
-                                    </div>
+                                    </div> --}}
 
 
                                 </div>
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="projects__two" role="tabpanel"
-                            aria-labelledby="projects__two">
+                        <div class="tab-pane fade" id="projects__two" role="tabpanel" aria-labelledby="projects__two">
                             <div class="col-xl-8 offset-md-2">
                                 <div class="loginarea__wraper">
                                     <div class="login__heading">
@@ -172,27 +171,45 @@
 
                                                 </div>
                                             </div>
-                                            {{-- <div class="col-xl-6">
+                                            <div class="col-xl-6">
                                                 <div class="login__form">
                                                     <label class="form__label">Last Name</label>
                                                     <input class="common__login__input" type="password"
                                                         placeholder="Last Name">
 
                                                 </div>
-                                            </div> --}}
-                                            {{-- <div class="col-xl-6">
+                                            </div>
+                                            <div class="col-xl-6">
                                                 <div class="login__form">
                                                     <label class="form__label">Username</label>
-                                                    <input class="common__login__input" type="password"
+                                                    <input class="common__login__input" type="text"
                                                         placeholder="Username">
 
                                                 </div>
-                                            </div> --}}
+                                            </div>
                                             <div class="col-xl-6">
                                                 <div class="login__form">
                                                     <label class="form__label">Email</label>
                                                     <input class="common__login__input" type="email"
                                                         placeholder="Your Email" name="email">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="login__form">
+                                                    <label class="form__label">Phone Number</label>
+                                                    <input class="common__login__input" type="tel"
+                                                        placeholder="Username">
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-xl-6">
+                                                <div class="login__form">
+                                                    <label class="form__label">Country</label>
+                                                    <input class="common__login__input" type="text"
+                                                        placeholder="Country">
 
                                                 </div>
                                             </div>
@@ -204,14 +221,14 @@
 
                                                 </div>
                                             </div>
-                                            {{-- <div class="col-xl-6">
+                                            <div class="col-xl-6">
                                                 <div class="login__form">
                                                     <label class="form__label">Re-Enter Password</label>
                                                     <input class="common__login__input" type="password"
                                                         placeholder="Re-Enter Password">
 
                                                 </div>
-                                            </div> --}}
+                                            </div>
                                         </div>
 
                                         <div class="login__form d-flex justify-content-between flex-wrap gap-2">
@@ -221,7 +238,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="login__button">
+                                        <div class="login__social__option">
                                             <button class="default__button" href="#">Log In</button>
                                         </div>
                                     </form>
@@ -259,7 +276,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
 
         <!-- footer__section__end -->
 

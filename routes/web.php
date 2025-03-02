@@ -42,12 +42,14 @@ Route::get('/', [PortalController::class, 'homePage'])->name('home');
 Route::get('/course-details', function () {
     return view('student.course-details');
 });
-Route::get('/view-course', function () {
-    return view('student.active');
-});
+
 Route::get('/message', function () {
     return view('student.message');
 });
+Route::get('/lessons', function () {
+    return view('student.course-lessons');
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -122,20 +124,20 @@ Route::middleware('auth:student')->group(function () {
     Route::post('/test/{id}/submit', [StudentController::class, 'submitTest'])->name('submit-test');
     Route::get('/test/{id}/results', [StudentController::class, 'viewResults'])->name('test-results');
     Route::get('/student/courses', [StudentController::class, 'getCourses'])->name('student.courses');
-Route::get('/course_lessons/{id}',[StudentController::class, 'showCourseLessons'])->name('course_lessons');
-Route::get('/meetings/{id}', [MeetingController::class, 'show'])->name('meetings.show');
-Route::post('/upload-homework', [MeetingController::class, 'uploadHomework'])->name('homework.upload');
-Route::get('/fetch-attendance/{meeting}', [MeetingController::class, 'fetchAttendance'])->name('attendance.fetch');
-Route::get('/zoom-signature', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
-Route::get('/zoom-signature/{meetingNumber}/{role}', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
-Route::get('/time-table', [StudentController::class, 'timetable'])->name('student.time-table');
-Route::get('/meetings/{meeting}/evaluate_inst', [EvaluationController::class, 'showEvaluationForm'])
-    ->middleware(['auth:student'])
-    ->name('meetings.evaluate');
+    Route::get('/course_lessons/{id}', [StudentController::class, 'showCourseLessons'])->name('course_lessons');
+    Route::get('/meetings/{id}', [MeetingController::class, 'show'])->name('meetings.show');
+    Route::post('/upload-homework', [MeetingController::class, 'uploadHomework'])->name('homework.upload');
+    Route::get('/fetch-attendance/{meeting}', [MeetingController::class, 'fetchAttendance'])->name('attendance.fetch');
+    Route::get('/zoom-signature', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
+    Route::get('/zoom-signature/{meetingNumber}/{role}', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
+    Route::get('/time-table', [StudentController::class, 'timetable'])->name('student.time-table');
+    Route::get('/meetings/{meeting}/evaluate_inst', [EvaluationController::class, 'showEvaluationForm'])
+        ->middleware(['auth:student'])
+        ->name('meetings.evaluate');
 
-Route::post('/meetings/{meeting}/evaluate_inst', [EvaluationController::class, 'submitEvaluation'])
-    ->middleware(['auth:student'])
-    ->name('meetings.evaluate.submit');
+    Route::post('/meetings/{meeting}/evaluate_inst', [EvaluationController::class, 'submitEvaluation'])
+        ->middleware(['auth:student'])
+        ->name('meetings.evaluate.submit');
 
 
 
@@ -213,7 +215,7 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
     Route::post('/evaluations/store', [EvaluationController::class, 'store'])->name('admin.evaluations.store');
     Route::get('/track-progress', [CourseProgressController::class, 'index'])->name('admin.track-progress.index');
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
-    Route::get('/student-details/{id}', [AttendanceController::class, 'studentDetails'])->name('admin.student-details');
+    // Route::get('/student-details/{id}', [AttendanceController::class, 'studentDetails'])->name('admin.student-details');
 
 
 });
@@ -223,9 +225,9 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
 | Instructor Routes
 |--------------------------------------------------------------------------
 */
-// Route::get('/student-details', function () {
-//     return view('general.student-details');
-// });
+Route::get('/student-details', function () {
+    return view('general.student-details');
+});
 
 Route::get('/session-details', function () {
     return view('general.session-details');

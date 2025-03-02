@@ -14116,3 +14116,31 @@ Dark Mode
 .status-very-late {
     background: #dc3545 !important;
 }
+
+/* rating */
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    color: #ddd;
+    transition: color 0.3s;
+}
+
+.rating input:checked ~ label {
+    color: gold;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+.rating label:hover,
+.rating label:hover ~ label {
+    color: gold;
+}

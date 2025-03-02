@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="no-js is_dark" lang="zxx">
+
 <head>
     @include('include.head')
     <style>
@@ -11,6 +12,7 @@
             align-items: stretch;
             padding: 30px;
         }
+
         /* Zoom Meeting Frame */
         .zoom-frame {
             flex: 2;
@@ -22,11 +24,13 @@
             display: flex;
             flex-direction: column;
         }
+
         /* Ensure the embedded Zoom element expands fully */
         #meetingSDKElement {
             width: 100%;
             flex: 1;
         }
+
         /* Sidebar */
         .sidebar {
             flex: 1;
@@ -40,23 +44,27 @@
             flex-direction: column;
             justify-content: space-between;
         }
+
         /* Session Details and Student List */
         .sidebar h5 {
             font-size: 20px;
             margin-bottom: 12px;
             color: #f8d210;
         }
+
         .sidebar p {
             font-size: 16px;
             margin: 6px 0;
             opacity: 0.9;
         }
+
         .student-list {
             list-style: none;
             padding: 0;
             max-height: 200px;
             overflow-y: auto;
         }
+
         .student-list li {
             display: flex;
             justify-content: space-between;
@@ -67,11 +75,21 @@
             border-radius: 8px;
             transition: all 0.3s ease;
         }
+
         .student-list li:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-        .present { color: #28a745; font-weight: bold; }
-        .absent { color: #dc3545; font-weight: bold; }
+
+        .present {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .absent {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
         /* Homework Modal & Overlay */
         #homeworkModal {
             display: none;
@@ -86,6 +104,7 @@
             text-align: center;
             z-index: 9999;
         }
+
         #homeworkModal input {
             width: 100%;
             margin: 10px 0;
@@ -93,7 +112,8 @@
             border: 1px solid #ccc;
             border-radius: 6px;
         }
-        #homeworkModal button {
+
+        /* #homeworkModal button {
             background: #007bff;
             color: white;
             padding: 8px 16px;
@@ -104,7 +124,7 @@
         }
         #homeworkModal button:hover {
             background: #0056b3;
-        }
+        } */
         .overlay {
             display: none;
             position: fixed;
@@ -115,12 +135,14 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 9998;
         }
+
         /* Zoom SDK injected elements */
         #zmmtg-root {
             display: block !important;
             width: 100%;
             background-color: transparent !important;
         }
+
         body {
             overflow-x: hidden;
             margin: 0;
@@ -128,6 +150,7 @@
         }
     </style>
 </head>
+
 <body class="body__wrapper">
     @include('include.nav')
     <!-- Dependencies for Component View via CDN -->
@@ -186,7 +209,8 @@
                                     {{ $isPresent ? '✔️ Present' : '❌ Absent' }}
                                 </span>
                                 @if ($student->id == auth()->id())
-                                    <span id="homework-{{ $student->id }}" class="upload-homework" onclick="uploadHomework()">📂 Upload</span>
+                                    <span id="homework-{{ $student->id }}" class="upload-homework"
+                                        onclick="uploadHomework()">📂 Upload</span>
                                 @endif
                             </li>
                         @endforeach
@@ -214,62 +238,69 @@
         const meetingSDKElement = document.getElementById('meetingSDKElement');
 
         client.init({
-          zoomAppRoot: meetingSDKElement,
-          language: 'en-US',
-          patchJsMedia: true,
-          customize: {
-            video: {
-              isResizable: false,
-              viewSizes: {
-                default: {
-                  width: 1200,
-                  height: 700
+            zoomAppRoot: meetingSDKElement,
+            language: 'en-US',
+            patchJsMedia: true,
+            customize: {
+                video: {
+                    isResizable: false,
+                    viewSizes: {
+                        default: {
+                            width: 1200,
+                            height: 700
+                        },
+                        ribbon: {
+                            width: 350,
+                            height: 800
+                        }
+                    }
                 },
-                ribbon: {
-                  width: 350,
-                  height: 800
+                // Adding a share customization block to control the shared screen size
+                share: {
+                    isResizable: false,
+                    viewSizes: {
+                        default: {
+                            width: 1200,
+                            height: 700
+                        }
+                    }
                 }
-              }
-            },
-            // Adding a share customization block to control the shared screen size
-            share: {
-              isResizable: false,
-              viewSizes: {
-                default: {
-                  width: 1200,
-                  height: 700
-                }
-              }
             }
-          }
         }).then(() => {
-          fetch("{{ route('zoom.generate_signature', ['meeting_id' => $meeting['zoom_meeting_id']]) }}")
-            .then(response => response.json())
-            .then(data => {
-              if (!data.signature) {
-                console.error("Zoom API Error:", data.error, "Details:", data.details);
-                return;
-              }
-              console.log("Fetched signature successfully.");
-              client.join({
-                sdkKey: "40Oxf8mkRWWSzwkWzZrTJw",
-                signature: data.signature,
-                meetingNumber: meetingDetails.zoom_meeting_id,
-                password: "{{ $meeting['password'] }}",
-                userName: "{{ auth()->user()->name }}"
-              }).then(() => {
-                console.log('Joined meeting successfully!');
-              }).catch(error => {
-                if(error.reason === "Meeting has not started") {
-                  swal("Meeting not started", "The meeting has not started yet. Please wait a few moments and try again.", "info");
-                } else {
-                  console.error("Join meeting error:", error);
-                }
-              });
-            })
-            .catch(error => console.error("Error fetching signature:", error));
+            fetch("{{ route('zoom.generate_signature', ['meeting_id' => $meeting['zoom_meeting_id']]) }}")
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.signature) {
+                        console.error("Zoom API Error:", data.error, "Details:", data.details);
+                        return;
+                    }
+                    console.log("Fetched signature successfully.");
+                    client.join({
+                        sdkKey: "40Oxf8mkRWWSzwkWzZrTJw",
+                        signature: data.signature,
+                        meetingNumber: meetingDetails.zoom_meeting_id,
+                        password: "{{ $meeting['password'] }}",
+                        userName: "{{ auth()->user()->name }}"
+                    }).then(() => {
+                        console.log('Joined meeting successfully!');
+                    }).catch(error => {
+                        if (error.reason === "Meeting has not started") {
+                            swal({
+                                title: "Meeting not started",
+                                text: "The meeting has not started yet. Please wait a few moments and try again.",
+                                icon: "warning",
+                                confirmButtonColor: '#ff7918',
+                            });
+
+
+                        } else {
+                            console.error("Join meeting error:", error);
+                        }
+                    });
+                })
+                .catch(error => console.error("Error fetching signature:", error));
         }).catch(error => {
-          console.error("Init error:", error);
+            console.error("Init error:", error);
         });
     </script>
 
@@ -279,10 +310,12 @@
             document.getElementById('homeworkModal').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
         }
+
         function closeModal() {
             document.getElementById('homeworkModal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
+
         function submitHomework() {
             let file = document.getElementById('homeworkFile').files[0];
             if (!file) {
@@ -293,24 +326,25 @@
             formData.append("homework", file);
             formData.append("_token", "{{ csrf_token() }}");
             fetch("{{ route('homework.upload') }}", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(() => {
-                alert("✅ Homework uploaded successfully!");
-                let homeworkButton = document.getElementById('homework-' + {{ auth()->id() }});
-                if (homeworkButton) {
-                    homeworkButton.classList.remove('upload-homework');
-                    homeworkButton.classList.add('submitted-homework');
-                    homeworkButton.innerText = "✅ Submitted";
-                }
-                closeModal();
-            })
-            .catch(() => {
-                alert("❌ Upload failed! Please try again.");
-            });
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(() => {
+                    alert("✅ Homework uploaded successfully!");
+                    let homeworkButton = document.getElementById('homework-' + {{ auth()->id() }});
+                    if (homeworkButton) {
+                        homeworkButton.classList.remove('upload-homework');
+                        homeworkButton.classList.add('submitted-homework');
+                        homeworkButton.innerText = "✅ Submitted";
+                    }
+                    closeModal();
+                })
+                .catch(() => {
+                    alert("❌ Upload failed! Please try again.");
+                });
         }
+
         function updateAttendance() {
             fetch("{{ route('attendance.fetch', ['meeting' => $meeting->id]) }}")
                 .then(response => response.text())
@@ -323,7 +357,8 @@
                             return;
                         }
                         data.students.forEach(student => {
-                            let statusElement = document.querySelector(`#student-${student.id} .attendance-status`);
+                            let statusElement = document.querySelector(
+                                `#student-${student.id} .attendance-status`);
                             if (statusElement) {
                                 statusElement.classList.remove('present', 'absent');
                                 statusElement.classList.add(student.is_present ? 'present' : 'absent');
@@ -342,4 +377,5 @@
     <!-- SweetAlert Library (include via CDN) -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
+
 </html>

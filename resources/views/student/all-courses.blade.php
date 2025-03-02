@@ -10,7 +10,7 @@
 <body class="body__wrapper">
 
     @include('include.load')
-    @include('include.preload')
+
 
 
     <main class="main_wrapper overflow-hidden">
@@ -372,7 +372,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
         <!-- footer__section__end -->
 
 

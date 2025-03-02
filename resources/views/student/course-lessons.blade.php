@@ -38,18 +38,22 @@ $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
                             @endphp
                             <div class="dashboard__single__counter lesson-card" id="lesson-card-{{ $index }}"
                                 onclick="selectLesson({{ $index }}, '{{ $lesson['title'] }}', '{{ $videoUrl }}', {{ $startDateTime }}, {{ $endDateTime }}, '{{ $meeting ? $meeting->id : '' }}')">
+
                                 <h5>Lesson #{{ $index + 1 }} - {{ $lesson['title'] }}</h5>
                                 <p><strong>📅 Date:</strong> {{ $lesson['date'] }}</p>
                                 <p><strong>⏰ Time:</strong> {{ $lesson['start_time'] }} - {{ $lesson['end_time'] }}
                                 </p>
                                 @php
-        $lessonDateTime = \Carbon\Carbon::parse($lesson['date'] . ' ' . $lesson['end_time']);
-        $isSessionCompleted = $lessonDateTime->isPast();
-    @endphp
+                                    $lessonDateTime = \Carbon\Carbon::parse(
+                                        $lesson['date'] . ' ' . $lesson['end_time'],
+                                    );
+                                    $isSessionCompleted = $lessonDateTime->isPast();
+                                @endphp
 
-    @if($isSessionCompleted)
-        <a href="/meetings/{{ $meeting->id }}/evaluate_inst" class="btn btn-sm btn-outline-primary">Evaluate Session</a>
-    @endif
+                                @if ($isSessionCompleted)
+                                    <a href="/meetings/{{ $meeting->id }}/evaluate_inst"
+                                        class="btn btn-sm default__button">Evaluate Session</a>
+                                @endif
 
                                 <!-- Lesson Resources -->
                                 @if (($lesson['materials'] ?? collect([]))->isNotEmpty())
@@ -59,8 +63,7 @@ $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
                                                 (is_null($resource->group_id) || $resource->group_id == $lesson['group_id']) &&
                                                     (is_null($resource->group_schedule_id) || $resource->group_schedule_id == $lesson['schedule_id']))
                                                 <div class="resource-item mb-2">
-                                                    <a href="{{ asset($resource->file_path) }}"
-                                                        target="_blank">
+                                                    <a href="{{ asset($resource->file_path) }}" target="_blank">
                                                         {{ $resource->title ?? basename($resource->file_path) }}
                                                     </a>
                                                     <a href="{{ asset($resource->file_path) }}" download
@@ -104,69 +107,68 @@ $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
     </div>
 
     @include('include.footer')
-@include('include.scripts')
+    @include('include.scripts')
 
     <!-- JS Scripts -->
     <script>
         let activeLessonIndex = 0;
-let countdownInterval;
-let meetingUrl = '';
+        let countdownInterval;
+        let meetingUrl = '';
 
-function selectLesson(index, title, videoUrl, startTime, endTime, meetingLink) {
-    activeLessonIndex = index;
-    meetingUrl = meetingLink;
+        function selectLesson(index, title, videoUrl, startTime, endTime, meetingLink) {
+            activeLessonIndex = index;
+            meetingUrl = meetingLink;
 
-    // Update lesson title
-    document.getElementById('lesson-title').innerText = title;
+            // Update lesson title
+            document.getElementById('lesson-title').innerText = title;
 
-    // Update video content
-    if (videoUrl) {
-        document.getElementById('lesson-video').innerHTML =
-            `<iframe src="${videoUrl}" allowfullscreen allow="autoplay"></iframe>`;
-    } else {
-        document.getElementById('lesson-video').innerHTML = "<p>No video available for this lesson.</p>";
-    }
+            // Update video content
+            if (videoUrl) {
+                document.getElementById('lesson-video').innerHTML =
+                    `<iframe src="${videoUrl}" allowfullscreen allow="autoplay"></iframe>`;
+            } else {
+                document.getElementById('lesson-video').innerHTML = "<p>No video available for this lesson.</p>";
+            }
 
-    // Remove active class from all lesson cards and add to the selected one
-    document.querySelectorAll('.lesson-card').forEach(card => card.classList.remove('active'));
-    document.getElementById(`lesson-card-${index}`).classList.add('active');
+            // Remove active class from all lesson cards and add to the selected one
+            document.querySelectorAll('.lesson-card').forEach(card => card.classList.remove('active'));
+            document.getElementById(`lesson-card-${index}`).classList.add('active');
 
-    // Clear previous countdown and start a new timer
-    clearInterval(countdownInterval);
-    updateCountdownTimer(startTime, endTime);
-}
-
-function updateCountdownTimer(startTime, endTime) {
-    let timerElement = document.getElementById('countdown-timer');
-
-    function refreshTimer() {
-        let now = new Date().getTime();
-        let diff = startTime - now;
-
-        if (diff > 0) {
-            let days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-            timerElement.innerText = `Lesson starts in: ${days}d ${hours}h ${minutes}m`;
-        } else if (now >= startTime - 300000 && now < startTime) {
-            timerElement.classList.add('status-start');
-            timerElement.innerHTML = `<a href="/meetings/${meetingUrl}" class="btn btn-success">Start Session</a>`;
-        } else if (now > startTime && now < endTime) {
-            timerElement.classList.add('status-late');
-            timerElement.innerHTML =
-                `<a href="/meetings/${meetingUrl}" class="btn btn-warning">Join Session Late</a>`;
-        } else {
-            timerElement.classList.add('status-very-late');
-            timerElement.innerText = "Session Ended";
+            // Clear previous countdown and start a new timer
             clearInterval(countdownInterval);
+            updateCountdownTimer(startTime, endTime);
         }
-    }
 
-    refreshTimer();
-    countdownInterval = setInterval(refreshTimer, 1000);
-}
+        function updateCountdownTimer(startTime, endTime) {
+            let timerElement = document.getElementById('countdown-timer');
 
+            function refreshTimer() {
+                let now = new Date().getTime();
+                let diff = startTime - now;
+
+                if (diff > 0) {
+                    let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+                    timerElement.innerText = `Lesson starts in: ${days}d ${hours}h ${minutes}m`;
+                } else if (now >= startTime - 300000 && now < startTime) {
+                    timerElement.classList.add('status-start');
+                    timerElement.innerHTML = `<a href="/meetings/${meetingUrl}" class="btn btn-success">Start Session</a>`;
+                } else if (now > startTime && now < endTime) {
+                    timerElement.classList.add('status-late');
+                    timerElement.innerHTML =
+                        `<a href="/meetings/${meetingUrl}" class="btn btn-warning">Join Session Late</a>`;
+                } else {
+                    timerElement.classList.add('status-very-late');
+                    timerElement.innerText = "Session Ended";
+                    clearInterval(countdownInterval);
+                }
+            }
+
+            refreshTimer();
+            countdownInterval = setInterval(refreshTimer, 1000);
+        }
     </script>
 
     <!-- JS here -->

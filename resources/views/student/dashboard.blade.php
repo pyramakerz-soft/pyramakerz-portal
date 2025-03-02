@@ -111,7 +111,7 @@
                                                 <h4 style="color:var(--primaryColor)">📅 My Timetable</h4>
 
                                                 <!-- Filters -->
-                                                <div class="filters-container">
+                                                <div class="filters-container" style="display: none;">
                                                     <select id="groupFilter" class="filter-dropdown">
                                                         <option value="all">All Groups</option>
                                                         @foreach ($groups as $group)
