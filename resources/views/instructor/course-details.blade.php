@@ -217,86 +217,98 @@
         $(document).ready(function() {
             // Existing choose-date and add lesson code here ...
 
-            // 🔹 ADD MATERIAL TO LESSON (Updated Form Without ZIP/RAR Options)
-            $(".add-material-btn").click(function() {
-                let lessonId = $(this).data("lesson-id");
+            $(".add-material-btn").click(function () {
+    let lessonId = $(this).data("lesson-id");
 
-                Swal.fire({
-                    title: "Upload Material",
-                    html: `
-                        <select id="resource_type" class="swal2-input form-control" style="border-radius: 8px; padding: 8px;">
-                            <option value="">Select Resource Type</option>
-                            <option value="pdf">PDF</option>
-                            <option value="doc">Document (DOC/DOCX)</option>
-                            <option value="ppt">Presentation (PPT/PPTX)</option>
-                        </select>
-                        <input type="file" id="lesson_material" class="swal2-input form-control" style="margin:0 auto;" placeholder="Choose File">
-                    `,
-                    didOpen: () => {
-                        $("#resource_type").on("change", function() {
-                            let type = $(this).val();
-                            let accept = "";
-                            switch (type) {
-                                case "pdf":
-                                    accept = ".pdf";
-                                    break;
-                                case "doc":
-                                    accept = ".doc,.docx";
-                                    break;
-                                case "ppt":
-                                    accept = ".ppt,.pptx";
-                                    break;
-                                default:
-                                    accept = "";
-                            }
-                            $("#lesson_material").attr("accept", accept);
-                        });
-                    },
-                    showCancelButton: true,
-                    confirmButtonText: "Upload",
-                    preConfirm: () => {
-                        let resourceType = $("#resource_type").val();
-                        let file = $("#lesson_material")[0].files[0];
-                        if (!resourceType) {
-                            Swal.showValidationMessage("Please select a resource type");
-                            return false;
-                        }
-                        if (!file) {
-                            Swal.showValidationMessage("Please choose a file");
-                            return false;
-                        }
-                        return {
-                            lesson_id: lessonId,
-                            resource_type: resourceType,
-                            material: file
-                        };
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        let formData = new FormData();
-                        formData.append("_token", "{{ csrf_token() }}");
-                        formData.append("lesson_id", result.value.lesson_id);
-                        formData.append("resource_type", result.value.resource_type);
-                        formData.append("material", result.value.material);
-
-                        $.ajax({
-                            url: "{{ route('lesson.uploadMaterial') }}",
-                            type: "POST",
-                            processData: false,
-                            contentType: false,
-                            data: formData,
-                            success: function() {
-                                Swal.fire("Success", "Material uploaded successfully!",
-                                        "success")
-                                    .then(() => location.reload());
-                            },
-                            error: function() {
-                                Swal.fire("Error", "Upload failed!", "error");
-                            }
-                        });
-                    }
-                });
+    Swal.fire({
+        title: "Upload Material",
+        html: `
+            <select id="resource_type" class="swal2-input form-control">
+                <option value="">Select Resource Type</option>
+                <option value="session">Session Material (Instructor Only)</option>
+                <option value="teaching_guide">Teaching Guide (Instructor Only)</option>
+                <option value="project">Project (Instructor Only)</option>
+                <option value="quiz">Quiz (Instructor & Student)</option>
+                <option value="assignment">Assignment (Instructor & Student)</option>
+                <option value="handout">Handouts (Student Only)</option>
+            </select>
+            <label>
+                <input type="checkbox" id="upload_toggle" checked> Upload File Instead of Link
+            </label>
+            <input type="url" id="lesson_link" class="swal2-input form-control" placeholder="Paste link here" style="display:none;">
+            <input type="file" id="lesson_material" class="swal2-input form-control">
+        `,
+        didOpen: () => {
+            $("#upload_toggle").on("change", function () {
+                if (this.checked) {
+                    $("#lesson_material").show();
+                    $("#lesson_link").hide();
+                } else {
+                    $("#lesson_material").hide();
+                    $("#lesson_link").show();
+                }
             });
+        },
+        showCancelButton: true,
+        confirmButtonText: "Upload",
+        preConfirm: () => {
+            let resourceType = $("#resource_type").val();
+            let fileInput = $("#lesson_material")[0].files[0];
+            let linkInput = $("#lesson_link").val();
+            let uploadToggle = $("#upload_toggle").prop("checked");
+
+            if (!resourceType) {
+                Swal.showValidationMessage("Please select a resource type");
+                return false;
+            }
+
+            if (uploadToggle && !fileInput) {
+                Swal.showValidationMessage("Please choose a file");
+                return false;
+            }
+
+            if (!uploadToggle && !linkInput) {
+                Swal.showValidationMessage("Please enter a valid link");
+                return false;
+            }
+
+            return {
+                lesson_id: lessonId,
+                resource_type: resourceType,
+                material: fileInput,
+                link: linkInput,
+                uploadType: uploadToggle ? "file" : "link"
+            };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let formData = new FormData();
+            formData.append("_token", "{{ csrf_token() }}");
+            formData.append("lesson_id", result.value.lesson_id);
+            formData.append("type", result.value.resource_type);
+            formData.append("link", result.value.link);
+            if (result.value.uploadType === "file") {
+                formData.append("file", result.value.material);
+            }
+
+            $.ajax({
+                url: "{{ route('lesson.uploadMaterial') }}",
+                type: "POST",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function () {
+                    Swal.fire("Success", "Material uploaded successfully!", "success")
+                        .then(() => location.reload());
+                },
+                error: function () {
+                    Swal.fire("Error", "Upload failed!", "error");
+                }
+            });
+        }
+    });
+});
+
 
             // Additional code for assigning teacher, choosing date, etc...
         });

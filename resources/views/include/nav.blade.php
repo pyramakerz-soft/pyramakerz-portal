@@ -27,6 +27,10 @@
                                 <a>Hello,
                                     {{ Auth::guard('student')->user()->name }}
                                 </a>
+                            @elseif (Auth::guard('admin')->user())
+                                <a>Hello,
+                                    {{ Auth::guard('admin')->user()->name }}
+                                </a>
                             @else
                                 <a href="{{ route('student-login') }}">Get Started</a>
                             @endif
