@@ -8,7 +8,7 @@
                         <div class="headerarea__left__logo" style="padding: 20PX;">
 
                             <a href="{{ route('home') }}"><img loading="lazy"
-                                    src="https://pyramakerz.com/portal/pyramakerz-etisalat/public/img/logo/logo_1.png"
+                                    src="{{asset('img/logo/logo_1.png')}}"
                                     alt="logo" style="height:50px; "></a>
                         </div>
 
@@ -49,7 +49,7 @@
                 <div class="col-6">
                     <div class="mobile-logo">
                         <a class="logo__dark" href="{{ route('home') }}"><img loading="lazy"
-                                src="https://pyramakerz.com/portal/pyramakerz-etisalat/public/img/logo/logo_1.png"
+                                src="{{asset('img/logo/logo_1.png')}}"
                                 alt="logo"></a>
                     </div>
                 </div>
