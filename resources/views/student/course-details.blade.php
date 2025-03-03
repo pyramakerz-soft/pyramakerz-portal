@@ -82,10 +82,14 @@
         </div>
         <!-- breadcrumbarea__section__end-->
 
-        <div class="blogarea__2 sp_top_100 sp_bottom_100">
-            <div class="container">
+        <div class="blogarea__2 sp_top0 sp_bottom_100">
+            <div class="container-fluid full__width__padding">
                 <div class="row">
-                    <div class="col-xl-8 col-lg-8">
+                    <div class="col-xl-3 col-lg-3 col-md-12" data-aos="fade-up">
+                        @include('include.stud-sidebar')
+
+                    </div>
+                    <div class="col-xl-6 col-lg-6">
                         <div class="blog__details__content__wraper">
                             <div class="course__details__tab__wrapper" data-aos="fade-up">
                                 <div class="row">
@@ -121,16 +125,21 @@
                                                             {{ $path->name }}
                                                         </button>
                                                     </h2>
-                                                    <div id="path{{ $path->id }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                                    <div id="path{{ $path->id }}"
+                                                        class="accordion-collapse collapse"
+                                                        data-bs-parent="#accordionExample">
                                                         <div class="accordion-body">
-                                                            
+
                                                             <!-- Check if the path has subpaths -->
                                                             @if ($path->paths->isNotEmpty())
-                                                                <div class="accordion" id="subPathAccordion{{ $path->id }}">
+                                                                <div class="accordion"
+                                                                    id="subPathAccordion{{ $path->id }}">
                                                                     @foreach ($path->paths as $subPath)
                                                                         <div class="accordion-item">
                                                                             <h2 class="accordion-header">
-                                                                                <button class="accordion-button collapsed" type="button"
+                                                                                <button
+                                                                                    class="accordion-button collapsed"
+                                                                                    type="button"
                                                                                     data-bs-toggle="collapse"
                                                                                     data-bs-target="#subPath{{ $subPath->id }}"
                                                                                     aria-expanded="false"
@@ -138,13 +147,23 @@
                                                                                     {{ $subPath->name }}
                                                                                 </button>
                                                                             </h2>
-                                                                            <div id="subPath{{ $subPath->id }}" class="accordion-collapse collapse" data-bs-parent="#subPathAccordion{{ $path->id }}">
+                                                                            <div id="subPath{{ $subPath->id }}"
+                                                                                class="accordion-collapse collapse"
+                                                                                data-bs-parent="#subPathAccordion{{ $path->id }}">
                                                                                 <div class="accordion-body">
-                                                                                    <div class="accordion" id="lessonAccordion{{ $subPath->id }}">
+                                                                                    <div class="accordion"
+                                                                                        id="lessonAccordion{{ $subPath->id }}">
                                                                                         @forelse ($subPath->lessons->sortBy('order') as $lesson)
-                                                                                            @include('components.lesson-item', ['lesson' => $lesson, 'parentId' => "lessonAccordion{$subPath->id}"])
+                                                                                            @include(
+                                                                                                'components.lesson-item',
+                                                                                                [
+                                                                                                    'lesson' => $lesson,
+                                                                                                    'parentId' => "lessonAccordion{$subPath->id}",
+                                                                                                ]
+                                                                                            )
                                                                                         @empty
-                                                                                            <p>No lessons available in this sub-path.</p>
+                                                                                            <p>No lessons available in
+                                                                                                this sub-path.</p>
                                                                                         @endforelse
                                                                                     </div>
                                                                                 </div>
@@ -153,21 +172,27 @@
                                                                     @endforeach
                                                                 </div>
                                                             @endif
-                                    
+
                                                             <!-- Direct lessons under course path (if no subpaths exist) -->
                                                             @if ($path->lessons->isNotEmpty())
-                                                                <h5 class="mt-3">Lessons in "{{ $path->name }}"</h5>
-                                                                <div class="accordion" id="lessonAccordion{{ $path->id }}">
+                                                                <h5 class="mt-3">Lessons in "{{ $path->name }}"
+                                                                </h5>
+                                                                <div class="accordion"
+                                                                    id="lessonAccordion{{ $path->id }}">
                                                                     @foreach ($path->lessons->sortBy('order') as $lesson)
-                                                                        @include('components.lesson-item', ['lesson' => $lesson, 'parentId' => "lessonAccordion{$path->id}"])
+                                                                        @include('components.lesson-item', [
+                                                                            'lesson' => $lesson,
+                                                                            'parentId' => "lessonAccordion{$path->id}",
+                                                                        ])
                                                                     @endforeach
                                                                 </div>
                                                             @endif
-                                    
+
                                                             @if ($path->paths->isEmpty() && $path->lessons->isEmpty())
-                                                                <p>No lessons or sub-paths available in this course path.</p>
+                                                                <p>No lessons or sub-paths available in this course
+                                                                    path.</p>
                                                             @endif
-                                    
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -176,7 +201,7 @@
                                             @endforelse
                                         </div>
                                     </div>
-                                    
+
 
 
 
@@ -218,7 +243,7 @@
                         </script>
                     @endif
                     <!-- Sidebar -->
-                    <div class="col-xl-4 col-lg-4">
+                    <div class="col-xl-3 col-lg-3">
                         <div class="course__details__sidebar--2">
                             <div class="event__sidebar__wraper" data-aos="fade-up">
                                 <div class="blogarae__img__2 course__details__img__2" data-aos="fade-up">
