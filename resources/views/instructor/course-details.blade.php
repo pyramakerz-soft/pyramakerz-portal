@@ -7,7 +7,7 @@
 
 <body class="body__wrapper">
     @include('include.load')
-    @include('include.preload')
+
 
     <main class="main_wrapper overflow-hidden">
         @include('include.nav')
@@ -35,8 +35,9 @@
                             <div class="course__details__heading" data-aos="fade-up">
                                 <h3>{{ $course->name ?? 'Course Title' }}</h3>
 
-                                @if(Auth::guard('admin')->user()->can('group-list'))
-                                    <a class="btn btn-black btn-sm" href="{{ route('instructor.groups', $course->id) }}">
+                                @if (Auth::guard('admin')->user()->can('group-list'))
+                                    <a class="btn btn-black btn-sm"
+                                        href="{{ route('instructor.groups', $course->id) }}">
                                         <i class="icofont-users"></i> View Groups
                                     </a>
                                 @endif
@@ -72,7 +73,7 @@
                                                                     {{ $lesson->title }}
                                                                     <span>Order: {{ $lesson->order ?? 'N/A' }}</span>
 
-                                                                    @if(Auth::guard('admin')->user()->can('lessonresource-create'))
+                                                                    @if (Auth::guard('admin')->user()->can('lessonresource-create'))
                                                                         <!-- Add Material Button -->
                                                                         <i class="icofont-plus-circle add-material-btn"
                                                                             data-lesson-id="{{ $lesson->id }}"
@@ -117,7 +118,7 @@
                                             @endif
                                         </div>
 
-                                        @if(Auth::guard('admin')->user()->can('lesson-create'))
+                                        @if (Auth::guard('admin')->user()->can('lesson-create'))
                                             <button class="btn btn-outline-primary mt-3 add-lesson-btn">
                                                 <i class="icofont-plus"></i> Add Lesson
                                             </button>
@@ -137,7 +138,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
 
                     <!-- Sidebar -->
                     <div class="col-xl-4 col-lg-4">
@@ -156,16 +157,20 @@
                                                 <span class="sb_content">
                                                     @if ($course->instructor)
                                                         {{ $course->instructor->name }}
-                                                        @if(Auth::guard('admin')->user()->can('course-edit') || Auth::guard('admin')->user()->can('course-create'))
-                                                            <button class="btn btn-sm btn-outline-warning assign-teacher-btn"
-                                                                data-course-id="{{ $course->id }}" style="border: none;">
+                                                        @if (Auth::guard('admin')->user()->can('course-edit') || Auth::guard('admin')->user()->can('course-create'))
+                                                            <button
+                                                                class="btn btn-sm btn-outline-warning assign-teacher-btn"
+                                                                data-course-id="{{ $course->id }}"
+                                                                style="border: none;">
                                                                 Change Instructor
                                                             </button>
                                                         @endif
                                                     @else
-                                                        @if(Auth::guard('admin')->user()->can('course-edit') || Auth::guard('admin')->user()->can('course-create'))
-                                                            <button class="btn btn-sm btn-outline-success assign-teacher-btn"
-                                                                data-course-id="{{ $course->id }}" style="border: none;">
+                                                        @if (Auth::guard('admin')->user()->can('course-edit') || Auth::guard('admin')->user()->can('course-create'))
+                                                            <button
+                                                                class="btn btn-sm btn-outline-success assign-teacher-btn"
+                                                                data-course-id="{{ $course->id }}"
+                                                                style="border: none;">
                                                                 + Assign Instructor
                                                             </button>
                                                         @endif
@@ -183,7 +188,7 @@
         </div>
 
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
     </main>
 
     <!-- JS Scripts -->
@@ -430,4 +435,5 @@
     </script>
 
 </body>
+
 </html>

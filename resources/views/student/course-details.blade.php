@@ -7,7 +7,7 @@
 
 <body class="body__wrapper">
     @include('include.load')
-    @include('include.preload')
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <main class="main_wrapper overflow-hidden">
@@ -254,24 +254,24 @@
                             </div>
                         </div>
                     </div>
-                    @if(session('error'))
-                    <script>
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: '{{ session('error') }}'
-                        });
-                    </script>
-                @endif
-                @if(session('success'))
-                    <script>
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: '{{ session('success') }}'
-                        });
-                    </script>
-                @endif                
+                    @if (session('error'))
+                        <script>
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: '{{ session('error') }}'
+                            });
+                        </script>
+                    @endif
+                    @if (session('success'))
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: '{{ session('success') }}'
+                            });
+                        </script>
+                    @endif
                     <!-- Sidebar -->
                     <div class="col-xl-4 col-lg-4">
                         <div class="course__details__sidebar--2">
@@ -284,20 +284,28 @@
 
                                 <div class="course__summery__button">
                                     @php
-                                    $enrollment = \App\Models\StudentEnrollment::where('student_id', Auth::guard('student')->user()->id)->where('course_id', $course->id)->first();
+                                        $enrollment = \App\Models\StudentEnrollment::where(
+                                            'student_id',
+                                            Auth::guard('student')->user()->id,
+                                        )
+                                            ->where('course_id', $course->id)
+                                            ->first();
                                     @endphp
-                                    @if($enrollment)
-                                    @if($enrollment->status =='pending')
-                                    <a class="default__button disable" href="{{route('student.enroll-now',$course->id)}}">Pending Course</a>
-                                    @elseif($enrollment->status =='enrolled')
-                                    <a class="default__button" href="{{route('course_lessons',$course->id)}}">Go to Course</a>
-                                    @elseif($enrollment->status =='completed')
-                                    <a class="default__button" href="{{route('course_lessons',$course->id)}}">Course Completed</a>
-                                    
-                                    
-                                    @endif
+                                    @if ($enrollment)
+                                        @if ($enrollment->status == 'pending')
+                                            <a class="default__button disable"
+                                                href="{{ route('student.enroll-now', $course->id) }}">Pending
+                                                Course</a>
+                                        @elseif($enrollment->status == 'enrolled')
+                                            <a class="default__button"
+                                                href="{{ route('course_lessons', $course->id) }}">Go to Course</a>
+                                        @elseif($enrollment->status == 'completed')
+                                            <a class="default__button"
+                                                href="{{ route('course_lessons', $course->id) }}">Course Completed</a>
+                                        @endif
                                     @else
-                                    <a class="default__button" href="{{route('student.enroll-now',$course->id)}}">Enroll Now</a>
+                                        <a class="default__button"
+                                            href="{{ route('student.enroll-now', $course->id) }}">Enroll Now</a>
                                     @endif
                                 </div>
 
@@ -332,7 +340,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
         <!-- footer__section__end -->
     </main>
 

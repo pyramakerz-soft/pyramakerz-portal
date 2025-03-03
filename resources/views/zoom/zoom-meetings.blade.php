@@ -9,74 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    <style>
-        .meeting-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            transition: 0.3s ease-in-out;
-            position: relative;
-        }
 
-        .meeting-card:hover {
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-            transform: translateY(-5px);
-        }
-
-        .meeting-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-bottom: 2px solid #007bff;
-        }
-
-        .meeting-body {
-            padding: 15px;
-        }
-
-        .meeting-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .meeting-info {
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 5px;
-        }
-
-        .join-btn {
-            background: #28a745;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
-            text-align: center;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-
-        .join-btn:hover {
-            background: #218838;
-        }
-
-        /* Style for past meetings (disable click effect) */
-        .past-meeting {
-            opacity: 0.5;
-            pointer-events: none;
-            background: #ccc;
-        }
-
-        .past-meeting .meeting-title,
-        .past-meeting .meeting-info {
-            color: #999;
-        }
-    </style>
 </head>
 
 <body class="body__wrapper">
@@ -136,7 +69,7 @@
 
                                                 @if (!$isPastMeeting)
                                                     <a href="{{ route('instructor.meeting', $meeting->id) }}"
-                                                        target="_blank" class="default_button btn ">🔗 Join Zoom
+                                                        target="_blank" class="default__button btn ">🔗 Join Zoom
                                                         Meeting</a>
                                                 @else
                                                     <p class="text-muted"><strong>❌ Meeting Expired</strong></p>

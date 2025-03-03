@@ -9,7 +9,7 @@
 
 <body class="body__wrapper">
     @include('include.load')
-    @include('include.preload')
+
 
     <main class="main_wrapper overflow-hidden">
         @include('include.nav')
@@ -90,7 +90,7 @@
         </div>
 
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
     </main>
 </body>
 

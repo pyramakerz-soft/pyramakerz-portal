@@ -11,7 +11,7 @@
 <body class="body__wrapper">
     <!-- pre loader area start -->
     @include('include.load')
-    @include('include.preload')
+
 
     <!-- pre loader area end -->
 

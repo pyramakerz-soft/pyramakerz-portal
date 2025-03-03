@@ -11,7 +11,7 @@
 <body class="body__wrapper">
 
     @include('include.load')
-    @include('include.preload')
+
 
 
     <main class="main_wrapper overflow-hidden">
@@ -48,7 +48,7 @@
                                         <div class="dashboard__single__counter">
                                             <div class="counterarea__text__wraper">
                                                 <div class="counter__img">
-                                                    <img loading="lazy" src="{{asset('img/counter/counter__1.png')}}"
+                                                    <img loading="lazy" src="{{ asset('img/counter/counter__1.png') }}"
                                                         alt="counter">
                                                 </div>
                                                 <div class="counter__content__wraper">
@@ -66,7 +66,7 @@
                                         <div class="dashboard__single__counter">
                                             <div class="counterarea__text__wraper">
                                                 <div class="counter__img">
-                                                    <img loading="lazy" src="{{asset('img/counter/counter__2.png')}}"
+                                                    <img loading="lazy" src="{{ asset('img/counter/counter__2.png') }}"
                                                         alt="counter">
                                                 </div>
                                                 <div class="counter__content__wraper">
@@ -84,7 +84,7 @@
                                         <div class="dashboard__single__counter">
                                             <div class="counterarea__text__wraper">
                                                 <div class="counter__img">
-                                                    <img loading="lazy" src="{{asset('img/counter/counter__3.png')}}"
+                                                    <img loading="lazy" src="{{ asset('img/counter/counter__3.png') }}"
                                                         alt="counter">
                                                 </div>
                                                 <div class="counter__content__wraper">
@@ -113,7 +113,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
         <!-- footer__section__end -->
 
 

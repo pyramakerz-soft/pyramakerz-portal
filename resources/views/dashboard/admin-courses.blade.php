@@ -5,7 +5,7 @@
 <body class="body__wrapper">
 
     @include('include.load')
-    @include('include.preload')
+
     <main class="main_wrapper overflow-hidden">
 
         <!-- headar section start -->
@@ -29,7 +29,8 @@
                                 <div class="dashboardarea__inner admin__dashboard__inner">
                                     <div class="dashboardarea__left">
                                         <div class="dashboardarea__left__img">
-                                            <img loading="lazy" src="{{asset('img/dashbord/dashbord__2.jpg')}}" alt="">
+                                            <img loading="lazy" src="{{ asset('img/dashbord/dashbord__2.jpg') }}"
+                                                alt="">
                                         </div>
                                         <div class="dashboardarea__left__content">
                                             <h5>Hello</h5>
@@ -76,9 +77,9 @@
                     <div class="row">
                         <div class="col-xl-3 col-lg-3 col-md-12">
                             <div class="dashboard__inner sticky-top">
-                                
-    @include('include.admin-sidebar')
-                                
+
+                                @include('include.admin-sidebar')
+
 
                                 <div class="dashboard__nav__title mt-40">
                                     <h6>user</h6>
@@ -133,8 +134,8 @@
                                             role="tablist">
                                             <li class="nav-item" role="presentation">
                                                 <button class="single__tab__link active" data-bs-toggle="tab"
-                                                    data-bs-target="#projects__one" type="button"
-                                                    aria-selected="true" role="tab">Courses</button>
+                                                    data-bs-target="#projects__one" type="button" aria-selected="true"
+                                                    role="tab">Courses</button>
                                             </li>
                                         </ul>
                                     </div>
@@ -148,7 +149,8 @@
                                                         <div class="gridarea__wraper">
                                                             <div class="gridarea__img">
                                                                 <a href="/session-details">
-                                                                    <img loading="lazy" src="{{asset('img/grid/grid_1.png')}}"
+                                                                    <img loading="lazy"
+                                                                        src="{{ asset('img/grid/grid_1.png') }}"
                                                                         alt="grid">
                                                                 </a>
                                                                 <div class="gridarea__small__button">
@@ -194,7 +196,7 @@
 
                 <!-- footer__section__start -->
                 @include('include.dash-footer')
-@include('include.scripts')
+                @include('include.scripts')
                 <!-- footer__section__end -->
 
 

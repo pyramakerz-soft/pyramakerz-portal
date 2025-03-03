@@ -5,7 +5,7 @@
 <body class="body__wrapper">
 
     {{--  @include('include.load')
-    @include('include.preload') --}}
+    --}}
 
     <main class="main_wrapper overflow-hidden">
         @include('include.dash-nav')
@@ -150,7 +150,7 @@
                                 </div>
 
 
-{{-- @dd($student_to_inst); --}}
+                                {{-- @dd($student_to_inst); --}}
                                 <div class="dashboard__section__title mt-5">
                                     <h4>✍️ Manual Evaluations</h4>
                                 </div>
@@ -173,7 +173,7 @@
                                         </thead>
                                         <tbody>
                                             @forelse ($student_to_inst as $eval)
-                                            {{-- @dd($eval->meeting->group->course->instructor->name) --}}
+                                                {{-- @dd($eval->meeting->group->course->instructor->name) --}}
                                                 <tr>
                                                     <td>{{ $eval->student->name }}</td>
                                                     <td>{{ $eval->meeting->group->course->instructor->name }}</td>
@@ -187,7 +187,7 @@
                                                     </td>
                                                     <td>{{ $eval->overall_experience }}</td>
                                                     <td>{{ $eval->feedback }}</td>
-                                                    
+
                                                 </tr>
                                             @empty
                                                 <tr>

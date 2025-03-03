@@ -12,7 +12,7 @@
 <body class="body__wrapper">
 
     @include('include.load')
-    @include('include.preload')
+
 
     <main class="main_wrapper overflow-hidden">
 
@@ -53,13 +53,13 @@
 
             <div class="shape__icon__2">
                 <img loading="lazy" class=" shape__icon__img shape__icon__img__1"
-                    src="{{asset('img/herobanner/herobanner__1.png')}}" alt="photo">
+                    src="{{ asset('img/herobanner/herobanner__1.png') }}" alt="photo">
                 <img loading="lazy" class=" shape__icon__img shape__icon__img__2"
-                    src="{{asset('img/herobanner/herobanner__2.png')}}" alt="photo">
+                    src="{{ asset('img/herobanner/herobanner__2.png') }}" alt="photo">
                 <img loading="lazy" class=" shape__icon__img shape__icon__img__3"
-                    src="{{asset('img/herobanner/herobanner__3.png')}}" alt="photo">
+                    src="{{ asset('img/herobanner/herobanner__3.png') }}" alt="photo">
                 <img loading="lazy" class=" shape__icon__img shape__icon__img__4"
-                    src="{{asset('img/herobanner/herobanner__5.png')}}" alt="photo">
+                    src="{{ asset('img/herobanner/herobanner__5.png') }}" alt="photo">
             </div>
 
         </div>
@@ -553,37 +553,43 @@
                                             <div class="row">
                                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                     <div class="create__course__single__img">
-                                                        <img loading="lazy" src="{{asset('img/dashbord/dashbord__8.jpg')}}"
+                                                        <img loading="lazy"
+                                                            src="{{ asset('img/dashbord/dashbord__8.jpg') }}"
                                                             alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                     <div class="create__course__single__img">
-                                                        <img loading="lazy" src="{{asset('img/dashbord/dashbord__4.jpg')}}"
+                                                        <img loading="lazy"
+                                                            src="{{ asset('img/dashbord/dashbord__4.jpg') }}"
                                                             alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                     <div class="create__course__single__img">
-                                                        <img loading="lazy" src="{{asset('img/dashbord/dashbord__5.jpg')}}"
+                                                        <img loading="lazy"
+                                                            src="{{ asset('img/dashbord/dashbord__5.jpg') }}"
                                                             alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                     <div class="create__course__single__img">
-                                                        <img loading="lazy" src="{{asset('img/dashbord/dashbord__9.jpg')}}"
+                                                        <img loading="lazy"
+                                                            src="{{ asset('img/dashbord/dashbord__9.jpg') }}"
                                                             alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                     <div class="create__course__single__img">
-                                                        <img loading="lazy" src="{{asset('img/dashbord/dashbord__7.jpg')}}"
+                                                        <img loading="lazy"
+                                                            src="{{ asset('img/dashbord/dashbord__7.jpg') }}"
                                                             alt="">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                     <div class="create__course__single__img">
-                                                        <img loading="lazy" src="{{asset('img/dashbord/dashbord__8.jpg')}}"
+                                                        <img loading="lazy"
+                                                            src="{{ asset('img/dashbord/dashbord__8.jpg') }}"
                                                             alt="">
                                                     </div>
                                                 </div>
@@ -612,7 +618,7 @@
         <!-- become__instructor__end -->
         <!-- footer__section__start -->
         @include('include.dash-footer')
-@include('include.scripts')
+        @include('include.scripts')
         <!-- footer__section__end -->
 
 

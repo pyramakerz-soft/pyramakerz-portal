@@ -8,34 +8,57 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         /* body { background-color: #f4f6f9; } */
-        .breadcrumbarea { margin-bottom: 20px; }
+        .breadcrumbarea {
+            margin-bottom: 20px;
+        }
+
         .instructor-profile {
             background: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
+
         .calendar-container {
             background: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
-        #calendar { max-width: 100%; margin: 0 auto; }
+
+        #calendar {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
         .filters-container {
             display: flex;
             gap: 15px;
             margin-bottom: 15px;
         }
+
         .filter-dropdown {
             padding: 8px;
             border-radius: 6px;
             border: 1px solid #ccc;
             width: 200px;
         }
-        span, p, h2, h1, ul { color: var(--primaryColor) !important; }
-        a, h4, h3, li { color: blue !important; }
+
+        span,
+        p,
+        h2,
+        h1,
+        ul {
+            color: var(--primaryColor) !important;
+        }
+
+        a,
+        h4,
+        h3,
+        li {
+            color: blue !important;
+        }
     </style>
 </head>
 
@@ -43,7 +66,7 @@
 <body class="body__wrapper">
 
     @include('include.load')
-    @include('include.preload')
+
 
 
     <main class="main_wrapper overflow-hidden">
@@ -76,24 +99,24 @@
                                 <div class="col-md-8">
                                     <div class="calendar-container">
                                         <h4 style="color:var(--primaryColor)">Group Schedule Calendar</h4>
-                    
+
                                         <!-- Filters -->
                                         <div class="filters-container">
                                             <select id="groupFilter" class="filter-dropdown">
                                                 <option value="all">All Groups</option>
-                                                @foreach($groups as $group)
+                                                @foreach ($groups as $group)
                                                     <option value="{{ $group->id }}">{{ $group->name }}</option>
                                                 @endforeach
                                             </select>
-                    
+
                                             <select id="courseFilter" class="filter-dropdown">
                                                 <option value="all">All Courses</option>
-                                                @foreach($courses as $course)
+                                                @foreach ($courses as $course)
                                                     <option value="{{ $course->id }}">{{ $course->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                    
+
                                         <div id="calendar"></div>
                                     </div>
                                 </div>
@@ -108,7 +131,7 @@
 
                 <!-- footer__section__start -->
                 @include('include.footer')
-@include('include.scripts')
+                @include('include.scripts')
                 <!-- footer__section__end -->
 
 
@@ -125,24 +148,26 @@
             var allEvents = [];
 
             @foreach ($groups as $group)
-                allEvents = allEvents.concat({!! json_encode($group->schedules->map(function($schedule) {
-                    return [
-                        'id' => $schedule->id,
-                        'title' => $schedule->lesson->title,
-                        'start' => $schedule->date . 'T' . $schedule->start_time,
-                        'end' => $schedule->date . 'T' . $schedule->end_time,
-                        'groupId' => $schedule->group->id,
-                        'courseId' => $schedule->group->course->id,
-                        'extendedProps' => [
-                            'groupName' => $schedule->group->name,
-                            'lessonTitle' => $schedule->lesson->title,
-                            'meetingId' => $schedule->meeting_id,
-                            'date' => $schedule->date,
-                            'start_time' => $schedule->start_time,
-                            'end_time' => $schedule->end_time,
-                        ]
-                    ];
-                })) !!});
+                allEvents = allEvents.concat({!! json_encode(
+                    $group->schedules->map(function ($schedule) {
+                        return [
+                            'id' => $schedule->id,
+                            'title' => $schedule->lesson->title,
+                            'start' => $schedule->date . 'T' . $schedule->start_time,
+                            'end' => $schedule->date . 'T' . $schedule->end_time,
+                            'groupId' => $schedule->group->id,
+                            'courseId' => $schedule->group->course->id,
+                            'extendedProps' => [
+                                'groupName' => $schedule->group->name,
+                                'lessonTitle' => $schedule->lesson->title,
+                                'meetingId' => $schedule->meeting_id,
+                                'date' => $schedule->date,
+                                'start_time' => $schedule->start_time,
+                                'end_time' => $schedule->end_time,
+                            ],
+                        ];
+                    }),
+                ) !!});
             @endforeach
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -157,7 +182,8 @@
                 // Handle date click
                 dateClick: function(info) {
                     var selectedDate = info.dateStr;
-                    var eventsForDate = allEvents.filter(event => event.extendedProps.date === selectedDate);
+                    var eventsForDate = allEvents.filter(event => event.extendedProps.date ===
+                        selectedDate);
 
                     if (eventsForDate.length > 0) {
                         var eventDetails = eventsForDate.map(event => `
@@ -187,7 +213,8 @@
                 eventClick: function(info) {
                     var ev = info.event;
                     Swal.fire({
-                        title: ev.extendedProps.lessonTitle + " (" + ev.extendedProps.groupName + ")",
+                        title: ev.extendedProps.lessonTitle + " (" + ev.extendedProps
+                            .groupName + ")",
                         html: `
                             <p><strong>Date:</strong> ${ev.extendedProps.date}</p>
                             <p><strong>Start Time:</strong> ${ev.extendedProps.start_time}</p>

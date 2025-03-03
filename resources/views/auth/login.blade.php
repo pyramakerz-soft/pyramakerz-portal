@@ -11,7 +11,7 @@
 <body class="body__wrapper">
     <!-- pre loader area start -->
     @include('include.load')
-    @include('include.preload')
+
 
     <!-- pre loader area end -->
 
@@ -259,7 +259,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
 
         <!-- footer__section__end -->
 

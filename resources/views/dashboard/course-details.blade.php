@@ -7,7 +7,7 @@
 
 <body class="body__wrapper">
     @include('include.load')
-    @include('include.preload')
+
 
     <main class="main_wrapper overflow-hidden">
         @include('include.nav')
@@ -214,7 +214,7 @@
                             <div class="event__sidebar__wraper" data-aos="fade-up">
                                 <div class="blogarae__img__2 course__details__img__2" data-aos="fade-up">
                                     <img loading="lazy"
-                                        src="{{ $course->image ? asset( $course->image) : asset('img/course.jpg') }}"
+                                        src="{{ $course->image ? asset($course->image) : asset('img/course.jpg') }}"
                                         alt="blog">
                                 </div>
 
@@ -271,7 +271,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
         <!-- footer__section__end -->
     </main>
 
@@ -348,7 +348,7 @@
                                     let errors = Object.values(xhr.responseJSON.errors)
                                         .flat();
                                     errorMessage = errors.join(
-                                    "<br>"); // Join multiple errors
+                                        "<br>"); // Join multiple errors
                                 }
 
                                 Swal.fire({

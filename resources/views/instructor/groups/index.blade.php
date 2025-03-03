@@ -9,7 +9,7 @@
 
 <body class="body__wrapper">
     {{--  @include('include.load')
-    @include('include.preload') --}}
+    --}}
 
     <main class="main_wrapper overflow-hidden">
         @include('include.nav')
@@ -109,7 +109,7 @@
                             </div>
 
                             <!-- Add New Group Button -->
-                            <button class="btn btn-outline-primary mt-3 add-group-btn">
+                            <button class="btn default__button mt-3 add-group-btn">
                                 <i class="icofont-plus"></i> Add New Group
                             </button>
                         </div>
@@ -158,7 +158,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
         <!-- footer__section__end -->
     </main>
 
@@ -190,7 +190,7 @@
                 Swal.fire({
                     title: "Create New Group",
                     html: `
-            <div style="width:600px; text-align: left; display: flex; flex-direction: column; gap: 10px;">
+            <div style="width:90%; text-align: left; display: flex; flex-direction: column; gap: 10px;">
                 <label style="font-weight: 600;">Group Name</label>
                 <input type="text" id="group_name" class="swal2-input" placeholder="Enter group name">
 

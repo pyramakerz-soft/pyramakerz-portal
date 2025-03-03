@@ -14144,3 +14144,56 @@ Dark Mode
 .rating label:hover ~ label {
     color: gold;
 }
+
+/* zoom sessions */
+.meeting-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: 0.3s ease-in-out;
+    position: relative;
+}
+
+.meeting-card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+.meeting-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 2px solid #007bff;
+}
+
+.meeting-body {
+    padding: 15px;
+}
+
+.meeting-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--primarycolor);
+}
+
+.meeting-info {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+/* Style for past meetings (disable click effect) */
+.past-meeting {
+    opacity: 0.5;
+    pointer-events: none;
+    background: #ccc;
+}
+
+.past-meeting .meeting-title,
+.past-meeting .meeting-info {
+    color: #999;
+}
+
+/* end */

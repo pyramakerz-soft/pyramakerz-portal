@@ -11,7 +11,7 @@
 <body class="body__wrapper">
 
     @include('include.load')
-    @include('include.preload')
+
 
 
     <main class="main_wrapper overflow-hidden">
@@ -1355,7 +1355,7 @@
         <!-- blog__section__end -->
 
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
 
 
 

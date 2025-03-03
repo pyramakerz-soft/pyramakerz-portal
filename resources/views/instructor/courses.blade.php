@@ -8,7 +8,7 @@
 <body class="body__wrapper">
 
     @include('include.load')
-    @include('include.preload')
+
 
     <main class="main_wrapper overflow-hidden">
 
@@ -69,7 +69,8 @@
                                                         <div class="gridarea__wraper">
                                                             <div class="gridarea__img">
                                                                 <a href="/session-details">
-                                                                    <img loading="lazy" src="{{asset('img/grid/grid_1.png')}}"
+                                                                    <img loading="lazy"
+                                                                        src="{{ asset('img/grid/grid_1.png') }}"
                                                                         alt="grid">
                                                                 </a>
                                                                 <div class="gridarea__small__button">
@@ -111,7 +112,7 @@
                                                 <div class="col-xl-4 col-lg-6 col-md-6 col-12">
                                                     <div class="gridarea__wraper">
                                                         <div class="gridarea__img">
-                                                            <img loading="lazy" src="{{asset('img/grid/grid_2.png')}}"
+                                                            <img loading="lazy" src="{{ asset('img/grid/grid_2.png') }}"
                                                                 alt="grid">
                                                             <div class="gridarea__small__button">
                                                                 <div class="grid__badge blue__color">Mechanical</div>
@@ -192,7 +193,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
         <!-- footer__section__end -->
 
     </main>

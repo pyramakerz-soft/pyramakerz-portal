@@ -11,7 +11,7 @@
 <body class="body__wrapper">
 
     @include('include.load')
-    @include('include.preload')
+
 
 
     <main class="main_wrapper overflow-hidden">
@@ -64,7 +64,7 @@
                                     </div>
                                     <div class="col-lg-8 col-md-8">
                                         <div class="dashboard__form dashboard__form__margin">
-                                            {{ explode(' ', $instructor->name)[1] ?? '' ?? '-' }}
+                                            {{ explode(' ', $instructor->name)[1] ?? ('' ?? '-') }}
                                         </div>
                                     </div>
 
@@ -73,32 +73,37 @@
                                         <div class="dashboard__form dashboard__form__margin">Email</div>
                                     </div>
                                     <div class="col-lg-8 col-md-8">
-                                        <div class="dashboard__form dashboard__form__margin">{{ $instructor->email ?? '-' }}</div>
+                                        <div class="dashboard__form dashboard__form__margin">
+                                            {{ $instructor->email ?? '-' }}</div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">Phone Number</div>
                                     </div>
                                     <div class="col-lg-8 col-md-8">
-                                        <div class="dashboard__form dashboard__form__margin">{{ $instructor->phone ?? '-' }}</div>
+                                        <div class="dashboard__form dashboard__form__margin">
+                                            {{ $instructor->phone ?? '-' }}</div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">Country</div>
                                     </div>
                                     <div class="col-lg-8 col-md-8">
-                                        <div class="dashboard__form dashboard__form__margin">{{ $instructor->country ?? '-' }}
+                                        <div class="dashboard__form dashboard__form__margin">
+                                            {{ $instructor->country ?? '-' }}
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">City</div>
                                     </div>
                                     <div class="col-lg-8 col-md-8">
-                                        <div class="dashboard__form dashboard__form__margin">{{ $instructor->city ?? '-' }}</div>
+                                        <div class="dashboard__form dashboard__form__margin">
+                                            {{ $instructor->city ?? '-' }}</div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">Birthdate</div>
                                     </div>
                                     <div class="col-lg-8 col-md-8">
-                                        <div class="dashboard__form dashboard__form__margin">{{ $instructor->bday ?? '-' }}</div>
+                                        <div class="dashboard__form dashboard__form__margin">
+                                            {{ $instructor->bday ?? '-' }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +121,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
         <!-- footer__section__end -->
 
 

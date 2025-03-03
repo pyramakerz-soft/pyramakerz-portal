@@ -11,7 +11,7 @@
 <body class="body__wrapper">
 
     @include('include.load')
-    @include('include.preload')
+
 
 
     <main class="main_wrapper overflow-hidden">
@@ -66,7 +66,7 @@
                                                                     <span
                                                                         class="dashboard__meessage__dot online"></span>
                                                                     <img loading="lazy"
-                                                                        src="{{asset('img/teacher/teacher__1.png')}}"
+                                                                        src="{{ asset('img/teacher/teacher__1.png') }}"
                                                                         alt="">
                                                                 </div>
                                                                 <div class="dashboard__meessage__meta">
@@ -82,7 +82,7 @@
                                                                     <span
                                                                         class="dashboard__meessage__dot online"></span>
                                                                     <img loading="lazy"
-                                                                        src="{{asset('img/teacher/teacher__2.png')}}"
+                                                                        src="{{ asset('img/teacher/teacher__2.png') }}"
                                                                         alt="">
                                                                 </div>
                                                                 <div class="dashboard__meessage__meta">
@@ -98,7 +98,7 @@
                                                                     <span
                                                                         class="dashboard__meessage__dot online"></span>
                                                                     <img loading="lazy"
-                                                                        src="{{asset('img/teacher/teacher__3.png')}}"
+                                                                        src="{{ asset('img/teacher/teacher__3.png') }}"
                                                                         alt="">
                                                                 </div>
                                                                 <div class="dashboard__meessage__meta">
@@ -114,7 +114,7 @@
                                                                     <span
                                                                         class="dashboard__meessage__dot online"></span>
                                                                     <img loading="lazy"
-                                                                        src="{{asset('img/teacher/teacher__4.png')}}"
+                                                                        src="{{ asset('img/teacher/teacher__4.png') }}"
                                                                         alt="">
                                                                 </div>
                                                                 <div class="dashboard__meessage__meta">
@@ -130,7 +130,7 @@
                                                                     <span
                                                                         class="dashboard__meessage__dot online"></span>
                                                                     <img loading="lazy"
-                                                                        src="{{asset('img/teacher/teacher__5.png')}}"
+                                                                        src="{{ asset('img/teacher/teacher__5.png') }}"
                                                                         alt="">
                                                                 </div>
                                                                 <div class="dashboard__meessage__meta">
@@ -147,7 +147,7 @@
                                                                     <span
                                                                         class="dashboard__meessage__dot online"></span>
                                                                     <img loading="lazy"
-                                                                        src="{{asset('img/teacher/teacher__6.png')}}"
+                                                                        src="{{ asset('img/teacher/teacher__6.png') }}"
                                                                         alt="">
                                                                 </div>
                                                                 <div class="dashboard__meessage__meta">
@@ -163,7 +163,7 @@
                                                                     <span
                                                                         class="dashboard__meessage__dot online"></span>
                                                                     <img loading="lazy"
-                                                                        src="{{asset('img/teacher/teacher__2.png')}}"
+                                                                        src="{{ asset('img/teacher/teacher__2.png') }}"
                                                                         alt="">
                                                                 </div>
                                                                 <div class="dashboard__meessage__meta">
@@ -179,7 +179,7 @@
                                                                     <span
                                                                         class="dashboard__meessage__dot online"></span>
                                                                     <img loading="lazy"
-                                                                        src="{{asset('img/teacher/teacher__1.png')}}"
+                                                                        src="{{ asset('img/teacher/teacher__1.png') }}"
                                                                         alt="">
                                                                 </div>
                                                                 <div class="dashboard__meessage__meta">
@@ -200,7 +200,8 @@
                                             <div class="dashboard__meessage__content__wrap">
                                                 <div class="dashboard__meessage__profile">
                                                     <div class="dashboard__meessage__profile__img">
-                                                        <img loading="lazy" src="{{asset('img/teacher/teacher__2.png')}}"
+                                                        <img loading="lazy"
+                                                            src="{{ asset('img/teacher/teacher__2.png') }}"
                                                             alt="">
                                                     </div>
                                                     <div class="dashboard__meessage__profile__meta">
@@ -219,7 +220,7 @@
                                                         <li>
                                                             <div class="dashboard__meessage__sent__item__img">
                                                                 <img loading="lazy"
-                                                                    src="{{asset('img/teacher/teacher__1.png')}}"
+                                                                    src="{{ asset('img/teacher/teacher__1.png') }}"
                                                                     alt="">
                                                             </div>
 
@@ -242,14 +243,14 @@
                                                             </div>
                                                             <div class="dashboard__meessage__sent__item__img">
                                                                 <img loading="lazy"
-                                                                    src="{{asset('img/teacher/teacher__3.png')}}"
+                                                                    src="{{ asset('img/teacher/teacher__3.png') }}"
                                                                     alt="">
                                                             </div>
                                                         </li>
                                                         <li class="sent">
                                                             <div class="dashboard__meessage__sent__item__img">
                                                                 <img loading="lazy"
-                                                                    src="{{asset('img/teacher/teacher__4.png')}}"
+                                                                    src="{{ asset('img/teacher/teacher__4.png') }}"
                                                                     alt="">
                                                             </div>
                                                             <div class="dashboard__meessage__sent__item__content">
@@ -284,7 +285,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
-@include('include.scripts')
+        @include('include.scripts')
         <!-- footer__section__end -->
 
 
