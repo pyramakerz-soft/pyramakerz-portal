@@ -19,13 +19,21 @@ class InstructorController extends Controller
 {
 
     public function index()
-    {
-        $courses = Course::with(['coursePaths.paths', 'coursePaths.lessons'])->paginate(10);
-        $categories = Category::with('courses')->get();
-        $teachers = User::where('role', 'teacher')->get();
-        
-        return view('instructor.admin-courses', compact('courses','categories','teachers'));
-    }
+{
+    $teacherId = Auth::guard('teacher')->user()->id;
+
+    // Fetch only courses where the teacher is assigned via a group
+    $courses = Course::whereHas('groups', function ($query) use ($teacherId) {
+        $query->where('instructor_id', $teacherId);
+    })->with(['coursePaths.paths', 'coursePaths.lessons'])->paginate(10);
+
+    // Fetch categories & teachers for filtering (if needed)
+    $categories = Category::with('courses')->get();
+    $teachers = User::where('role', 'teacher')->get();
+
+    return view('instructor.admin-courses', compact('courses', 'categories', 'teachers'));
+}
+
     public function zoomMeetings()
 {
     // Get the authenticated instructor

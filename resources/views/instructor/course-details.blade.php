@@ -102,11 +102,11 @@
                                                                         <div class="lesson-resources">
                                                                             @foreach ($lesson->resources as $resource)
                                                                                 <div class="resource-item mb-2">
-                                                                                    <a href="{{ asset($resource->file_path) }}"
+                                                                                    <a href="{{ $resource->file_path ? asset(path: $resource->file_path) : $resource->resource_link }}"
                                                                                         target="_blank">
                                                                                         {{ $resource->title ?? basename($resource->file_path) }}
                                                                                     </a>
-                                                                                    <a href="{{ asset($resource->file_path) }}"
+                                                                                    <a href="{{ $resource->file_path ? asset(path: $resource->file_path) : $resource->resource_link }}"
                                                                                         download
                                                                                         class="btn btn-sm btn-outline-primary ml-2">
                                                                                         Download
@@ -157,6 +157,17 @@
                                         alt="blog">
                                 </div>
                                 <div class="course__summery__lists">
+                                {{-- Course name and details --}}
+                                <div class="course__summery__lists">
+                                    <ul>
+                                        <li>
+                                            <div class="course__summery__item">
+                                                <span class="sb_label">Course Name:</span>
+                                                <span class="sb_content
+                                                    ">{{ $course->name ?? 'Course Title' }}</span>
+                                            </div>
+                                </div>
+                                {{-- <div class="course__summery__lists">
                                     <ul>
                                         <li>
                                             <div class="course__summery__item">
@@ -186,7 +197,7 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

@@ -6,17 +6,30 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
     public function index()
-    {
+{
+    $teacherId = Auth::guard('admin')->user()->id;
+    if(Auth::guard('admin')->user()->role == 'admin') {
         $courses = Course::with(['coursePaths.paths', 'coursePaths.lessons'])->paginate(10);
-        $categories = Category::with('courses')->get();
-        $teachers = User::where('role', 'teacher')->get();
-        
-        return view('dashboard.admin-courses', compact('courses','categories','teachers'));
+    } else {
+        $courses = Course::whereHas('groups', function ($query) use ($teacherId) {
+            $query->where('instructor_id', $teacherId);
+        })->with(['coursePaths.paths', 'coursePaths.lessons'])->paginate(10);
     }
+    // Fetch only courses where the teacher is assigned via a group
+    
+
+    // Fetch categories & teachers for filtering (if needed)
+    $categories = Category::with('courses')->get();
+    $teachers = User::where('role', 'teacher')->get();
+
+    return view('dashboard.admin-courses', compact('courses', 'categories', 'teachers'));
+}
+
     public function createCourse(Request $request)
     {
         try {

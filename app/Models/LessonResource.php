@@ -9,16 +9,7 @@ class LessonResource extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'lesson_id',
-        'group_id',
-        'group_schedule_id',
-        'uploader_id',
-        'title',
-        'description',
-        'file_path',
-        'resource_type',
-    ];
+    protected $guarded =[];
 
     /**
      * Get the lesson associated with this resource.

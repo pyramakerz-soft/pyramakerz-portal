@@ -143,10 +143,13 @@ public function storeLesson(Request $request)
             'title'      => 'nullable|string|max:255',
             'description'=> 'nullable|string',
         ]);
-    
         $filePath = null;
         if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('lesson_materials', 'public');
+            // $filePath = $request->file('file')->store('lesson_materials', 'public');
+
+            $imageName = time() . '.' . request()->file->getClientOriginalExtension();
+                 request()->file->move(public_path('lesson_materials'), $imageName);
+                 $filePath = 'lesson_materials/' . $imageName;
         }
     
         // Assign visibility based on type
@@ -159,8 +162,8 @@ public function storeLesson(Request $request)
     
         \App\Models\LessonResource::create([
             'lesson_id'  => $request->lesson_id,
-            'uploader_id'=> Auth::id(),
-            'title'      => $request->input('title') ?? 'Resource',
+            'uploader_id'=> Auth::guard('admin')->user()->id,
+            'title'      => $request->type ?? 'Resource',
             'description'=> $request->input('description'),
             'file_path'  => $filePath,
             'resource_link' => $request->link,
