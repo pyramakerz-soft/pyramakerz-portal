@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Group;
+use App\Models\GroupSchedule;
+use App\Models\GroupStudent;
+use App\Models\InstructorToStudentEvaluation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +33,33 @@ class AdminController extends Controller
 
     return view('dashboard.admin-courses', compact('courses', 'categories', 'teachers'));
 }
+
+public function sessionDetails($session_id)
+{
+    // Get the schedule details
+    $schedule = GroupSchedule::with(['group.course', 'group.instructor', 'lesson'])->findOrFail($session_id);
+    $group = $schedule->group;
+
+    // Get all students in the group (students enrolled in this specific group)
+    $students = GroupStudent::with('student')
+        ->where('group_id', $group->id)
+        ->get();
+
+    // Get all evaluations for students in this specific session
+    $evaluations = InstructorToStudentEvaluation::whereIn('student_id', $students->pluck('student_id'))
+        ->where('course_id', $group->course_id)
+        ->where('course_path_id', $schedule->lesson->course_path_id ?? null)
+        ->where('path_of_path_id', $schedule->lesson->path_of_path_id ?? null)
+        ->where('group_schedule_id', $session_id) // Ensuring evaluations belong to this session
+        ->get()
+        ->keyBy('student_id'); // Store evaluations by student_id for easy lookup
+
+    return view('general.session-details', compact('group', 'schedule', 'students', 'evaluations'));
+}
+
+
+
+
 
     public function createCourse(Request $request)
     {

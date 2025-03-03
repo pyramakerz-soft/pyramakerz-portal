@@ -159,7 +159,7 @@
                 <!-- dashboardarea__menu__end   -->
 
                 <!-- footer__section__start -->
-                @include('include.dash-footer')
+                
                 @include('include.scripts')
                 <!-- footer__section__end -->
 

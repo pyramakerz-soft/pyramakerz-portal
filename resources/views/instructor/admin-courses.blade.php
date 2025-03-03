@@ -74,7 +74,7 @@
                             <div class="dashboard__nav__title">
                                 <h6>Welcome, {{ Auth::guard('admin')->user()->name ?? 'Admin' }}</h6>
                             </div>
-                            @include('include.admin-sidebar')
+                            @include('include.sidebar')
 
                             {{-- <div class="dashboard__nav__title mt-40">
                                 <h6>user</h6>
@@ -183,7 +183,7 @@
     <!-- dashboardarea__menu__end   -->
 
     <!-- footer__section__start -->
-    @include('include.dash-footer')
+    
 @include('include.scripts')
     @include('include.footer')
 @include('include.scripts')

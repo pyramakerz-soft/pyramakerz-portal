@@ -245,9 +245,10 @@ Route::get('/student-details', function () {
     return view('general.student-details');
 });
 
-Route::get('/session-details', function () {
-    return view('general.session-details');
-});
+// Route::get('/session-details', function () {
+//     return view('general.session-details');
+// });
+Route::get('/session-details/{id}', [AdminController::class, 'sessionDetails'])->name('instructor.profile');
 Route::prefix('instructor')->middleware('admin.auth')->group(function () {
 
     Route::get('/profile', [InstructorController::class, 'profile'])->name('instructor.profile');
