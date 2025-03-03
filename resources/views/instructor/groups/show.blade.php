@@ -354,22 +354,34 @@
                                         student_id: result.value.student_id
                                     },
                                     success: function() {
-                                        Swal.fire("Success",
-                                            "Student added successfully!",
-                                            "success").then(
+                                        Swal.fire({
+                                            title: "Success",
+                                            text: "Student added successfully!",
+                                            icon: "success",
+                                            confirmButtonColor: '#ff7918',
+                                        }).then(
                                             () => location.reload()
                                         );
                                     },
                                     error: function(xhr) {
-                                        Swal.fire("Error", xhr.responseText,
-                                            "error");
+                                        Swal.fire({
+                                            title: "Error",
+                                            text: xhr.responseText,
+                                            icon: "error",
+                                            confirmButtonColor: '#ff7918',
+                                        });
                                     }
                                 });
                             }
                         });
                     },
                     error: function() {
-                        Swal.fire("Error", "Failed to fetch students!", "error");
+                        Swal.fire({
+                            title: "Error",
+                            text: "Failed to fetch students!",
+                            icon: "error",
+                            confirmButtonColor: '#ff7918',
+                        });
                     }
                 });
             });
