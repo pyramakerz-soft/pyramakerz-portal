@@ -38,7 +38,7 @@
                             <div class="course__button__wraper" data-aos="fade-up">
                                 <div class="course__button">
                                     <a href="#">Featured</a>
-                                    <a class="course__2" href="#">{{ $course->skill_level ?? 'N/A' }}</a>
+                                    <!--<a class="course__2" href="#">{{ $course->skill_level ?? 'N/A' }}</a>-->
                                 </div>
                             </div>
                             <div class="course__details__heading" data-aos="fade-up">

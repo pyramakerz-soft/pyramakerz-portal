@@ -135,7 +135,7 @@ class AuthController extends Controller
         // Regenerate session to avoid session fixation attacks
         $request->session()->regenerate();
 
-        return redirect()->route('my-progress');
+        return redirect()->route('courses.all');
     }
 
     return back()->withErrors(['email' => 'Invalid credentials'])->withInput();

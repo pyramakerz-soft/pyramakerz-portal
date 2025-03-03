@@ -97,8 +97,12 @@ class CourseController extends Controller
              $course->description = $validatedData['description'];
      
              if ($request->hasFile('image')) {
-                 $courseImagePath = $request->file('image')->store('course_images', 'public');
-                 $course->image = $courseImagePath;
+                 
+                 $imageName = time() . '.' . request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('course_images'), $imageName);
+            
+                //  $courseImagePath = $request->file('image')->store('course_images', 'public');
+                 $course->image = 'course_images/'.$imageName;
              }
      
              $course->save();

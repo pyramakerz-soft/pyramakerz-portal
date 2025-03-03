@@ -8,7 +8,7 @@
                         <div class="headerarea__left__logo" style="padding: 20PX;">
 
                             <a href="{{ route('home') }}"><img loading="lazy"
-                                    src="https://pyramakerz.com/portal/pyramakerz-etisalat/public/img/logo/logo_1.png"
+                                    src="https://pyramakerz.cloud/pyramakerz-portal/public/img/logo/logo_1.png"
                                     alt="logo" style="height:50px; "></a>
                         </div>
 
