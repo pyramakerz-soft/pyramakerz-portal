@@ -64,7 +64,7 @@
             <div class="container-fluid full__width__padding">
                 <div class="row">
                     <div class="col-xl-3 col-lg-3 col-md-12" data-aos="fade-up">
-                        @include('include.admin-sidebar')
+                        @include('include.sidebar')
 
                     </div>
                     <div class="col-xl-6 col-lg-6" data-aos="fade-up">
@@ -86,36 +86,36 @@
                                         </thead>
                                         <tbody>
                                             @if ($course->groups->count() > 0)
-                                            @if(Auth::guard('admin')->user()->roles[0]->name =="instructor")
-                                            @foreach ($course->groups->where('instructor_id',Auth::guard('admin')->user()->id) as $group)
-                                                    <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $group->name }}</td>
-                                                        <td>{{ isset($group->students) ? $group->students->count() : 0 }}
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('instructor.group_details', $group->id) }}"
-                                                                class="btn btn-sm btn-black">
-                                                                <i class="icofont-eye"></i> View
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @else
-                                                @foreach ($course->groups as $group)
-                                                    <tr>
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $group->name }}</td>
-                                                        <td>{{ isset($group->students) ? $group->students->count() : 0 }}
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('instructor.group_details', $group->id) }}"
-                                                                class="btn btn-sm btn-black">
-                                                                <i class="icofont-eye"></i> View
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
+                                                @if (Auth::guard('admin')->user()->roles[0]->name == 'instructor')
+                                                    @foreach ($course->groups->where('instructor_id', Auth::guard('admin')->user()->id) as $group)
+                                                        <tr>
+                                                            <td>{{ $loop->iteration }}</td>
+                                                            <td>{{ $group->name }}</td>
+                                                            <td>{{ isset($group->students) ? $group->students->count() : 0 }}
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ route('instructor.group_details', $group->id) }}"
+                                                                    class="btn btn-sm btn-black">
+                                                                    <i class="icofont-eye"></i> View
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @else
+                                                    @foreach ($course->groups as $group)
+                                                        <tr>
+                                                            <td>{{ $loop->iteration }}</td>
+                                                            <td>{{ $group->name }}</td>
+                                                            <td>{{ isset($group->students) ? $group->students->count() : 0 }}
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ route('instructor.group_details', $group->id) }}"
+                                                                    class="btn btn-sm btn-black">
+                                                                    <i class="icofont-eye"></i> View
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
                                                 @endif
                                             @else
                                                 <tr>
@@ -131,10 +131,9 @@
 
                             <!-- Add New Group Button -->
                             @if (Auth::guard('admin')->user()->can('group-create'))
-
-                            <button class="btn default__button mt-3 add-group-btn">
-                                <i class="icofont-plus"></i> Add New Group
-                            </button>
+                                <button class="btn default__button mt-3 add-group-btn">
+                                    <i class="icofont-plus"></i> Add New Group
+                                </button>
                             @endif
                         </div>
                     </div>
@@ -167,7 +166,8 @@
                                         <li>
                                             <div class="course__summery__item">
                                                 <span class="sb_label">Total Students:</span>
-                                                <span class="sb_content">{{ isset($group) ? $group->students->count() : 0 }}</span>
+                                                <span
+                                                    class="sb_content">{{ isset($group) ? $group->students->count() : 0 }}</span>
 
                                             </div>
                                         </li>
