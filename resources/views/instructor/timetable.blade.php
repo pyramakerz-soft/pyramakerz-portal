@@ -6,60 +6,7 @@
     {{-- calendar --}}
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <style>
-        /* body { background-color: #f4f6f9; } */
-        .breadcrumbarea {
-            margin-bottom: 20px;
-        }
 
-        .instructor-profile {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .calendar-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        #calendar {
-            max-width: 100%;
-            margin: 0 auto;
-        }
-
-        .filters-container {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .filter-dropdown {
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            width: 200px;
-        }
-
-        span,
-        p,
-        h2,
-        h1,
-        ul {
-            color: var(--primaryColor) !important;
-        }
-
-        a,
-        h4,
-        h3,
-        li {
-            color: blue !important;
-        }
-    </style>
 </head>
 
 
@@ -90,35 +37,34 @@
                 <div class="container-fluid full__width__padding">
                     <div class="row">
                         <div class="col-xl-3 col-lg-3 col-md-12">
-                            @include('include.inst-sidebar')
+                            @include('include.admin-sidebar')
 
                         </div>
                         <div class="col-xl-9 col-lg-9 col-md-12">
                             <div class="dashboard__content__wraper">
 
-                                <div class="col-md-8">
-                                    <div class="calendar-container">
-                                        <h4 style="color:var(--primaryColor)">Group Schedule Calendar</h4>
 
-                                        <!-- Filters -->
-                                        <div class="filters-container">
-                                            <select id="groupFilter" class="filter-dropdown">
-                                                <option value="all">All Groups</option>
-                                                @foreach ($groups as $group)
-                                                    <option value="{{ $group->id }}">{{ $group->name }}</option>
-                                                @endforeach
-                                            </select>
+                                <div class="calendar-container">
+                                    <h4 style="color:var(--primaryColor)">Group Schedule Calendar</h4>
 
-                                            <select id="courseFilter" class="filter-dropdown">
-                                                <option value="all">All Courses</option>
-                                                @foreach ($courses as $course)
-                                                    <option value="{{ $course->id }}">{{ $course->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                    <!-- Filters -->
+                                    <div class="filters-container">
+                                        <select id="groupFilter" class="filter-dropdown">
+                                            <option value="all">All Groups</option>
+                                            @foreach ($groups as $group)
+                                                <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                            @endforeach
+                                        </select>
 
-                                        <div id="calendar"></div>
+                                        <select id="courseFilter" class="filter-dropdown">
+                                            <option value="all">All Courses</option>
+                                            @foreach ($courses as $course)
+                                                <option value="{{ $course->id }}">{{ $course->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
+
+                                    <div id="calendar"></div>
                                 </div>
 
 
@@ -130,7 +76,7 @@
                 <!-- dashboardarea__area__end   -->
 
                 <!-- footer__section__start -->
-                @include('include.footer')
+
                 @include('include.scripts')
                 <!-- footer__section__end -->
 
@@ -187,24 +133,26 @@
 
                     if (eventsForDate.length > 0) {
                         var eventDetails = eventsForDate.map(event => `
-                            <p><strong>Lesson:</strong> ${event.extendedProps.lessonTitle}</p>
-                            <p><strong>Group:</strong> ${event.extendedProps.groupName}</p>
-                            <p><strong>Start Time:</strong> ${event.extendedProps.start_time}</p>
-                            <p><strong>End Time:</strong> ${event.extendedProps.end_time}</p>
-                            <p><strong>Meeting ID:</strong> ${event.extendedProps.meetingId ? event.extendedProps.meetingId : 'Not Set'}</p>
+                        <p style="color:black;"><strong style="color:#ff7918">Lesson:</strong> ${event.extendedProps.lessonTitle}</p>
+                        <p style="color:black;"><strong style="color:#ff7918">Group:</strong> ${event.extendedProps.groupName}</p>
+                        <p style="color:black;"><strong style="color:#ff7918">Start Time:</strong> ${event.extendedProps.start_time}</p>
+                        <p style="color:black;"><strong style="color:#ff7918">End Time:</strong> ${event.extendedProps.end_time}</p>
+                        <p style="color:black;"><strong style="color:#ff7918">Meeting ID:</strong> ${event.extendedProps.meetingId ? event.extendedProps.meetingId : 'Not Set'}</p>
                             <hr>
                         `).join('');
 
                         Swal.fire({
                             title: `Sessions on ${selectedDate}`,
                             html: eventDetails,
-                            icon: 'info'
+                            icon: 'info',
+                            confirmButtonColor: '#ff7918',
                         });
                     } else {
                         Swal.fire({
                             title: "No Sessions",
                             text: "No scheduled sessions on this day.",
-                            icon: "warning"
+                            icon: "warning",
+                            confirmButtonColor: '#ff7918',
                         });
                     }
                 },
@@ -216,12 +164,13 @@
                         title: ev.extendedProps.lessonTitle + " (" + ev.extendedProps
                             .groupName + ")",
                         html: `
-                            <p><strong>Date:</strong> ${ev.extendedProps.date}</p>
-                            <p><strong>Start Time:</strong> ${ev.extendedProps.start_time}</p>
-                            <p><strong>End Time:</strong> ${ev.extendedProps.end_time}</p>
-                            <p><strong>Meeting ID:</strong> ${ev.extendedProps.meetingId ? ev.extendedProps.meetingId : 'Not Set'}</p>
+                        <p style="color:black;"><strong style="color:#ff7918">Date:</strong> ${ev.extendedProps.date}</p>
+                        <p style="color:black;"><strong style="color:#ff7918">Start Time:</strong> ${ev.extendedProps.start_time}</p>
+                        <p style="color:black;"><strong style="color:#ff7918">End Time:</strong> ${ev.extendedProps.end_time}</p>
+                        <p style="color:black;"><strong style="color:#ff7918">Meeting ID:</strong> ${ev.extendedProps.meetingId ? ev.extendedProps.meetingId : 'Not Set'}</p>
                         `,
-                        icon: 'info'
+                        icon: 'warning',
+                        confirmButtonColor: '#ff7918',
                     });
                 }
             });

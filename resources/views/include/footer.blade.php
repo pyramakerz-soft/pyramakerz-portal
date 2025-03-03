@@ -4,13 +4,13 @@
         <div class="footerarea__newsletter__wraper">
             <div class="row">
                 <div class="row">
-                    <div class="col-xl-6 col-lg-6">
+                    {{-- <div class="col-xl-6 col-lg-6">
                         <div class="copyright__logo">
                             <a href="/"><img loading="lazy"class="s-small" src="img//logo/logo_1.png"
                                     alt="logo" /></a>
                         </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-up">
+                    </div> --}}
+                    {{-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" data-aos="fade-up">
                         <div class="footerarea__newsletter">
                             <div class="footerarea__newsletter__input">
                                 <form action="#">
@@ -23,7 +23,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 

@@ -190,21 +190,22 @@
                 Swal.fire({
                     title: "Create New Group",
                     html: `
-            <div style="width:90%; text-align: left; display: flex; flex-direction: column; gap: 10px;">
+            <div style=" text-align: left; display: flex; flex-direction: column; gap: 10px;">
                 <label style="font-weight: 600;">Group Name</label>
                 <input type="text" id="group_name" class="swal2-input" placeholder="Enter group name">
-
-                <label style="font-weight: 600;">Instructor</label>
-                <select id="instructor_id" class="swal2-input" style="border-radius: 8px;">
+             
+                <label style="font-weight: 600;">Assign Instructor</label>
+                <select id="instructor_id" class="swal2-input" style=" width:80%; margin: 0 auto; ">
                     <option value="">Select Instructor</option>
                     @foreach ($instructors as $instructor)
                         <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
                     @endforeach
+                    </select>
 
                 <label style="font-weight: 600;">Number of Weekly Sessions</label>
                 <input type="number" id="weekly_sessions" class="swal2-input" min="1" max="7" placeholder="Sessions per week" oninput="generateSessionDays()">
 
-                <div id="session_days_container"></div> <!-- Session Days Dropdowns -->
+                <div class="row "  style="padding-bottom:5px; width:80%; margin:0 auto;" id="session_days_container"></div> <!-- Session Days Dropdowns -->
 
                 <label style="font-weight: 600;">Start Date</label>
                 <input type="text" id="start_date" class="swal2-input" placeholder="Select start date" readonly>
@@ -216,6 +217,7 @@
                 <input type="time" id="end_time" class="swal2-input">
             </div>
         `,
+
                     didOpen: () => {
                         flatpickr("#start_date", {
                             dateFormat: "Y-m-d"
@@ -223,6 +225,7 @@
                     },
                     showCancelButton: true,
                     confirmButtonText: "Save",
+                    confirmButtonColor: '#ff7918',
                     preConfirm: () => {
                         let groupName = $("#group_name").val();
                         let instructorId = $("#instructor_id").val();
@@ -270,8 +273,13 @@
                                 course_id: result.value.course_id
                             },
                             success: function() {
-                                Swal.fire("Success", "Group created successfully!",
-                                    "success");
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Group created successfully!",
+                                    icon: "success",
+                                    confirmButtonText: "success",
+                                    confirmButtonColor: '#ff7918',
+                                });
                                 setTimeout(() => {
                                     window.location.href = window.location.href;
                                 }, 1000);
@@ -281,7 +289,12 @@
                                 if (xhr.responseJSON && xhr.responseJSON.message) {
                                     errorMessage = xhr.responseJSON.message;
                                 }
-                                Swal.fire("Error", errorMessage, "error");
+                                Swal.fire({
+                                    icon: "Error",
+                                    text: errorMessage,
+                                    title: "error",
+                                    confirmButtonColor: '#ff7918',
+                                });
                             }
                         });
                     }
