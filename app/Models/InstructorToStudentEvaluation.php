@@ -21,6 +21,7 @@ class InstructorToStudentEvaluation extends Model
         'evaluation_details',
         'total_score',
         'evaluation_score',
+        'group_schedule_id'
     ];
 
     protected $casts = [

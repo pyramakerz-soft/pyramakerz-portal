@@ -75,9 +75,8 @@
                 <!-- Main Panel: Evaluation & Resource Upload -->
                 
                 <div class="col-xl-8 col-lg-8">
-                    <div class="dashboard__content__wraper""
+                    <div class="dashboard__content__wraper"
                     @if(Auth::guard('admin')->user()->can('instructortostudentevaluation-create'))
-                    <!-- Evaluation Section -->
                     <div class="evaluation-section">
                         <h5>Evaluate Students</h5>
                         <form action="{{ route('instructor.evaluate_session', $meeting->id) }}" method="POST">

@@ -56,6 +56,32 @@ public function sessionDetails($session_id)
 
     return view('general.session-details', compact('group', 'schedule', 'students', 'evaluations'));
 }
+public function sessionDetailsForStudent($student_id, $group_id)
+{
+    // Fetch the group details with course and instructor
+    $group = Group::with(['course', 'instructor'])->findOrFail($group_id);
+
+    // Fetch student details in the group
+    $student = GroupStudent::with('student')
+        ->where('group_id', $group->id)
+        ->where('student_id', $student_id)
+        ->firstOrFail();
+
+    // Fetch all schedules for the group
+    $schedules = GroupSchedule::with('lesson')
+        ->where('group_id', $group->id)
+        ->get();
+
+    // Fetch all evaluations for the student in this group
+    $evaluations = InstructorToStudentEvaluation::where('student_id', $student_id)
+        ->where('course_id', $group->course_id)
+        ->whereIn('group_schedule_id', $schedules->pluck('id')) // Ensure evaluations belong to this group's sessions
+        ->get()
+        ->keyBy('group_schedule_id'); // Store evaluations by session ID for easy lookup
+
+    return view('general.student-details', compact('group', 'student', 'schedules', 'evaluations'));
+}
+
 
 
 

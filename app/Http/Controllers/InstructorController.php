@@ -8,6 +8,7 @@ use App\Models\Group;
 use App\Models\GroupSchedule;
 use App\Models\GroupStudent;
 use App\Models\Lesson;
+use App\Models\Meeting;
 use App\Models\Student;
 use App\Models\User;
 use Carbon\Carbon;
@@ -189,6 +190,7 @@ public function timetable()
                 'evaluation_details'       => $sessions,
                 'total_score'              => $total,
                 'evaluation_score'         => $evaluationScore,
+                'group_schedule_id'        => Meeting::find($meetingId)->group_schedule_id
             ]);
         }
     

@@ -18,10 +18,11 @@
                         <div class="col-xl-9 col-lg-9 col-md-12">
                             <div class="dashboard__content__wraper">
                                 <div class="dashboard__section__title">
-                                    <h4>Course: {{ $group->course->name }} - {{ $group->name }}</h4>
-                                    <h4>Instructor: {{ $group->instructor->name }}</h4>
-                                    <h4>Lesson: {{ $schedule->lesson->title ?? 'N/A' }}</h4>
-                                    <h4>Session Date: {{ $schedule->date ?? 'N/A' }}</h4>
+                                    <div class="row"><h4>Course: {{ $group->course->name }} - {{ $schedule->lesson->coursePath->name }} - {{ $schedule->lesson->pathOfPath->name }} - {{ $group->name }}</h4></div>
+                                    <br>
+                                    <div class="row"><h4>Instructor: {{ $group->instructor->name }}</h4></div>
+                                    <div class="row"><h4>Lesson: {{ $schedule->lesson->title ?? 'N/A' }}</h4></div>
+                                    {{-- <h4>Session Date: {{ $schedule->date ?? 'N/A' }}</h4> --}}
                                 </div>
 
                                 <!-- Progress Table -->
@@ -39,32 +40,29 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if ($students->isEmpty())
-                                                <tr>
-                                                    <td colspan="7" class="text-center">No Student Data Found.</td>
-                                                </tr>
-                                            @else
-                                                @php $hasEvaluations = false; @endphp
-                                                @foreach ($students as $student)
-                                                    @php
-                                                        // Get evaluation for the student (if exists)
-                                                        $evaluation = $evaluations[$student->student_id] ?? null;
+                                            @php $hasEvaluations = false; @endphp
+                                            @foreach ($students as $student)
+                                                @php
+                                                    // Get evaluation for the student (if exists)
+                                                    $evaluation = $evaluations[$student->student_id] ?? null;
 
-                                                        // Ensure evaluation_details is a proper array
-                                                        $evaluationDetails = is_array($evaluation->evaluation_details ?? null) 
-                                                            ? $evaluation->evaluation_details 
-                                                            : (is_string($evaluation->evaluation_details ?? null) 
-                                                                ? json_decode($evaluation->evaluation_details, true) 
-                                                                : []);
+                                                    // Ensure evaluation_details is a proper array
+                                                    $evaluationDetails = is_array($evaluation->evaluation_details ?? null) 
+                                                        ? $evaluation->evaluation_details 
+                                                        : (is_string($evaluation->evaluation_details ?? null) 
+                                                            ? json_decode($evaluation->evaluation_details, true) 
+                                                            : []);
 
-                                                        // Check if the student was absent
-                                                        $isAbsent = is_array($evaluationDetails) && isset($evaluationDetails[0]['interaction']) 
-                                                            && $evaluationDetails[0]['interaction'] === 'Absent';
+                                                    // Check if the student was absent
+                                                    $isAbsent = is_array($evaluationDetails) && isset($evaluationDetails[0]['interaction']) 
+                                                        && $evaluationDetails[0]['interaction'] === 'Absent';
 
-                                                        if ($evaluation) {
-                                                            $hasEvaluations = true;
-                                                        }
-                                                    @endphp
+                                                    if ($evaluation) {
+                                                        $hasEvaluations = true;
+                                                    }
+                                                @endphp
+
+                                                @if ($evaluation)
                                                     <tr>
                                                         <td>{{ $student->student->name }}</td>
                                                         <td>{{ $evaluation->joined_at ?? 'N/A' }}</td>
@@ -76,15 +74,15 @@
                                                         <td>{{ $evaluationDetails[0]['homework'] ?? 'N/A' }}</td>
                                                         <td>{{ $evaluationDetails[0]['project'] ?? 'N/A' }}</td>
                                                     </tr>
-                                                @endforeach
-
-                                                @if (!$hasEvaluations)
-                                                    <tr>
-                                                        <td colspan="7" class="text-center text-warning">
-                                                            No evaluations added yet.
-                                                        </td>
-                                                    </tr>
                                                 @endif
+                                            @endforeach
+
+                                            @if (!$hasEvaluations)
+                                                <tr>
+                                                    <td colspan="7" class="text-center text-warning">
+                                                        No evaluations added yet.
+                                                    </td>
+                                                </tr>
                                             @endif
                                         </tbody>
                                     </table>

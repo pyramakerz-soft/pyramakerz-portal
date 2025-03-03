@@ -86,7 +86,8 @@
                                         </thead>
                                         <tbody>
                                             @if ($course->groups->count() > 0)
-                                                @foreach ($course->groups as $group)
+                                            @if(Auth::guard('admin')->user()->roles[0]->name =="instructor")
+                                            @foreach ($course->groups->where('instructor_id',Auth::guard('admin')->user()->id) as $group)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $group->name }}</td>
@@ -101,6 +102,22 @@
                                                     </tr>
                                                 @endforeach
                                             @else
+                                                @foreach ($course->groups as $group)
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $group->name }}</td>
+                                                        <td>{{ isset($group->students) ? $group->students->count() : 0 }}
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('instructor.group_details', $group->id) }}"
+                                                                class="btn btn-sm btn-black">
+                                                                <i class="icofont-eye"></i> View
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                @endif
+                                            @else
                                                 <tr>
                                                     <td colspan="4" class="text-center">No groups found for this
                                                         course.</td>
@@ -113,9 +130,12 @@
                             </div>
 
                             <!-- Add New Group Button -->
+                            @if (Auth::guard('admin')->user()->can('group-create'))
+
                             <button class="btn default__button mt-3 add-group-btn">
                                 <i class="icofont-plus"></i> Add New Group
                             </button>
+                            @endif
                         </div>
                     </div>
 
@@ -147,8 +167,8 @@
                                         <li>
                                             <div class="course__summery__item">
                                                 <span class="sb_label">Total Students:</span>
-                                                <span
-                                                    class="sb_content">{{ isset($course->students_count) ? $course->students_count : 0 }}</span>
+                                                <span class="sb_content">{{ $group->students->count() ?? 0 }}</span>
+
                                             </div>
                                         </li>
                                     </ul>

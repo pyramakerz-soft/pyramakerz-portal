@@ -114,9 +114,12 @@
                             </div>
                             <form action="{{ route('instructor.meetings.create_all', $group->id) }}" method="POST">
                                 @csrf
+                                @if (Auth::guard('admin')->user()->can('meeting-create'))
+
                                 <button type="submit" class="btn btn-success">
                                     Create Meetings for All Scheduled Lessons
                                 </button>
+                                @endif
                             </form>
 
 
@@ -192,7 +195,7 @@
                                         <tbody>
                                             @forelse ($group->students as $student)
                                                 <tr>
-                                                    <td>{{ $student->name }}</td>
+                                                    <td><a href="{{route('sessionDetailsForStudent',[$student->id,$group->id])}}">{{ $student->name }}</a></td>
 
                                                 </tr>
                                             @empty

@@ -43,6 +43,7 @@
 
                             </div>
                         </div>
+                        @if(Auth::guard('admin')->user()->roles[0]->name != 'admin')
                         <div class="dashboardarea__right">
                             <div class="dashboardarea__right__button">
                                 <a class="default__button" href="{{ route('student.join-now') }}">Join Now
@@ -67,6 +68,7 @@
                                     </svg></a>
                             </div>
                         </div>
+                        @endif
 
                     </div>
                 </div>
