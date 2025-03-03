@@ -717,7 +717,7 @@
                                     </h2>
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6" data-aos="fade-up">
-                                    <div class="populerarea__button">
+                                    <div class="">
                                         <a class="default__button" href="{{ route('courses.all') }}">All Categories
                                             <i class="icofont-long-arrow-right"></i>
                                         </a>

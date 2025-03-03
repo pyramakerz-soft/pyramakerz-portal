@@ -224,7 +224,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label">School</label>
                                                     <input class="common__login__input" type="text"
-                                                        placeholder="Country" name="school">
+                                                        placeholder="School" name="school">
 
                                                 </div>
                                             </div>
@@ -254,7 +254,7 @@
 
                                         </div>
                                         <div class="login__social__option">
-                                            <button class="default__button" href="#">Log In</button>
+                                            <button class="default__button" href="#">sign up</button>
                                         </div>
                                     </form>
 

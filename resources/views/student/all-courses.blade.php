@@ -70,7 +70,7 @@
                             <div class="course__text">
                                 <p>Showing 1–12 of 54 Results</p>
                             </div>
-                            <div class="course__icon">
+                            {{-- <div class="course__icon">
                                 <ul class="nav property__team__tap" id="myTab" role="tablist">
                                     <li class="nav-item" role="presentation">
                                         <a href="#" class="single__tab__link active" data-bs-toggle="tab"
@@ -95,11 +95,11 @@
 
 
                                 </ul>
-                            </div>
+                            </div> --}}
                         </div>
 
                     </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-12">
+                    {{-- <div class="col-xl-3 col-lg-3 col-md-4 col-12">
                         <div class="course__sidebar__wraper" data-aos="fade-up">
                             <div class="course__heading">
                                 <h5>Search here</h5>
@@ -136,86 +136,12 @@
                             </div>
                         </div>
 
-                        {{-- <div class="course__sidebar__wraper" data-aos="fade-up">
-                            <div class="course__heading">
-                                <h5>Skill Level</h5>
-                            </div>
-                            <div class="course__skill__list">
-                                <ul>
-
-                                    <li>
-                                        <a href="#">
-                                            All
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            Beginner
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#">
-                                            Intermediate
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            Advance
-                                        </a>
-                                    </li>
-
-                                </ul>
-                            </div>
-
-                        </div> --}}
-                        {{-- <div class="course__sidebar__wraper" data-aos="fade-up">
-                            <div class="course__heading">
-                                <h5>Tag</h5>
-                            </div>
-                            <div class="course__tag__list">
-                                <ul>
-
-                                    <li>
-                                        <a href="#">
-                                            <div class="course__check__box active "></div>
-                                            <span class="active">Mechanic</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="course__check__box  "></div>
-                                            <span>English</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="course__check__box  "></div>
-                                            <span>Computer Science</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="course__check__box  "></div>
-                                            <span>Data & Tech</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="course__check__box  "></div>
-                                            <span>Ux Desgin</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </div> --}}
 
 
 
-                    </div>
+                    </div> --}}
 
-                    <div class="col-xl-9 col-lg-9 col-md-8 col-12">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-12">
 
                         <div class="tab-content tab__content__wrapper with__sidebar__content" id="myTabContent">
 
@@ -226,7 +152,7 @@
                                 <div class="row">
 
                                     @foreach ($courses as $course)
-                                        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-6 col-12" data-aos="fade-up">
+                                        <div class="col-xl-3 col-lg-6 col-md-12 col-sm-6 col-12" data-aos="fade-up">
                                             <div class="gridarea__wraper gridarea__wraper__2">
                                                 <div class="gridarea__img">
                                                     <img loading="lazy"
