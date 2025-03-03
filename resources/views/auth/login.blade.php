@@ -133,16 +133,7 @@
                                         </div>
                                     </form>
 
-                                    <div class="login__social__option">
-                                        <p>or Log-in with</p>
-
-                                        <ul class="login__social__btn">
-                                            <li><a class="default__button login__button__1" href="#"><i
-                                                        class="icofont-facebook"></i> Gacebook</a></li>
-                                            <li><a class="default__button" href="#"><i
-                                                        class="icofont-google-plus"></i> Google</a></li>
-                                        </ul>
-                                    </div>
+                                    
 
 
                                 </div>
