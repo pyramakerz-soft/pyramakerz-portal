@@ -150,6 +150,17 @@
                                         alt="blog">
                                 </div>
                                 <div class="course__summery__lists">
+                                {{-- Course name and details --}}
+                                <div class="course__summery__lists">
+                                    <ul>
+                                        <li>
+                                            <div class="course__summery__item">
+                                                <span class="sb_label">Course Name:</span>
+                                                <span class="sb_content
+                                                    ">{{ $course->name ?? 'Course Title' }}</span>
+                                            </div>
+                                </div>
+                                {{-- <div class="course__summery__lists">
                                     <ul>
                                         <li>
                                             <div class="course__summery__item">
@@ -179,7 +190,7 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

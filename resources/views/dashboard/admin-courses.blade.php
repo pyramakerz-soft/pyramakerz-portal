@@ -77,7 +77,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-12">
                             <div class="dashboard__inner sticky-top">
 
-                                @include('include.admin-sidebar')
+                                @include('include.sidebar')
 
 
 
@@ -112,9 +112,9 @@
                                                     <div class="col-xl-4 col-lg-6 col-md-6 col-12">
                                                         <div class="gridarea__wraper">
                                                             <div class="gridarea__img">
-                                                                <a href="/session-details">
+                                                                <a href="{{ route('instructor.course_details', $course->id) }}">
                                                                     <img loading="lazy"
-                                                                        src="{{ asset('img/grid/grid_1.png') }}"
+                                                                        src="{{ $course->image ? asset($course->image) : asset('img/course.jpg') }}"
                                                                         alt="grid">
                                                                 </a>
                                                                 <div class="gridarea__small__button">

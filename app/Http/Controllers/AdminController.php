@@ -13,11 +13,15 @@ class AdminController extends Controller
     public function index()
 {
     $teacherId = Auth::guard('admin')->user()->id;
-
+    if(Auth::guard('admin')->user()->role == 'admin') {
+        $courses = Course::with(['coursePaths.paths', 'coursePaths.lessons'])->paginate(10);
+    } else {
+        $courses = Course::whereHas('groups', function ($query) use ($teacherId) {
+            $query->where('instructor_id', $teacherId);
+        })->with(['coursePaths.paths', 'coursePaths.lessons'])->paginate(10);
+    }
     // Fetch only courses where the teacher is assigned via a group
-    $courses = Course::whereHas('groups', function ($query) use ($teacherId) {
-        $query->where('instructor_id', $teacherId);
-    })->with(['coursePaths.paths', 'coursePaths.lessons'])->paginate(10);
+    
 
     // Fetch categories & teachers for filtering (if needed)
     $categories = Category::with('courses')->get();
