@@ -49,7 +49,7 @@
                                     <li>
                                         <div class="course__details__date">
                                             <i class="icofont-book-alt"></i>
-                                            {{ $course->totalLessonsCount() }} Lessons
+                                            {{ isset($course) ? $course->totalLessonsCount() : 0 }} Lessons
                                         </div>
                                     </li>
                                     <li>
