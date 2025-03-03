@@ -181,6 +181,8 @@
                     confirmButtonText: "Add Instructor",
                     confirmButtonColor: '#ff7918',
                     preConfirm: () => {
+                        console.log($("#instructor_phone").val())
+                        console.log($("#instructor_governorate").val())
                         return {
                             name: $("#instructor_name").val(),
                             email: $("#instructor_email").val(),

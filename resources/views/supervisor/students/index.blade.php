@@ -77,13 +77,13 @@
                                     <tbody>
                                         @foreach ($students as $index => $student)
                                             @php
-                                                // Fetch course (either from group or direct enrollment)
-                                                $groupStudent = $student->groupStudents->first();
-                                                $courseStudent = $student->courseStudents->first();
-                                                $course = $groupStudent ? $groupStudent->group->course->name : ($courseStudent ? $courseStudent->course->name : 'Not Assigned');
-                                                
-                                                // Fetch group status
-                                                $group = $groupStudent ? $groupStudent->group->name : 'Not Assigned';
+    // Fetch course (either from group or direct enrollment)
+    $groupStudent = $student->groupStudents->first();
+    $courseStudent = $student->courseStudents->first();
+    $course = $groupStudent ? $groupStudent->group->course->name : ($courseStudent ? $courseStudent->course->name : 'Not Assigned');
+
+    // Fetch group status
+    $group = $groupStudent ? $groupStudent->group->name : 'Not Assigned';
                                             @endphp
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
@@ -135,61 +135,83 @@
     <!-- Assign Group Modal (SweetAlert) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).ready(function() {
-    $(".assign-group-btn").click(function() {
-        let studentId = $(this).data("student-id");
-        let studentName = $(this).data("student-name");
+        $(document).ready(function () {
+            $(".import-students-btn").click(function () {
+                Swal.fire({
+                    title: "Import Students",
+                    html: `<input type="file" id="student_file" class="swal2-file">`,
+                    showCancelButton: true,
+                    confirmButtonText: "Upload",
+                    preConfirm: () => {
+                        let file = $("#student_file")[0].files[0];
+                        let formData = new FormData();
+                        formData.append('file', file);
+                        formData.append('_token', "{{ csrf_token() }}");
 
-        let groups = @json($groups->mapWithKeys(fn($group) => [$group->id => $group->course->name . ' - ' . $group->name]));
-
-        Swal.fire({
-            title: `Assign ${studentName} to a Group`,
-            width: '600px', // ⬅️ Increased width for better layout
-            html: `
-                <div style="text-align:left;">
-                    <label for="group-selection" class="mb-2" style="font-size: 16px; font-weight: 600;">Select a Group</label>
-                    <select id="group-selection" class="swal2-select form-control" style="max-width: 90%; padding: 10px; font-size: 16px;">
-                        <option value="">Select a Group</option>
-                        ${Object.entries(groups).map(([id, name]) => `<option value="${id}">${name}</option>`).join('')}
-                    </select>
-                    <p id="course-info" class="mt-3" style="font-size: 16px;"><strong>Course:</strong> <span>-</span></p>
-                </div>
-            `,
-            showCancelButton: true,
-            confirmButtonText: 'Assign',
-            confirmButtonColor: '#28a745',
-            preConfirm: () => {
-                let selectedGroupId = $("#group-selection").val();
-                if (!selectedGroupId) {
-                    Swal.showValidationMessage("Please select a group.");
-                    return false;
-                }
-                return $.post("{{ route('admin.students.assign-group') }}", {
-                    _token: "{{ csrf_token() }}",
-                    student_id: studentId,
-                    group_id: selectedGroupId
-                }).then(response => {
-                    if (!response.success) {
-                        throw new Error(response.message);
+                        return fetch("{{ route('admin.students.import') }}", {
+                            method: "POST",
+                            body: formData
+                        }).then(response => response.json());
                     }
-                }).catch(error => {
-                    Swal.showValidationMessage(error.message);
+                }).then(() => {
+                    Swal.fire("Success", "Students imported!", "success").then(() => location.reload());
                 });
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire('Updated!', `${studentName} has been assigned to a new group.`, 'success')
-                .then(() => location.reload());
-            }
-        });
+            });
 
-        // Update course name dynamically
-        $("#group-selection").change(function() {
-            let selectedId = $(this).val();
-            $("#course-info span").text(selectedId ? groups[selectedId].split(" - ")[0] : "-");
+            $(".assign-group-btn").click(function () {
+                let studentId = $(this).data("student-id");
+                let studentName = $(this).data("student-name");
+
+                let groups = @json($groups->mapWithKeys(fn($group) => [$group->id => $group->course->name . ' - ' . $group->name]));
+
+                Swal.fire({
+                    title: `Assign ${studentName} to a Group`,
+                    width: '600px', // ⬅️ Increased width for better layout
+                    html: `
+                    <div style="text-align:left;">
+                        <label for="group-selection" class="mb-2" style="font-size: 16px; font-weight: 600;">Select a Group</label>
+                        <select id="group-selection" class="swal2-select form-control" style="max-width: 90%; padding: 10px; font-size: 16px;">
+                            <option value="">Select a Group</option>
+                            ${Object.entries(groups).map(([id, name]) => `<option value="${id}">${name}</option>`).join('')}
+                        </select>
+                        <p id="course-info" class="mt-3" style="font-size: 16px;"><strong>Course:</strong> <span>-</span></p>
+                    </div>
+                `,
+                    showCancelButton: true,
+                    confirmButtonText: 'Assign',
+                    confirmButtonColor: '#28a745',
+                    preConfirm: () => {
+                        let selectedGroupId = $("#group-selection").val();
+                        if (!selectedGroupId) {
+                            Swal.showValidationMessage("Please select a group.");
+                            return false;
+                        }
+                        return $.post("{{ route('admin.students.assign-group') }}", {
+                            _token: "{{ csrf_token() }}",
+                            student_id: studentId,
+                            group_id: selectedGroupId
+                        }).then(response => {
+                            if (!response.success) {
+                                throw new Error(response.message);
+                            }
+                        }).catch(error => {
+                            Swal.showValidationMessage(error.message);
+                        });
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire('Updated!', `${studentName} has been assigned to a new group.`, 'success')
+                            .then(() => location.reload());
+                    }
+                });
+
+                // Update course name dynamically
+                $("#group-selection").change(function () {
+                    let selectedId = $(this).val();
+                    $("#course-info span").text(selectedId ? groups[selectedId].split(" - ")[0] : "-");
+                });
+            });
         });
-    });
-});
 
     </script>
 
