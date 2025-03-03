@@ -136,7 +136,8 @@
 
                                                 @if (!$isPastMeeting)
                                                     <a href="{{ route('instructor.meeting', $meeting->id) }}"
-                                                        target="_blank" class="default_button ">🔗 Join Zoom Meeting</a>
+                                                        target="_blank" class="default_button btn ">🔗 Join Zoom
+                                                        Meeting</a>
                                                 @else
                                                     <p class="text-muted"><strong>❌ Meeting Expired</strong></p>
                                                 @endif
