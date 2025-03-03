@@ -121,112 +121,53 @@
                                                             {{ $path->name }}
                                                         </button>
                                                     </h2>
-                                                    <div id="path{{ $path->id }}"
-                                                        class="accordion-collapse collapse"
-                                                        data-bs-parent="#accordionExample">
+                                                    <div id="path{{ $path->id }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                                         <div class="accordion-body">
-                                                            <!-- Loop through path_of_paths inside this course path -->
-                                                            <div class="accordion"
-                                                                id="subPathAccordion{{ $path->id }}">
-                                                                @forelse ($path->paths as $subPath)
-                                                                    <div class="accordion-item">
-                                                                        <h2 class="accordion-header">
-                                                                            <button class="accordion-button collapsed"
-                                                                                type="button"
-                                                                                data-bs-toggle="collapse"
-                                                                                data-bs-target="#subPath{{ $subPath->id }}"
-                                                                                aria-expanded="false"
-                                                                                aria-controls="subPath{{ $subPath->id }}">
-                                                                                {{ $subPath->name }}
-                                                                            </button>
-                                                                        </h2>
-                                                                        <div id="subPath{{ $subPath->id }}"
-                                                                            class="accordion-collapse collapse"
-                                                                            data-bs-parent="#subPathAccordion{{ $path->id }}">
-                                                                            <div class="accordion-body">
-                                                                                <!-- Nested accordion for lessons -->
-                                                                                <div class="accordion"
-                                                                                    id="lessonAccordion{{ $subPath->id }}">
-                                                                                    @forelse ($subPath->lessons->sortBy('order') as $lesson)
-                                                                                        <div class="accordion-item">
-                                                                                            <h2
-                                                                                                class="accordion-header">
-                                                                                                <button
-                                                                                                    class="accordion-button collapsed"
-                                                                                                    type="button"
-                                                                                                    data-bs-toggle="collapse"
-                                                                                                    data-bs-target="#lesson{{ $lesson->id }}"
-                                                                                                    aria-expanded="false"
-                                                                                                    aria-controls="lesson{{ $lesson->id }}">
-                                                                                                    {{ $lesson->title }}
-                                                                                                    <span>Order:
-                                                                                                        {{ $lesson->order ?? 'N/A' }}</span>
-                                                                                                </button>
-                                                                                            </h2>
-                                                                                            <div id="lesson{{ $lesson->id }}"
-                                                                                                class="accordion-collapse collapse"
-                                                                                                data-bs-parent="#lessonAccordion{{ $subPath->id }}">
-                                                                                                <div
-                                                                                                    class="accordion-body">
-                                                                                                    <!-- Lesson Video -->
-                                                                                                    <div
-                                                                                                        class="video-container mb-3">
-                                                                                                        @if ($lesson->video_url)
-                                                                                                            @php
-                                                                                                                $isGoogleDrive = str_contains(
-                                                                                                                    $lesson->video_url,
-                                                                                                                    'drive.google.com',
-                                                                                                                );
-                                                                                                                $embedUrl = $isGoogleDrive
-                                                                                                                    ? preg_replace(
-                                                                                                                        '/\/view\?usp=sharing$/',
-                                                                                                                        '/preview',
-                                                                                                                        $lesson->video_url,
-                                                                                                                    )
-                                                                                                                    : $lesson->video_url;
-                                                                                                            @endphp
-                                                                                                            <iframe
-                                                                                                                src="{{ $embedUrl }}"
-                                                                                                                width="100%"
-                                                                                                                height="400"
-                                                                                                                frameborder="0"
-                                                                                                                allowfullscreen></iframe>
-                                                                                                        @else
-                                                                                                            <p>No video
-                                                                                                                available
-                                                                                                                for this
-                                                                                                                lesson.
-                                                                                                            </p>
-                                                                                                        @endif
-                                                                                                    </div>
-                                                                                                    <p><strong>Description:</strong>
-                                                                                                        {{ $lesson->description ?? 'No description available.' }}
-                                                                                                    </p>
-                                                                                                    @if ($lesson->resource_file)
-                                                                                                        <a href="{{ asset($lesson->resource_file) }}"
-                                                                                                            download>Download
-                                                                                                            Resource</a>
-                                                                                                    @else
-                                                                                                        <p>No resources
-                                                                                                            available
-                                                                                                            for this
-                                                                                                            lesson.</p>
-                                                                                                    @endif
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    @empty
-                                                                                        <p>No lessons available in this
-                                                                                            sub-path.</p>
-                                                                                    @endforelse
+                                                            
+                                                            <!-- Check if the path has subpaths -->
+                                                            @if ($path->paths->isNotEmpty())
+                                                                <div class="accordion" id="subPathAccordion{{ $path->id }}">
+                                                                    @foreach ($path->paths as $subPath)
+                                                                        <div class="accordion-item">
+                                                                            <h2 class="accordion-header">
+                                                                                <button class="accordion-button collapsed" type="button"
+                                                                                    data-bs-toggle="collapse"
+                                                                                    data-bs-target="#subPath{{ $subPath->id }}"
+                                                                                    aria-expanded="false"
+                                                                                    aria-controls="subPath{{ $subPath->id }}">
+                                                                                    {{ $subPath->name }}
+                                                                                </button>
+                                                                            </h2>
+                                                                            <div id="subPath{{ $subPath->id }}" class="accordion-collapse collapse" data-bs-parent="#subPathAccordion{{ $path->id }}">
+                                                                                <div class="accordion-body">
+                                                                                    <div class="accordion" id="lessonAccordion{{ $subPath->id }}">
+                                                                                        @forelse ($subPath->lessons->sortBy('order') as $lesson)
+                                                                                            @include('components.lesson-item', ['lesson' => $lesson, 'parentId' => "lessonAccordion{$subPath->id}"])
+                                                                                        @empty
+                                                                                            <p>No lessons available in this sub-path.</p>
+                                                                                        @endforelse
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                @empty
-                                                                    <p>No sub-paths available in this course path.</p>
-                                                                @endforelse
-                                                            </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            @endif
+                                    
+                                                            <!-- Direct lessons under course path (if no subpaths exist) -->
+                                                            @if ($path->lessons->isNotEmpty())
+                                                                <h5 class="mt-3">Lessons in "{{ $path->name }}"</h5>
+                                                                <div class="accordion" id="lessonAccordion{{ $path->id }}">
+                                                                    @foreach ($path->lessons->sortBy('order') as $lesson)
+                                                                        @include('components.lesson-item', ['lesson' => $lesson, 'parentId' => "lessonAccordion{$path->id}"])
+                                                                    @endforeach
+                                                                </div>
+                                                            @endif
+                                    
+                                                            @if ($path->paths->isEmpty() && $path->lessons->isEmpty())
+                                                                <p>No lessons or sub-paths available in this course path.</p>
+                                                            @endif
+                                    
                                                         </div>
                                                     </div>
                                                 </div>
@@ -235,6 +176,7 @@
                                             @endforelse
                                         </div>
                                     </div>
+                                    
 
 
 
