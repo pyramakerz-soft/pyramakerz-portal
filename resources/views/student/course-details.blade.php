@@ -82,7 +82,7 @@
         </div>
         <!-- breadcrumbarea__section__end-->
 
-        <div class="blogarea__2 sp_top0 sp_bottom_100">
+        <div class="blogarea__2 sp_top80 sp_bottom_100">
             <div class="container-fluid full__width__padding">
                 <div class="row">
                     <div class="col-xl-3 col-lg-3 col-md-12" data-aos="fade-up">
