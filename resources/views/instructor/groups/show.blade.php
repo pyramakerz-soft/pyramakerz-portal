@@ -156,7 +156,7 @@
                                                     @endif
                                                     <button class="btn btn-warning">
                                                         <i class="icofont-edit"></i> <a
-                                                            href="{{route('session-details',$schedule->id)}}">Report</a>
+                                                            href="{{ route('session-details', $schedule->id) }}">Report</a>
                                                     </button>
 
                                                 </td>
@@ -273,7 +273,7 @@
                             Swal.fire({
                                 title: "Success",
                                 text: "Lesson date updated!",
-                                icon "success",
+                                icon: "success",
                                 confirmButtonColor: '#ff7918',
                             }).then(
                                 () => location.reload());
