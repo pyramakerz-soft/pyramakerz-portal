@@ -71,9 +71,10 @@ class StudentController extends Controller
 
 public function import(Request $request)
 {
-    $request->validate([
-        'students_file' => 'required|file|mimes:xlsx,csv',
-    ]);
+    // dd($request->all());
+    // $request->validate([
+    //     'students_file' => 'required|file|mimes:xlsx,csv',
+    // ]);
 
     Excel::import(new StudentsImport, $request->file('students_file'));
 

@@ -28,7 +28,27 @@
                                     </a>
                                 </div>
                             </div>
-
+                            <!-- Import Modal -->
+                            <div class="modal fade" id="importStudentsModal" tabindex="-1" aria-labelledby="importStudentsModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="importStudentsModalLabel">Import Students</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{ route('admin.students.import') }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <input type="file" name="students_file" class="form-control" required>
+                                                <p class="mt-2"><strong>Note:</strong> Upload an Excel file (.xlsx, .csv)</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Upload</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Filters -->
                             <form method="GET" action="{{ route('admin.students.index') }}" class="mb-3">
                                 <div class="row">
@@ -136,27 +156,27 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function () {
-            $(".import-students-btn").click(function () {
-                Swal.fire({
-                    title: "Import Students",
-                    html: `<input type="file" id="student_file" class="swal2-file">`,
-                    showCancelButton: true,
-                    confirmButtonText: "Upload",
-                    preConfirm: () => {
-                        let file = $("#student_file")[0].files[0];
-                        let formData = new FormData();
-                        formData.append('file', file);
-                        formData.append('_token', "{{ csrf_token() }}");
+        //     $(".import-students-btn").click(function() {
+        //     Swal.fire({
+        //         title: "Import Students",
+        //         html: `<input type="file" id="student_file" class="swal2-file">`,
+        //         showCancelButton: true,
+        //         confirmButtonText: "Upload",
+        //         preConfirm: () => {
+        //             let file = $("#student_file")[0].files[0];
+        //             let formData = new FormData();
+        //             formData.append('file', file);
+        //             formData.append('_token', "{{ csrf_token() }}");
 
-                        return fetch("{{ route('admin.students.import') }}", {
-                            method: "POST",
-                            body: formData
-                        }).then(response => response.json());
-                    }
-                }).then(() => {
-                    Swal.fire("Success", "Students imported!", "success").then(() => location.reload());
-                });
-            });
+        //             return fetch("{{ route('admin.students.import') }}", {
+        //                 method: "POST",
+        //                 body: formData
+        //             }).then(response => response.json());
+        //         }
+        //     }).then(() => {
+        //         Swal.fire("Success", "Students imported!", "success").then(() => location.reload());
+        //     });
+        // });
 
             $(".assign-group-btn").click(function () {
                 let studentId = $(this).data("student-id");

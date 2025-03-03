@@ -14,7 +14,6 @@ class StudentsImport implements ToCollection, WithHeadingRow
     public function collection(Collection $rows)
     {
         $studentsToInsert = [];
-
         foreach ($rows as $row) {
             // Check if student already exists by email or phone
             $exists = Student::where('email', $row['email'])
@@ -39,7 +38,6 @@ class StudentsImport implements ToCollection, WithHeadingRow
                 ];
             }
         }
-
         // Bulk Insert all non-duplicate students at once
         if (!empty($studentsToInsert)) {
             Student::insert($studentsToInsert);
