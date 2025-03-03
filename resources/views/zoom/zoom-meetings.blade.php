@@ -51,7 +51,7 @@
                                     @endphp
 
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="meeting-card {{ $isPastMeeting ? 'past-meeting' : '' }}">
+                                        <div class="gridarea__wraper  {{ $isPastMeeting ? 'past-meeting' : '' }}">
                                             <!-- Course Image -->
                                             <img src="{{ asset('img/course.jpg') }}" class="meeting-img"
                                                 alt="Course Image">

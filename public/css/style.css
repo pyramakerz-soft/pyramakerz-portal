@@ -14165,7 +14165,7 @@ Dark Mode
     width: 100%;
     height: 180px;
     object-fit: cover;
-    border-bottom: 2px solid #007bff;
+    /* border-bottom: 2px solid #007bff; */
 }
 
 .meeting-body {
@@ -14180,7 +14180,7 @@ Dark Mode
 
 .meeting-info {
     font-size: 1rem;
-    color: #555;
+    color: var(--blackColor);
     margin-bottom: 5px;
 }
 
@@ -14193,7 +14193,7 @@ Dark Mode
 
 .past-meeting .meeting-title,
 .past-meeting .meeting-info {
-    color: #999;
+    color: var(--blackColor);
 }
 
 /* end */
