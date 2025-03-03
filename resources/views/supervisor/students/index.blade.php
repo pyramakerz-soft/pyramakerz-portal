@@ -77,7 +77,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
+                                <button type="submit" class="btn btn-warning mt-3">Apply Filters</button>
                             </form>
 
                             <!-- Students Table -->
@@ -121,7 +121,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-sm {{ $groupStudent ? 'default__button' : 'bg-primary btn-primary' }} assign-group-btn"
+                                                    <button class="btn btn-sm {{ $groupStudent ? 'btn-warning' : 'bg-primary btn-primary' }} assign-group-btn"
                                                         data-student-id="{{ $student->id }}"
                                                         data-student-name="{{ $student->name }}"
                                                         data-current-group="{{ $group }}">
