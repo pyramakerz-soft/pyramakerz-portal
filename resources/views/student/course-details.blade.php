@@ -259,7 +259,9 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
-                                text: '{{ session('error') }}'
+                                text: '{{ session('error') }}',
+                                confirmButtonColor: '#ff7918',
+
                             });
                         </script>
                     @endif
@@ -268,7 +270,8 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Success',
-                                text: '{{ session('success') }}'
+                                text: '{{ session('success') }}',
+                                confirmButtonColor: '#ff7918',
                             });
                         </script>
                     @endif
