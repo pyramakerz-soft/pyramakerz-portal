@@ -157,7 +157,7 @@
                                                     @endif
                                                     <button class="btn btn-warning">
                                                         <i class="icofont-edit"></i> <a
-                                                            href="/session-details/{{ $schedule->id }}">Report</a>
+                                                            href="{{route('session-details',$schedule->id)}}">Report</a>
                                                     </button>
 
                                                 </td>

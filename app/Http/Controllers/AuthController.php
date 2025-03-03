@@ -113,11 +113,18 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
-        if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
-            return redirect()->route('instructor.courses');
+    
+        $student = Student::where('email', $request->email)->first();
+    
+        if ($student && Hash::check($request->password, $student->password)) {
+            Auth::guard('student')->login($student);
+    
+            // Regenerate session to avoid session fixation attacks
+            $request->session()->regenerate();
+    
+            return redirect()->route('my-progress');
         }
-
+    
         return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
     }
 
