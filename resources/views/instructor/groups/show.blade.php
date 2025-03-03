@@ -103,7 +103,7 @@
             <div class="container-fluid full__width__padding">
                 <div class="row">
                     <div class="col-xl-3 col-lg-3 col-md-12">
-                        @include('include.admin-sidebar')
+                        @include('include.sidebar')
 
                     </div>
                     <!-- Scheduled Lessons -->
@@ -152,6 +152,9 @@
                                                             <i class="icofont-edit"></i> Edit Date
                                                         </button>
                                                     @endif
+                                                    <button class="btn btn-warning">
+                                                            <i class="icofont-edit"></i> <a href="/session-details/{{$schedule->id}}">Report</a>
+                                                        </button>
 
                                                 </td>
                                             </tr>

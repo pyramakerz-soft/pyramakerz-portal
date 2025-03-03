@@ -12,7 +12,7 @@
             <div class="container-fluid full__width__padding">
                 <div class="row">
                     <div class="col-xl-3 col-lg-3 col-md-12">
-                        @include('include.supervisor-sidebar')
+                        @include('include.sidebar')
                     </div>
 
                     <div class="col-xl-9 col-lg-9 col-md-12">

@@ -13,7 +13,7 @@
                 <div class="row">
                     <!-- Sidebar -->
                     <div class="col-xl-3 col-lg-3 col-md-12">
-                        @include('include.supervisor-sidebar')
+                        @include('include.sidebar')
                     </div>
 
                     <!-- Main Content -->

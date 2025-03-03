@@ -3,110 +3,109 @@
 @include('include.head')
 
 <body class="body__wrapper">
-
     @include('include.load')
     <main class="main_wrapper overflow-hidden">
         @include('include.dash-nav')
 
-        <!-- dashboardarea__area__start  -->
-        <div class="dashboardarea ">
+        <div class="dashboardarea">
             @include('include.stud-topbar')
             <div class="dashboard">
                 <div class="container-fluid full__width__padding">
                     <div class="row">
                         <div class="col-xl-3 col-lg-3 col-md-12">
-                            @include('include.supervisor-sidebar')
-
+                            @include('include.sidebar')
                         </div>
                         <div class="col-xl-9 col-lg-9 col-md-12">
-                            <div class="dashboard">
-                                <div class="container-fluid ">
+                            <div class="dashboard__content__wraper">
+                                <div class="dashboard__section__title">
+                                    <h4>Course: {{ $group->course->name }} - {{ $group->name }}</h4>
+                                    <h4>Instructor: {{ $group->instructor->name }}</h4>
+                                    <h4>Lesson: {{ $schedule->lesson->title ?? 'N/A' }}</h4>
+                                    <h4>Session Date: {{ $schedule->date ?? 'N/A' }}</h4>
+                                </div>
 
+                                <!-- Progress Table -->
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead class="headtb text-white">
+                                            <tr>
+                                                <th>Student Name</th>
+                                                <th>Date</th>
+                                                <th>Absent</th>
+                                                <th>Interaction</th>
+                                                <th>Performance</th>
+                                                <th>Homework</th>
+                                                <th>Project</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if ($students->isEmpty())
+                                                <tr>
+                                                    <td colspan="7" class="text-center">No Student Data Found.</td>
+                                                </tr>
+                                            @else
+                                                @php $hasEvaluations = false; @endphp
+                                                @foreach ($students as $student)
+                                                    @php
+                                                        // Get evaluation for the student (if exists)
+                                                        $evaluation = $evaluations[$student->student_id] ?? null;
 
-                                    <!-- Filters -->
-                                    <div class="dashboard__content__wraper">
-                                        <div class="dashboard__section__title">
+                                                        // Ensure evaluation_details is a proper array
+                                                        $evaluationDetails = is_array($evaluation->evaluation_details ?? null) 
+                                                            ? $evaluation->evaluation_details 
+                                                            : (is_string($evaluation->evaluation_details ?? null) 
+                                                                ? json_decode($evaluation->evaluation_details, true) 
+                                                                : []);
 
-                                            <h4>Course Name : group name</h4>
-                                            <h4> Instructor name</h4>
-                                            <h4>Lesson Name</h4>
+                                                        // Check if the student was absent
+                                                        $isAbsent = is_array($evaluationDetails) && isset($evaluationDetails[0]['interaction']) 
+                                                            && $evaluationDetails[0]['interaction'] === 'Absent';
 
-                                        </div>
-
-
-                                        <!-- Progress Table -->
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-bordered">
-                                                <thead class="  headtb text-white">
+                                                        if ($evaluation) {
+                                                            $hasEvaluations = true;
+                                                        }
+                                                    @endphp
                                                     <tr>
-                                                        <th>Student Name</th>
-                                                        <th>Date</th>
-                                                        <th>Absent</th>
-                                                        <th> Interaction</th>
-                                                        <th> Performance</th>
-                                                        <th>Homework</th>
-                                                        <th>Project</th>
-
+                                                        <td>{{ $student->student->name }}</td>
+                                                        <td>{{ $evaluation->joined_at ?? 'N/A' }}</td>
+                                                        <td class="{{ $isAbsent ? 'text-danger' : 'text-success' }}">
+                                                            {{ $isAbsent ? '❌ Absent' : '✔️ Present' }}
+                                                        </td>
+                                                        <td>{{ $evaluationDetails[0]['interaction'] ?? 'N/A' }}</td>
+                                                        <td>{{ $evaluationDetails[0]['performance'] ?? 'N/A' }}</td>
+                                                        <td>{{ $evaluationDetails[0]['homework'] ?? 'N/A' }}</td>
+                                                        <td>{{ $evaluationDetails[0]['project'] ?? 'N/A' }}</td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {{-- @forelse () --}}
+                                                @endforeach
+
+                                                @if (!$hasEvaluations)
                                                     <tr>
-                                                        {{-- <td>{{ $progress->branch }}</td>
-                                                        <td>{{ $progress->course->name }}</td>
-                                                        <td>{{ $progress->age_group }}</td>
-                                                        <td>{{ $progress->start_time }} - {{ $progress->end_time }}</td>
-                                                        <td>{{ $progress->status }}</td>
-                                                        <td>{{ $progress->instructor->name }}</td>
-                                                        <td>{{ json_encode($progress->progress) }}</td>
-                                                        <td>{{ json_encode($progress->materials) }}</td> --}}
-                                                    </tr>
-                                                    {{-- @empty --}}
-                                                    <tr>
-                                                        <td colspan="8" class="text-center">No Progress Data Found.
+                                                        <td colspan="7" class="text-center text-warning">
+                                                            No evaluations added yet.
                                                         </td>
                                                     </tr>
-                                                    {{-- @endforelse --}}
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                    </div>
+                                                @endif
+                                            @endif
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
 
-
-                        </div>
-
-
-                    </div>
+                                <div class="mt-3">
+                                    <a href="{{ route('home') }}" class="btn btn-outline-secondary">
+                                        <i class="icofont-arrow-left"></i> Back to Dashboard
+                                    </a>
+                                </div>
+                            </div> 
+                        </div> 
+                    </div> 
                 </div>
             </div>
-
-        </div>
-
-        <!-- Summary Section -->
-
-
         </div>
     </main>
 </body>
-<script src="{{ asset('js/vendor/modernizr-3.5.0.min.js') }}"></script>
+
 <script src="{{ asset('js/vendor/jquery-3.6.0.min.js') }}"></script>
-<script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('js/isotope.pkgd.min.js') }}"></script>
-<script src="{{ asset('js/slick.min.js') }}"></script>
-<script src="{{ asset('js/jquery.meanmenu.min.js') }}"></script>
-<script src="{{ asset('js/ajax-form.js') }}"></script>
-<script src="{{ asset('js/wow.min.js') }}"></script>
-<script src="{{ asset('js/jquery.scrollUp.min.js') }}"></script>
-<script src="{{ asset('js/imagesloaded.pkgd.min.js') }}"></script>
-<script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
-<script src="{{ asset('js/waypoints.min.js') }}"></script>
-<script src="{{ asset('js/jquery.counterup.min.js') }}"></script>
-<script src="{{ asset('js/plugins.js') }}"></script>
-<script src="{{ asset('js/swiper-bundle.min.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
 
 </html>
