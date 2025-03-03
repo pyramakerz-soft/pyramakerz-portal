@@ -21,7 +21,7 @@ class CreateLessonResourcesTable extends Migration
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             // File path or URL for the resource file
-            $table->string('file_path');
+            $table->string('file_path')->nullable();
             // Optionally, a type (e.g. "pdf", "video", "link")
             $table->string('resource_type')->nullable();
             $table->timestamps();

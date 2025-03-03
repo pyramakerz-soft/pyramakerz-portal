@@ -95,11 +95,11 @@
                                                                         <div class="lesson-resources">
                                                                             @foreach ($lesson->resources as $resource)
                                                                                 <div class="resource-item mb-2">
-                                                                                    <a href="{{ asset($resource->file_path) }}"
+                                                                                    <a href="{{ $resource->file_path ? asset(path: $resource->file_path) : $resource->resource_link }}"
                                                                                         target="_blank">
                                                                                         {{ $resource->title ?? basename($resource->file_path) }}
                                                                                     </a>
-                                                                                    <a href="{{ asset($resource->file_path) }}"
+                                                                                    <a href="{{ $resource->file_path ? asset(path: $resource->file_path) : $resource->resource_link }}"
                                                                                         download
                                                                                         class="btn btn-sm btn-outline-primary ml-2">
                                                                                         Download
