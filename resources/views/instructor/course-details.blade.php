@@ -46,6 +46,16 @@
                     </div>
                 </div>
             </div>
+            <div class="shape__icon__2">
+                <img loading="lazy" class="shape__icon__img shape__icon__img__1"
+                    src="{{ asset('img/herobanner/herobanner__1.png') }}" alt="photo">
+                <img loading="lazy" class="shape__icon__img shape__icon__img__2"
+                    src="{{ asset('img/herobanner/herobanner__2.png') }}" alt="photo">
+                <img loading="lazy" class="shape__icon__img shape__icon__img__3"
+                    src="{{ asset('img/herobanner/herobanner__3.png') }}" alt="photo">
+                <img loading="lazy" class="shape__icon__img shape__icon__img__4"
+                    src="{{ asset('img/herobanner/herobanner__5.png') }}" alt="photo">
+            </div>
         </div>
 
         <!-- breadcrumbarea__section__end-->
@@ -56,7 +66,7 @@
         <div class="blogarea__2 sp_top_80 sp_bottom_100">
             <div class="container-fluid full__width__padding">
                 <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-12">
+                    <div class="col-xl-3 col-lg-3 col-md-12" data-aos="fade-up">
                         @include('include.admin-sidebar')
 
                     </div>
@@ -157,17 +167,18 @@
                                         alt="blog">
                                 </div>
                                 <div class="course__summery__lists">
-                                {{-- Course name and details --}}
-                                <div class="course__summery__lists">
-                                    <ul>
-                                        <li>
-                                            <div class="course__summery__item">
-                                                <span class="sb_label">Course Name:</span>
-                                                <span class="sb_content
+                                    {{-- Course name and details --}}
+                                    {{-- <div class="course__summery__lists">
+                                        <ul>
+                                            <li>
+                                                <div class="course__summery__item">
+                                                    <span class="sb_label">Course Name:</span>
+                                                    <span
+                                                        class="sb_content
                                                     ">{{ $course->name ?? 'Course Title' }}</span>
-                                            </div>
-                                </div>
-                                {{-- <div class="course__summery__lists">
+                                                </div>
+                                    </div> --}}
+                                    {{-- <div class="course__summery__lists">
                                     <ul>
                                         <li>
                                             <div class="course__summery__item">
@@ -198,15 +209,15 @@
                                         </li>
                                     </ul>
                                 </div> --}}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        @include('include.footer')
-        @include('include.scripts')
+            @include('include.footer')
+            @include('include.scripts')
     </main>
 
     <!-- JS Scripts -->
@@ -254,7 +265,8 @@
                 <input type="checkbox" id="upload_toggle" checked> Upload File Instead of Link
             </label>
             <input type="url" id="lesson_link" class="swal2-input form-control" placeholder="Paste link here" style="display:none;">
-            <input type="file" id="lesson_material" class="swal2-input form-control">
+            
+            <input type="file" id="lesson_material" class="swal2-input form-control" style="width:98% !important; margin: 0 auto; margin-top:10px; ">
         `,
                     didOpen: () => {
                         $("#upload_toggle").on("change", function() {
@@ -269,6 +281,7 @@
                     },
                     showCancelButton: true,
                     confirmButtonText: "Upload",
+                    confirmButtonColor: '#ff7918',
                     preConfirm: () => {
                         let resourceType = $("#resource_type").val();
                         let fileInput = $("#lesson_material")[0].files[0];
@@ -316,12 +329,21 @@
                             contentType: false,
                             data: formData,
                             success: function() {
-                                Swal.fire("Success", "Material uploaded successfully!",
-                                        "success")
+                                Swal.fire({
+                                        title: "Success",
+                                        text: "Material uploaded successfully!",
+                                        icon: "success",
+                                        confirmButtonColor: '#ff7918',
+                                    })
                                     .then(() => location.reload());
                             },
                             error: function() {
-                                Swal.fire("Error", "Upload failed!", "error");
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Upload failed!",
+                                    icon: "error",
+                                    confirmButtonColor: '#ff7918'
+                                });
                             }
                         });
                     }
