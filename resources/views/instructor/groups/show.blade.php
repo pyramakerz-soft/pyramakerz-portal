@@ -115,10 +115,9 @@
                             <form action="{{ route('instructor.meetings.create_all', $group->id) }}" method="POST">
                                 @csrf
                                 @if (Auth::guard('admin')->user()->can('meeting-create'))
-
-                                <button type="submit" class="btn btn-success">
-                                    Create Meetings for All Scheduled Lessons
-                                </button>
+                                    <button type="submit" class="btn btn-success">
+                                        Create Meetings for All Scheduled Lessons
+                                    </button>
                                 @endif
                             </form>
 
@@ -195,7 +194,9 @@
                                         <tbody>
                                             @forelse ($group->students as $student)
                                                 <tr>
-                                                    <td><a href="{{route('sessionDetailsForStudent',[$student->id,$group->id])}}">{{ $student->name }}</a></td>
+                                                    <td><a
+                                                            href="{{ route('sessionDetailsForStudent', [$student->id, $group->id]) }}">{{ $student->name }}</a>
+                                                    </td>
 
                                                 </tr>
                                             @empty
@@ -269,10 +270,20 @@
                             schedule_id: result.value.schedule_id,
                             new_date: result.value.new_date
                         }, function() {
-                            Swal.fire("Success", "Lesson date updated!", "success").then(
+                            Swal.fire({
+                                title: "Success",
+                                text: "Lesson date updated!",
+                                icon "success",
+                                confirmButtonColor: '#ff7918',
+                            }).then(
                                 () => location.reload());
                         }).fail(() => {
-                            Swal.fire("Error", "Failed to update!", "error");
+                            Swal.fire({
+                                title: "Error",
+                                text: "Failed to update!",
+                                icon: "error",
+                                confirmButtonColor: '#ff7918',
+                            });
                         });
                     }
                 });

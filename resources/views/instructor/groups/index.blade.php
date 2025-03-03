@@ -301,7 +301,7 @@
                                     title: "Success",
                                     text: "Group created successfully!",
                                     icon: "success",
-                                    confirmButtonText: "success",
+                                    confirmButtonText: "OK",
                                     confirmButtonColor: '#ff7918',
                                 });
                                 setTimeout(() => {
