@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\CourseProgressController;
+use App\Http\Controllers\Admin\EnrollmentController;
 use App\Http\Controllers\Admin\EvaluationController;
 use App\Http\Controllers\Admin\InstructorCommentController;
 use App\Http\Controllers\AdminController;
@@ -14,8 +15,10 @@ use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\Admin\StudentController as AdminStudentController;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +64,7 @@ Route::post('/admin-login', [AuthController::class, 'adminLogin'])->name('admin-
 Route::get('/login', [AuthController::class, 'showStudentLoginForm'])->name('login');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('register', [AuthController::class, 'register'])->name('register');
+Route::post('register-student', [AuthController::class, 'registerStudent'])->name('register-student');
 Route::get('/student-login', [AuthController::class, 'showStudentLoginForm'])->name('student-login');
 Route::post('/student-login', [AuthController::class, 'studentLogin'])->name('student-login');
 
@@ -131,6 +135,8 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/zoom-signature', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
     Route::get('/zoom-signature/{meetingNumber}/{role}', [MeetingController::class, 'generateSignature'])->name('zoom.signature');
     Route::get('/time-table', [StudentController::class, 'timetable'])->name('student.time-table');
+    Route::get('/join-now', [CourseController::class, 'studentJoinNow'])->name('student.join-now');
+    Route::get('/enroll-now/{id}', [CourseController::class, 'enrollNow'])->name('student.enroll-now');
     Route::get('/meetings/{meeting}/evaluate_inst', [EvaluationController::class, 'showEvaluationForm'])
         ->middleware(['auth:student'])
         ->name('meetings.evaluate');
@@ -215,7 +221,17 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
     Route::post('/evaluations/store', [EvaluationController::class, 'store'])->name('admin.evaluations.store');
     Route::get('/track-progress', [CourseProgressController::class, 'index'])->name('admin.track-progress.index');
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
+    Route::get('/enrollment_requests', [EnrollmentController::class, 'index'])->name('admin.enrollment_requests');
+    Route::post('/approve/{id}', [EnrollmentController::class, 'approve'])->name('admin.approve');
+    Route::post('/reject/{id}', [EnrollmentController::class, 'reject'])->name('admin.reject');
+    Route::get('/tickets', [TicketController::class, 'index'])->name('admin.tickets');
+
     // Route::get('/student-details/{id}', [AttendanceController::class, 'studentDetails'])->name('admin.student-details');
+        Route::get('/students', [AdminStudentController::class, 'index'])->name('admin.students.index');
+        Route::post('/students/import', [AdminStudentController::class, 'import'])->name('admin.students.import');
+        Route::get('/students/download-template', [AdminStudentController::class, 'downloadTemplate'])
+        ->name('admin.students.download-template');
+        Route::post('/admin/students/assign-group', [AdminStudentController::class, 'assignGroup'])->name('admin.students.assign-group');
 
 
 });
@@ -329,3 +345,6 @@ Route::middleware([RoleMiddleware::class])->group(function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/ticket', [TicketController::class, 'store'])
+    ->name('ticket.store')
+    ->middleware('auth:student');

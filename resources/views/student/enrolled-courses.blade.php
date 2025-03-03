@@ -59,362 +59,181 @@
 
 
                                     <div class="tab-content tab__content__wrapper aos-init aos-animate"
-                                        id="myTabContent" data-aos="fade-up">
+    id="myTabContent" data-aos="fade-up">
 
-                                        <div class="tab-pane fade " id="projects__one" role="tabpanel"
-                                            aria-labelledby="projects__one">
-                                            <div class="row">
-                                                @foreach ($courses as $groupStudent)
-                                                    @php
-                                                        $group = $groupStudent->group;
-                                                        $course = $group->course;
-                                                        $lessonCount = $group->schedules->count();
+    {{-- Finished Courses --}}
+    <div class="tab-pane fade " id="projects__one" role="tabpanel" aria-labelledby="projects__one">
+        <div class="row">
+            @if($finishedCourses->isNotEmpty())
+                @foreach ($finishedCourses as $groupStudent)
+                    @php
+                        $group = $groupStudent->group;
+                        $course = $group->course;
+                        $lessonCount = $group->schedules->count();
 
-                                                        // Calculate Total Study Duration
-                                                        $totalMinutes = $group->schedules->sum(function ($schedule) {
-                                                            return \Carbon\Carbon::parse(
-                                                                $schedule->start_time,
-                                                            )->diffInMinutes(
-                                                                \Carbon\Carbon::parse($schedule->end_time),
-                                                            );
-                                                        });
-                                                        $totalHours = round($totalMinutes / 60, 2);
+                        $totalMinutes = $group->schedules->sum(function ($schedule) {
+                            return \Carbon\Carbon::parse($schedule->start_time)->diffInMinutes(\Carbon\Carbon::parse($schedule->end_time));
+                        });
+                        $totalHours = round($totalMinutes / 60, 2);
+                    @endphp
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
+                        <div class="gridarea__wraper">
+                            <div class="gridarea__img">
+                                <a href="/course_lessons/{{ $course->id }}">
+                                    <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
+                                </a>
+                                <div class="gridarea__small__button">
+                                    <div class="grid__badge">{{ $course->slug }}</div>
+                                </div>
+                            </div>
+                            <div class="gridarea__content">
+                                <div class="gridarea__list">
+                                    <ul>
+                                        <li><i class="icofont-book-alt"></i> {{ $lessonCount }} Lesson/s</li>
+                                        <li><i class="icofont-clock-time"></i> ~{{ $totalHours }} Hours</li>
+                                    </ul>
+                                </div>
+                                <div class="gridarea__heading">
+                                    <h3>
+                                        <a href="/course_lessons/{{ $course->id }}">{{ $course->name }}</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <p class="text-center">No Finished Courses Yet.</p>
+            @endif
+        </div>
+    </div>
 
-                                                        // Get the instructor
-                                                        $instructor = \App\Models\User::where(
-                                                            'id',
-                                                            $group->instructor_id,
-                                                        )
-                                                            ->where('role', 'teacher')
-                                                            ->first();
+    {{-- Active Courses --}}
+    <div class="tab-pane fade active show" id="projects__two" role="tabpanel" aria-labelledby="projects__two">
+        <div class="row">
+            {{-- Courses Assigned to a Group --}}
+            @if ($groupCourses->isNotEmpty())
+                @foreach ($groupCourses as $groupStudent)
+                    @php
+                        $group = $groupStudent->group;
+                        $course = $group->course;
+                        $lessonCount = $group->schedules->count();
 
-                                                        // Schedule Details
-                                                        $startTime = \Carbon\Carbon::parse(
-                                                            $group->schedules->first()->start_time,
-                                                        )->format('h:i A');
-                                                        $endTime = \Carbon\Carbon::parse(
-                                                            $group->schedules->first()->end_time,
-                                                        )->format('h:i A');
-                                                        $days = $group->schedules
-                                                            ->pluck('date')
-                                                            ->map(function ($date) {
-                                                                return \Carbon\Carbon::parse($date)->format('l');
-                                                            })
-                                                            ->unique()
-                                                            ->implode(', ');
-                                                    @endphp
-                                                    <!-- Group Information (Above Course Card) -->
-                                                    <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
+                        $totalMinutes = $group->schedules->sum(function ($schedule) {
+                            return \Carbon\Carbon::parse($schedule->start_time)->diffInMinutes(\Carbon\Carbon::parse($schedule->end_time));
+                        });
+                        $totalHours = round($totalMinutes / 60, 2);
+                    @endphp
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
+                        <div class="gridarea__wraper">
+                            <div class="gridarea__img">
+                                <a href="/course_lessons/{{ $course->id }}">
+                                    <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
+                                </a>
+                                <div class="gridarea__small__button">
+                                    <div class="grid__badge">{{ $course->slug }}</div>
+                                </div>
+                            </div>
+                            <div class="gridarea__content">
+                                <div class="gridarea__list">
+                                    <ul>
+                                        <li><i class="icofont-book-alt"></i> {{ $lessonCount }} Lesson/s</li>
+                                        <li><i class="icofont-clock-time"></i> ~{{ $totalHours }} Hours</li>
+                                    </ul>
+                                </div>
+                                <div class="gridarea__heading">
+                                    <h3>
+                                        <a href="/course_lessons/{{ $course->id }}">{{ $course->name }}</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
 
-                                                        <div class="gridarea__wraper">
-                                                            <div class="gridarea__img">
-                                                                <a href="/course_lessons/{{ $course->id }}">
-                                                                    <img loading="lazy"
-                                                                        src="{{ asset('img/grid/grid_1.png') }}"
-                                                                        alt="grid">
-                                                                </a>
-                                                                <div class="gridarea__small__button">
-                                                                    <div class="grid__badge">{{ $course->slug }}</div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="gridarea__content">
-                                                                <div class="gridarea__list">
-                                                                    <ul>
-                                                                        <li>
-                                                                            <i class="icofont-book-alt"></i>
-                                                                            {{ $lessonCount }} Lesson/s
-                                                                        </li>
-                                                                        <li>
-                                                                            <i class="icofont-clock-time"></i>
-                                                                            ~{{ $totalHours }} Hours
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                                <div class="gridarea__heading">
-                                                                    <h3>
-                                                                        <a
-                                                                            href="/course_lessons/{{ $course->id }}">{{ $course->name }}</a>
-                                                                    </h3>
-                                                                </div>
-                                                                <div class="gridarea__bottom">
+            {{-- Enrolled Courses (Without Group) --}}
+            @if ($enrolledCourses->isNotEmpty())
+                @foreach ($enrolledCourses as $courseStudent)
+                    @php
+                        $course = $courseStudent->course;
+                        $instructor = $course->instructor;
+                    @endphp
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
+                        <div class="gridarea__wraper">
+                            <div class="gridarea__img">
+                                <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
+                                <div class="gridarea__small__button">
+                                    <div class="grid__badge">{{ $course->slug }}</div>
+                                </div>
+                            </div>
+                            <div class="gridarea__content">
+                                <div class="gridarea__list">
+                                    <ul>
+                                        <li><i class="icofont-book-alt"></i> No Lessons Yet</li>
+                                        <li><i class="icofont-clock-time"></i> - </li>
+                                    </ul>
+                                </div>
+                                <div class="gridarea__heading">
+                                    <h3>
+                                        <a href="javascript:void(0);" class="disabled-link" style="pointer-events: none; color: gray;">
+                                            {{ $course->name }}
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div class="dashboard__single__counter">
+                                    <p><strong>❌ Not Assigned to a Group Yet</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
 
+            {{-- Show "No Courses Available" only if both lists are empty --}}
+            @if ($groupCourses->isEmpty() && $enrolledCourses->isEmpty())
+                <p class="text-center">No Active Courses Available.</p>
+            @endif
+        </div>
+    </div>
 
-                                                                    <div class="gridarea__small__img">
-                                                                        <img loading="lazy"
-                                                                            src="{{ asset('img/grid/grid_small_1.jpg') }}"
-                                                                            alt="grid">
-                                                                        <div class="gridarea__small__content">
-                                                                            <h6>
-                                                                                {{ $group->course ? $group->course->instructor->name : 'Not Assigned' }}
-                                                                            </h6>
+    {{-- Upcoming Courses --}}
+    <div class="tab-pane fade" id="projects__three" role="tabpanel" aria-labelledby="projects__three">
+        <div class="row">
+            @if ($upcomingCourses->isNotEmpty())
+                @foreach ($upcomingCourses as $groupStudent)
+                    @php
+                        $group = $groupStudent->group;
+                        $course = $group->course;
+                    @endphp
+                    <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
+                        <div class="gridarea__wraper">
+                            <div class="gridarea__img">
+                                <a href="/course_lessons/{{ $course->id }}">
+                                    <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
+                                </a>
+                                <div class="gridarea__small__button">
+                                    <div class="grid__badge">{{ $course->slug }}</div>
+                                </div>
+                            </div>
+                            <div class="gridarea__content">
+                                <div class="gridarea__heading">
+                                    <h3>
+                                        <a href="/course_lessons/{{ $course->id }}">{{ $course->name }}</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <p class="text-center">No Upcoming Courses Yet.</p>
+            @endif
+        </div>
+    </div>
 
-                                                                        </div>
-                                                                    </div>
+</div>
 
-
-
-                                                                </div>
-                                                                <div class="dashboard__single__counter">
-
-                                                                    <p><strong>👥 Group
-                                                                            Name:</strong>
-                                                                        {{ $group->name }}</p>
-
-                                                                    <p> <strong>📅 Schedule:</strong>
-                                                                        {{ $days }}
-                                                                        ({{ $startTime }} -
-                                                                        {{ $endTime }})
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                            </div>
-                                            <div class="gridarea__content">
-                                                <div class="gridarea__list">
-                                                    <ul>
-                                                        <li>
-                                                            <i class="icofont-book-alt"></i>
-                                                            {{ $lessonCount }} Lesson/s
-                                                        </li>
-                                                        <li>
-                                                            <i class="icofont-clock-time"></i>
-                                                            ~{{ $totalHours }} Hours
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="gridarea__heading">
-                                                    <h3>
-                                                        <a
-                                                            href="/course_lessons/{{ $course->id }}">{{ $course->name }}</a>
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endforeach
-
-                                    </div>
-
-                                    <div class="tab-pane fade active show" id="projects__two" role="tabpanel"
-                                        aria-labelledby="projects__two">
-                                        <div class="row">
-                                            @forelse ($courses as $groupStudent)
-                                                @php
-                                                    $group = $groupStudent->group;
-                                                    $course = $group->course;
-                                                    $lessonCount = $group->schedules->count();
-
-                                                    // Calculate Total Study Duration
-                                                    $totalMinutes = $group->schedules->sum(function ($schedule) {
-                                                        return \Carbon\Carbon::parse(
-                                                            $schedule->start_time,
-                                                        )->diffInMinutes(\Carbon\Carbon::parse($schedule->end_time));
-                                                    });
-                                                    $totalHours = round($totalMinutes / 60, 2);
-
-                                                    // Get the instructor
-                                                    $instructor = \App\Models\User::where('id', $group->instructor_id)
-                                                        ->where('role', 'teacher')
-                                                        ->first();
-
-                                                    // Schedule Details
-                                                    $startTime = \Carbon\Carbon::parse(
-                                                        $group->schedules->first()->start_time,
-                                                    )->format('h:i A');
-                                                    $endTime = \Carbon\Carbon::parse(
-                                                        $group->schedules->first()->end_time,
-                                                    )->format('h:i A');
-                                                    $days = $group->schedules
-                                                        ->pluck('date')
-                                                        ->map(function ($date) {
-                                                            return \Carbon\Carbon::parse($date)->format('l');
-                                                        })
-                                                        ->unique()
-                                                        ->implode(', ');
-                                                @endphp
-                                                <!-- Group Information (Above Course Card) -->
-                                                <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
-
-                                                    <div class="gridarea__wraper">
-                                                        <div class="gridarea__img">
-                                                            <a href="/course_lessons/{{ $course->id }}">
-                                                                <img loading="lazy"
-                                                                    src="{{ asset('img/grid/grid_1.png') }}"
-                                                                    alt="grid">
-                                                            </a>
-                                                            <div class="gridarea__small__button">
-                                                                <div class="grid__badge">{{ $course->slug }}</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="gridarea__content">
-                                                            <div class="gridarea__list">
-                                                                <ul>
-                                                                    <li>
-                                                                        <i class="icofont-book-alt"></i>
-                                                                        {{ $lessonCount }} Lesson/s
-                                                                    </li>
-                                                                    <li>
-                                                                        <i class="icofont-clock-time"></i>
-                                                                        ~{{ $totalHours }} Hours
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="gridarea__heading">
-                                                                <h3>
-                                                                    <a
-                                                                        href="/course_lessons/{{ $course->id }}">{{ $course->name }}</a>
-                                                                </h3>
-                                                            </div>
-                                                            <div class="gridarea__bottom">
-
-
-                                                                <div class="gridarea__small__img">
-                                                                    <img loading="lazy"
-                                                                        src="{{ asset('img/grid/grid_small_1.jpg') }}"
-                                                                        alt="grid">
-                                                                    <div class="gridarea__small__content">
-                                                                        <h6>
-                                                                            {{ $group->course ? $group->course->instructor->name : 'Not Assigned' }}
-                                                                        </h6>
-
-                                                                    </div>
-                                                                </div>
-
-
-
-                                                            </div>
-                                                            <div class="dashboard__single__counter">
-
-                                                                <p><strong>👥 Group
-                                                                        Name:</strong>
-                                                                    {{ $group->name }}</p>
-
-                                                                <p> <strong>📅 Schedule:</strong>
-                                                                    {{ $days }}
-                                                                    ({{ $startTime }} -
-                                                                    {{ $endTime }})
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="6" class="text-center">No lessons scheduled for
-                                                        this
-                                                        group.
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </div>
-                                    </div>
-
-                                    <div class="tab-pane fade" id="projects__three" role="tabpanel"
-                                        aria-labelledby="projects__three">
-                                        <div class="row">
-                                            @foreach ($courses as $groupStudent)
-                                                @php
-                                                    $group = $groupStudent->group;
-                                                    $course = $group->course;
-                                                    $lessonCount = $group->schedules->count();
-
-                                                    // Calculate Total Study Duration
-                                                    $totalMinutes = $group->schedules->sum(function ($schedule) {
-                                                        return \Carbon\Carbon::parse(
-                                                            $schedule->start_time,
-                                                        )->diffInMinutes(\Carbon\Carbon::parse($schedule->end_time));
-                                                    });
-                                                    $totalHours = round($totalMinutes / 60, 2);
-
-                                                    // Get the instructor
-                                                    $instructor = \App\Models\User::where('id', $group->instructor_id)
-                                                        ->where('role', 'teacher')
-                                                        ->first();
-
-                                                    // Schedule Details
-                                                    $startTime = \Carbon\Carbon::parse(
-                                                        $group->schedules->first()->start_time,
-                                                    )->format('h:i A');
-                                                    $endTime = \Carbon\Carbon::parse(
-                                                        $group->schedules->first()->end_time,
-                                                    )->format('h:i A');
-                                                    $days = $group->schedules
-                                                        ->pluck('date')
-                                                        ->map(function ($date) {
-                                                            return \Carbon\Carbon::parse($date)->format('l');
-                                                        })
-                                                        ->unique()
-                                                        ->implode(', ');
-                                                @endphp
-                                                <!-- Group Information (Above Course Card) -->
-                                                <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
-
-                                                    <div class="gridarea__wraper">
-                                                        <div class="gridarea__img">
-                                                            <a href="/course_lessons/{{ $course->id }}">
-                                                                <img loading="lazy"
-                                                                    src="{{ asset('img/grid/grid_1.png') }}"
-                                                                    alt="grid">
-                                                            </a>
-                                                            <div class="gridarea__small__button">
-                                                                <div class="grid__badge">{{ $course->slug }}</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="gridarea__content">
-                                                            <div class="gridarea__list">
-                                                                <ul>
-                                                                    <li>
-                                                                        <i class="icofont-book-alt"></i>
-                                                                        {{ $lessonCount }} Lesson/s
-                                                                    </li>
-                                                                    <li>
-                                                                        <i class="icofont-clock-time"></i>
-                                                                        ~{{ $totalHours }} Hours
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="gridarea__heading">
-                                                                <h3>
-                                                                    <a
-                                                                        href="/course_lessons/{{ $course->id }}">{{ $course->name }}</a>
-                                                                </h3>
-                                                            </div>
-                                                            <div class="gridarea__bottom">
-
-
-                                                                <div class="gridarea__small__img">
-                                                                    <img loading="lazy"
-                                                                        src="{{ asset('img/grid/grid_small_1.jpg') }}"
-                                                                        alt="grid">
-                                                                    <div class="gridarea__small__content">
-                                                                        <h6>
-                                                                            {{ $group->course ? $group->course->instructor->name : 'Not Assigned' }}
-                                                                        </h6>
-
-                                                                    </div>
-                                                                </div>
-
-
-
-                                                            </div>
-                                                            <div class="dashboard__single__counter">
-
-                                                                <p><strong>👥 Group
-                                                                        Name:</strong>
-                                                                    {{ $group->name }}</p>
-
-                                                                <p> <strong>📅 Schedule:</strong>
-                                                                    {{ $days }}
-                                                                    ({{ $startTime }} -
-                                                                    {{ $endTime }})
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
 
 
 

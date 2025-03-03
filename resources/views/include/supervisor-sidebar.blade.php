@@ -29,6 +29,18 @@
                     Instructors
                 </a>
             </li>
+            <li>
+                <a href="{{ route('admin.students.index') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="feather feather-users">
+                        <path d="M17 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M7 21v-2a4 4 0 0 1 3-3.87"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Students
+                </a>
+            </li>
 
             <!-- Evaluations -->
             <li>
@@ -44,6 +56,7 @@
                 </a>
             </li>
 
+            <!-- Manual Evaluations -->
             <!-- Manual Evaluations -->
             <li>
                 <a href="{{ route('admin.evaluations.manual') }}">
@@ -70,15 +83,47 @@
                     Track Progress
                 </a>
             </li>
+
+            <!-- Attendance -->
             <li>
                 <a href="{{ route('admin.attendance.index') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" class="feather feather-trending-up">
-                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                        <polyline points="17 6 23 6 23 12"></polyline>
+                        stroke-linejoin="round" class="feather feather-calendar">
+                        <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
                     </svg>
                     Attendance
+                </a>
+            </li>
+
+            <!-- Enrollment Requests -->
+            <li>
+                <a href="{{ route('admin.enrollment_requests') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="feather feather-user-check">
+                        <path d="M8 17a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z"></path>
+                        <path d="M16 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M20 6 23 9 16 16"></path>
+                    </svg>
+                    Enrollment Requests
+                </a>
+            </li>
+
+            <!-- Tickets -->
+            <li>
+                <a href="{{ route('admin.tickets') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="feather feather-message-circle">
+                        <path d="M21 12a9 9 0 1 1-9-9"></path>
+                        <path d="M8 8h8M8 12h6M8 16h4"></path>
+                        <path d="M21 15l-3-3m0 0l3-3m-3 3h-6"></path>
+                    </svg>
+                    Tickets
                 </a>
             </li>
 

@@ -10,8 +10,8 @@
     @include('include.load')
 
     @include('include.nav')
+    @include('include.stud-topbar')
     <div class="tution sp_bottom_100 sp_top_50">
-        @include('include.stud-topbar')
         <br><br>
         <div class="container-fluid full__width__padding">
             <div class="row">
@@ -91,15 +91,59 @@ $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
                             <span><a href="{{ route('student.courses') }}">Back to Courses</a></span>
                         </div>
                         <div id="lesson-video" class="video-container">
-                            @php
-                                $videoUrl = $lessons[0]['video_url'] ?? null;
-                            @endphp
-                            @if ($videoUrl)
-                                <iframe src="{{ $videoUrl }}" allowfullscreen allow="autoplay"></iframe>
-                            @else
-                                <p>No video available for this lesson.</p>
-                            @endif
+                            @if ($videoUrl && !empty($videoUrl))
+    @php
+        // Ensure URL has a valid scheme
+        if (!preg_match("~^(?:f|ht)tps?://~i", $videoUrl)) {
+            $videoUrl = 'https://' . $videoUrl; // Add 'https://' if missing
+        }
+
+        $parsedUrl = parse_url($videoUrl);
+
+        // Extract video ID safely
+        $youtubeId = null;
+        $vimeoId = null;
+
+        if (isset($parsedUrl['host'])) {
+            if (strpos($parsedUrl['host'], 'youtube.com') !== false || strpos($parsedUrl['host'], 'youtu.be') !== false) {
+                parse_str($parsedUrl['query'] ?? '', $queryParams);
+                $youtubeId = $queryParams['v'] ?? null;
+            } elseif (strpos($parsedUrl['host'], 'vimeo.com') !== false) {
+                $vimeoId = trim($parsedUrl['path'], '/');
+            }
+        }
+    @endphp
+
+    {{-- Embed YouTube Videos --}}
+    @if ($youtubeId)
+        <iframe width="100%" height="500"
+                src="https://www.youtube.com/embed/{{ $youtubeId }}"
+                frameborder="0" allowfullscreen allow="autoplay"></iframe>
+
+    {{-- Embed Vimeo Videos --}}
+    @elseif ($vimeoId)
+        <iframe width="100%" height="500"
+                src="https://player.vimeo.com/video/{{ $vimeoId }}"
+                frameborder="0" allowfullscreen allow="autoplay"></iframe>
+
+    {{-- Handle Direct MP4 Video Links --}}
+    @elseif (preg_match('/\.(mp4|webm|ogg)$/', $videoUrl))
+        <video width="100%" height="500" controls>
+            <source src="{{ $videoUrl }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+    {{-- If the URL is invalid or does not match known video formats --}}
+    @else
+        <p>Invalid video URL: <a href="{{ $videoUrl }}" target="_blank">{{ $videoUrl }}</a></p>
+    @endif
+
+@else
+    <p>No video available for this lesson.</p>
+@endif
+
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -116,28 +160,29 @@ $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
         let meetingUrl = '';
 
         function selectLesson(index, title, videoUrl, startTime, endTime, meetingLink) {
-            activeLessonIndex = index;
-            meetingUrl = meetingLink;
+    activeLessonIndex = index;
+    meetingUrl = meetingLink;
 
-            // Update lesson title
-            document.getElementById('lesson-title').innerText = title;
+    // Update lesson title
+    document.getElementById('lesson-title').innerText = title;
 
-            // Update video content
-            if (videoUrl) {
-                document.getElementById('lesson-video').innerHTML =
-                    `<iframe src="${videoUrl}" allowfullscreen allow="autoplay"></iframe>`;
-            } else {
-                document.getElementById('lesson-video').innerHTML = "<p>No video available for this lesson.</p>";
-            }
+    // Check if videoUrl is empty
+    if (videoUrl && videoUrl.trim() !== "") {
+        document.getElementById('lesson-video').innerHTML =
+            `<iframe src="${videoUrl}" width="100%" height="500" frameborder="0" allowfullscreen allow="autoplay"></iframe>`;
+    } else {
+        document.getElementById('lesson-video').innerHTML = "<p>No video available for this lesson.</p>";
+    }
 
-            // Remove active class from all lesson cards and add to the selected one
-            document.querySelectorAll('.lesson-card').forEach(card => card.classList.remove('active'));
-            document.getElementById(`lesson-card-${index}`).classList.add('active');
+    // Remove active class from all lesson cards and add to the selected one
+    document.querySelectorAll('.lesson-card').forEach(card => card.classList.remove('active'));
+    document.getElementById(`lesson-card-${index}`).classList.add('active');
 
-            // Clear previous countdown and start a new timer
-            clearInterval(countdownInterval);
-            updateCountdownTimer(startTime, endTime);
-        }
+    // Clear previous countdown and start a new timer
+    clearInterval(countdownInterval);
+    updateCountdownTimer(startTime, endTime);
+}
+
 
         function updateCountdownTimer(startTime, endTime) {
             let timerElement = document.getElementById('countdown-timer');

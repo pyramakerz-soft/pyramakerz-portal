@@ -155,12 +155,13 @@
                                     <div class="login__heading">
                                         <h5 class="login__title">sign up</h5>
                                         <p class="login__description">Already have an account? <a href="#"
-                                                data-bs-toggle="modal" data-bs-target="#registerModal">Log In</a></p>
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#projects__one">Log In</a></p>
                                     </div>
 
 
 
-                                    <form action="{{ route('register') }}" method="post">
+                                    <form action="{{ route('register-student') }}" method="post">
                                         @csrf
                                         <div class="row">
                                             <div class="col-xl-6">
@@ -171,22 +172,6 @@
 
                                                 </div>
                                             </div>
-                                            {{-- <div class="col-xl-6">
-                                                <div class="login__form">
-                                                    <label class="form__label">Last Name</label>
-                                                    <input class="common__login__input" type="password"
-                                                        placeholder="Last Name">
-
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="login__form">
-                                                    <label class="form__label">Username</label>
-                                                    <input class="common__login__input" type="text"
-                                                        placeholder="Username">
-
-                                                </div>
-                                            </div> --}}
                                             <div class="col-xl-6">
                                                 <div class="login__form">
                                                     <label class="form__label">Email</label>
@@ -198,16 +183,16 @@
                                             <div class="col-xl-6">
                                                 <div class="login__form">
                                                     <label class="form__label">Phone Number</label>
-                                                    <input class="common__login__input" type="tel"
-                                                        placeholder="Phone">
+                                                    <input class="common__login__input" type="text"
+                                                        placeholder="Phone" name="phone">
 
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
                                                 <div class="login__form">
                                                     <label class="form__label">Parent's Phone Number</label>
-                                                    <input class="common__login__input" type="tel"
-                                                        placeholder="Phone Number">
+                                                    <input class="common__login__input" type="text"
+                                                        placeholder="Phone Number" name="parent_phone">
 
                                                 </div>
                                             </div>
@@ -256,7 +241,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label">Re-Enter Password</label>
                                                     <input class="common__login__input" type="password"
-                                                        placeholder="Re-Enter Password">
+                                                        placeholder="Re-Enter Password" name="confirm_password">
 
                                                 </div>
                                             </div>

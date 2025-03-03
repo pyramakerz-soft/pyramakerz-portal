@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Course;
+use App\Models\CourseStudent;
 use App\Models\GroupStudent;
 use App\Models\StudentAnswer;
 use App\Models\StudentEnrollment;
@@ -139,16 +140,43 @@ public function submitTest(Request $request, $testId)
 {
     $student = Auth::guard('student')->user();
 
-    // Fetch the student's groups and related courses
-    $courses = GroupStudent::with([
+    // Fetch Active Courses: Courses where the student is assigned to a group
+    $groupCourses = GroupStudent::with([
         'group.course.instructor',
         'group.schedules.lesson'
     ])
     ->where('student_id', $student->id)
     ->get();
 
-    return view('student.enrolled-courses', compact('courses', 'student'));
+    // Fetch courses where the student is enrolled but NOT assigned to any group
+    $enrolledCourses = CourseStudent::with('course.instructor')
+        ->where('student_id', $student->id)
+        ->whereDoesntHave('course.groups.students', function ($query) use ($student) {
+            $query->where('student_id', $student->id);
+        })
+        ->get();
+
+    // Fetch Finished Courses: Courses where the student has completed all lessons
+    $finishedCourses = GroupStudent::with(['group.course.instructor', 'group.schedules.lesson'])
+        ->where('student_id', $student->id)
+        ->whereHas('group.schedules', function ($query) {
+            $query->where('date', '<', now()); // Courses that ended
+        })
+        ->get();
+
+    // Fetch Upcoming Courses: Courses that haven't started yet
+    $upcomingCourses = GroupStudent::with(['group.course.instructor', 'group.schedules.lesson'])
+        ->where('student_id', $student->id)
+        ->whereHas('group.schedules', function ($query) {
+            $query->where('date', '>', now()); // Future start date
+        })
+        ->get();
+
+    return view('student.enrolled-courses', compact('groupCourses', 'enrolledCourses', 'finishedCourses', 'upcomingCourses', 'student'));
 }
+
+
+
 
     public function mySummary(){
 

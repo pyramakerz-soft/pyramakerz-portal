@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Language;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Student;
@@ -34,6 +35,44 @@ class AuthController extends Controller
         ]);
 
         return redirect()->route('home');
+    }
+
+    public function registerStudent(Request $request){
+        //Validate all requests
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:students,email',
+            'phone' => 'required|string|max:255',
+            'parent_phone' => 'required|string|max:255',
+            'password' => 'required|string|min:6',
+            'country' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'bday' => 'required|string|max:255',
+        ]);
+        $user = new Student();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->country = $request->country;
+        $user->city = $request->city;
+        $user->bday = $request->bday;
+        $user->parent_phone = $request->parent_phone;
+        $user->password = Hash::make($request->password);
+        if($request->confirm_password != $request->password){
+            return back()->withErrors(['password' => 'Passwords do not match'])->withInput();
+        }
+        $user->save();
+    $student = Student::where('email', $request->email)->first();
+
+        event(new Registered($user));
+        Auth::guard('student')->login($student);
+
+        // Regenerate session to avoid session fixation attacks
+        $request->session()->regenerate();
+
+        return redirect()->route('my-progress');
+        // return
+        // redirect($this->redirectPath());
     }
     public function showSurvey($id)
     {
@@ -96,7 +135,7 @@ class AuthController extends Controller
         // Regenerate session to avoid session fixation attacks
         $request->session()->regenerate();
 
-        return redirect()->route('student-profile');
+        return redirect()->route('my-progress');
     }
 
     return back()->withErrors(['email' => 'Invalid credentials'])->withInput();

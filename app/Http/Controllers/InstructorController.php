@@ -277,33 +277,91 @@ public function timetable()
         return view('instructor.meeting', compact('meeting', 'group'));
     }
     
-public function updateAttendance(Request $request)
-{
-    // Validate the incoming request
-    $validated = $request->validate([
-        'student_id' => 'required|exists:students,id',
-        'status'     => 'required|in:0,1',
-        'meeting_id' => 'required|exists:meetings,id',
-    ]);
-
-    // Retrieve the meeting and the related group/student attendance record.
-    // For example, assume each student has an attendance record for the meeting.
-    // Adjust the logic below according to your schema.
-    $student = \App\Models\Student::findOrFail($validated['student_id']);
-
-    // Here, update the attendance field on the pivot or related attendance model.
-    // This is just an example; you may need to customize it.
-    $updated = $student->attendance()->updateOrCreate(
-        ['meeting_id' => $validated['meeting_id']],
-        ['is_present' => $validated['status']]
-    );
-
-    if ($updated) {
+    public function updateAttendance(Request $request)
+    {
+        // Validate request
+        $validated = $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'status'     => 'required|in:0,1',
+            'meeting_id' => 'required|exists:meetings,id',
+        ]);
+    
+        // Retrieve the meeting details
+        $meeting = \App\Models\Meeting::findOrFail($validated['meeting_id']);
+        
+        // Retrieve lesson details (to get course_path_id & path_of_path_id)
+        $lesson = \App\Models\Lesson::find($meeting->lesson_id);
+        $coursePathId = $lesson ? $lesson->course_path_id : null;
+        $pathOfPathId = $lesson ? $lesson->path_of_path_id : null;
+    
+        // Retrieve the group and course information
+        $group = \App\Models\Group::where('id', $meeting->group_id)->first();
+    
+        if (!$group) {
+            return response()->json(['success' => false, 'message' => 'Group not found for this meeting'], 400);
+        }
+    
+        $courseId = $group->course_id;
+    
+        // Find existing attendance record
+        $attendance = \App\Models\Attendance::where('student_id', $validated['student_id'])
+            ->where('course_id', $courseId)
+            ->when($coursePathId, fn($q) => $q->where('course_path_id', $coursePathId))
+            ->when($pathOfPathId, fn($q) => $q->where('path_of_path_id', $pathOfPathId))
+            ->first();
+    
+        // Get session index based on group schedule order
+        $scheduleSessions = $group->schedules->pluck('id')->toArray();
+        $currentSessionIndex = array_search($meeting->group_schedule_id, $scheduleSessions);
+    
+        if ($currentSessionIndex === false) {
+            return response()->json(['success' => false, 'message' => 'Invalid session index'], 400);
+        }
+    
+        if ($attendance) {
+            // Parse existing sessions
+            $attendanceSessions = is_string($attendance->sessions)
+                ? json_decode($attendance->sessions, true)
+                : ($attendance->sessions ?? []);
+    
+            // Ensure all previous sessions have values
+            for ($i = 0; $i <= $currentSessionIndex; $i++) {
+                if (!array_key_exists($i, $attendanceSessions)) {
+                    $attendanceSessions[$i] = 0;
+                }
+            }
+    
+            // Update attendance for the current session
+            $attendanceSessions[$currentSessionIndex] = (int) $validated['status'];
+    
+            // Save back to database
+            $attendance->sessions = json_encode($attendanceSessions, JSON_FORCE_OBJECT);
+            $attendance->save();
+        } else {
+            // Create new attendance record
+            $newSessions = [];
+            for ($i = 0; $i <= $currentSessionIndex; $i++) {
+                $newSessions[$i] = 0;
+            }
+    
+            $newSessions[$currentSessionIndex] = (int) $validated['status'];
+    
+            $attendance = \App\Models\Attendance::create([
+                'user_id'         => Auth::guard('admin')->user()->id,
+                'student_id'      => $validated['student_id'],
+                'course_id'       => $courseId,
+                'course_path_id'  => $coursePathId,
+                'path_of_path_id' => $pathOfPathId,
+                'day'             => \Carbon\Carbon::parse($meeting->start_time)->format('l'),
+                'time'            => \Carbon\Carbon::parse($meeting->start_time)->format('H:i:s'),
+                'status'          => 'Online',
+                'sessions'        => json_encode($newSessions, JSON_FORCE_OBJECT),
+            ]);
+        }
+    
         return response()->json(['success' => true, 'message' => 'Attendance updated successfully!']);
     }
-
-    return response()->json(['success' => false, 'message' => 'Attendance update failed!'], 400);
-}
+    
 public function viewHomework(Request $request)
 {
     $validated = $request->validate([

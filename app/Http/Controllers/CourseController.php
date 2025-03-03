@@ -6,7 +6,9 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\CoursesPath;
 use App\Models\PathOfPath;
+use App\Models\StudentEnrollment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -178,7 +180,31 @@ class CourseController extends Controller
 
     return view('student.course-details', compact('course'));
 }
+public function enrollNow($id){
+    //Validate that this student didnt enroll in the same course or any course before
+    $enrollment = StudentEnrollment::where('student_id',Auth::guard('student')->user()->id)->where('course_id',$id)->first();
+    if($enrollment){
+        return redirect()->back()->with('error','You already enrolled in this course');
+    }
+    // or any other course
+    $enrollment = StudentEnrollment::where('student_id',Auth::guard('student')->user()->id)->first();
+    if($enrollment){
+        return redirect()->back()->with('error','You already enrolled in a course');
+    }
+    $course = Course::findOrFail($id);
+    $enrollment = new StudentEnrollment();
+    $enrollment->student_id = Auth::guard('student')->user()->id;
+    $enrollment->course_id = $course->id;
+    $enrollment->save();
+    return redirect()->route('courses.show', $course->id)
+    ->with('success', 'Enrollment request sent, waiting for approval');
+}
+public function studentJoinNow(){
+$user = Auth::guard('student')->user();
+$course = Course::where('year',$user->year)->where('favor',1)->first();
+return view('student.course-details',compact('course'));
 
+}
 
     /**
      * Show the form for editing the specified resource.
