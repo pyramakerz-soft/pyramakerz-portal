@@ -59,7 +59,7 @@ class StudentController extends Controller
     }
 
     // Fetch Students
-    $students = $query->paginate(10);
+    $students = $query->simplePaginate(10);
 
     // Fetch all available courses & groups for filtering
     $courses = Course::all();

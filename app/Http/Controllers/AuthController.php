@@ -32,9 +32,10 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'student'
         ]);
 
-        return redirect()->route('home');
+        return redirect()->route('student-courses');
     }
 
     public function registerStudent(Request $request){

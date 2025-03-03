@@ -12,37 +12,49 @@ use App\Models\Student;
 class StudentsImport implements ToCollection, WithHeadingRow
 {
     public function collection(Collection $rows)
-    {
-        $studentsToInsert = [];
-        foreach ($rows as $row) {
-            // Check if student already exists by email or phone
-            $exists = Student::where('email', $row['email'])
-                ->orWhere('phone', $row['phone'])
-                ->exists();
+{
+    $studentsToInsert = [];
+    
+    foreach ($rows as $row) {
+        // Remove spaces from the name
+        $cleanName = str_replace(' ', '', $row['name']);
+        
+        // Extract the first 4 digits of the phone number
+        $phonePrefix = substr($row['phone'], 0, 4);
 
-            if (!$exists) {
-                $studentsToInsert[] = [
-                    'name'         => $row['name'],
-                    'email'        => $row['email'],
-                    'phone'        => $row['phone'],
-                    'parent_phone' => $row['parent_phone'],
-                    'country'      => $row['country'],
-                    'city'         => $row['city'],
-                    'school'       => $row['school'],
-                    'gender'       => $row['gender'],
-                    'bday'         => $this->convertToDate($row['bday']),
-                    'year'         => $row['year'],
-                    'password'     => Hash::make('password'),
-                    'created_at'   => now(),
-                    'updated_at'   => now(),
-                ];
-            }
-        }
-        // Bulk Insert all non-duplicate students at once
-        if (!empty($studentsToInsert)) {
-            Student::insert($studentsToInsert);
+        // Generate custom email format
+        $generatedEmail = strtolower($cleanName) . $phonePrefix . '@alpha.com';
+
+        // Check if student already exists by email or phone
+        $exists = Student::where('email', $generatedEmail)
+            ->orWhere('phone', $row['phone'])
+            ->exists();
+
+        if (!$exists) {
+            $studentsToInsert[] = [
+                'name'         => $row['name'],
+                'email'        => $generatedEmail,
+                'phone'        => $row['phone'],
+                'parent_phone' => $row['parent_phone'],
+                'country'      => $row['country'],
+                'city'         => $row['city'],
+                'school'       => $row['school'],
+                'gender'       => $row['gender'],
+                'bday'         => $this->convertToDate($row['bday']),
+                'year'         => $row['year'],
+                'password'     => Hash::make('password'),
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ];
         }
     }
+
+    // Bulk Insert all non-duplicate students at once
+    if (!empty($studentsToInsert)) {
+        Student::insert($studentsToInsert);
+    }
+}
+
 
     private function convertToDate($value)
     {

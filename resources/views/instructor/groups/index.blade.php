@@ -167,7 +167,7 @@
                                         <li>
                                             <div class="course__summery__item">
                                                 <span class="sb_label">Total Students:</span>
-                                                <span class="sb_content">{{ $group->students->count() ?? 0 }}</span>
+                                                <span class="sb_content">{{ isset($group) ? $group->students->count() : 0 }}</span>
 
                                             </div>
                                         </li>

@@ -18,7 +18,7 @@
                         <div class="col-xl-9 col-lg-9 col-md-12">
                             <div class="dashboard__content__wraper">
                                 <div class="dashboard__section__title">
-                                    <div class="row"><h4>Course: {{ $group->course->name }} - {{ $schedule->lesson->coursePath->name }} - {{ $schedule->lesson->pathOfPath->name }} - {{ $group->name }}</h4></div>
+                                    <div class="row"><h4>Course: {{ $group->course->name }} - {{ $schedule->lesson->coursePath->name }} - {{ $schedule->lesson->pathOfPath ? $schedule->lesson->pathOfPath->name : '' }} - {{ $group->name }}</h4></div>
                                     <br>
                                     <div class="row"><h4>Instructor: {{ $group->instructor->name }}</h4></div>
                                     <div class="row"><h4>Lesson: {{ $schedule->lesson->title ?? 'N/A' }}</h4></div>
