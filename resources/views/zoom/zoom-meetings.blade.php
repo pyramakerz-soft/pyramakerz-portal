@@ -10,27 +10,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .content-wrapper {
-            display: flex;
-            width: 100%;
-            margin-left: 0
-        }
-
-        .sidebar {
-            width: 20%;
-            padding: 20px;
-        }
-
-        .content-container {
-            flex-grow: 1;
-            padding: 30px;
-        }
-
         .meeting-card {
             background: white;
             border-radius: 12px;
@@ -157,7 +136,7 @@
 
                                                 @if (!$isPastMeeting)
                                                     <a href="{{ route('instructor.meeting', $meeting->id) }}"
-                                                        target="_blank" class="join-btn">🔗 Join Zoom Meeting</a>
+                                                        target="_blank" class="default_button ">🔗 Join Zoom Meeting</a>
                                                 @else
                                                     <p class="text-muted"><strong>❌ Meeting Expired</strong></p>
                                                 @endif
