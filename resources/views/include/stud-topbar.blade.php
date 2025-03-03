@@ -83,6 +83,7 @@
                                         <polyline points="12 5 19 12 12 19"></polyline>
                                     </svg></a>
                             </div>
+                            @if()
                             <div class="dashboardarea__right__button">
                                 <a class="default__button" href="{{ route('courses.all') }}">Send Ticket
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

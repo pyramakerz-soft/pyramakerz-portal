@@ -54,7 +54,7 @@
                                                 </div>
                                                 <div class="counter__content__wraper">
                                                     <div class="counter__number">
-                                                        <span class="counter">{{ $courses }}</span>
+                                                        <span class="counter">0</span>
 
                                                     </div>
                                                     <p>Total Points</p>
@@ -72,7 +72,7 @@
                                                 </div>
                                                 <div class="counter__content__wraper">
                                                     <div class="counter__number">
-                                                        <span class="counter">08</span>
+                                                        <span class="counter">0</span>
 
                                                     </div>
                                                     <p>Complete Courses</p>
@@ -90,7 +90,7 @@
                                                 </div>
                                                 <div class="counter__content__wraper">
                                                     <div class="counter__number">
-                                                        <span class="counter">12</span>
+                                                        <span class="counter">0</span>
 
                                                     </div>
                                                     <p>Earned Hours</p>
