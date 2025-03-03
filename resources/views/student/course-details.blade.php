@@ -35,12 +35,12 @@
                         </div>
 
                         <div class="course__details__top--2">
-                            <div class="course__button__wraper" data-aos="fade-up">
+                            {{-- <div class="course__button__wraper" data-aos="fade-up">
                                 <div class="course__button">
                                     <a href="#">Featured</a>
                                     <a class="course__2" href="#">{{ $course->skill_level ?? 'N/A' }}</a>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="course__details__heading" data-aos="fade-up">
                                 <h3>{{ $course->name ?? 'Course Title' }}</h3>
                             </div>
@@ -52,7 +52,7 @@
                                             {{ isset($course) ? $course->totalLessonsCount() : 0 }} Lessons
                                         </div>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <div class="course__star">
                                             <i class="icofont-star"></i>
                                             <i class="icofont-star"></i>
@@ -61,7 +61,7 @@
                                             <i class="icofont-star"></i>
                                             <span>(44 Reviews)</span>
                                         </div>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </div>
@@ -251,7 +251,7 @@
                                     @endif
                                 </div>
 
-                                <div class="course__summery__lists">
+                                {{-- <div class="course__summery__lists">
                                     <ul>
                                         <li>
                                             <div class="course__summery__item">
@@ -272,7 +272,7 @@
                                             </div>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

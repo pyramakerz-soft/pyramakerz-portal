@@ -51,7 +51,7 @@
                                             {{ isset($course) ? $course->totalLessonsCount() : 0 }} Lessons
                                         </div>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <div class="course__star">
                                             <i class="icofont-star"></i>
                                             <i class="icofont-star"></i>
@@ -60,7 +60,7 @@
                                             <i class="icofont-star"></i>
                                             <span>(44 Reviews)</span>
                                         </div>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                         </div>
