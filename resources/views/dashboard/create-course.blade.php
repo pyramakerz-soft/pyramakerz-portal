@@ -66,7 +66,11 @@
                                                     </div>
                                                     <div class="col-xl-6 dashboard__form__input">
                                                         <label>Age Group</label>
-                                                        <input type="number" name="age_group_id" placeholder="Age Group" required>
+                                                        @foreach(\App\Models\AgeGroup::all() as $age_group)
+                                                        <select name="age_group" id="age_group">
+                                                        <option value="{{$age_group->id }}">{{ $age_group->name }}</option>
+                                                        </select>
+                                                        {{-- <input type="number" name="age_group_id" placeholder="Age Group" required> --}}
                                                     </div>
                                                 </div>
                                                 <div class="row">
