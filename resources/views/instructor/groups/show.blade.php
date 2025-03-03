@@ -294,7 +294,12 @@
                 $.post("{{ route('instructor.meetings.create_all', '') }}/" + groupId, {
                     _token: "{{ csrf_token() }}"
                 }, function(response) {
-                    Swal.fire("Success", response.message, "success")
+                    Swal.fire({
+                            title: "Success",
+                            text: response.message,
+                            icon: "success",
+                            confirmButtonColor: '#ff7918',
+                        })
                         .then(() => location.reload());
                 }).fail(function(xhr) {
                     Swal.fire("Error", xhr.responseText, "error");
