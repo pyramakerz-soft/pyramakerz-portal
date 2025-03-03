@@ -66,11 +66,11 @@
         <div class="blogarea__2 sp_top_80 sp_bottom_100">
             <div class="container-fluid full__width__padding">
                 <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-12">
+                    <div class="col-xl-3 col-lg-3 col-md-12" data-aos="fade-up">
                         @include('include.sidebar')
 
                     </div>
-                    <div class="col-xl-6 col-lg-6">
+                    <div class="col-xl-6 col-lg-6" data-aos="fade-up">
                         <div class="blog__details__content__wraper">
                             <div class="course__details__tab__wrapper" data-aos="fade-up">
                                 <div class="tab-content tab__content__wrapper" id="myTabContent">

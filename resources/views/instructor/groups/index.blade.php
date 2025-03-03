@@ -25,7 +25,7 @@
         <div class="breadcrumbarea breadcrumbarea--2">
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-8">
+                    <div class="col-xl-8" data-aos="fade-up">
                         <div class="breadcrumb__content__wraper">
                             <div class="breadcrumb__inner text-start">
                                 <ul>
@@ -63,11 +63,11 @@
         <div class="blogarea__2 sp_top_80 sp_bottom_100">
             <div class="container-fluid full__width__padding">
                 <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-12">
+                    <div class="col-xl-3 col-lg-3 col-md-12" data-aos="fade-up">
                         @include('include.admin-sidebar')
 
                     </div>
-                    <div class="col-xl-6 col-lg-6">
+                    <div class="col-xl-6 col-lg-6" data-aos="fade-up">
                         <div class="blog__details__content__wraper">
                             <div class="course__details__tab__wrapper">
                                 <div class="experence__heading">
@@ -120,7 +120,7 @@
                     </div>
 
                     <!-- Sidebar -->
-                    <div class="col-xl-3 col-lg-3">
+                    <div class="col-xl-3 col-lg-3" data-aos="fade-up">
                         <div class="course__details__sidebar--2">
                             <div class="event__sidebar__wraper">
                                 <div class="blogarae__img__2 course__details__img__2">
