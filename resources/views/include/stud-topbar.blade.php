@@ -9,7 +9,7 @@
                         <div class="dashboardarea__left">
                             <div class="dashboardarea__left__img">
                                 <img loading="lazy"
-                                    src="{{ Auth::guard('student')->user() ? asset('student_photos/' . Auth::guard('student')->user()->photo) : asset('student_photos/17348674791579649013569.jpg') }}"
+                                    src="{{ asset('student_photos/17348674791579649013569.jpg') }}"
                                     alt="User Photo">
 
 
