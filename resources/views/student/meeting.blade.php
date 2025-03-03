@@ -289,7 +289,7 @@
                                 title: "Meeting not started",
                                 text: "The meeting has not started yet. Please wait a few moments and try again.",
                                 icon: "warning",
-                                confirmButtonColor: '#ff7918',
+                                confirmButtonColor: '#ff7918'
                             });
 
 
