@@ -286,7 +286,7 @@
                                     <div class="gridarea__wraper gridarea__wraper__2 gridarea__course__list"
                                         data-aos="fade-up">
                                         <div class="gridarea__img">
-                                            <a href="course-details.html"><img loading="lazy"
+                                            <a href="{{ route('courses.show', $course->id) }}"><img loading="lazy"
                                                     src="{{ $course->image ? asset($course->image) : asset('img/course.jpg') }}"
                                                     alt="{{ $course->name }}"></a>
                                             <div class="gridarea__small__button">
