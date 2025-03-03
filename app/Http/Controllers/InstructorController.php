@@ -387,10 +387,10 @@ public function viewHomework(Request $request)
 {
     // Ensure the course is fetched with groups
     $course = Course::with('groups.students')->findOrFail($id);
-
+    $instructors = User::where('role', 'teacher')->get();
     // Debugging: Check if the groups are loaded
 
-    return view('instructor.groups.index', compact('course'));
+    return view('instructor.groups.index', compact('course','instructors'));
 }
 public function createGroup(Request $request)
 {
@@ -400,6 +400,7 @@ public function createGroup(Request $request)
 
     $validatedData = $request->validate([
         'name' => 'required|string|max:255',
+        'instructor_id' => 'required|exists:users,id',
         'course_id' => 'required|exists:courses,id',
         'weekly_sessions' => 'required|integer|min:1|max:7',
         'start_date' => 'required|date',
@@ -416,7 +417,7 @@ public function createGroup(Request $request)
     $group = Group::create([
         'name' => $validatedData['name'],
         'course_id' => $validatedData['course_id'],
-        'instructor_id' => $course->instructor_id
+        'instructor_id' => $validatedData['instructor_id'],
     ]);
 
     // ✅ Generate schedules using selected days

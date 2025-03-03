@@ -80,7 +80,7 @@
     @include('include.admin-sidebar')
                                 
 
-                                <div class="dashboard__nav__title mt-40">
+                                {{-- <div class="dashboard__nav__title mt-40">
                                     <h6>user</h6>
                                 </div>
 
@@ -114,7 +114,7 @@
 
 
                                     </ul>
-                                </div>
+                                </div> --}}
 
 
                             </div>

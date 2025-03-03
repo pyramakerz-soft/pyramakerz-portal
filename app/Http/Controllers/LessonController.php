@@ -134,41 +134,44 @@ public function storeLesson(Request $request)
      * Upload material for a lesson.
      */
     public function uploadResource(Request $request)
-{
-    // Validate the incoming request.
-    $request->validate([
-        'lesson_id'          => 'required|exists:lessons,id',
-        'material'           => 'required|file|mimes:pdf,doc,docx,ppt,pptx,zip,rar|max:10240',
-        // Optionally, you can pass these if the resource is specific to a group/session.
-        'group_id'           => 'nullable|exists:groups,id',
-        'group_schedule_id'  => 'nullable|exists:group_schedules,id',
-        'title'              => 'nullable|string|max:255',
-        'description'        => 'nullable|string',
-    ]);
-
-    // Store the uploaded file.
-    $filePath = $request->file('material')->store('lesson_materials', 'public');
+    {
+        $request->validate([
+            'lesson_id'  => 'required|exists:lessons,id',
+            'type'       => 'required|in:session,teaching_guide,project,quiz,assignment,handout',
+            'file'       => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx,zip,rar|max:10240',
+            'link'       => 'nullable|url|max:500',
+            'title'      => 'nullable|string|max:255',
+            'description'=> 'nullable|string',
+        ]);
     
-    // Optional: Determine a resource type from the file extension.
-    $extension = $request->file('material')->getClientOriginalExtension();
-    $resourceType = strtolower($extension);
+        $filePath = null;
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('lesson_materials', 'public');
+        }
     
-    // Create a new lesson resource record.
-    $resource = \App\Models\LessonResource::create([
-         'lesson_id'          => $request->lesson_id,
-         'group_id'           => $request->group_id, // Optional; can be null
-         'group_schedule_id'  => $request->group_schedule_id, // Optional; can be null
-         'uploader_id'        => Auth::guard('admin')->user()->id,
-         'title'              => $request->input('title') ?? $request->file('material')->getClientOriginalName(),
-         'description'        => $request->input('description'),
-         'file_path'          => $filePath,
-         'resource_type'      => $resourceType,
-    ]);
-
-    return response()->json([
-        'message'  => 'Resource uploaded successfully!',
-        'resource' => $resource
-    ], 200);
-}
+        // Assign visibility based on type
+        $visibility = match ($request->type) {
+            'session', 'teaching_guide', 'project' => 'instructor',
+            'quiz', 'assignment'                   => 'both',
+            'handout'                               => 'student',
+            default                                 => 'both',
+        };
+    
+        \App\Models\LessonResource::create([
+            'lesson_id'  => $request->lesson_id,
+            'uploader_id'=> Auth::id(),
+            'title'      => $request->input('title') ?? 'Resource',
+            'description'=> $request->input('description'),
+            'file_path'  => $filePath,
+            'resource_link' => $request->link,
+            'resource_type'=> $request->type,
+            'visible_to' => $visibility,  // New column
+        ]);
+    
+        return response()->json([
+            'message' => 'Resource uploaded successfully!',
+        ], 200);
+    }
+    
 
 }

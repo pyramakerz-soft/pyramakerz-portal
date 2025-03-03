@@ -194,6 +194,13 @@
                 <label style="font-weight: 600;">Group Name</label>
                 <input type="text" id="group_name" class="swal2-input" placeholder="Enter group name">
 
+                <label style="font-weight: 600;">Instructor</label>
+                <select id="instructor_id" class="swal2-input" style="border-radius: 8px;">
+                    <option value="">Select Instructor</option>
+                    @foreach ($instructors as $instructor)
+                        <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
+                    @endforeach
+
                 <label style="font-weight: 600;">Number of Weekly Sessions</label>
                 <input type="number" id="weekly_sessions" class="swal2-input" min="1" max="7" placeholder="Sessions per week" oninput="generateSessionDays()">
 
@@ -218,6 +225,7 @@
                     confirmButtonText: "Save",
                     preConfirm: () => {
                         let groupName = $("#group_name").val();
+                        let instructorId = $("#instructor_id").val();
                         let weeklySessions = $("#weekly_sessions").val();
                         let startDate = $("#start_date").val();
                         let startTime = $("#start_time").val();
@@ -236,6 +244,7 @@
 
                         return {
                             name: groupName,
+                            instructor_id: instructorId,
                             weekly_sessions: weeklySessions,
                             start_date: startDate,
                             start_time: startTime,
@@ -252,6 +261,7 @@
                             data: {
                                 _token: "{{ csrf_token() }}",
                                 name: result.value.name,
+                                instructor_id: result.value.instructor_id,
                                 weekly_sessions: result.value.weekly_sessions,
                                 start_date: result.value.start_date,
                                 start_time: result.value.start_time,
