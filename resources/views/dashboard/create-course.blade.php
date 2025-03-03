@@ -70,6 +70,7 @@
                                                         <select name="age_group" id="age_group">
                                                         <option value="{{$age_group->id }}">{{ $age_group->name }}</option>
                                                         </select>
+                                                        @endforeach
                                                         {{-- <input type="number" name="age_group_id" placeholder="Age Group" required> --}}
                                                     </div>
                                                 </div>
