@@ -152,7 +152,7 @@
 
                                 {{-- @dd($student_to_inst); --}}
                                 <div class="dashboard__section__title mt-5">
-                                    <h4>✍️ Manual Evaluations</h4>
+                                    <h4>✍️ Student Evaluations</h4>
                                 </div>
 
                                 <div class="table-responsive">
