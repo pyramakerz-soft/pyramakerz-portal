@@ -199,6 +199,8 @@
     <script src="https://source.zoom.us/zoom-meeting-embedded-3.6.0.min.js"></script>
     <!-- SweetAlert Library -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @include('include.scripts')
 
     <main class="main_wrapper overflow-hidden">
         @include('include.admin-topbar')
