@@ -35,7 +35,7 @@
                                                 <th>Performance</th>
                                                 <th>Homework</th>
                                                 <th>Project</th>
-                                                <th>Details</th>
+                                                {{-- <th>Details</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -73,7 +73,7 @@
                                                         <td>{{ $evaluationDetails[0]['performance'] ?? 'N/A' }}</td>
                                                         <td>{{ $evaluationDetails[0]['homework'] ?? 'N/A' }}</td>
                                                         <td>{{ $evaluationDetails[0]['project'] ?? 'N/A' }}</td>
-                                                        <td>{{ $schedule->lesson->coursePath->name }} - {{ $schedule->lesson->pathOfPath->name }}</td>
+                                                        {{-- <td>{{ $schedule->lesson->coursePath->name }} - {{ $schedule->lesson->pathOfPath->name }}</td> --}}
                                                     </tr>
                                                 @endif
                                             @endforeach
