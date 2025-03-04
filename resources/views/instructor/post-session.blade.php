@@ -163,7 +163,7 @@
                     @endif
 
                     <!-- Upload Resources Section (unchanged) -->
-                    @if(Auth::guard('admin')->user()->can('lessonresource-create'))
+                    {{-- @if(Auth::guard('admin')->user()->can('lessonresource-create'))
                     <div class="upload-section mt-4">
                         <h5>Upload Session Handouts / Resources</h5>
                         <form id="uploadResourceForm" action="{{ route('lesson.uploadMaterial') }}" method="POST" enctype="multipart/form-data">
@@ -201,7 +201,7 @@
                             <button type="submit" class="btn btn-custom mt-2">Upload Resource</button>
                         </form>
                     </div>
-                    @endif
+                    @endif --}}
                 </div>
             </div>
             </div>

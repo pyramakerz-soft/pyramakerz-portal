@@ -48,6 +48,7 @@
                 <li><a href="{{ route('admin.instructors.index') }}"><i class="feather feather-users"></i> Manage Instructors</a></li>
                 <li><a href="{{ route('admin.students.index') }}"><i class="feather feather-users"></i> Manage Students</a></li>
                 <li><a href="{{ route('admin.evaluations.index') }}"><i class="feather feather-bar-chart-2"></i> Evaluations</a></li>
+                <li><a href="{{ route('admin.evaluations.manual') }}"><i class="feather feather-clipboard"></i> Manual Evaluations</a></li>
                 <li><a href="{{ route('admin.track-progress.index') }}"><i class="feather feather-trending-up"></i> Track Progress</a></li>
                 <li><a href="{{ route('admin.attendance.index') }}"><i class="feather feather-calendar"></i> Attendance</a></li>
                 <li><a href="{{ route('admin.enrollment_requests') }}"><i class="feather feather-user-check"></i> Enrollment Requests</a></li>
