@@ -223,7 +223,7 @@
             $(".view-comments-btn").click(function() {
                 let evaluationId = $(this).data("id");
 
-                $.get("{{ url('/admin/evaluations/manual/comments') }}/" + evaluationId, function(
+                $.get("{{ url('https://dev-pyramakerz.cloud/pyramakerz-portal/public/supervisor/instructors/comments') }}/" + evaluationId, function(
                     comments) {
                     let commentsHtml = comments.length ? "" : "<p>No comments yet.</p>";
 
