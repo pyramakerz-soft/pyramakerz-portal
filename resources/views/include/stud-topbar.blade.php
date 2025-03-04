@@ -23,7 +23,7 @@
                                             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                                             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                                         </svg>
-                                        9 Completed Courses
+                                        0 Completed Courses
                                     </li>
                                     <li>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -34,7 +34,7 @@
                                             <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88">
                                             </polyline>
                                         </svg>
-                                        8 Certificate
+                                        0 Certificate
                                     </li>
                                 </ul>
 
