@@ -193,37 +193,49 @@
                                             <tbody>
                                                 @foreach ($attendances as $attendance)
                                                     @php
-                                                        $sessionData = is_string($attendance->sessions) ? json_decode($attendance->sessions, true) : (is_array($attendance->sessions) ? $attendance->sessions : []);
+                                                        // Decode the sessions JSON if it's stored as a string in the database
+                                                        $sessionData = is_string($attendance->sessions) 
+                                                            ? json_decode($attendance->sessions, true) 
+                                                            : (is_array($attendance->sessions) ? $attendance->sessions : []);
                                                     @endphp
-                                    
+                                            
                                                     <tr>
                                                         <td>pyra-{{ $attendance->student->id ?? '0' }}</td>
                                                         <td>{{ optional($attendance->student)->name ?? 'N/A' }}</td>
-                                    
+                                            
                                                         @foreach ($coursePaths as $coursePath)
-                                                            @if (count($coursePath->paths) > 0)
-                                                                @foreach ($coursePath->paths as $subPath)
-                                                                    @foreach ($allSessions as $index => $session)
-                                                                        @php
-                                                                            $attendanceData = ($attendance->course_path_id == $coursePath->id && $attendance->path_of_path_id == $subPath->id) ? ($sessionData[$index] ?? null) : null;
-                                                                        @endphp
-                                                                        <td>{!! $attendanceData === 1 ? '✔' : ($attendanceData === 0 ? '✘' : '—') !!}</td>
-                                                                    @endforeach
+                                                            @foreach ($coursePath->paths as $subPath)
+                                                                @foreach ($allSessions as $index => $session)
+                                                                    @php
+                                                                        // Ensure the attendance matches the correct course_path_id and path_of_path_id
+                                                                        $attendanceData = 
+                                                                            ($attendance->course_path_id == $coursePath->id && 
+                                                                            $attendance->path_of_path_id == $subPath->id)
+                                                                                ? ($sessionData[$index] ?? null)
+                                                                                : null;
+                                                                    @endphp
+                                                                    <td>{!! $attendanceData === 1 ? '✔' : ($attendanceData === 0 ? '✘' : '—') !!}</td>
                                                                 @endforeach
-                                                            @else
-                                                                @foreach ($lessons->where('course_path_id', $coursePath->id) as $lesson)
-                                                                    @foreach ($allSessions as $index => $session)
-                                                                        @php
-                                                                            $attendanceData = ($attendance->course_path_id == $coursePath->id && $attendance->lesson_id == $lesson->id) ? ($sessionData[$index] ?? null) : null;
-                                                                        @endphp
-                                                                        <td>{!! $attendanceData === 1 ? '✔' : ($attendanceData === 0 ? '✘' : '—') !!}</td>
-                                                                    @endforeach
-                                                                @endforeach
-                                                            @endif
+                                                            @endforeach
+                                                        @endforeach
+                                            
+                                                        {{-- Handle Lessons without paths --}}
+                                                        @foreach ($lessons as $lesson)
+                                                            @foreach ($allSessions as $index => $session)
+                                                                @php
+                                                                    $lessonAttendanceData = 
+                                                                        ($attendance->course_id == $lesson->course_id && 
+                                                                        is_null($attendance->path_of_path_id)) 
+                                                                            ? ($sessionData[$index] ?? null)
+                                                                            : null;
+                                                                @endphp
+                                                                <td>{!! $lessonAttendanceData === 1 ? '✔' : ($lessonAttendanceData === 0 ? '✘' : '—') !!}</td>
+                                                            @endforeach
                                                         @endforeach
                                                     </tr>
                                                 @endforeach
                                             </tbody>
+                                            
                                         </table>
                                     </div>
                                     
