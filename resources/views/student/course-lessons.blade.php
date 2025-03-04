@@ -51,7 +51,7 @@ $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
                                 @endphp
 
                                 @if ($isSessionCompleted)
-                                    <a href="{{route('showEvaluationForm',$meeting->id)}}"
+                                    <a href="{{route('meetings.evaluate',$meeting->id)}}"
                                         class="btn btn-sm default__button">Evaluate Session</a>
                                 @endif
 
