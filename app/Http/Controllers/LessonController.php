@@ -147,7 +147,8 @@ public function uploadResource(Request $request)
     if ($request->hasFile('file')) {
         $file = $request->file('file');
         $originalExtension = $file->getClientOriginalExtension();
-        $originalName = $file->getClientOriginalName();
+        $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
         $timestamp = time();
 
         // If it's a handout and a zip file, extract it
