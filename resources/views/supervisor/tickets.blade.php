@@ -50,7 +50,7 @@
                                                 <td>{{ Str::limit($ticket->message, 50) }}</td>
                                                 <td>
                                                     @if ($ticket->attachment)
-                                                        <a href="{{ asset('storage/' . $ticket->attachment) }}" target="_blank" class="btn btn-sm btn-outline-info">
+                                                        <a href="{{ asset($ticket->attachment) }}" target="_blank" class="btn btn-sm btn-outline-info">
                                                             View
                                                         </a>
                                                     @else
@@ -61,7 +61,7 @@
                                                 <td>
                                                     <button class="btn btn-sm btn-primary view-ticket-btn"
                                                         data-message="{{ $ticket->message }}"
-                                                        data-attachment="{{ $ticket->attachment ? asset('storage/' . $ticket->attachment) : '' }}">
+                                                        data-attachment="{{ $ticket->attachment ? asset( $ticket->attachment) : '' }}">
                                                         <i class="icofont-eye"></i> View
                                                     </button>
                                                 </td>
