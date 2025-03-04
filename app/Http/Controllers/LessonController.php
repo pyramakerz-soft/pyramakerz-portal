@@ -153,7 +153,7 @@ public function uploadResource(Request $request)
         // If it's a handout and a zip file, extract it
         if ($request->type === 'handout' && $originalExtension === 'zip') {
             $lessonId = $request->lesson_id;
-            $destinationPath = public_path("lesson_materials/handouts/{$lessonId}/{$timestamp}/{$originalName}");
+            $destinationPath = public_path("lesson_materials/handouts/{$lessonId}/{$timestamp}/{$originalName}/");
 
             // Create directory if not exists
             if (!File::exists($destinationPath)) {
