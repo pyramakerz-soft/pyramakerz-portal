@@ -23,6 +23,10 @@ class Course extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function lessons()
+    {
+        return $this->belongsTo(Lesson::class);
+    }
     public function totalLessonsCount()
     {
         return Lesson::whereIn('course_path_id', $this->coursePaths->pluck('id'))
