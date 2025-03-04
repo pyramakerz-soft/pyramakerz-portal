@@ -8,12 +8,11 @@ use App\Models\Attendance;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\CoursesPath;
-use App\Models\Lesson;
 
 class AttendanceController extends Controller {
     public function index(Request $request) {
         $instructors = User::where('role', 'teacher')->get();
-        $courses = Course::with(['coursePaths.paths', 'lessons'])->get(); // Load related paths & lessons
+        $courses = Course::all();
         $sessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4'];
     
         $query = Attendance::query();
@@ -45,19 +44,8 @@ class AttendanceController extends Controller {
                 ]);
             });
     
-        // ✅ Fetch all lessons that are NOT inside a path
-        $lessonsWithoutPaths = Lesson::whereNull('path_of_path_id')->get();
-    
-        return view('supervisor.attendance', compact(
-            'attendanceRecords',
-            'sessions',
-            'instructors',
-            'courses',
-            'lessonsWithoutPaths' // Pass standalone lessons to the view
-        ));
+        return view('supervisor.attendance', compact('attendanceRecords', 'sessions', 'instructors', 'courses'));
     }
-    
-    
     public function studentDetails($id){
         $student = User::findOrFail($id);
         $courses = Course::all();
