@@ -26,7 +26,7 @@ class InstructorController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        User::create([
+        $instructor = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -34,7 +34,7 @@ class InstructorController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'teacher'
         ]);
-
+        $instructor->assignRole('instructor');
         return response()->json(['message' => 'Instructor added successfully!']);
     }
 }
