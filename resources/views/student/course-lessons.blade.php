@@ -203,7 +203,7 @@ $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
                 } else if (now > startTime && now < endTime) {
                     timerElement.classList.add('status-late');
                     timerElement.innerHTML =
-                        `<a href="{{route('meetings.show')}}" class="btn btn-warning">Join Session Late</a>`;
+                        `<a href="{{route('meetings.show',$meetingUrl)}}" class="btn btn-warning">Join Session Late</a>`;
                 } else {
                     timerElement.classList.add('status-very-late');
                     timerElement.innerText = "Session Ended";
