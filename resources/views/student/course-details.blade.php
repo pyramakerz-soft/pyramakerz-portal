@@ -278,7 +278,7 @@
                                             href="{{ route('student.enroll-now', $course->id) }}">Enroll Now</a>
                                     @endif
                                 </div>
-
+                                @endif
                                 {{-- <div class="course__summery__lists">
                                     <ul>
                                         <li>
