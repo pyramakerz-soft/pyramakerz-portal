@@ -7,44 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    <style>
-        .breadcrumbarea {
-            margin-bottom: 20px;
-        }
 
-        .profile-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .calendar-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        #calendar {
-            max-width: 100%;
-            margin: 0 auto;
-        }
-
-        .filters-container {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .filter-dropdown {
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            width: 200px;
-        }
-    </style>
 </head>
 
 <body class="body__wrapper">
