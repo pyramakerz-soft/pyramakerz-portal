@@ -53,7 +53,34 @@
         <div class="dashboard">
             <div class="container-fluid full__width__padding">
                 <div class="row">
-                    
+                    <div class="col-xl-3 col-lg-3 col-md-12">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                @include('include.sidebar')
+                            </div>
+                            <!-- Sidebar: Session Details -->
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="dashboard__single__counter" style="color:black !important">
+                                    <h3>Session Details</h3>
+                                    <p><strong>Date:</strong>
+                                        {{ \Carbon\Carbon::parse($meeting->start_time)->format('M d, Y') }}
+                                    </p>
+                                    <p><strong>Duration:</strong> {{ $meeting->duration }} mins</p>
+                                    <p><strong>Group:</strong> {{ $meeting->group->name ?? 'N/A' }}</p>
+                                    <p><strong>Lesson:</strong> {{ $meeting->lesson->title ?? 'N/A' }}</p>
+                                    <p><strong>Course:</strong> {{ $meeting->group->course->name ?? 'N/A' }} (ID:
+                                        pyra-{{ $meeting->group->course->id }})</p>
+                                    {{-- <a href="{{ $meeting->zoom_join_url }}" target="_blank"
+                                class="btn dashboard__small__btn__2  btn-block">
+                                Review Session Recording
+                            </a> --}}
+                                </div>
+                            </div>
+                            
+
+                        </div>
+
+                    </div>
 
 
                     <!-- Main Panel: Evaluation & Resource Upload -->
