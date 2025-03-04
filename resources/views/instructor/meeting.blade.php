@@ -198,8 +198,6 @@
     <!-- Embedded Component SDK -->
     <script src="https://source.zoom.us/zoom-meeting-embedded-3.6.0.min.js"></script>
     <!-- SweetAlert Library -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @include('include.scripts')
 
     <main class="main_wrapper overflow-hidden">
@@ -345,7 +343,12 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        swal("Attendance Updated", data.message, "success");
+                        Swal.fire({
+                        title: "Attendance Updated",
+                        text: data.message,
+                        icon: "success"
+                    });
+
                         // Optionally, update the student's status in the UI.
                         let statusEl = document.querySelector(`#student-${studentId} .attendance-status`);
                         if (statusEl) {
@@ -353,7 +356,12 @@
                             statusEl.className = "attendance-status " + (status === 1 ? 'present' : 'absent');
                         }
                     } else {
-                        swal("Error", data.message, "error");
+                        Swal.fire({
+                        title: "Error",
+                        text: data.message,
+                        icon: "error"
+                    });
+
                     }
                 })
                 .catch(error => {
