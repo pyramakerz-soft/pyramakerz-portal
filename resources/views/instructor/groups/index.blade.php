@@ -8,8 +8,8 @@
 
 
 <body class="body__wrapper">
-    {{--  @include('include.load')
-    --}}
+    @include('include.load')
+
 
     <main class="main_wrapper overflow-hidden">
         @include('include.nav')
