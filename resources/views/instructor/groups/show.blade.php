@@ -251,7 +251,7 @@
                     html: `<input type="text" id="new_lesson_date" class="swal2-input" placeholder="Select Date">`,
                     didOpen: () => {
                         flatpickr("#new_lesson_date", {
-                            dateFormat: "Y-m-d"
+                            dateFormat: "Y-m-d H:i:s"
                         });
                     },
                     showCancelButton: true,
