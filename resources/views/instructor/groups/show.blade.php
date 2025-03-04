@@ -161,6 +161,10 @@
                                                         <i class="icofont-edit"></i> <a
                                                             href="{{ route('session-details', $schedule->id) }}">Report</a>
                                                     </button>
+                                                    <button class="btn btn-warning">
+                                                        <i class="icofont-edit"></i> <a
+                                                            href="{{ $schedule->meeting_id ? route('showEvaluationPage', $schedule->meeting_id) : '#'}}">Evaluate</a>
+                                                    </button>
 
                                                 </td>
                                             </tr>
