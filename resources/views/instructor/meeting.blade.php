@@ -309,9 +309,12 @@
                         console.log('Joined meeting successfully!');
                     }).catch(error => {
                         if (error.reason === "Meeting has not started") {
-                            swal("Meeting not started",
-                                "The meeting has not started yet. Please wait a few moments and try again.",
-                                "info");
+                            swal.fire({
+                                title: "Meeting not started",
+                                text: "The meeting has not started yet. Please wait a few moments and try again.",
+                                icon: "info",
+                                confirmButtonColor: '#ff7918',
+                            });
                         } else {
                             console.error("Join meeting error:", error);
                         }
@@ -322,7 +325,7 @@
             console.error("Init error:", error);
         });
     </script>
-    
+
     <!-- Instructor-Specific Scripts -->
     <script>
         // Mark a student's attendance. status: 1 = Present, 0 = Absent.
@@ -344,10 +347,12 @@
                 .then(data => {
                     if (data.success) {
                         Swal.fire({
-                        title: "Attendance Updated",
-                        text: data.message,
-                        icon: "success"
-                    });
+                            title: "Attendance Updated",
+                            text: data.message,
+                            icon: "success",
+                            confirmButtonColor: '#ff7918',
+
+                        });
 
                         // Optionally, update the student's status in the UI.
                         let statusEl = document.querySelector(`#student-${studentId} .attendance-status`);
@@ -357,16 +362,22 @@
                         }
                     } else {
                         Swal.fire({
-                        title: "Error",
-                        text: data.message,
-                        icon: "error"
-                    });
+                            title: "Error",
+                            text: data.message,
+                            icon: "error",
+                            confirmButtonColor: '#ff7918',
+                        });
 
                     }
                 })
                 .catch(error => {
                     console.error("Attendance update error:", error);
-                    swal("Error", "There was a problem updating attendance.", "error");
+                    swal.fire({
+                        title: "Error",
+                        text: "There was a problem updating attendance.",
+                        icon: "error",
+                        confirmButtonColor: '#ff7918',
+                    });
                 });
         }
 
@@ -381,12 +392,22 @@
                         document.getElementById('overlay').style.display = 'block';
                         document.getElementById('homeworkModal').style.display = 'block';
                     } else {
-                        swal("No Homework", "This student has not uploaded any homework.", "info");
+                        swal.fire({
+                            title: "No Homework",
+                            text: "This student has not uploaded any homework.",
+                            icon: "info",
+                            confirmButtonColor: '#ff7918',
+                        });
                     }
                 })
                 .catch(error => {
                     console.error("Error fetching homework:", error);
-                    swal("Error", "Could not load homework details.", "error");
+                    swal.fire({
+                        title: "Error",
+                        text: "Could not load homework details.",
+                        icon: "error",
+                        confirmButtonColor: '#ff7918',
+                    });
                 });
         }
 
