@@ -217,7 +217,7 @@
 
     <script src="../js/vendor/jquery-3.6.0.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
-
+@include('include.scripts')
     <script>
         $(document).ready(function() {
             $(".view-comments-btn").click(function() {
