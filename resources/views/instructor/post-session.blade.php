@@ -147,119 +147,7 @@
 
                     <!-- Main Panel: Evaluation & Resource Upload -->
 
-                    <div class="col-xl-8 col-lg-8">
-                        <div class="dashboard__content__wraper">
-                            @if (Auth::guard('admin')->user()->can('instructortostudentevaluation-create'))
-                                <div class="evaluation-section">
-                                    <h5>Evaluate Students</h5>
-                                    <form action="{{ route('instructor.evaluate_session', $meeting->id) }}"
-                                        method="POST">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="evaluation_period">Evaluation Period</label>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <input type="date" name="evaluation_period_start"
-                                                        class="form-control" required>
-                                                </div>
-                                                <div class="col">
-                                                    <input type="date" name="evaluation_period_end"
-                                                        class="form-control" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-bordered">
-                                                <thead class="  headtb text-white">
-                                                    <tr>
-                                                        <th>Student Name</th>
-                                                        <th>Absent?</th>
-                                                        <th>Interaction</th>
-                                                        <th>Performance</th>
-                                                        <th>Homework</th>
-                                                        <th>Date Joined</th>
-                                                        <th>Current Evaluation</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($meeting->group->students as $student)
-                                                        <tr>
-                                                            <td>{{ $student->name }}</td>
-                                                            <td>
-                                                                <input type="checkbox" class="absent-checkbox"
-                                                                    data-student="{{ $student->id }}">
-                                                                <!-- Hidden field to capture attendance status -->
-                                                                <input type="hidden"
-                                                                    name="evaluations[{{ $student->id }}][attendance]"
-                                                                    class="attendance-field"
-                                                                    data-student="{{ $student->id }}" value="present">
-                                                            </td>
-                                                            <td>
-                                                                <select
-                                                                    name="evaluations[{{ $student->id }}][interaction]"
-                                                                    class="form-control eval-field"
-                                                                    data-student="{{ $student->id }}">
-                                                                    <option value="Excellent">Excellent</option>
-                                                                    <option value="Very Good">Very Good</option>
-                                                                    <option value="Good">Good</option>
-                                                                    <option value="Fair">Fair</option>
-                                                                </select>
-                                                            </td>
-                                                            <td>
-                                                                <select
-                                                                    name="evaluations[{{ $student->id }}][performance]"
-                                                                    class="form-control eval-field"
-                                                                    data-student="{{ $student->id }}">
-                                                                    <option value="Excellent">Excellent</option>
-                                                                    <option value="Very Good">Very Good</option>
-                                                                    <option value="Good">Good</option>
-                                                                    <option value="Fair">Fair</option>
-                                                                </select>
-                                                            </td>
-                                                            <td>
-                                                                <select
-                                                                    name="evaluations[{{ $student->id }}][homework]"
-                                                                    class="form-control eval-field"
-                                                                    data-student="{{ $student->id }}">
-                                                                    <option value="Submitted homework">Submitted
-                                                                        homework</option>
-                                                                    <option value="Didn't submit homework">Didn't submit
-                                                                        homework</option>
-                                                                    <option value="No homework">No homework</option>
-                                                                </select>
-                                                            </td>
-                                                            <td>
-                                                                <input type="date"
-                                                                    name="evaluations[{{ $student->id }}][joined_at]"
-                                                                    class="form-control eval-field"
-                                                                    data-student="{{ $student->id }}"
-                                                                    value="{{ optional($student->groupStudent)->created_at ? $student->groupStudent->created_at->format('Y-m-d') : '' }}">
-                                                            </td>
-                                                            <td>
-                                                                @if (isset($evaluations) && $student->id)
-                                                                    <button type="button"
-                                                                        class="btn btn-custom view-eval-btn"
-                                                                        data-student="{{ $student->id }}">
-                                                                        View Current Evaluation
-                                                                    </button>
-                                                                @else
-                                                                    N/A
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        <button type="submit" class="btn default__button">Save Evaluation</button>
-                                    </form>
-                                </div>
-                            @endif
-
-
-                        </div>
-                    </div>
+                    
                     <!-- Upload Resources Section (unchanged) -->
                     {{-- @if (Auth::guard('admin')->user()->can('lessonresource-create'))
                     <div class="upload-section mt-4">
@@ -372,11 +260,11 @@
                     Swal.fire({
                         title: "Current Evaluation",
                         html: `
-                            <p><strong>Interaction:</strong> ${details.interaction || 'N/A'}</p>
-                            <p><strong>Performance:</strong> ${details.performance || 'N/A'}</p>
-                            <p><strong>Homework:</strong> ${details.homework || 'N/A'}</p>
-                            <p><strong>Session Score:</strong> ${details.session_score || 'N/A'}</p>
-                            <p><strong>Evaluated At:</strong> ${details.evaluated_at || 'N/A'}</p>
+                            <p style='color:orange'><strong>Interaction:</strong> ${details.interaction || 'N/A'}</p>
+                            <p style='color:orange'><strong>Performance:</strong> ${details.performance || 'N/A'}</p>
+                            <p style='color:orange'><strong>Homework:</strong> ${details.homework || 'N/A'}</p>
+                            <p style='color:orange'><strong>Session Score:</strong> ${details.session_score || 'N/A'}</p>
+                            <p style='color:orange'><strong>Evaluated At:</strong> ${details.evaluated_at || 'N/A'}</p>
                         `
                     });
                 } else {
