@@ -10,7 +10,7 @@ class Ticket extends Model
     //user relationship
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Student::class);
     }
     //ticket replies relationship
     
