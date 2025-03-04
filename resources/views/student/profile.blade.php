@@ -59,9 +59,9 @@
                                             {{ explode(' ', $student->name)[0] }}
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4">
+                                    {{-- <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">Last Name</div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-lg-8 col-md-8">
                                         <div class="dashboard__form dashboard__form__margin">
                                             {{ explode(' ', $student->name)[1] ?? '' }}
