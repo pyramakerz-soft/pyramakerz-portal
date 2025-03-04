@@ -7,7 +7,7 @@
                     <div class="dashboardarea__inner student__dashboard__inner">
                         <div class="dashboardarea__left">
                             <div class="dashboardarea__left__img">
-                                <img loading="lazy" src="{{ asset('student_photos/user.jpg') }}" alt="User Photo">
+                                <img loading="lazy" src="{{ asset('student_photos/user.jpeg') }}" alt="User Photo">
 
 
                             </div>
