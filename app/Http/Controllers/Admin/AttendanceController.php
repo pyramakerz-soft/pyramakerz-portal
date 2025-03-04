@@ -8,6 +8,7 @@ use App\Models\Attendance;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\CoursesPath;
+use App\Models\Lesson;
 
 class AttendanceController extends Controller {
     public function index(Request $request) {
