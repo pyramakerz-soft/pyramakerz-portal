@@ -65,10 +65,10 @@
                             <p><strong>Lesson:</strong> {{ $meeting->lesson->title ?? 'N/A' }}</p>
                             <p><strong>Course:</strong> {{ $meeting->group->course->name ?? 'N/A' }} (ID:
                                 pyra-{{ $meeting->group->course->id }})</p>
-                            <a href="{{ $meeting->zoom_join_url }}" target="_blank"
+                            {{-- <a href="{{ $meeting->zoom_join_url }}" target="_blank"
                                 class="btn dashboard__small__btn__2  btn-block">
                                 Review Session Recording
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
 
