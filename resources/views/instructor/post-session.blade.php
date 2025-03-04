@@ -76,6 +76,7 @@
                             </a> --}}
                                 </div>
                             </div>
+                            
 
                         </div>
 
@@ -180,7 +181,6 @@
                                                                         View Current Evaluation
                                                                     </button>
                                                                 @else
-                                                                    @dd($student)
                                                                     N/A
                                                                 @endif
                                                             </td>
@@ -310,11 +310,11 @@
                     Swal.fire({
                         title: "Current Evaluation",
                         html: `
-                            <p><strong>Interaction:</strong> ${details.interaction || 'N/A'}</p>
-                            <p><strong>Performance:</strong> ${details.performance || 'N/A'}</p>
-                            <p><strong>Homework:</strong> ${details.homework || 'N/A'}</p>
-                            <p><strong>Session Score:</strong> ${details.session_score || 'N/A'}</p>
-                            <p><strong>Evaluated At:</strong> ${details.evaluated_at || 'N/A'}</p>
+                            <p style='color:orange'><strong>Interaction:</strong> ${details.interaction || 'N/A'}</p>
+                            <p style='color:orange'><strong>Performance:</strong> ${details.performance || 'N/A'}</p>
+                            <p style='color:orange'><strong>Homework:</strong> ${details.homework || 'N/A'}</p>
+                            <p style='color:orange'><strong>Session Score:</strong> ${details.session_score || 'N/A'}</p>
+                            <p style='color:orange'><strong>Evaluated At:</strong> ${details.evaluated_at || 'N/A'}</p>
                         `
                     });
                 } else {
