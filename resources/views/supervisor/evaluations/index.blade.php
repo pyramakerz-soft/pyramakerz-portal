@@ -173,7 +173,6 @@
                                         </thead>
                                         <tbody>
                                             @forelse ($student_to_inst as $eval)
-                                            @dd($eval)
                                                 {{-- @dd($eval->meeting->group->course->instructor->name) --}}
                                                 <tr>
                                                     <td>{{ $eval->student->name }}</td>
