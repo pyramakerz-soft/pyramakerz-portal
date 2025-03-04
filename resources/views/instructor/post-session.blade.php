@@ -5,11 +5,11 @@
 
 <head>
     @include('include.head')
- <!-- Select2 CSS -->
- <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 
- <!-- Flatpickr CSS -->
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 </head>
 
@@ -53,166 +53,205 @@
         <div class="dashboard">
             <div class="container-fluid full__width__padding">
                 <div class="row">
-                    <!-- Sidebar: Session Details -->
-                    <div class="col-xl-4 col-lg-4">
-                        <div class="dashboard__single__counter" style="color:black !important">
-                            <h3>Session Details</h3>
-                            <p><strong>Date:</strong>
-                                {{ \Carbon\Carbon::parse($meeting->start_time)->format('M d, Y') }}
-                            </p>
-                            <p><strong>Duration:</strong> {{ $meeting->duration }} mins</p>
-                            <p><strong>Group:</strong> {{ $meeting->group->name ?? 'N/A' }}</p>
-                            <p><strong>Lesson:</strong> {{ $meeting->lesson->title ?? 'N/A' }}</p>
-                            <p><strong>Course:</strong> {{ $meeting->group->course->name ?? 'N/A' }} (ID:
-                                pyra-{{ $meeting->group->course->id }})</p>
-                            {{-- <a href="{{ $meeting->zoom_join_url }}" target="_blank"
+                    <div class="col-xl-3 col-lg-3 col-md-12">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12">
+                                @include('include.sidebar')
+                            </div>
+                            <!-- Sidebar: Session Details -->
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="dashboard__single__counter" style="color:black !important">
+                                    <h3>Session Details</h3>
+                                    <p><strong>Date:</strong>
+                                        {{ \Carbon\Carbon::parse($meeting->start_time)->format('M d, Y') }}
+                                    </p>
+                                    <p><strong>Duration:</strong> {{ $meeting->duration }} mins</p>
+                                    <p><strong>Group:</strong> {{ $meeting->group->name ?? 'N/A' }}</p>
+                                    <p><strong>Lesson:</strong> {{ $meeting->lesson->title ?? 'N/A' }}</p>
+                                    <p><strong>Course:</strong> {{ $meeting->group->course->name ?? 'N/A' }} (ID:
+                                        pyra-{{ $meeting->group->course->id }})</p>
+                                    {{-- <a href="{{ $meeting->zoom_join_url }}" target="_blank"
                                 class="btn dashboard__small__btn__2  btn-block">
                                 Review Session Recording
                             </a> --}}
-                        </div>
-                    </div>
-
-                <!-- Main Panel: Evaluation & Resource Upload -->
-                
-                <div class="col-xl-8 col-lg-8">
-                    <div class="dashboard__content__wraper"
-                    @if(Auth::guard('admin')->user()->can('instructortostudentevaluation-create'))
-                    <div class="evaluation-section">
-                        <h5>Evaluate Students</h5>
-                        <form action="{{ route('instructor.evaluate_session', $meeting->id) }}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <label for="evaluation_period">Evaluation Period</label>
-                                <div class="row">
-                                    <div class="col">
-                                        <input type="date" name="evaluation_period_start" class="form-control" required>
-                                    </div>
-                                    <div class="col">
-                                        <input type="date" name="evaluation_period_end" class="form-control" required>
-                                    </div>
                                 </div>
                             </div>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered">
-                                    <thead class="  headtb text-white">
-                                    <tr>
-                                        <th>Student Name</th>
-                                        <th>Absent?</th>
-                                        <th>Interaction</th>
-                                        <th>Performance</th>
-                                        <th>Homework</th>
-                                        <th>Date Joined</th>
-                                        <th>Current Evaluation</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($meeting->group->students as $student)
-                                        <tr>
-                                            <td>{{ $student->name }}</td>
-                                            <td>
-                                                <input type="checkbox" class="absent-checkbox" data-student="{{ $student->id }}">
-                                                <!-- Hidden field to capture attendance status -->
-                                                <input type="hidden" name="evaluations[{{ $student->id }}][attendance]" class="attendance-field" data-student="{{ $student->id }}" value="present">
-                                            </td>
-                                            <td>
-                                                <select name="evaluations[{{ $student->id }}][interaction]" class="form-control eval-field" data-student="{{ $student->id }}">
-                                                    <option value="Excellent">Excellent</option>
-                                                    <option value="Very Good">Very Good</option>
-                                                    <option value="Good">Good</option>
-                                                    <option value="Fair">Fair</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="evaluations[{{ $student->id }}][performance]" class="form-control eval-field" data-student="{{ $student->id }}">
-                                                    <option value="Excellent">Excellent</option>
-                                                    <option value="Very Good">Very Good</option>
-                                                    <option value="Good">Good</option>
-                                                    <option value="Fair">Fair</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="evaluations[{{ $student->id }}][homework]" class="form-control eval-field" data-student="{{ $student->id }}">
-                                                    <option value="Submitted homework">Submitted homework</option>
-                                                    <option value="Didn't submit homework">Didn't submit homework</option>
-                                                    <option value="No homework">No homework</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="date" name="evaluations[{{ $student->id }}][joined_at]" class="form-control eval-field" data-student="{{ $student->id }}"
-                                                       value="{{ optional($student->groupStudent)->created_at ? $student->groupStudent->created_at->format('Y-m-d') : '' }}">
-                                            </td>
-                                            <td>
-                                                @if(isset($evaluations) && $student->id)
-                                                    <button type="button" class="btn btn-custom view-eval-btn" data-student="{{ $student->id }}">
-                                                        View Current Evaluation
-                                                    </button>
-                                                @else
-                                                @dd($student)
-                                                    N/A
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            </div>
 
-                            <button type="submit" class="btn default__button">Save Evaluation</button>
-                        </form>
-                    </div>
-                    @endif
+                        </div>
 
-                    <!-- Upload Resources Section (unchanged) -->
-                    @if(Auth::guard('admin')->user()->can('lessonresource-create'))
-                    <div class="upload-section mt-4">
-                        <h5>Upload Session Handouts / Resources</h5>
-                        <form id="uploadResourceForm" action="{{ route('lesson.uploadMaterial') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label for="lesson_id">Lesson</label>
-                                <select name="lesson_id" id="lesson_id" class="form-control">
-                                    <option value="{{ $meeting->lesson->id }}">{{ $meeting->lesson->title }}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="resource_type">Resource Type</label>
-                                <select name="resource_type" id="resource_type" class="form-control">
-                                    <option value="">Select Resource Type</option>
-                                    <option value="pdf">PDF</option>
-                                    <option value="doc">Document (DOC/DOCX)</option>
-                                    <option value="ppt">Presentation (PPT/PPTX)</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="title">Resource Title</label>
-                                <input type="text" name="title" id="title" class="form-control" placeholder="Enter resource title">
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Resource Description</label>
-                                <textarea name="description" id="description" rows="3" class="form-control" placeholder="Enter description (optional)"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="material">Choose File</label>
-                                <input type="file" name="material" id="material" class="form-control">
-                            </div>
-                            <input type="hidden" name="group_id" value="{{ $meeting->group->id }}">
-                            <input type="hidden" name="group_schedule_id" value="{{ $meeting->group_schedule_id }}">
-                            <button type="submit" class="btn btn-custom mt-2">Upload Resource</button>
-                        </form>
                     </div>
-                    @endif
+
+
+                    <!-- Main Panel: Evaluation & Resource Upload -->
+
+                    <div class="col-xl-8 col-lg-8">
+                        <div class="dashboard__content__wraper">
+                            @if (Auth::guard('admin')->user()->can('instructortostudentevaluation-create'))
+                                <div class="evaluation-section">
+                                    <h5>Evaluate Students</h5>
+                                    <form action="{{ route('instructor.evaluate_session', $meeting->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label for="evaluation_period">Evaluation Period</label>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <input type="date" name="evaluation_period_start"
+                                                        class="form-control" required>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="date" name="evaluation_period_end"
+                                                        class="form-control" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered">
+                                                <thead class="  headtb text-white">
+                                                    <tr>
+                                                        <th>Student Name</th>
+                                                        <th>Absent?</th>
+                                                        <th>Interaction</th>
+                                                        <th>Performance</th>
+                                                        <th>Homework</th>
+                                                        <th>Date Joined</th>
+                                                        <th>Current Evaluation</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($meeting->group->students as $student)
+                                                        <tr>
+                                                            <td>{{ $student->name }}</td>
+                                                            <td>
+                                                                <input type="checkbox" class="absent-checkbox"
+                                                                    data-student="{{ $student->id }}">
+                                                                <!-- Hidden field to capture attendance status -->
+                                                                <input type="hidden"
+                                                                    name="evaluations[{{ $student->id }}][attendance]"
+                                                                    class="attendance-field"
+                                                                    data-student="{{ $student->id }}" value="present">
+                                                            </td>
+                                                            <td>
+                                                                <select
+                                                                    name="evaluations[{{ $student->id }}][interaction]"
+                                                                    class="form-control eval-field"
+                                                                    data-student="{{ $student->id }}">
+                                                                    <option value="Excellent">Excellent</option>
+                                                                    <option value="Very Good">Very Good</option>
+                                                                    <option value="Good">Good</option>
+                                                                    <option value="Fair">Fair</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select
+                                                                    name="evaluations[{{ $student->id }}][performance]"
+                                                                    class="form-control eval-field"
+                                                                    data-student="{{ $student->id }}">
+                                                                    <option value="Excellent">Excellent</option>
+                                                                    <option value="Very Good">Very Good</option>
+                                                                    <option value="Good">Good</option>
+                                                                    <option value="Fair">Fair</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <select
+                                                                    name="evaluations[{{ $student->id }}][homework]"
+                                                                    class="form-control eval-field"
+                                                                    data-student="{{ $student->id }}">
+                                                                    <option value="Submitted homework">Submitted
+                                                                        homework</option>
+                                                                    <option value="Didn't submit homework">Didn't submit
+                                                                        homework</option>
+                                                                    <option value="No homework">No homework</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <input type="date"
+                                                                    name="evaluations[{{ $student->id }}][joined_at]"
+                                                                    class="form-control eval-field"
+                                                                    data-student="{{ $student->id }}"
+                                                                    value="{{ optional($student->groupStudent)->created_at ? $student->groupStudent->created_at->format('Y-m-d') : '' }}">
+                                                            </td>
+                                                            <td>
+                                                                @if (isset($evaluations) && $student->id)
+                                                                    <button type="button"
+                                                                        class="btn btn-custom view-eval-btn"
+                                                                        data-student="{{ $student->id }}">
+                                                                        View Current Evaluation
+                                                                    </button>
+                                                                @else
+                                                                    @dd($student)
+                                                                    N/A
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <button type="submit" class="btn default__button">Save Evaluation</button>
+                                    </form>
+                                </div>
+                            @endif
+
+                            <!-- Upload Resources Section (unchanged) -->
+                            @if (Auth::guard('admin')->user()->can('lessonresource-create'))
+                                <div class="upload-section mt-4">
+                                    <h5>Upload Session Handouts / Resources</h5>
+                                    <form id="uploadResourceForm" action="{{ route('lesson.uploadMaterial') }}"
+                                        method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label for="lesson_id">Lesson</label>
+                                            <select name="lesson_id" id="lesson_id" class="form-control">
+                                                <option value="{{ $meeting->lesson->id }}">
+                                                    {{ $meeting->lesson->title }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="resource_type">Resource Type</label>
+                                            <select name="resource_type" id="resource_type" class="form-control">
+                                                <option value="">Select Resource Type</option>
+                                                <option value="pdf">PDF</option>
+                                                <option value="doc">Document (DOC/DOCX)</option>
+                                                <option value="ppt">Presentation (PPT/PPTX)</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="title">Resource Title</label>
+                                            <input type="text" name="title" id="title" class="form-control"
+                                                placeholder="Enter resource title">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">Resource Description</label>
+                                            <textarea name="description" id="description" rows="3" class="form-control"
+                                                placeholder="Enter description (optional)"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="material">Choose File</label>
+                                            <input type="file" name="material" id="material"
+                                                class="form-control">
+                                        </div>
+                                        <input type="hidden" name="group_id" value="{{ $meeting->group->id }}">
+                                        <input type="hidden" name="group_schedule_id"
+                                            value="{{ $meeting->group_schedule_id }}">
+                                        <button type="submit" class="btn btn-custom mt-2">Upload Resource</button>
+                                    </form>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>
-        </div>
     </main>
 
     @include('include.footer')
-@include('include.scripts')
+    @include('include.scripts')
 
     <!-- JS Scripts -->
-    
+
     <script>
         $(document).ready(function() {
             $("#lesson_id").select2({
