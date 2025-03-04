@@ -217,13 +217,13 @@
 
     <script src="../js/vendor/jquery-3.6.0.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
-
+@include('include.scripts')
     <script>
         $(document).ready(function() {
             $(".view-comments-btn").click(function() {
                 let evaluationId = $(this).data("id");
 
-                $.get("{{ url('/admin/evaluations/manual/comments') }}/" + evaluationId, function(
+                $.get("{{ url('https://dev-pyramakerz.cloud/pyramakerz-portal/public/supervisor/instructors/comments') }}/" + evaluationId, function(
                     comments) {
                     let commentsHtml = comments.length ? "" : "<p>No comments yet.</p>";
 

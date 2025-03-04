@@ -195,54 +195,49 @@
                                 </div>
                             @endif
 
-                            <!-- Upload Resources Section (unchanged) -->
-                            @if (Auth::guard('admin')->user()->can('lessonresource-create'))
-                                <div class="upload-section mt-4">
-                                    <h5>Upload Session Handouts / Resources</h5>
-                                    <form id="uploadResourceForm" action="{{ route('lesson.uploadMaterial') }}"
-                                        method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="lesson_id">Lesson</label>
-                                            <select name="lesson_id" id="lesson_id" class="form-control">
-                                                <option value="{{ $meeting->lesson->id }}">
-                                                    {{ $meeting->lesson->title }}</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="resource_type">Resource Type</label>
-                                            <select name="resource_type" id="resource_type" class="form-control">
-                                                <option value="">Select Resource Type</option>
-                                                <option value="pdf">PDF</option>
-                                                <option value="doc">Document (DOC/DOCX)</option>
-                                                <option value="ppt">Presentation (PPT/PPTX)</option>
-                                                <option value="other">Other</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="title">Resource Title</label>
-                                            <input type="text" name="title" id="title" class="form-control"
-                                                placeholder="Enter resource title">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="description">Resource Description</label>
-                                            <textarea name="description" id="description" rows="3" class="form-control"
-                                                placeholder="Enter description (optional)"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="material">Choose File</label>
-                                            <input type="file" name="material" id="material"
-                                                class="form-control">
-                                        </div>
-                                        <input type="hidden" name="group_id" value="{{ $meeting->group->id }}">
-                                        <input type="hidden" name="group_schedule_id"
-                                            value="{{ $meeting->group_schedule_id }}">
-                                        <button type="submit" class="btn btn-custom mt-2">Upload Resource</button>
-                                    </form>
-                                </div>
-                            @endif
+
                         </div>
                     </div>
+                    <!-- Upload Resources Section (unchanged) -->
+                    {{-- @if (Auth::guard('admin')->user()->can('lessonresource-create'))
+                    <div class="upload-section mt-4">
+                        <h5>Upload Session Handouts / Resources</h5>
+                        <form id="uploadResourceForm" action="{{ route('lesson.uploadMaterial') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label for="lesson_id">Lesson</label>
+                                <select name="lesson_id" id="lesson_id" class="form-control">
+                                    <option value="{{ $meeting->lesson->id }}">{{ $meeting->lesson->title }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="resource_type">Resource Type</label>
+                                <select name="resource_type" id="resource_type" class="form-control">
+                                    <option value="">Select Resource Type</option>
+                                    <option value="pdf">PDF</option>
+                                    <option value="doc">Document (DOC/DOCX)</option>
+                                    <option value="ppt">Presentation (PPT/PPTX)</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="title">Resource Title</label>
+                                <input type="text" name="title" id="title" class="form-control" placeholder="Enter resource title">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Resource Description</label>
+                                <textarea name="description" id="description" rows="3" class="form-control" placeholder="Enter description (optional)"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="material">Choose File</label>
+                                <input type="file" name="material" id="material" class="form-control">
+                            </div>
+                            <input type="hidden" name="group_id" value="{{ $meeting->group->id }}">
+                            <input type="hidden" name="group_schedule_id" value="{{ $meeting->group_schedule_id }}">
+                            <button type="submit" class="btn btn-custom mt-2">Upload Resource</button>
+                        </form>
+                    </div>
+                    @endif --}}
                 </div>
             </div>
     </main>
