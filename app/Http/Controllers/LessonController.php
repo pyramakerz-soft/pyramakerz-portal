@@ -153,7 +153,7 @@ public function uploadResource(Request $request)
         // If it's a handout and a zip file, extract it
         if ($request->type === 'handout' && $originalExtension === 'zip') {
             $lessonId = $request->lesson_id;
-            $destinationPath = public_path("lesson_materials/handouts/{$lessonId}/{$timestamp}/{$originalName}/");
+            $destinationPath = public_path("lesson_materials/handouts/{$lessonId}/{$timestamp}/");
 
             // Create directory if not exists
             if (!File::exists($destinationPath)) {
@@ -174,7 +174,7 @@ public function uploadResource(Request $request)
                 File::delete($zipPath);
 
                 // Store the extracted folder path
-                $filePath = "lesson_materials/handouts/{$lessonId}/{$timestamp}/";
+                $filePath = "lesson_materials/handouts/{$lessonId}/{$timestamp}/{$originalName}/";
             } else {
                 return response()->json(['message' => 'Failed to extract zip file'], 500);
             }
