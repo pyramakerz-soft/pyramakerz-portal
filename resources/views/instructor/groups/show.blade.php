@@ -113,6 +113,7 @@
                         <div class="blog__details__content__wraper">
                             <div class="experence__heading">
                                 <h5>📅 Scheduled Lessons</h5>
+                                <h5>Instructor : {{ \App\Models\User::find($group->instructor_id)->name }}</h5>
                             </div>
                             <form action="{{ route('instructor.meetings.create_all', $group->id) }}" method="POST">
                                 @csrf
@@ -252,7 +253,7 @@
                     html: `<input type="text" id="new_lesson_date" class="swal2-input" placeholder="Select Date">`,
                     didOpen: () => {
                         flatpickr("#new_lesson_date", {
-                            dateFormat: "Y-m-d"
+                            dateFormat: "Y-m-d H:i:s"
                         });
                     },
                     showCancelButton: true,

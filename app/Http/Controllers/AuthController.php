@@ -160,10 +160,10 @@ class AuthController extends Controller
     if ($admin && Hash::check($request->password, $admin->password)) {
         Auth::guard('admin')->login($admin);
         $request->session()->regenerate();
-        if(Auth::guard('admin')->user()->roles[0]->name == "Full Instructor"){
+        if(Auth::guard('admin')->user()->roles[0]->name == "instructor"){
             return redirect()->route('admin-courses');
         }
-        if(Auth::guard('admin')->user()->roles[0]->name == "Admin"){
+        if(Auth::guard('admin')->user()->roles[0]->name == "admin"){
             return redirect()->route('admin.instructors.index');
         }
 
