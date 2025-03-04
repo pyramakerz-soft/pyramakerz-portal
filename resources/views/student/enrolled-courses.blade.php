@@ -127,7 +127,7 @@
                     <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
                         <div class="gridarea__wraper">
                             <div class="gridarea__img">
-                                <a href="/course_lessons/{{ $course->id }}">
+                                <a href="{{route('course_lessons',$course->id)}}">
                                     <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
                                 </a>
                                 <div class="gridarea__small__button">
@@ -143,7 +143,7 @@
                                 </div>
                                 <div class="gridarea__heading">
                                     <h3>
-                                        <a href="/course_lessons/{{ $course->id }}">{{ $course->name }}</a>
+                                        <a href="{{route('course_lessons',$course->id)}}">{{ $course->name }}</a>
                                     </h3>
                                 </div>
                             </div>
