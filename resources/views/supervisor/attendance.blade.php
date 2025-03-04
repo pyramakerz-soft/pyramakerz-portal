@@ -18,24 +18,24 @@
                 background: #ffffff;
                 color: #333;
             }
-        
+
             .select2-container--default .select2-selection--single .select2-selection__rendered {
                 color: #333 !important;
                 font-weight: 500;
             }
-        
+
             .select2-container--default .select2-selection--single .select2-selection__arrow {
                 top: 50%;
                 transform: translateY(-50%);
             }
-        
+
             .select2-dropdown {
                 background: #fff !important;
                 border: 1px solid #ddd;
                 border-radius: 5px;
                 box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             }
-        
+
             .select2-results__option {
                 padding: 10px;
                 font-size: 14px;
@@ -43,7 +43,7 @@
                 background: #fff;
                 transition: all 0.3s ease-in-out;
             }
-        
+
             .select2-results__option:hover {
                 background: #007bff !important;
                 color: #fff !important;
@@ -71,7 +71,11 @@
             <div class="dashboard">
                 <div class="container-fluid full__width__padding">
                     <div class="row">
-                        <div class="col-xl-12">
+                        <div class="col-xl-3 col-lg-3 col-md-12">
+                            @include('include.sidebar')
+                        </div>
+
+                        <div class="col-xl-9">
                             <div class="dashboard__content__wraper">
                                 <div class="dashboard__section__title">
                                     <h4>📋 Attendance Records</h4>
@@ -126,7 +130,16 @@
                                         [$instructorName, $day, $time, $status, $courseName] = explode('|', $group);
                                         $firstAttendance = $attendances->first();
                                         $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
-                                        $allSessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4','Session 5','Session 6','Session 7','Session 8'];
+                                        $allSessions = [
+                                            'Session 1',
+                                            'Session 2',
+                                            'Session 3',
+                                            'Session 4',
+                                            'Session 5',
+                                            'Session 6',
+                                            'Session 7',
+                                            'Session 8',
+                                        ];
                                     @endphp
 
                                     <div class="dashboard__section__title mt-4">
