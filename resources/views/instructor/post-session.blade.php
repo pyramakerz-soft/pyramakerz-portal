@@ -76,6 +76,69 @@
                             </a> --}}
                                 </div>
                             </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <thead class="  headtb text-white">
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>Absent?</th>
+                                        <th>Interaction</th>
+                                        <th>Performance</th>
+                                        <th>Homework</th>
+                                        <th>Date Joined</th>
+                                        <th>Current Evaluation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($meeting->group->students as $student)
+                                        <tr>
+                                            <td>{{ $student->name }}</td>
+                                            <td>
+                                                <input type="checkbox" class="absent-checkbox" data-student="{{ $student->id }}">
+                                                <!-- Hidden field to capture attendance status -->
+                                                <input type="hidden" name="evaluations[{{ $student->id }}][attendance]" class="attendance-field" data-student="{{ $student->id }}" value="present">
+                                            </td>
+                                            <td>
+                                                <select name="evaluations[{{ $student->id }}][interaction]" class="form-control eval-field" data-student="{{ $student->id }}">
+                                                    <option value="Excellent">Excellent</option>
+                                                    <option value="Very Good">Very Good</option>
+                                                    <option value="Good">Good</option>
+                                                    <option value="Fair">Fair</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="evaluations[{{ $student->id }}][performance]" class="form-control eval-field" data-student="{{ $student->id }}">
+                                                    <option value="Excellent">Excellent</option>
+                                                    <option value="Very Good">Very Good</option>
+                                                    <option value="Good">Good</option>
+                                                    <option value="Fair">Fair</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select name="evaluations[{{ $student->id }}][homework]" class="form-control eval-field" data-student="{{ $student->id }}">
+                                                    <option value="Submitted homework">Submitted homework</option>
+                                                    <option value="Didn't submit homework">Didn't submit homework</option>
+                                                    <option value="No homework">No homework</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="date" name="evaluations[{{ $student->id }}][joined_at]" class="form-control eval-field" data-student="{{ $student->id }}"
+                                                       value="{{ optional($student->groupStudent)->created_at ? $student->groupStudent->created_at->format('Y-m-d') : '' }}">
+                                            </td>
+                                            <td>
+                                                @if(isset($evaluations) && $student->id)
+                                                    <button type="button" class="btn btn-custom view-eval-btn" data-student="{{ $student->id }}">
+                                                        View Current Evaluation
+                                                    </button>
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            </div>
 
                         </div>
 
