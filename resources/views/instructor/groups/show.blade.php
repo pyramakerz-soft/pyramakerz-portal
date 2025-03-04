@@ -111,6 +111,7 @@
                         <div class="blog__details__content__wraper">
                             <div class="experence__heading">
                                 <h5>📅 Scheduled Lessons</h5>
+                                <h5>Instructor : {{ \App\Models\User::find($group->instructor_id)->name }}</h5>
                             </div>
                             <form action="{{ route('instructor.meetings.create_all', $group->id) }}" method="POST">
                                 @csrf
