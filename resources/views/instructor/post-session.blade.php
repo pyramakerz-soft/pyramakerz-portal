@@ -243,7 +243,6 @@
                                                                         View Current Evaluation
                                                                     </button>
                                                                 @else
-                                                                    @dd($student)
                                                                     N/A
                                                                 @endif
                                                             </td>
