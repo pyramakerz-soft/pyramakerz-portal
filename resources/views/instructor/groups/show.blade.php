@@ -163,7 +163,7 @@
                                                     </button>
                                                     <button class="btn btn-warning">
                                                         <i class="icofont-edit"></i> <a
-                                                            href="{{ $schedule->meeting_id ? route('showEvaluationPage', $schedule->meeting_id) : '#'}}">Evaluate</a>
+                                                            href="{{ $schedule->meeting_id ? route('instructor.evaluate_page', $schedule->meeting_id) : '#'}}">Evaluate</a>
                                                     </button>
 
                                                 </td>
