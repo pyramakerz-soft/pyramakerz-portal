@@ -187,27 +187,27 @@
             });
 
             // Submit Form
-            $("#manualEvaluationForm").submit(function(e) {
-                e.preventDefault();
+            // $("#manualEvaluationForm").submit(function(e) {
+            //     e.preventDefault();
 
-                let formData = $(this).serialize();
-                $.post("{{ route('admin.evaluations.store') }}", formData, function(response) {
-                    Swal.fire({
-                        title: "Success",
-                        text: "Evaluation Submitted!",
-                        icon: "success",
-                        confirmButtonColor: "#ff7918"
-                    }).then(() => location
-                        .reload());
-                }).fail(function() {
-                    Swal.fire({
-                        title: "Error",
-                        text: "Failed to submit evaluation!",
-                        icon: "error",
-                        confirmButtonColor: "#ff7918"
-                    });
-                });
-            });
+            //     let formData = $(this).serialize();
+            //     $.post("{{ route('admin.evaluations.store') }}", formData, function(response) {
+            //         Swal.fire({
+            //             title: "Success",
+            //             text: "Evaluation Submitted!",
+            //             icon: "success",
+            //             confirmButtonColor: "#ff7918"
+            //         }).then(() => location
+            //             .reload());
+            //     }).fail(function() {
+            //         Swal.fire({
+            //             title: "Error",
+            //             text: "Failed to submit evaluation!",
+            //             icon: "error",
+            //             confirmButtonColor: "#ff7918"
+            //         });
+            //     });
+            // });
         });
     </script>
 
