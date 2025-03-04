@@ -176,7 +176,7 @@
                                                 {{-- @dd($eval->meeting->group->course->instructor->name) --}}
                                                 <tr>
                                                     <td>{{ $eval->student->name }}</td>
-                                                    <td>{{ $eval->meeting->group->course->instructor->name }}</td>
+                                                    <td>{{ $eval->meeting->group->instructor->name }}</td>
                                                     <td>{{ $eval->meeting->group->course->name }}
                                                     </td>
                                                     <td>{{ $eval->content_quality }}</td>
