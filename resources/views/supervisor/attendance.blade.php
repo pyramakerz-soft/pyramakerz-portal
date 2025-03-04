@@ -138,74 +138,107 @@
 
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered">
-                                            <thead class="  headtb text-white">
+                                            <thead class="headtb text-white">
                                                 <tr>
                                                     <th rowspan="2">Student ID</th>
                                                     <th rowspan="2">Student Name</th>
+                                                    
                                                     @foreach ($coursePaths as $coursePath)
-                                                        <th colspan="{{ count($coursePath->paths) * count($allSessions) }}"
+                                                        <th colspan="{{ count($coursePath->paths) > 0 ? count($coursePath->paths) * count($allSessions) : count($lessons->where('course_path_id', $coursePath->id)) * count($allSessions) }}"
                                                             class="text-center bg-black text-white">
                                                             {{ $coursePath->name }}
                                                         </th>
                                                     @endforeach
                                                 </tr>
+                                    
                                                 <tr>
                                                     @foreach ($coursePaths as $coursePath)
-                                                        @foreach ($coursePath->paths as $subPath)
-                                                            <th colspan="{{ count($allSessions) }}"
-                                                                class="text-center bg-secondary text-white">
-                                                                {{ $subPath->name }}
-                                                            </th>
-                                                        @endforeach
+                                                        @if (count($coursePath->paths) > 0)
+                                                            @foreach ($coursePath->paths as $subPath)
+                                                                <th colspan="{{ count($allSessions) }}" class="text-center bg-secondary text-white">
+                                                                    {{ $subPath->name }}
+                                                                </th>
+                                                            @endforeach
+                                                        @else
+                                                            @foreach ($lessons->where('course_path_id', $coursePath->id) as $lesson)
+                                                                <th colspan="{{ count($allSessions) }}" class="text-center bg-primary text-white">
+                                                                    {{ $lesson->name }}
+                                                                </th>
+                                                            @endforeach
+                                                        @endif
                                                     @endforeach
                                                 </tr>
+                                    
                                                 <tr>
                                                     <th></th>
                                                     <th></th>
                                                     @foreach ($coursePaths as $coursePath)
-                                                        @foreach ($coursePath->paths as $subPath)
-                                                            @foreach ($allSessions as $session)
-                                                                <th>{{ $session }}</th>
+                                                        @if (count($coursePath->paths) > 0)
+                                                            @foreach ($coursePath->paths as $subPath)
+                                                                @foreach ($allSessions as $session)
+                                                                    <th>{{ $session }}</th>
+                                                                @endforeach
                                                             @endforeach
-                                                        @endforeach
+                                                        @else
+                                                            @foreach ($lessons->where('course_path_id', $coursePath->id) as $lesson)
+                                                                @foreach ($allSessions as $session)
+                                                                    <th>{{ $session }}</th>
+                                                                @endforeach
+                                                            @endforeach
+                                                        @endif
                                                     @endforeach
                                                 </tr>
                                             </thead>
+                                    
                                             <tbody>
                                                 @foreach ($attendances as $attendance)
                                                     @php
-                                                        $sessionData = is_string($attendance->sessions)
-                                                            ? json_decode($attendance->sessions, true)
-                                                            : (is_array($attendance->sessions)
-                                                                ? $attendance->sessions
-                                                                : []);
+                                                        // Decode the sessions JSON if it's stored as a string in the database
+                                                        $sessionData = is_string($attendance->sessions) 
+                                                            ? json_decode($attendance->sessions, true) 
+                                                            : (is_array($attendance->sessions) ? $attendance->sessions : []);
                                                     @endphp
-
+                                            
                                                     <tr>
                                                         <td>pyra-{{ $attendance->student->id ?? '0' }}</td>
                                                         <td>{{ optional($attendance->student)->name ?? 'N/A' }}</td>
-
+                                            
                                                         @foreach ($coursePaths as $coursePath)
                                                             @foreach ($coursePath->paths as $subPath)
                                                                 @foreach ($allSessions as $index => $session)
                                                                     @php
-                                                                        // Only show attendance if it matches the correct course path and path of path
-                                                                        $attendanceData =
-                                                                            $attendance->course_path_id ==
-                                                                                $coursePath->id &&
-                                                                            $attendance->path_of_path_id == $subPath->id
-                                                                                ? $sessionData[$index] ?? null
+                                                                        // Ensure the attendance matches the correct course_path_id and path_of_path_id
+                                                                        $attendanceData = 
+                                                                            ($attendance->course_path_id == $coursePath->id && 
+                                                                            $attendance->path_of_path_id == $subPath->id)
+                                                                                ? ($sessionData[$index] ?? null)
                                                                                 : null;
                                                                     @endphp
                                                                     <td>{!! $attendanceData === 1 ? '✔' : ($attendanceData === 0 ? '✘' : '—') !!}</td>
                                                                 @endforeach
                                                             @endforeach
                                                         @endforeach
+                                            
+                                                        {{-- Handle Lessons without paths --}}
+                                                        @foreach ($lessons as $lesson)
+                                                            @foreach ($allSessions as $index => $session)
+                                                                @php
+                                                                    $lessonAttendanceData = 
+                                                                        ($attendance->course_id == $lesson->course_id && 
+                                                                        is_null($attendance->path_of_path_id)) 
+                                                                            ? ($sessionData[$index] ?? null)
+                                                                            : null;
+                                                                @endphp
+                                                                <td>{!! $lessonAttendanceData === 1 ? '✔' : ($lessonAttendanceData === 0 ? '✘' : '—') !!}</td>
+                                                            @endforeach
+                                                        @endforeach
                                                     </tr>
                                                 @endforeach
                                             </tbody>
+                                            
                                         </table>
                                     </div>
+                                    
                                 @empty
                                     <p class="text-center">No attendance records found.</p>
                                 @endforelse
