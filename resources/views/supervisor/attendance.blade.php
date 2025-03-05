@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Filters -->
             <div class="dashboard">
                 <div class="container-fluid full__width__padding">
@@ -75,6 +75,7 @@
                                 <div class="dashboard__section__title">
                                     <h4>📋 Attendance Records</h4>
                                 </div>
+                                
                                 <form action="{{ route('admin.attendance.index') }}" method="GET" class="mb-4">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -112,32 +113,23 @@
                                         </div>
                                     </div>
                                 </form>
-
+                                
                                 @php
                                     /*
-                                     * Regroup attendance records so that attendances for the same group
-                                     * (same instructor, time, status, and course) are combined.
-                                     * We assume each $attendance has properties: instructor_name, day, time, status, course_name,
-                                     * and also a property "group_key" that is built as "Instructor|Day|Time|Status|Course".
-                                     * Here we remove the day portion.
+                                     * The controller passes $attendanceRecords grouped by a key like:
+                                     * "Instructor|Day|Time|Status|Course"
+                                     * Now, we want to combine groups by removing the "Day" portion.
                                      */
-                                    $combinedAttendanceRecords = collect();
-                                    foreach ($attendanceRecords as $attendance) {
-                                        // Build a grouping key
-                                        $key = $attendance->instructor_name . '|' . $attendance->day . '|' . $attendance->time . '|' . $attendance->status . '|' . $attendance->course_name;
-                                        // Remove the day portion (index 1)
-                                        $parts = explode('|', $key);
-                                        if(count($parts) >= 5){
-                                            unset($parts[1]); // remove day
-                                            $newKey = implode('|', $parts);
-                                        } else {
-                                            $newKey = $key;
+                                    $combinedAttendanceRecords = $attendanceRecords->groupBy(function($groupKey) {
+                                        $parts = explode('|', $groupKey);
+                                        // Remove the day (index 1) if it exists
+                                        if (isset($parts[1])) {
+                                            unset($parts[1]);
                                         }
-                                        $combinedAttendanceRecords[$newKey][] = $attendance;
-                                    }
-                                    $combinedAttendanceRecords = collect($combinedAttendanceRecords);
+                                        return implode('|', array_values($parts));
+                                    });
                                     
-                                    // Define the sessions (adjust if needed)
+                                    // Define sessions (adjust if needed)
                                     $allSessions = [
                                         'Session 1',
                                         'Session 2',
@@ -149,31 +141,31 @@
                                         'Session 8',
                                     ];
                                 @endphp
-
+                                
                                 <!-- Combined Attendance Table -->
                                 @forelse($combinedAttendanceRecords as $groupKey => $attendances)
                                     @php
                                         $parts = explode('|', $groupKey);
+                                        // Expecting the new key to be in format "Instructor|Time|Status|Course"
                                         while(count($parts) < 4) {
                                             $parts[] = '';
                                         }
-                                        // Since we removed the day, we expect 4 parts: Instructor, Time, Status, Course
                                         [$instructorName, $time, $status, $courseName] = $parts;
                                         $firstAttendance = collect($attendances)->first();
-                                        // Ensure $firstAttendance is a single record (not a collection)
+                                        // In case firstAttendance is a collection, get its first record
                                         if ($firstAttendance instanceof \Illuminate\Support\Collection) {
                                             $firstAttendance = $firstAttendance->first();
                                         }
-                                        // Use the related course to get course paths
+                                        // Use the related course to get its course paths
                                         $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
                                     @endphp
-
+                                    
                                     <div class="dashboard__section__title mt-4">
                                         <h5>📌 Instructor: {{ $instructorName }}</h5>
                                         <p>⏰ Time: {{ $time }} | 🔹 Status: {{ $status }}</p>
                                         <p>📖 Course: {{ $courseName }}</p>
                                     </div>
-
+                                    
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered">
                                             <thead class="headtb text-white">
@@ -216,7 +208,7 @@
                                                         if ($attendance instanceof \Illuminate\Support\Collection) {
                                                             $attendance = $attendance->first();
                                                         }
-                                                        // Convert sessions JSON to an array if needed
+                                                        // Convert sessions JSON to array if needed
                                                         $sessionData = is_string($attendance->sessions)
                                                             ? json_decode($attendance->sessions, true)
                                                             : (is_array($attendance->sessions) ? $attendance->sessions : []);
@@ -228,8 +220,8 @@
                                                             @foreach ($coursePath->paths as $subPath)
                                                                 @foreach ($allSessions as $index => $session)
                                                                     @php
-                                                                        // Show attendance only if it matches this course path and sub-path
-                                                                        $attData = ($attendance->course_path_id == $coursePath->id && $attendance->path_of_path_id == $subPath->id)
+                                                                        $attData = ($attendance->course_path_id == $coursePath->id &&
+                                                                            $attendance->path_of_path_id == $subPath->id)
                                                                             ? ($sessionData[$index] ?? null)
                                                                             : null;
                                                                     @endphp
@@ -245,7 +237,7 @@
                                 @empty
                                     <p class="text-center">No attendance records found.</p>
                                 @endforelse
-
+                                
                                 <div class="mt-3">
                                     <a href="{{ route('home') }}" class="btn btn-outline-secondary">
                                         <i class="icofont-arrow-left"></i> Back to Dashboard
@@ -258,7 +250,7 @@
             </div>
         </div>
     </main>
-
+    
     <script src="../js/vendor/jquery-3.6.0.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
