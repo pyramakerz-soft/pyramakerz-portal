@@ -460,9 +460,9 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
                             $q->where('course_id', $courseId);
                         });
                     })
-                    ->orderBy('course_path_id')  // ✅ Order by course path (main track)
-                    ->orderBy('path_of_path_id') // ✅ Order by subpath inside the main path
-                    ->orderBy('order')           // ✅ Order by lesson sequence inside the path
+                    ->orderBy('course_path_id')  // ✅ Order by main course path
+                    ->orderBy('path_of_path_id') // ✅ Order by sub-path inside course path
+                    ->orderBy('order')           // ✅ Order by lesson sequence inside the sub-path
                     ->get();
 
     if ($lessons->isEmpty()) {
@@ -470,44 +470,51 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
         return;
     }
 
-    $totalLessons = $lessons->count();
     $daysOfWeekMap = ["Sunday" => 0, "Monday" => 1, "Tuesday" => 2, "Wednesday" => 3, "Thursday" => 4, "Friday" => 5, "Saturday" => 6];
 
-    $currentWeek = 0; // Track the number of weeks
+    $currentDate = $startDate;  // Start scheduling from this date
+    $scheduledSessions = 0;      // Tracks the number of sessions scheduled per week
 
     // ✅ Group lessons by `course_path_id` and `path_of_path_id`
     $groupedLessons = $lessons->groupBy(['course_path_id', 'path_of_path_id']);
 
-    // ✅ Iterate through paths, then subpaths, then lessons
-    while ($lessonIndex < $totalLessons) {
+    while ($lessonIndex < count($lessons)) {
         foreach ($sessionDays as $day) {
-            if ($lessonIndex >= $totalLessons) break;
+            if ($lessonIndex >= count($lessons)) break;
+
+            // ✅ Move to the next available session day
+            $currentDate = $currentDate->next($daysOfWeekMap[$day]);
 
             foreach ($groupedLessons as $coursePathId => $subpaths) {
                 foreach ($subpaths as $pathOfPathId => $lessonsInTrack) {
                     foreach ($lessonsInTrack as $lesson) {
-                        if ($lessonIndex >= $totalLessons) break;
+                        if ($lessonIndex >= count($lessons)) break;
 
-                        // ✅ Get the next available session day
-                        $targetDate = $startDate->copy()->next($daysOfWeekMap[$day])->addWeeks($currentWeek);
+                        // ✅ Schedule only if within course duration
+                        if ($scheduledSessions >= ($weeklySessions * $totalWeeks)) break;
 
+                        // ✅ Create the schedule entry
                         GroupSchedule::create([
                             'group_id' => $groupId,
                             'lesson_id' => $lesson->id,
                             'start_time' => $startTime,
                             'end_time' => $endTime,
-                            'date' => $targetDate->format('Y-m-d')
+                            'date' => $currentDate->format('Y-m-d')
                         ]);
 
-                        Log::info("✅ Scheduled Lesson ID: {$lesson->id} on {$targetDate->format('Y-m-d')}");
+                        Log::info("✅ Scheduled Lesson ID: {$lesson->id} on {$currentDate->format('Y-m-d')}");
 
                         $lessonIndex++; // Move to the next lesson
+                        $scheduledSessions++; // Increase scheduled count
+
+                        // ✅ If we reach the max weekly sessions, move to the next week
+                        if ($scheduledSessions % $weeklySessions == 0) {
+                            $currentDate = $currentDate->addWeeks(1)->next($daysOfWeekMap[$sessionDays[0]]);
+                        }
                     }
                 }
             }
         }
-
-        $currentWeek++; // Move to the next week
     }
 
     Log::info("🟢 Lesson scheduling completed for Group ID: $groupId");
