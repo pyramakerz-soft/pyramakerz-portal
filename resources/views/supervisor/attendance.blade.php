@@ -103,17 +103,16 @@
 
                                 <!-- Combined Attendance Table -->
                                 @forelse($attendanceRecords as $groupKey => $attendances)
-                                    @php
-                                        // Original grouping key is "Instructor|Day|Time|Status|Course"
-                                        // We keep the full key so that if day/time/status differ, they remain separate.
-                                        // If you want to merge all days, remove $record->day from the controller grouping.
-                                        [$instructorName, $day, $time, $status, $courseName] = explode('|', $groupKey);
-                                        // Get coursePaths from the first record.
-                                        $firstAttendance = $attendances->first();
-                                        $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
-                                        // Define the sessions columns.
-                                        $allSessions = ['Session 1','Session 2','Session 3','Session 4','Session 5','Session 6','Session 7','Session 8'];
-                                    @endphp
+                                @php
+                                $parts = explode('|', $groupKey);
+                                $parts = array_pad($parts, 5, ''); // Ensure we have 5 parts: Instructor, Day, Time, Status, Course
+                                [$instructorName, $day, $time, $status, $courseName] = $parts;
+                                // Get coursePaths from the first record.
+                                $firstAttendance = $attendances->first();
+                                $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
+                                // Define the sessions columns.
+                                $allSessions = ['Session 1','Session 2','Session 3','Session 4','Session 5','Session 6','Session 7','Session 8'];
+                            @endphp
 
                                     <div class="dashboard__section__title mt-4">
                                         <h5>📌 Instructor: {{ $instructorName }}</h5>
