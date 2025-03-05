@@ -35,13 +35,7 @@ class AttendanceController extends Controller {
             ])
             ->get()
             ->groupBy(function ($record) {
-                return implode('|', [
-                    optional($record->user)->name ?? 'Instructor',
-                    $record->day,
-                    $record->time,
-                    $record->status,
-                    optional($record->course)->name ?? 'Unknown Course',
-                ]);
+                return $record;
             });
     
         return view('supervisor.attendance', compact('attendanceRecords', 'sessions', 'instructors', 'courses'));
