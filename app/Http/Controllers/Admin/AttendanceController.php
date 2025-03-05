@@ -29,19 +29,19 @@ class AttendanceController extends Controller {
     
         $attendanceRecords = $query
             ->with([
-                'student',
-                'course.coursePaths.paths', // Load all paths and sub-paths
-                'user', // The person who recorded the attendance
-                'student.groups.instructor' // Fetch the instructor assigned to the student's group
+                'student.groups.instructor',  // Load student's groups and their instructors
+                'course.coursePaths.paths',   // Load all paths and sub-paths
+                'user' // The person who recorded the attendance
             ])
             ->get()
             ->groupBy(function ($record) {
-                // Use the instructor from the student's assigned group, if available
-                $actualInstructor = optional(optional($record->student)->group)->instructor;
+                // Fetch the instructor from the student's assigned groups
+                $studentGroups = optional($record->student)->groups; 
+                $actualInstructor = $studentGroups->first()?->instructor; // Get the first instructor
                 $instructorName = $actualInstructor ? $actualInstructor->name : 'Unknown Instructor';
     
                 return implode('|', [
-                    $instructorName,  // Use the correct instructor for the group
+                    $instructorName,  // Use the correct instructor from the group
                     $record->day,
                     $record->time,
                     $record->status,
@@ -51,6 +51,7 @@ class AttendanceController extends Controller {
     
         return view('supervisor.attendance', compact('attendanceRecords', 'sessions', 'instructors', 'courses'));
     }
+    
     
     
     public function studentDetails($id){
