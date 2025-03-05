@@ -32,7 +32,7 @@ class AttendanceController extends Controller {
                 'student',
                 'course.coursePaths.paths', // Load all paths and sub-paths
                 'user', // The person who recorded the attendance
-                'student.group.instructor' // Fetch the instructor assigned to the student's group
+                'student.groups.instructor' // Fetch the instructor assigned to the student's group
             ])
             ->get()
             ->groupBy(function ($record) {
