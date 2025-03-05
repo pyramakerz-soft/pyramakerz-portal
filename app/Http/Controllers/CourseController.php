@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AgeGroup;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\CoursesPath;
@@ -30,7 +31,8 @@ class CourseController extends Controller
     public function create()
     {
         $coursePaths = CoursesPath::all();
-        return view("dashboard.create-course", compact("coursePaths"));
+        $age_groups = AgeGroup::all();
+        return view("dashboard.create-course", compact("coursePaths","age_groups"));
     }
 
     /**
