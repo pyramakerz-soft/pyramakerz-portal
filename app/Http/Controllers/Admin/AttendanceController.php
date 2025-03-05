@@ -26,19 +26,20 @@ class AttendanceController extends Controller {
     
         // Load related models and fetch data
         $attendanceRecords = $query
-            ->with([
-                'student',
-                'course.coursePaths.paths',
-                'user'
-            ])
-            ->get()
-            ->groupBy(function ($record) {
-                // Grouping only by instructor and course (ignoring day to merge them)
-                return implode('|', [
-                    optional($record->user)->name ?? 'Instructor',
-                    optional($record->course)->name ?? 'Unknown Course',
-                ]);
-            });
+    ->with([
+        'student',
+        'course.coursePaths.paths', 
+        'user'
+    ])
+    ->get()
+    ->groupBy(function ($record) {
+        return implode('|', [
+            optional($record->user)->name ?? 'Instructor',
+            optional($record->course)->name ?? 'Unknown Course',
+            optional($record->student)->id, // Group by student ID
+        ]);
+    });
+
     
         return view('supervisor.attendance', compact('attendanceRecords', 'sessions', 'instructors', 'courses'));
     }

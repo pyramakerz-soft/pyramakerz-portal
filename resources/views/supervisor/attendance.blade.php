@@ -132,7 +132,7 @@
                                 <!-- Grouped Attendance Table -->
                                 @forelse($attendanceRecords as $group => $attendances)
                                     @php
-                                        [$instructorName, $courseName] = explode('|', $group);
+                                        [$instructorName, $courseName, $studentId] = explode('|', $group);
                                         $firstAttendance = $attendances->first();
                                         $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
                                         $allSessions = [
@@ -191,34 +191,40 @@
                                             <tbody>
                                                 @foreach ($attendances as $attendance)
                                                     @php
-                                                        $sessionData = is_string($attendance->sessions)
-                                                            ? json_decode($attendance->sessions, true)
-                                                            : (is_array($attendance->sessions)
-                                                                ? $attendance->sessions
-                                                                : []);
+                                                        $mergedSessions = array_fill(0, count($allSessions), null);
+
+foreach ($attendances as $attendance) {
+    $sessionData = is_string($attendance->sessions)
+        ? json_decode($attendance->sessions, true)
+        : (is_array($attendance->sessions) ? $attendance->sessions : []);
+
+    foreach ($sessionData as $index => $value) {
+        if ($value !== null) {
+            $mergedSessions[$index] = $value;
+        }
+    }
+}
+
                                                     @endphp
 
-                                                    <tr>
-                                                        <td>pyra-{{ $attendance->student->id ?? '0' }}</td>
-                                                        <td>{{ optional($attendance->student)->name ?? 'N/A' }}</td>
+<tr>
+    <td>pyra-{{ $attendance->student->id ?? '0' }}</td>
+    <td>{{ optional($attendance->student)->name ?? 'N/A' }}</td>
 
-                                                        @foreach ($coursePaths as $coursePath)
-                                                            @foreach ($coursePath->paths as $subPath)
-                                                                @foreach ($allSessions as $index => $session)
-                                                                    @php
-                                                                        // Only show attendance if it matches the correct course path and path of path
-                                                                        $attendanceData =
-                                                                            $attendance->course_path_id ==
-                                                                                $coursePath->id &&
-                                                                            $attendance->path_of_path_id == $subPath->id
-                                                                                ? $sessionData[$index] ?? null
-                                                                                : null;
-                                                                    @endphp
-                                                                    <td>{!! $attendanceData === 1 ? '✔' : ($attendanceData === 0 ? '✘' : '—') !!}</td>
-                                                                @endforeach
-                                                            @endforeach
-                                                        @endforeach
-                                                    </tr>
+    @foreach ($coursePaths as $coursePath)
+        @foreach ($coursePath->paths as $subPath)
+            @foreach ($allSessions as $index => $session)
+                @php
+                    $attendanceData = $attendance->course_path_id == $coursePath->id &&
+                                      $attendance->path_of_path_id == $subPath->id
+                                      ? $sessionData[$index] ?? null
+                                      : null;
+                @endphp
+                <td>{!! $attendanceData === 1 ? '✔' : ($attendanceData === 0 ? '✘' : '—') !!}</td>
+            @endforeach
+        @endforeach
+    @endforeach
+</tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
