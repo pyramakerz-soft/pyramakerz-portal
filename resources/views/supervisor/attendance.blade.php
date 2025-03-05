@@ -3,11 +3,10 @@
 @include('include.head')
 
 <head>
-
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
 
     <style>
-        /* Select2 Dropdown Styling */
+        /* Select2 Styling */
         .select2-container .select2-selection--single {
             height: 40px !important;
             padding: 6px 12px;
@@ -23,29 +22,11 @@
             font-weight: 500;
         }
 
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
         .select2-dropdown {
             background: #fff !important;
             border: 1px solid #ddd;
             border-radius: 5px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .select2-results__option {
-            padding: 10px;
-            font-size: 14px;
-            color: #333;
-            background: #fff;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .select2-results__option:hover {
-            background: #007bff !important;
-            color: #fff !important;
         }
     </style>
 </head>
@@ -129,104 +110,52 @@
                                     </div>
                                 </form>
 
-                                <!-- Grouped Attendance Table -->
-                                @forelse($attendanceRecords as $group => $attendances)
-                                    @php
-                                        [$instructorName, $day, $time, $status, $courseName] = explode('|', $group);
-                                        $firstAttendance = $attendances->first();
-                                        $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
-                                        $allSessions = [
-                                            'Session 1',
-                                            'Session 2',
-                                            'Session 3',
-                                            'Session 4',
-                                            'Session 5',
-                                            'Session 6',
-                                            'Session 7',
-                                            'Session 8',
-                                        ];
-                                    @endphp
+                                <!-- Combined Attendance Table -->
+                                @php
+                                    $allSessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4', 'Session 5', 'Session 6', 'Session 7', 'Session 8'];
+                                @endphp
 
-                                    <div class="dashboard__section__title mt-4">
-                                        <h5>📌 Instructor: {{ $instructorName }}</h5>
-                                        <p>📅 Day: {{ $day }} | ⏰ Time: {{ $time }} | 🔹 Status:
-                                            {{ $status }}</p>
-                                        <p>📖 Course: {{ $courseName }}</p>
-                                    </div>
-
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered">
-                                            <thead class="  headtb text-white">
-                                                <tr>
-                                                    <th rowspan="2">Student ID</th>
-                                                    <th rowspan="2">Student Name</th>
-                                                    @foreach ($coursePaths as $coursePath)
-                                                        <th colspan="{{ count($coursePath->paths) * count($allSessions) }}"
-                                                            class="text-center bg-black text-white">
-                                                            {{ $coursePath->name }}
-                                                        </th>
-                                                    @endforeach
-                                                </tr>
-                                                <tr>
-                                                    @foreach ($coursePaths as $coursePath)
-                                                        @foreach ($coursePath->paths as $subPath)
-                                                            <th colspan="{{ count($allSessions) }}"
-                                                                class="text-center bg-secondary text-white">
-                                                                {{ $subPath->name }}
-                                                            </th>
-                                                        @endforeach
-                                                    @endforeach
-                                                </tr>
-                                                <tr>
-                                                    <th></th>
-                                                    <th></th>
-                                                    @foreach ($coursePaths as $coursePath)
-                                                        @foreach ($coursePath->paths as $subPath)
-                                                            @foreach ($allSessions as $session)
-                                                                <th>{{ $session }}</th>
-                                                            @endforeach
-                                                        @endforeach
-                                                    @endforeach
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($attendances as $attendance)
-                                                    @php
-                                                        $sessionData = is_string($attendance->sessions)
-                                                            ? json_decode($attendance->sessions, true)
-                                                            : (is_array($attendance->sessions)
-                                                                ? $attendance->sessions
-                                                                : []);
-                                                    @endphp
-
-                                                    <tr>
-                                                        <td>pyra-{{ $attendance->student->id ?? '0' }}</td>
-                                                        <td>{{ optional($attendance->student)->name ?? 'N/A' }}</td>
-
-                                                        @foreach ($coursePaths as $coursePath)
-                                                            @foreach ($coursePath->paths as $subPath)
-                                                                @foreach ($allSessions as $index => $session)
-                                                                    @php
-                                                                        // Only show attendance if it matches the correct course path and path of path
-                                                                        $attendanceData =
-                                                                            $attendance->course_path_id ==
-                                                                                $coursePath->id &&
-                                                                            $attendance->path_of_path_id == $subPath->id
-                                                                                ? $sessionData[$index] ?? null
-                                                                                : null;
-                                                                    @endphp
-                                                                    <td>{!! $attendanceData === 1 ? '✔' : ($attendanceData === 0 ? '✘' : '—') !!}</td>
-                                                                @endforeach
-                                                            @endforeach
-                                                        @endforeach
-                                                    </tr>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead class="headtb text-white">
+                                            <tr>
+                                                <th>Instructor</th>
+                                                <th>Day</th>
+                                                <th>Time</th>
+                                                <th>Status</th>
+                                                <th>Course</th>
+                                                <th>Student ID</th>
+                                                <th>Student Name</th>
+                                                @foreach ($allSessions as $session)
+                                                    <th>{{ $session }}</th>
                                                 @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                @empty
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($attendanceRecords as $attendance)
+                                                @php
+                                                    $sessionData = json_decode($attendance->sessions, true) ?? [];
+                                                @endphp
+                                                <tr>
+                                                    <td>{{ $attendance->user->name ?? 'Unknown' }}</td>
+                                                    <td>{{ $attendance->day }}</td>
+                                                    <td>{{ $attendance->time }}</td>
+                                                    <td>{{ $attendance->status }}</td>
+                                                    <td>{{ $attendance->course->name ?? 'N/A' }}</td>
+                                                    <td>pyra-{{ $attendance->student->id ?? '0' }}</td>
+                                                    <td>{{ optional($attendance->student)->name ?? 'N/A' }}</td>
+                                                    @foreach ($allSessions as $index => $session)
+                                                        <td>{!! $sessionData[$index] === 1 ? '✔' : ($sessionData[$index] === 0 ? '✘' : '—') !!}</td>
+                                                    @endforeach
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                @if($attendanceRecords->isEmpty())
                                     <p class="text-center">No attendance records found.</p>
-                                @endforelse
+                                @endif
 
                                 <div class="mt-3">
                                     <a href="{{ route('home') }}" class="btn btn-outline-secondary">
@@ -254,5 +183,4 @@
     </script>
 
 </body>
-
 </html>
