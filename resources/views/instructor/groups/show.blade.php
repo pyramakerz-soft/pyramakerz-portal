@@ -328,7 +328,7 @@
                             title: "Add Student",
                             confirmButtonColor: '#ff7918',
                             html: `
-                        <select id="student_id" class="swal2-select" style="width:100%">
+                        <select id="student_id" multiple class="swal2-select" style="width:100%">
                             ${options}
                         </select>
                     `,
