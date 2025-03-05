@@ -17,9 +17,6 @@ class AttendanceController extends Controller {
     
         $query = Attendance::query();
     
-        if ($request->filled('day')) {
-            $query->where('day', $request->day);
-        }
         if ($request->filled('instructor_id')) {
             $query->where('user_id', $request->instructor_id);
         }
@@ -27,19 +24,18 @@ class AttendanceController extends Controller {
             $query->where('course_id', $request->course_id);
         }
     
+        // Load related models and fetch data
         $attendanceRecords = $query
             ->with([
                 'student',
-                'course.coursePaths.paths', // Load all paths and sub-paths
+                'course.coursePaths.paths',
                 'user'
             ])
             ->get()
             ->groupBy(function ($record) {
+                // Grouping only by instructor and course (ignoring day to merge them)
                 return implode('|', [
                     optional($record->user)->name ?? 'Instructor',
-                    $record->day,
-                    $record->time,
-                    $record->status,
                     optional($record->course)->name ?? 'Unknown Course',
                 ]);
             });
