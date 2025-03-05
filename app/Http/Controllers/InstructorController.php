@@ -479,6 +479,7 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
 
     $currentDate = $startDate->copy();
     $scheduledSessions = 0;
+    $weekIndex = 0;
 
     // ✅ Iterate over course paths, then subpaths, then lessons
     foreach ($groupedLessons as $coursePathId => $subpaths) {
@@ -486,14 +487,12 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
             foreach ($lessonsInTrack as $lesson) {
                 if ($lessonIndex >= count($lessons)) break;
 
-                // ✅ Assign correct weekly session days
+                // ✅ Cycle through session days within a week
                 $sessionDayIndex = $scheduledSessions % count($sessionDays);
-                $currentDate = $currentDate->next($daysOfWeekMap[$sessionDays[$sessionDayIndex]]);
+                $currentDay = $sessionDays[$sessionDayIndex];
 
-                // ✅ Ensure correct weekly spacing
-                if ($scheduledSessions > 0 && $scheduledSessions % $weeklySessions == 0) {
-                    $currentDate = $currentDate->addWeek()->next($daysOfWeekMap[$sessionDays[0]]);
-                }
+                // ✅ Move to the correct day of the current week
+                $currentDate = $startDate->copy()->addWeeks($weekIndex)->next($daysOfWeekMap[$currentDay]);
 
                 // ✅ Create schedule
                 GroupSchedule::create([
@@ -508,12 +507,18 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
 
                 $lessonIndex++;
                 $scheduledSessions++;
+
+                // ✅ Move to the next week if all session days for this week are used
+                if ($scheduledSessions % $weeklySessions == 0) {
+                    $weekIndex++;
+                }
             }
         }
     }
 
     Log::info("🟢 Lesson scheduling completed for Group ID: $groupId");
 }
+
 
 
 
