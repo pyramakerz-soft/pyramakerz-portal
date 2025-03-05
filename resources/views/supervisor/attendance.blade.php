@@ -4,7 +4,7 @@
     @include('include.head')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
     <style>
-        /* Minimal Select2 Styling */
+        /* Minimal Select2 styling */
         .select2-container .select2-selection--single {
             height: 40px !important;
             padding: 6px 12px;
@@ -32,7 +32,7 @@
         @include('include.dash-nav')
         <div class="dashboardarea sp_bottom_100">
             <div class="container-fluid full__width__padding">
-                <!-- Page Header -->
+                <!-- Header -->
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="dashboardarea__wraper">
@@ -48,7 +48,7 @@
                     </div>
                 </div>
 
-                <!-- Filters (if needed) -->
+                <!-- Filters -->
                 <div class="dashboard">
                     <div class="container-fluid full__width__padding">
                         <div class="row">
@@ -60,15 +60,14 @@
                                     <div class="dashboard__section__title">
                                         <h4>📋 Attendance Records</h4>
                                     </div>
+                                    
                                     <form action="{{ route('admin.attendance.index') }}" method="GET" class="mb-4">
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <select name="day" class="form-control select2">
                                                     <option value="">All Days</option>
-                                                    @foreach (['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as $day)
-                                                        <option value="{{ $day }}" {{ request('day') == $day ? 'selected' : '' }}>
-                                                            {{ $day }}
-                                                        </option>
+                                                    @foreach (['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday'] as $day)
+                                                        <option value="{{ $day }}" {{ request('day') == $day ? 'selected' : '' }}>{{ $day }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -99,48 +98,40 @@
                                     </form>
 
                                     @php
-                                        /*
-                                         * Regroup attendance records by a new key that excludes the "Day" portion.
-                                         * Original key format: "Instructor|Day|Time|Status|Course"
-                                         */
-                                        $combinedAttendanceRecords = $attendanceRecords->groupBy(function($groupKey) {
-                                            $parts = explode('|', $groupKey);
-                                            if(isset($parts[1])){
-                                                unset($parts[1]); // remove Day
-                                            }
-                                            return implode('|', array_values($parts));
+                                        // Regroup the attendance records.
+                                        // We build a new key by using the instructor (from user), time, status, and course name.
+                                        // (We ignore the day.)
+                                        $combinedAttendanceRecords = $attendanceRecords->groupBy(function($attendance) {
+                                            // Ensure these properties exist.
+                                            $instructor = $attendance->user->name ?? 'Unknown';
+                                            $time = $attendance->time ?? '';
+                                            $status = $attendance->status ?? '';
+                                            $course = $attendance->course->name ?? '';
+                                            return $instructor.'|'.$time.'|'.$status.'|'.$course;
                                         });
-                                        
-                                        // Define sessions (static array as per your original code)
+
+                                        // Define a static sessions array
                                         $allSessions = [
-                                            'Session 1',
-                                            'Session 2',
-                                            'Session 3',
-                                            'Session 4',
-                                            'Session 5',
-                                            'Session 6',
-                                            'Session 7',
-                                            'Session 8',
+                                            'Session 1', 'Session 2', 'Session 3', 'Session 4',
+                                            'Session 5', 'Session 6', 'Session 7', 'Session 8',
                                         ];
                                     @endphp
 
                                     <!-- Combined Attendance Table -->
                                     @forelse($combinedAttendanceRecords as $groupKey => $attendances)
                                         @php
-                                            // Expect key in format "Instructor|Time|Status|Course"
                                             $parts = explode('|', $groupKey);
+                                            // Expect 4 parts: Instructor, Time, Status, Course.
                                             while(count($parts) < 4) {
                                                 $parts[] = '';
                                             }
                                             [$instructorName, $time, $status, $courseName] = $parts;
-                                            
-                                            // Get the first attendance record from this group.
                                             $firstAttendance = collect($attendances)->first();
-                                            // If the record is a collection, extract its first item.
+                                            // If the first record is a collection, use its first element.
                                             if($firstAttendance instanceof \Illuminate\Support\Collection) {
                                                 $firstAttendance = $firstAttendance->first();
                                             }
-                                            // Use the related course to get coursePaths.
+                                            // Use the related course to get its course paths.
                                             $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
                                         @endphp
 
@@ -188,11 +179,11 @@
                                                 <tbody>
                                                     @foreach ($attendances as $attendance)
                                                         @php
-                                                            // If $attendance is a collection, get its first record.
+                                                            // Ensure we have a single attendance record
                                                             if ($attendance instanceof \Illuminate\Support\Collection) {
                                                                 $attendance = $attendance->first();
                                                             }
-                                                            // Convert sessions JSON to an array if necessary.
+                                                            // Decode the sessions JSON into an array if needed.
                                                             $sessionData = is_string($attendance->sessions)
                                                                 ? json_decode($attendance->sessions, true)
                                                                 : (is_array($attendance->sessions) ? $attendance->sessions : []);
@@ -205,9 +196,9 @@
                                                                     @foreach ($allSessions as $index => $session)
                                                                         @php
                                                                             $attData = ($attendance->course_path_id == $coursePath->id &&
-                                                                                $attendance->path_of_path_id == $subPath->id)
-                                                                                ? ($sessionData[$index] ?? null)
-                                                                                : null;
+                                                                                        $attendance->path_of_path_id == $subPath->id)
+                                                                                        ? ($sessionData[$index] ?? null)
+                                                                                        : null;
                                                                         @endphp
                                                                         <td>{!! $attData === 1 ? '✔' : ($attData === 0 ? '✘' : '—') !!}</td>
                                                                     @endforeach
@@ -235,12 +226,11 @@
             </div>
         </div>
     </main>
-
     <script src="../js/vendor/jquery-3.6.0.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function(){
             $(".select2").select2();
         });
     </script>
