@@ -4957,6 +4957,25 @@ Popular Area
     position: relative;
     border-radius: var(--borderRadius3);
     background: var(--whiteColor);
+    overflow: hidden; /* Ensures no overflow */
+    max-width: 100%; /* Ensures it doesn’t exceed container */
+}
+
+.single__service .service__content h3, 
+.single__service .service__content p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+.single__service .service__content h3 a {
+    text-decoration: none; /* Removes underline */
+    display: block; /* Ensures the text behaves correctly */
+}
+
+.single__service .service__content p {
+    line-height: 1.5; /* Improves readability */
+    white-space: normal; /* Prevents text from staying in one line */
 }
 .single__service:hover {
     background: var(--primaryColor);
@@ -4982,6 +5001,7 @@ Popular Area
 }
 .single__service:hover .service__content p {
     color: var(--whiteColor);
+    
 }
 .single__service:hover .service__button a {
     color: var(--whiteColor);
@@ -5214,7 +5234,7 @@ Popular Area
 }
 
 .animate__content .single__service {
-    width: 250px;
+    width: 450px;
     margin: 0 10px;
 }
 
@@ -14197,3 +14217,6 @@ Dark Mode
 }
 
 /* end */
+.primary{
+    color: var(--primaryColor);
+}
