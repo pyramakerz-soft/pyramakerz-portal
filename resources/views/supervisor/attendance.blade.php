@@ -130,108 +130,94 @@
                                 </form>
 
                                 <!-- Grouped Attendance Table -->
-                                @forelse($attendanceRecords as $group => $attendances)
+                                @foreach ($attendanceRecords as $group => $attendances)
+    @php
+        [$instructorName, $courseName, $day, $time, $status] = explode('|', $group);
+        $coursePaths = optional($attendances->first()->course)->coursePaths ?? collect();
+        $allSessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4', 'Session 5', 'Session 6', 'Session 7', 'Session 8'];
+    @endphp
+
+    <div class="dashboard__section__title mt-4">
+        <h5>📌 Instructor: {{ $instructorName }}</h5>
+        <p>📅 Day: {{ $day }} | ⏰ Time: {{ $time }} | 🔹 Status: {{ $status }}</p>
+        <p>📖 Course: {{ $courseName }}</p>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="headtb text-white">
+                <tr>
+                    <th rowspan="2">Student ID</th>
+                    <th rowspan="2">Student Name</th>
+                    @foreach ($coursePaths as $coursePath)
+                        <th colspan="{{ count($coursePath->paths) * count($allSessions) }}"
+                            class="text-center bg-black text-white">
+                            {{ $coursePath->name }}
+                        </th>
+                    @endforeach
+                </tr>
+                <tr>
+                    @foreach ($coursePaths as $coursePath)
+                        @foreach ($coursePath->paths as $subPath)
+                            <th colspan="{{ count($allSessions) }}"
+                                class="text-center bg-secondary text-white">
+                                {{ $subPath->name }}
+                            </th>
+                        @endforeach
+                    @endforeach
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    @foreach ($coursePaths as $coursePath)
+                        @foreach ($coursePath->paths as $subPath)
+                            @foreach ($allSessions as $session)
+                                <th>{{ $session }}</th>
+                            @endforeach
+                        @endforeach
+                    @endforeach
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($attendances->groupBy('student.id') as $studentId => $studentAttendances)
+                    @php
+                        $student = $studentAttendances->first()->student;
+                        $mergedSessions = array_fill(0, count($allSessions), null);
+
+                        foreach ($studentAttendances as $attendance) {
+                            $sessionData = is_string($attendance->sessions)
+                                ? json_decode($attendance->sessions, true)
+                                : (is_array($attendance->sessions) ? $attendance->sessions : []);
+
+                            foreach ($sessionData as $index => $value) {
+                                if ($value !== null) {
+                                    $mergedSessions[$index] = $value;
+                                }
+                            }
+                        }
+                    @endphp
+
+                    <tr>
+                        <td>pyra-{{ $student->id ?? '0' }}</td>
+                        <td>{{ $student->name ?? 'N/A' }}</td>
+
+                        @foreach ($coursePaths as $coursePath)
+                            @foreach ($coursePath->paths as $subPath)
+                                @foreach ($allSessions as $index => $session)
                                     @php
-                                        [$instructorName, $courseName, $studentId] = explode('|', $group);
-                                        $firstAttendance = $attendances->first();
-                                        $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
-                                        $allSessions = [
-                                            'Session 1',
-                                            'Session 2',
-                                            'Session 3',
-                                            'Session 4',
-                                            'Session 5',
-                                            'Session 6',
-                                            'Session 7',
-                                            'Session 8',
-                                        ];
+                                        $attendanceData = $mergedSessions[$index] ?? null;
                                     @endphp
+                                    <td>{!! $attendanceData === 1 ? '✔' : ($attendanceData === 0 ? '✘' : '—') !!}</td>
+                                @endforeach
+                            @endforeach
+                        @endforeach
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+@endforeach
 
-                                    <div class="dashboard__section__title mt-4">
-                                        <h5>📌 Instructor: {{ $instructorName }}</h5>
-                                        <p>📖 Course: {{ $courseName }}</p>
-
-                                    </div>
-
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered">
-                                            <thead class="  headtb text-white">
-                                                <tr>
-                                                    <th rowspan="2">Student ID</th>
-                                                    <th rowspan="2">Student Name</th>
-                                                    @foreach ($coursePaths as $coursePath)
-                                                        <th colspan="{{ count($coursePath->paths) * count($allSessions) }}"
-                                                            class="text-center bg-black text-white">
-                                                            {{ $coursePath->name }}
-                                                        </th>
-                                                    @endforeach
-                                                </tr>
-                                                <tr>
-                                                    @foreach ($coursePaths as $coursePath)
-                                                        @foreach ($coursePath->paths as $subPath)
-                                                            <th colspan="{{ count($allSessions) }}"
-                                                                class="text-center bg-secondary text-white">
-                                                                {{ $subPath->name }}
-                                                            </th>
-                                                        @endforeach
-                                                    @endforeach
-                                                </tr>
-                                                <tr>
-                                                    <th></th>
-                                                    <th></th>
-                                                    @foreach ($coursePaths as $coursePath)
-                                                        @foreach ($coursePath->paths as $subPath)
-                                                            @foreach ($allSessions as $session)
-                                                                <th>{{ $session }}</th>
-                                                            @endforeach
-                                                        @endforeach
-                                                    @endforeach
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($attendances->take(1) as $attendance)
-                                                    @php
-                                                        $mergedSessions = array_fill(0, count($allSessions), null);
-
-foreach ($attendances as $attendance) {
-    $sessionData = is_string($attendance->sessions)
-        ? json_decode($attendance->sessions, true)
-        : (is_array($attendance->sessions) ? $attendance->sessions : []);
-
-    foreach ($sessionData as $index => $value) {
-        if ($value !== null) {
-            $mergedSessions[$index] = $value;
-        }
-    }
-}
-
-                                                    @endphp
-
-<tr>
-    <td>pyra-{{ $attendance->student->id ?? '0' }}</td>
-    <td>{{ optional($attendance->student)->name ?? 'N/A' }}</td>
-
-    @foreach ($coursePaths as $coursePath)
-        @foreach ($coursePath->paths as $subPath)
-            @foreach ($allSessions as $index => $session)
-                @php
-                    $attendanceData = $attendance->course_path_id == $coursePath->id &&
-                                      $attendance->path_of_path_id == $subPath->id
-                                      ? $sessionData[$index] ?? null
-                                      : null;
-                @endphp
-                <td>{!! $attendanceData === 1 ? '✔' : ($attendanceData === 0 ? '✘' : '—') !!}</td>
-            @endforeach
-        @endforeach
-    @endforeach
-</tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                @empty
-                                    <p class="text-center">No attendance records found.</p>
-                                @endforelse
 
                                 <div class="mt-3">
                                     <a href="{{ route('home') }}" class="btn btn-outline-secondary">
