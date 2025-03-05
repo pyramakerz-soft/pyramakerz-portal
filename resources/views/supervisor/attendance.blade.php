@@ -189,7 +189,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($attendances as $attendance)
+                                                @foreach ($attendances->take(1) as $attendance)
                                                     @php
                                                         $mergedSessions = array_fill(0, count($allSessions), null);
 
