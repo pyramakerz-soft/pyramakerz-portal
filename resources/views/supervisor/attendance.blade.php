@@ -28,17 +28,6 @@
             border-radius: 5px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .select2-results__option {
-            padding: 10px;
-            font-size: 14px;
-            color: #333;
-            background: #fff;
-            transition: all 0.3s ease-in-out;
-        }
-        .select2-results__option:hover {
-            background: #007bff !important;
-            color: #fff !important;
-        }
     </style>
 </head>
 <body class="body__wrapper">
@@ -63,7 +52,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Filters -->
             <div class="dashboard">
                 <div class="container-fluid full__width__padding">
@@ -76,16 +65,13 @@
                                 <div class="dashboard__section__title">
                                     <h4>📋 Attendance Records</h4>
                                 </div>
-                                
                                 <form action="{{ route('admin.attendance.index') }}" method="GET" class="mb-4">
                                     <div class="row">
                                         <div class="col-md-3">
                                             <select name="day" class="form-control select2">
                                                 <option value="">All Days</option>
-                                                @foreach (['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as $day)
-                                                    <option value="{{ $day }}" {{ request('day') == $day ? 'selected' : '' }}>
-                                                        {{ $day }}
-                                                    </option>
+                                                @foreach (['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday'] as $day)
+                                                    <option value="{{ $day }}" {{ request('day') == $day ? 'selected' : '' }}>{{ $day }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -118,22 +104,20 @@
                                 <!-- Combined Attendance Table -->
                                 @forelse($attendanceRecords as $groupKey => $attendances)
                                     @php
-                                        // Our grouping key is now in format: "Instructor|Time|Status|Course"
-                                        $parts = explode('|', $groupKey);
-                                        while(count($parts) < 4) {
-                                            $parts[] = '';
-                                        }
-                                        [$instructorName, $time, $status, $courseName] = $parts;
-                                        // Get course paths from the first record
+                                        // Original grouping key is "Instructor|Day|Time|Status|Course"
+                                        // We keep the full key so that if day/time/status differ, they remain separate.
+                                        // If you want to merge all days, remove $record->day from the controller grouping.
+                                        [$instructorName, $day, $time, $status, $courseName] = explode('|', $groupKey);
+                                        // Get coursePaths from the first record.
                                         $firstAttendance = $attendances->first();
                                         $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
-                                        // Define sessions (expand as needed)
-                                        $allSessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4', 'Session 5', 'Session 6', 'Session 7', 'Session 8'];
+                                        // Define the sessions columns.
+                                        $allSessions = ['Session 1','Session 2','Session 3','Session 4','Session 5','Session 6','Session 7','Session 8'];
                                     @endphp
 
                                     <div class="dashboard__section__title mt-4">
                                         <h5>📌 Instructor: {{ $instructorName }}</h5>
-                                        <p>⏰ Time: {{ $time }} | 🔹 Status: {{ $status }}</p>
+                                        <p>📅 Day: {{ $day }} | ⏰ Time: {{ $time }} | 🔹 Status: {{ $status }}</p>
                                         <p>📖 Course: {{ $courseName }}</p>
                                     </div>
 
@@ -173,35 +157,38 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {{-- Group the attendance records by student ID to combine rows --}}
+                                                {{-- Group by student id to combine rows for the same student --}}
                                                 @foreach ($attendances->groupBy('student.id') as $studentId => $studentRecords)
                                                     @php
                                                         $student = $studentRecords->first()->student;
-                                                        // Merge session data for this student (if multiple records exist)
-                                                        $mergedSessions = array_fill(0, count($allSessions), null);
-                                                        foreach ($studentRecords as $record) {
-                                                            $sessionData = is_string($record->sessions)
-                                                                ? json_decode($record->sessions, true)
-                                                                : (is_array($record->sessions) ? $record->sessions : []);
-                                                            foreach ($sessionData as $index => $value) {
-                                                                // If there's a value (0 or 1) we use it
-                                                                if ($value !== null) {
-                                                                    $mergedSessions[$index] = $value;
-                                                                }
-                                                            }
-                                                        }
+                                                        // For each sub-path column, filter records for that sub-path and merge session data.
                                                     @endphp
                                                     <tr>
                                                         <td>pyra-{{ $student->id }}</td>
                                                         <td>{{ $student->name }}</td>
                                                         @foreach ($coursePaths as $coursePath)
                                                             @foreach ($coursePath->paths as $subPath)
+                                                                @php
+                                                                    // Filter the records for this student that match the given course path and sub-path.
+                                                                    $recordsForSubPath = $studentRecords->filter(function($rec) use ($coursePath, $subPath) {
+                                                                        return $rec->course_path_id == $coursePath->id && $rec->path_of_path_id == $subPath->id;
+                                                                    });
+                                                                    // Merge session data from those records.
+                                                                    $mergedSessions = array_fill(0, count($allSessions), null);
+                                                                    foreach ($recordsForSubPath as $rec) {
+                                                                        $data = is_string($rec->sessions)
+                                                                            ? json_decode($rec->sessions, true)
+                                                                            : (is_array($rec->sessions) ? $rec->sessions : []);
+                                                                        foreach ($data as $index => $value) {
+                                                                            // If a value exists (0 or 1), override previous (or you may decide to merge in another way)
+                                                                            if ($value !== null) {
+                                                                                $mergedSessions[$index] = $value;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                @endphp
                                                                 @foreach ($allSessions as $index => $session)
-                                                                    @php
-                                                                        // We assume that all attendance records in this group share the same course_path_id and path_of_path_id for a given student.
-                                                                        $attData = $mergedSessions[$index] ?? null;
-                                                                    @endphp
-                                                                    <td>{!! $attData === 1 ? '✔' : ($attData === 0 ? '✘' : '—') !!}</td>
+                                                                    <td>{!! $mergedSessions[$index] === 1 ? '✔' : ($mergedSessions[$index] === 0 ? '✘' : '—') !!}</td>
                                                                 @endforeach
                                                             @endforeach
                                                         @endforeach
@@ -219,7 +206,6 @@
                                         <i class="icofont-arrow-left"></i> Back to Dashboard
                                     </a>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -236,6 +222,5 @@
             $(".select2").select2();
         });
     </script>
-
 </body>
 </html>
