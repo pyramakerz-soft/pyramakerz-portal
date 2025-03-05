@@ -5,6 +5,7 @@
 /public/storage
 /storage/*.key
 /storage/pail
+/storage/lesson_materials/*
 /vendor
 .env
 .env.backup
