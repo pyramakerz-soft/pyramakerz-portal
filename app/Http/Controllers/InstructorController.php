@@ -455,7 +455,7 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
         "Wednesday" => 3, "Thursday" => 4, "Friday" => 5, "Saturday" => 6
     ];
 
-    // ✅ Fetch lessons grouped by path & subpath, ordered correctly
+    // ✅ Fetch lessons **correctly ordered by track**
     $lessons = Lesson::whereHas('coursePath', function ($query) use ($courseId) {
                         $query->where('course_id', $courseId);
                     })
@@ -490,6 +490,11 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
                 $sessionDayIndex = $scheduledSessions % count($sessionDays);
                 $currentDate = $currentDate->next($daysOfWeekMap[$sessionDays[$sessionDayIndex]]);
 
+                // ✅ Ensure correct weekly spacing
+                if ($scheduledSessions > 0 && $scheduledSessions % $weeklySessions == 0) {
+                    $currentDate = $currentDate->addWeek()->next($daysOfWeekMap[$sessionDays[0]]);
+                }
+
                 // ✅ Create schedule
                 GroupSchedule::create([
                     'group_id' => $groupId,
@@ -503,11 +508,6 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
 
                 $lessonIndex++;
                 $scheduledSessions++;
-
-                // ✅ Move to next week after completing all weekly sessions
-                if ($scheduledSessions % $weeklySessions == 0) {
-                    $currentDate = $currentDate->addWeek()->next($daysOfWeekMap[$sessionDays[0]]);
-                }
             }
         }
     }
