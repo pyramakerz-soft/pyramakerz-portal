@@ -132,7 +132,7 @@
                                 <!-- Grouped Attendance Table -->
                                 @forelse($attendanceRecords as $group => $attendances)
                                     @php
-                                        [$instructorName, $day, $time, $status, $courseName] = explode('|', $group);
+                                        [$instructorName, $courseName] = explode('|', $group);
                                         $firstAttendance = $attendances->first();
                                         $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
                                         $allSessions = [
@@ -149,9 +149,8 @@
 
                                     <div class="dashboard__section__title mt-4">
                                         <h5>📌 Instructor: {{ $instructorName }}</h5>
-                                        <p>📅 Day: {{ $day }} | ⏰ Time: {{ $time }} | 🔹 Status:
-                                            {{ $status }}</p>
                                         <p>📖 Course: {{ $courseName }}</p>
+
                                     </div>
 
                                     <div class="table-responsive">
