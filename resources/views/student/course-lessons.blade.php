@@ -49,12 +49,12 @@ $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
                                     );
                                     $isSessionCompleted = $lessonDateTime->isPast();
                                 @endphp
-
+                                @if($meeting)
                                 @if ($isSessionCompleted)
                                     <a href="{{route('meetings.evaluate',$meeting->id)}}"
                                         class="btn btn-sm default__button">Evaluate Session</a>
                                 @endif
-
+                                @endif
                                 <!-- Lesson Resources -->
                                 @if (($lesson['materials'] ?? collect([]))->isNotEmpty())
                                     <div class="lesson-resources mt-3">

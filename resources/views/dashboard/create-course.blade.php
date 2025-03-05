@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>a
 
     <!-- Course Creation Form -->
     <div class="create__course sp_100">
@@ -32,6 +32,24 @@
                 <div class="col-xl-12">
                     <div class="create__course__accordion__wraper">
                         <div class="accordion" id="accordionExample">
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
+@if($errors->any())
+    <div class="alert alert-danger">
+        <strong>Please fix the following errors:</strong>
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
                             <!-- Course Info -->
                             <div class="accordion-item">
@@ -66,7 +84,7 @@
                                                     </div>
                                                     <div class="col-xl-6 dashboard__form__input">
                                                         <label>Age Group</label>
-                                                        <select name="age_group" class="form-control" required>
+                                                        <select name="age_group_id" class="form-control" required>
                                                             <option value="">Select Age Group</option>
                                                         @foreach($age_groups as $age_group)
                                                         <option value="{{$age_group->id }}">{{ $age_group->name }}</option>

@@ -473,7 +473,7 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
 
     $currentWeek = 0; // Track the number of weeks
     // ✅ Ensure proper weekly lesson spacing
-    while ($lessonIndex < $totalLessons && $currentWeek < $totalWeeks) {
+    while ($lessonIndex < $totalLessons) {
         foreach ($sessionDays as $day) {
             if ($lessonIndex >= $totalLessons) break;
             $targetDate = $startDate->copy()->next($daysOfWeekMap[$day])->addWeeks($currentWeek);

@@ -251,7 +251,7 @@
                                         src="{{ $course->image ? asset($course->image) : asset('img/course.jpg') }}"
                                         alt="blog">
                                 </div>
-                                @if(Auth::guard('student')->user() || Auth::guard('admin')->user())
+                                @if(Auth::guard('student')->user())
                                 <div class="course__summery__button">
                                     @php
                                         $enrollment = \App\Models\StudentEnrollment::where(
