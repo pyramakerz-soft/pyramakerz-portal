@@ -13,7 +13,7 @@ class AttendanceController extends Controller {
     public function index(Request $request) {
         $instructors = User::where('role', 'teacher')->get();
         $courses = Course::all();
-        $sessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4']; // You can expand this if needed.
+        $sessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4', 'Session 5', 'Session 6', 'Session 7', 'Session 8'];
     
         $query = Attendance::query();
     
@@ -31,13 +31,18 @@ class AttendanceController extends Controller {
             ->with([
                 'student',
                 'course.coursePaths.paths', // Load all paths and sub-paths
-                'user'
+                'user', // The person who recorded the attendance
+                'student.group.instructor' // Fetch the instructor assigned to the student's group
             ])
             ->get()
             ->groupBy(function ($record) {
-                // Group by instructor, time, status, and course (ignore day)
+                // Use the instructor from the student's assigned group, if available
+                $actualInstructor = optional(optional($record->student)->group)->instructor;
+                $instructorName = $actualInstructor ? $actualInstructor->name : 'Unknown Instructor';
+    
                 return implode('|', [
-                    optional($record->user)->name ?? 'Instructor',
+                    $instructorName,  // Use the correct instructor for the group
+                    $record->day,
                     $record->time,
                     $record->status,
                     optional($record->course)->name ?? 'Unknown Course',
@@ -46,6 +51,7 @@ class AttendanceController extends Controller {
     
         return view('supervisor.attendance', compact('attendanceRecords', 'sessions', 'instructors', 'courses'));
     }
+    
     
     public function studentDetails($id){
         $student = User::findOrFail($id);
