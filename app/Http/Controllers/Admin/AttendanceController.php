@@ -13,7 +13,7 @@ class AttendanceController extends Controller {
     public function index(Request $request) {
         $instructors = User::where('role', 'teacher')->get();
         $courses = Course::all();
-        $sessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4'];
+        $sessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4']; // You can expand this if needed.
     
         $query = Attendance::query();
     
@@ -35,9 +35,9 @@ class AttendanceController extends Controller {
             ])
             ->get()
             ->groupBy(function ($record) {
+                // Group by instructor, time, status, and course (ignore day)
                 return implode('|', [
                     optional($record->user)->name ?? 'Instructor',
-                    $record->day,
                     $record->time,
                     $record->status,
                     optional($record->course)->name ?? 'Unknown Course',
@@ -46,6 +46,7 @@ class AttendanceController extends Controller {
     
         return view('supervisor.attendance', compact('attendanceRecords', 'sessions', 'instructors', 'courses'));
     }
+    
     public function studentDetails($id){
         $student = User::findOrFail($id);
         $courses = Course::all();
