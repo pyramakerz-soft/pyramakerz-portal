@@ -130,7 +130,6 @@
                                 </form>
 
                                 <!-- Grouped Attendance Table -->
-                                @dd($attendanceRecords)
                                 @forelse($attendanceRecords as $group => $attendances)
                                     @php
                                         [$instructorName, $day, $time, $status, $courseName] = explode('|', $group);
