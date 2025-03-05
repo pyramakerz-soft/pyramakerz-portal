@@ -116,8 +116,8 @@
 
                                     <div class="dashboard__section__title mt-4">
                                         <h5>📌 Instructor: {{ $instructorName }}</h5>
-                                        <p>📅 Day: {{ $day }} | ⏰ Time: {{ $time }} | 🔹 Status: {{ $status }}</p>
-                                        <p>📖 Course: {{ $courseName }}</p>
+                                        <p>📅 Time: {{ $day }} | ⏰ Status: {{ $time }} </p>
+                                        <p>📖 Course: {{ $status }}</p>
                                     </div>
 
                                     <div class="table-responsive">
