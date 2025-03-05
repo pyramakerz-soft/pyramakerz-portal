@@ -143,13 +143,16 @@
 
                                 <!-- Combined Attendance Table -->
                                 @forelse($combinedAttendanceRecords as $group => $attendances)
-                                    @php
-                                        // New key format: "Instructor|Time|Status|Course"
-                                        [$instructorName, $time, $status, $courseName] = explode('|', $group);
-                                        $firstAttendance = $attendances->first();
-                                        // Get course paths from the course relation (if any)
-                                        $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
-                                    @endphp
+                                @php
+                                    $parts = explode('|', $group);
+                                    // Ensure we have 4 parts; if not, pad with empty strings.
+                                    while(count($parts) < 4) {
+                                        $parts[] = '';
+                                    }
+                                    [$instructorName, $time, $status, $courseName] = $parts;
+                                    $firstAttendance = $attendances->first();
+                                    $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
+                                @endphp
 
                                     <div class="dashboard__section__title mt-4">
                                         <h5>📌 Instructor: {{ $instructorName }}</h5>
