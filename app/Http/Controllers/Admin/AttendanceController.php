@@ -42,15 +42,13 @@ class AttendanceController extends Controller {
     
                 return implode('|', [
                     $instructorName,  // Use the correct instructor from the group
-                    $record->day,
-                    $record->time,
-                    $record->status,
                     optional($record->course)->name ?? 'Unknown Course',
                 ]);
             });
     
         return view('supervisor.attendance', compact('attendanceRecords', 'sessions', 'instructors', 'courses'));
     }
+    
     
     
     
