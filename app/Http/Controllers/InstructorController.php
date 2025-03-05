@@ -447,11 +447,15 @@ public function createGroup(Request $request)
 
 private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $courseDuration, $startTime, $endTime, $courseId, $sessionDays)
 {
-    $startDate = Carbon::parse($startDate);
+    $startDate = Carbon::parse($startDate); 
+    $lessonIndex = 0;
     $totalWeeks = $courseDuration;
-    $scheduledSessions = 0;
-
-    // ✅ Fetch lessons in proper track order
+    $daysOfWeekMap = [
+        "Sunday" => 0, "Monday" => 1, "Tuesday" => 2,
+        "Wednesday" => 3, "Thursday" => 4, "Friday" => 5, "Saturday" => 6
+    ];
+    
+    // ✅ Fetch lessons properly ordered by track
     $lessons = Lesson::whereHas('coursePath', function ($query) use ($courseId) {
                         $query->where('course_id', $courseId);
                     })
@@ -460,9 +464,9 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
                             $q->where('course_id', $courseId);
                         });
                     })
-                    ->orderBy('course_path_id')
-                    ->orderBy('path_of_path_id')
-                    ->orderBy('order')
+                    ->orderBy('course_path_id')  
+                    ->orderBy('path_of_path_id') 
+                    ->orderBy('order')  
                     ->get();
 
     if ($lessons->isEmpty()) {
@@ -470,41 +474,44 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
         return;
     }
 
-    $daysOfWeekMap = [
-        "Sunday" => 0, "Monday" => 1, "Tuesday" => 2,
-        "Wednesday" => 3, "Thursday" => 4, "Friday" => 5, "Saturday" => 6
-    ];
+    // ✅ Group lessons by course path and sub-path
+    $groupedLessons = $lessons->groupBy(['course_path_id', 'path_of_path_id']);
 
-    $lessonIndex = 0;  // Track lessons assigned
-    $currentDate = $startDate->copy(); // Keep a copy of the start date
+    $currentDate = $startDate->copy();  
+    $scheduledSessions = 0;
 
     for ($week = 0; $week < $totalWeeks; $week++) {
         foreach ($sessionDays as $day) {
-            if ($lessonIndex >= $lessons->count()) break; // Stop if all lessons are scheduled
-            
-            // ✅ Move to the next correct session day
-            if ($currentDate->dayOfWeek != $daysOfWeekMap[$day]) {
-                $currentDate = $currentDate->next($daysOfWeekMap[$day]);
-            }
+            if ($lessonIndex >= count($lessons)) break;
 
-            // ✅ Assign lesson to this day
-            GroupSchedule::create([
-                'group_id' => $groupId,
-                'lesson_id' => $lessons[$lessonIndex]->id,
-                'start_time' => $startTime,
-                'end_time' => $endTime,
-                'date' => $currentDate->format('Y-m-d')
-            ]);
+            // ✅ Ensure we follow the weekly session days correctly
+            $currentDate = $currentDate->next($daysOfWeekMap[$day]);
 
-            Log::info("✅ Scheduled Lesson ID: {$lessons[$lessonIndex]->id} on {$currentDate->format('Y-m-d')}");
+            foreach ($groupedLessons as $coursePathId => $subpaths) {
+                foreach ($subpaths as $pathOfPathId => $lessonsInTrack) {
+                    foreach ($lessonsInTrack as $lesson) {
+                        if ($lessonIndex >= count($lessons)) break;
 
-            $lessonIndex++; // Move to next lesson
-            $scheduledSessions++;
+                        // ✅ Schedule lesson
+                        GroupSchedule::create([
+                            'group_id' => $groupId,
+                            'lesson_id' => $lesson->id,
+                            'start_time' => $startTime,
+                            'end_time' => $endTime,
+                            'date' => $currentDate->format('Y-m-d')
+                        ]);
 
-            // ✅ Move to the next week after finishing the last session day
-            if ($scheduledSessions % $weeklySessions == 0) {
-                $currentDate->addWeek(); 
-                $currentDate = $currentDate->next($daysOfWeekMap[$sessionDays[0]]);
+                        Log::info("✅ Scheduled Lesson ID: {$lesson->id} on {$currentDate->format('Y-m-d')}");
+
+                        $lessonIndex++;
+                        $scheduledSessions++;
+
+                        // ✅ Move to next week if weekly sessions are completed
+                        if ($scheduledSessions % $weeklySessions == 0) {
+                            $currentDate->addWeek()->next($daysOfWeekMap[$sessionDays[0]]);
+                        }
+                    }
+                }
             }
         }
     }
