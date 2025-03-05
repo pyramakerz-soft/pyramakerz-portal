@@ -114,19 +114,30 @@
                                 </form>
 
                                 @php
-                                    /* 
-                                     * Regroup attendance records by a new key that excludes the day.
-                                     * Original key format: "Instructor|Day|Time|Status|Course"
-                                     * We remove the Day (index 1) so that records for the same group (Instructor, Time, Status, Course)
-                                     * are combined into one table.
+                                    /*
+                                     * Regroup attendance records so that attendances for the same group
+                                     * (same instructor, time, status, and course) are combined.
+                                     * We assume each $attendance has properties: instructor_name, day, time, status, course_name,
+                                     * and also a property "group_key" that is built as "Instructor|Day|Time|Status|Course".
+                                     * Here we remove the day portion.
                                      */
-                                    $combinedAttendanceRecords = $attendanceRecords->groupBy(function($groupKey) {
-                                        $parts = explode('|', $groupKey);
-                                        unset($parts[1]); // Remove the day
-                                        return implode('|', $parts);
-                                    });
+                                    $combinedAttendanceRecords = collect();
+                                    foreach ($attendanceRecords as $attendance) {
+                                        // Build a grouping key
+                                        $key = $attendance->instructor_name . '|' . $attendance->day . '|' . $attendance->time . '|' . $attendance->status . '|' . $attendance->course_name;
+                                        // Remove the day portion (index 1)
+                                        $parts = explode('|', $key);
+                                        if(count($parts) >= 5){
+                                            unset($parts[1]); // remove day
+                                            $newKey = implode('|', $parts);
+                                        } else {
+                                            $newKey = $key;
+                                        }
+                                        $combinedAttendanceRecords[$newKey][] = $attendance;
+                                    }
+                                    $combinedAttendanceRecords = collect($combinedAttendanceRecords);
                                     
-                                    // Define all sessions (assumed static for this example)
+                                    // Define the sessions (adjust if needed)
                                     $allSessions = [
                                         'Session 1',
                                         'Session 2',
@@ -140,18 +151,20 @@
                                 @endphp
 
                                 <!-- Combined Attendance Table -->
-                                @forelse($combinedAttendanceRecords as $group => $attendances)
+                                @forelse($combinedAttendanceRecords as $groupKey => $attendances)
                                     @php
-                                        $parts = explode('|', $group);
+                                        $parts = explode('|', $groupKey);
                                         while(count($parts) < 4) {
                                             $parts[] = '';
                                         }
+                                        // Since we removed the day, we expect 4 parts: Instructor, Time, Status, Course
                                         [$instructorName, $time, $status, $courseName] = $parts;
-                                        $firstAttendance = $attendances->first();
-                                        // If the first attendance is a collection, get its first element.
+                                        $firstAttendance = collect($attendances)->first();
+                                        // Ensure $firstAttendance is a single record (not a collection)
                                         if ($firstAttendance instanceof \Illuminate\Support\Collection) {
                                             $firstAttendance = $firstAttendance->first();
                                         }
+                                        // Use the related course to get course paths
                                         $coursePaths = optional($firstAttendance->course)->coursePaths ?? collect();
                                     @endphp
 
@@ -199,11 +212,11 @@
                                             <tbody>
                                                 @foreach ($attendances as $attendance)
                                                     @php
-                                                        // If $attendance is a collection, get its first item.
+                                                        // Ensure $attendance is a single record
                                                         if ($attendance instanceof \Illuminate\Support\Collection) {
                                                             $attendance = $attendance->first();
                                                         }
-                                                        // Convert sessions (if stored as JSON) to an array.
+                                                        // Convert sessions JSON to an array if needed
                                                         $sessionData = is_string($attendance->sessions)
                                                             ? json_decode($attendance->sessions, true)
                                                             : (is_array($attendance->sessions) ? $attendance->sessions : []);
@@ -215,12 +228,12 @@
                                                             @foreach ($coursePath->paths as $subPath)
                                                                 @foreach ($allSessions as $index => $session)
                                                                     @php
-                                                                        $attendanceData = ($attendance->course_path_id == $coursePath->id &&
-                                                                        $attendance->path_of_path_id == $subPath->id)
-                                                                        ? ($sessionData[$index] ?? null)
-                                                                        : null;
+                                                                        // Show attendance only if it matches this course path and sub-path
+                                                                        $attData = ($attendance->course_path_id == $coursePath->id && $attendance->path_of_path_id == $subPath->id)
+                                                                            ? ($sessionData[$index] ?? null)
+                                                                            : null;
                                                                     @endphp
-                                                                    <td>{!! $attendanceData === 1 ? '✔' : ($attendanceData === 0 ? '✘' : '—') !!}</td>
+                                                                    <td>{!! $attData === 1 ? '✔' : ($attData === 0 ? '✘' : '—') !!}</td>
                                                                 @endforeach
                                                             @endforeach
                                                         @endforeach
