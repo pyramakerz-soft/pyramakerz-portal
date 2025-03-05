@@ -13,10 +13,13 @@ class AttendanceController extends Controller {
     public function index(Request $request) {
         $instructors = User::where('role', 'teacher')->get();
         $courses = Course::all();
-        $sessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4', 'Session 5', 'Session 6', 'Session 7', 'Session 8'];
+        $sessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4'];
     
         $query = Attendance::query();
     
+        if ($request->filled('day')) {
+            $query->where('day', $request->day);
+        }
         if ($request->filled('instructor_id')) {
             $query->where('user_id', $request->instructor_id);
         }
@@ -24,26 +27,25 @@ class AttendanceController extends Controller {
             $query->where('course_id', $request->course_id);
         }
     
-        // Load related models and fetch data
         $attendanceRecords = $query
-    ->with([
-        'student',
-        'course.coursePaths.paths', 
-        'user'
-    ])
-    ->get()
-    ->groupBy(function ($record) {
-        return implode('|', [
-            optional($record->user)->name ?? 'Instructor',
-            optional($record->course)->name ?? 'Unknown Course',
-            optional($record->student)->id, // Group by student ID
-        ]);
-    });
-
+            ->with([
+                'student',
+                'course.coursePaths.paths', // Load all paths and sub-paths
+                'user'
+            ])
+            ->get()
+            ->groupBy(function ($record) {
+                return implode('|', [
+                    optional($record->user)->name ?? 'Instructor',
+                    $record->day,
+                    $record->time,
+                    $record->status,
+                    optional($record->course)->name ?? 'Unknown Course',
+                ]);
+            });
     
         return view('supervisor.attendance', compact('attendanceRecords', 'sessions', 'instructors', 'courses'));
     }
-    
     public function studentDetails($id){
         $student = User::findOrFail($id);
         $courses = Course::all();
