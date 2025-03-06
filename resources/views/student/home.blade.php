@@ -541,7 +541,7 @@
 
 
         {{-- timeline --}}
-        <div class=" ">
+        <div class="populerarea__1 ">
             <div class="container">
 
                 <div class="timeline">
@@ -1107,57 +1107,7 @@
         <script src="js/swiper-bundle.min.js"></script>
         <script src="js/main.js"></script>
 
-    <script>
-        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        if (localStorage.getItem("theme-color") === "dark" || (!("theme-color" in localStorage) && window.matchMedia(
-                "(prefers-color-scheme: dark)").matches)) {
-            document.getElementById("light--to-dark-button")?.classList.add("dark--mode");
-        }
-        if (localStorage.getItem("theme-color") === "light") {
-            document.getElementById("light--to-dark-button")?.classList.remove("dark--mode");
-        }
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
-
-        gsap.utils.toArray(".timeline").forEach((point, index) => {
-            gsap.fromTo(point, {
-                opacity: 0,
-                y: 50
-            }, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                delay: index * 0.3,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: point,
-                    start: "top 80%",
-                    // toggleActions: "play none none reverse"
-                }
-            });
-        });
-
-        gsap.utils.toArray(".timeline").forEach((popup, index) => {
-            gsap.fromTo(popup, {
-                opacity: 0,
-                scale: 0.8
-            }, {
-                opacity: 1,
-                scale: 1,
-                duration: 0.8,
-                delay: index * 0.3,
-                // ease: "power2.out",
-                scrollTrigger: {
-                    trigger: popup,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                }
-            });
-        });
-    </script>
+    
 
 
 
