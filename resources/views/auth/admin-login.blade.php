@@ -97,7 +97,7 @@
                                 <div class="loginarea__wraper">
                                     <div class="login__heading">
                                         <h5 class="login__title">Login</h5>
-                                        <p class="login__description">Don't have an account yet? <a href="#" class="single__tab__link"
+                                        <p class="login__description">Don't have an account yet? <a href="#" 
                                             data-bs-toggle="tab"
                                             data-bs-target="#projects__two">Sign up for
                                                 free</a></p>
@@ -155,7 +155,7 @@
                                 <div class="loginarea__wraper">
                                     <div class="login__heading">
                                         <h5 class="login__title">sign up</h5>
-                                        <p class="login__description">Already have an account? <a href="#" class="single__tab__link"
+                                        <p class="login__description">Already have an account? <a href="#" 
                                             data-bs-toggle="tab"
                                             data-bs-target="#projects__one">Log In</a></p>
                                     </div>
