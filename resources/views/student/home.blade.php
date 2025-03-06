@@ -75,7 +75,8 @@
                                 </div>
                             </div>
                             <div class="educationarea__small__img__2">
-                                <img loading="lazy" src="img/winnercup.jpg" alt="educator">
+                                <img src="{{ asset('img/winnercup.jpg') }}" height="100px" width="100px"
+                                    alt="educator">
                                 <div class="educationarea__small__content">
                                     <span>Congratulations!!</span>
                                     <p>You are on the right track</p>
@@ -547,7 +548,7 @@
                 <div class="timeline">
 
                     <div class="containr left-container">
-                        <img src="img/winnercup.jpg">
+                        <img src="{{ asset('img/winnercup.jpg') }}" height="100px" width="100px">
                         <div class="text-box">
                             <h2> Objective:</h2>
                             <p>To empower graduates with startup ideas and support their entrepreneurial journey.</p>
@@ -557,7 +558,7 @@
                     </div>
 
                     <div class="containr right-container">
-                        <img src="img/winnercup.jpg">
+                        <img src="{{ asset('img/winnercup.jpg') }}" height="100px" width="100px">
                         <div class="text-box">
                             <h2> College</h2>
                             Mentorship:
@@ -568,7 +569,7 @@
                     </div>
 
                     <div class="containr left-container">
-                        <img src="img/winnercup.jpg">
+                        <img src="{{ asset('img/winnercup.jpg') }}" height="100px" width="100px">
                         <div class="text-box">
                             <h2> Access to Resource</h2>
                             <p>Utilize our tools, facilities, and networks.</p>
@@ -578,7 +579,7 @@
                     </div>
 
                     <div class="containr right-container">
-                        <img src="img/winnercup.jpg">
+                        <img src="{{ asset('img/winnercup.jpg') }}" height="100px" width="100px">
                         <div class="text-box">
                             <h2> Program Highlights</h2>
                             <p>Guidance from industry experts and business mentors to develop and refine ideas.<br>
@@ -589,7 +590,7 @@
 
                     </div>
                     <div class="containr left-container">
-                        <img src="img/winnercup.jpg">
+                        <img src="{{ asset('img/winnercup.jpg') }}" height="100px" width="100px">
                         <div class="text-box">
                             <h2> Impact:</h2>
                             <p>Encourages innovation and entrepreneurial thinking among graduates.<br>
@@ -1082,7 +1083,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
-        @include('include.scripts')
+        {{-- @include('include.scripts') --}}
         <!-- footer__section__end -->
 
     </main>

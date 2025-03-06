@@ -23,8 +23,13 @@ class TicketController extends Controller
         $ticket->message  = $request->input('message');
 
         if ($request->hasFile('attachment')) {
-            $path = $request->file('attachment')->store('ticket_attachments', 'public');
-            $ticket->attachment = $path;
+            
+            $imageName = time() . '.' . request()->attachment->getClientOriginalExtension();
+            request()->attachment->move(public_path('ticket_attachments'), $imageName);
+            $ticket->attachment = 'ticket_attachments/' . $imageName;
+            
+            
+
         }
 
         $ticket->save();

@@ -20,7 +20,7 @@
                 <li><a href="{{ route('admin-courses') }}"><i class="feather feather-bookmark"></i> My Courses</a></li>
                 <li><a href="{{ route('instructor.time-table') }}"><i class="feather feather-calendar"></i> My Calendar</a></li>
                 <li><a href="{{ route('instructor.zoom_meetings') }}"><i class="feather feather-book-open"></i> Sessions</a></li>
-                <li><a href="/admin/chat"><i class="feather feather-message-circle"></i> Message</a></li>
+                <li><a href="{{route('instructor-chat')}}"><i class="feather feather-message-circle"></i> Message</a></li>
                 <li><a href="{{ route('admin-settings') }}"><i class="feather feather-settings"></i> Settings</a></li>
                 <li><a href="{{ route('logout') }}"><i class="feather feather-log-out"></i> Logout</a></li>
             @endif
