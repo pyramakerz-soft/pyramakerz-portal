@@ -78,14 +78,15 @@
                     <div class="col-xl-8 col-md-8 offset-md-2" data-aos="fade-up">
                         <ul class="nav  tab__button__wrap text-center" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="single__tab__link active" data-bs-toggle="tab"
+                                <button id="loginTab" class="single__tab__link active" data-bs-toggle="tab"
                                     data-bs-target="#projects__one" type="button">Login</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="single__tab__link" data-bs-toggle="tab" data-bs-target="#projects__two"
-                                    type="button">Signup</button>
+                                <button id="signupTab" class="single__tab__link" data-bs-toggle="tab"
+                                    data-bs-target="#projects__two" type="button">Signup</button>
                             </li>
                         </ul>
+                        
                     </div>
 
 
@@ -97,9 +98,9 @@
                                 <div class="loginarea__wraper">
                                     <div class="login__heading">
                                         <h5 class="login__title">Login</h5>
-                                        <p class="login__description">Don't have an account yet? <a href="#"
-                                            data-bs-toggle="tab" data-bs-target="#projects__two">Sign up for
-                                                free</a></p>
+                                        <p class="login__description">Don't have an account yet? 
+                                            <a href="#" onclick="openSignupTab()">Sign up for free</a>
+                                        </p>
                                     </div>
 
 
@@ -154,9 +155,9 @@
                                 <div class="loginarea__wraper">
                                     <div class="login__heading">
                                         <h5 class="login__title">sign up</h5>
-                                        <p class="login__description">Already have an account? <a href="#"
-                                            data-bs-toggle="tab"
-                                            data-bs-target="#projects__one" >Log In</a></p>
+                                        <p class="login__description">Already have an account? 
+                                            <a href="#" onclick="openLoginTab()">Log In</a>
+                                        </p>
                                     </div>
 
 
@@ -300,7 +301,16 @@
     </main>
 
 
-
+    <script>
+        function openLoginTab() {
+            document.getElementById('loginTab').click();
+        }
+    
+        function openSignupTab() {
+            document.getElementById('signupTab').click();
+        }
+    </script>
+    
 
 
     <!-- JS here -->
