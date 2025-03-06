@@ -12,6 +12,10 @@
                             </div>
                             
                         </div>
+                        <div class="dashboardarea__left__content">
+                            {{-- <h4>{{ $student->name }}</h4> --}}
+                            <h4>{{ Auth::guard('admin')->user()->name ?? 'Admin' }}</h4>
+                        </div>
                         @if(Auth::guard('admin')->user()->roles[0]->name == 'admin')
                                     <div class="dashboardarea__right">
                                         <div class="dashboardarea__right__button">
