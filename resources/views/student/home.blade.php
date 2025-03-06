@@ -4,7 +4,36 @@
 <head>
     @include('include.head')
 
+<style>
+    .single__service {
+    padding: 30px;
+    box-shadow: 0 0 50px 10px rgba(95, 45, 237, 0.1);
+    margin-bottom: 30px;
+    transition: var(--transition);
+    position: relative;
+    border-radius: var(--borderRadius3);
+    background: var(--whiteColor);
+    overflow: hidden; /* Ensures no overflow */
+    max-width: 100%; /* Ensures it doesn’t exceed container */
+}
 
+.single__service .service__content h3,
+.single__service .service__content p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+.single__service .service__content h3 a {
+    text-decoration: none; /* Removes underline */
+    display: block; /* Ensures the text behaves correctly */
+}
+
+.single__service .service__content p {
+    line-height: 1.5; /* Improves readability */
+    white-space: normal; /* Prevents text from staying in one line */
+}
+</style>
 </head>
 
 
