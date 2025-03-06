@@ -95,12 +95,7 @@
     transform: rotate(90deg) scaleY(-1);
 }
 
-/* Custom property for angle */
-@property --angle {
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
-}
+
 
 /* Common styling for timeline points */
 .timeline-point:nth-child(1) {
@@ -132,6 +127,23 @@
     max-width: 100%;
     margin: 100px auto;
 }
+.containr {
+    padding: 10px 50px;
+    position: relative;
+    width: 50%;
+    animation: movedown 1s linear forwards;
+    opacity: 0;
+}
+@keyframes movedown {
+    0% {
+        opacity: 1;
+        transform: translate(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0px);
+    }
+}
 .timeline::after {
     content: "";
     position: absolute;
@@ -145,6 +157,24 @@
     z-index: -10;
     animation: moveline 6s linear forwards;
 }
+.left-container {
+    left: 0;
+}
+.right-container {
+    left: 50%;
+}
+.containr img {
+    position: absolute;
+    width: 40px;
+    border-radius: 50%;
+    right: -20px;
+    top: 35px;
+    z-index: 10;
+}
+.right-container img {
+    left: -20px;
+}
+
 </style>
 </head>
 
