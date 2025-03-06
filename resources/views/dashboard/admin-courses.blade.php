@@ -20,58 +20,8 @@
 
         <!-- dashboardarea__menu__start   -->
         <div class="dashboardarea ">
-            <div class="container-fluid full__width__padding">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="dashboardarea__wraper">
-                            <div class="dashboardarea__img">
-                                <div class="dashboardarea__inner admin__dashboard__inner">
-                                    <div class="dashboardarea__left">
-                                        <div class="dashboardarea__left__img">
-                                            <img loading="lazy" src="{{ asset('img/dashbord/dashbord__2.jpg') }}"
-                                                alt="">
-                                        </div>
-                                        <div class="dashboardarea__left__content">
-                                            <h5>Hello</h5>
-                                            <h4>{{ Auth::guard('admin')->user()->name ?? 'Admin' }}
-                                            </h4>
-                                        </div>
-                                    </div>
-                                    {{-- <div class="dashboardarea__star">
-                                    <i class="icofont-star"></i>
-                                    <i class="icofont-star"></i>
-                                    <i class="icofont-star"></i>
-                                    <i class="icofont-star"></i>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-star">
-                                        <polygon
-                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-                                        </polygon>
-                                    </svg>
-                                    <span>4.0 (120 Reviews)</span>
-                                </div> --}}
-                                @if(Auth::guard('admin')->user()->roles[0]->name == 'admin')
-                                    <div class="dashboardarea__right">
-                                        <div class="dashboardarea__right__button">
-                                            <a class="default__button" href="{{route('courses.create')}}">Create a New Course
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-arrow-right">
-                                                    <line x1="5" y1="12" x2="19" y2="12">
-                                                    </line>
-                                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                                </svg></a>
-                                        </div>
-                                    </div>
-@endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('include.admin-topbar')
+
             <div class="dashboard">
                 <div class="container-fluid full__width__padding">
                     <div class="row">
