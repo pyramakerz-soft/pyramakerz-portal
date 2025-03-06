@@ -75,7 +75,7 @@
                                 </div>
                             </div>
                             <div class="educationarea__small__img__2">
-                                <img loading="lazy" src="img/winnercup.jpg" alt="educator">
+                                <img src="{{asset('img/winnercup.jpg')}}" height="100px" width="100px" alt="educator">
                                 <div class="educationarea__small__content">
                                     <span>Congratulations!!</span>
                                     <p>You are on the right track</p>
@@ -547,7 +547,7 @@
                 <div class="timeline">
 
                     <div class="containr left-container">
-                        <img src="img/winnercup.jpg">
+                        <img src="{{asset('img/winnercup.jpg')}}" height="100px" width="100px">
                         <div class="text-box">
                             <h2> Objective:</h2>
                             <p>To empower graduates with startup ideas and support their entrepreneurial journey.</p>
@@ -557,7 +557,7 @@
                     </div>
 
                     <div class="containr right-container">
-                        <img src="img/winnercup.jpg">
+                        <img src="{{asset('img/winnercup.jpg')}}" height="100px" width="100px">
                         <div class="text-box">
                             <h2> College</h2>
                             Mentorship:
@@ -568,7 +568,7 @@
                     </div>
 
                     <div class="containr left-container">
-                        <img src="img/winnercup.jpg">
+                        <img src="{{asset('img/winnercup.jpg')}}" height="100px" width="100px">
                         <div class="text-box">
                             <h2> Access to Resource</h2>
                             <p>Utilize our tools, facilities, and networks.</p>
@@ -578,7 +578,7 @@
                     </div>
 
                     <div class="containr right-container">
-                        <img src="img/winnercup.jpg">
+                        <img src="{{asset('img/winnercup.jpg')}}" height="100px" width="100px">
                         <div class="text-box">
                             <h2> Program Highlights</h2>
                             <p>Guidance from industry experts and business mentors to develop and refine ideas.<br>
@@ -589,7 +589,7 @@
 
                     </div>
                     <div class="containr left-container">
-                        <img src="img/winnercup.jpg">
+                        <img src="{{asset('img/winnercup.jpg')}}" height="100px" width="100px">
                         <div class="text-box">
                             <h2> Impact:</h2>
                             <p>Encourages innovation and entrepreneurial thinking among graduates.<br>
@@ -1089,23 +1089,21 @@
 
 
     <!-- JS here -->
-    <script src="js/vendor/modernizr-3.5.0.min.js"></script>
-    <script src="js/vendor/jquery-3.6.0.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/isotope.pkgd.min.js"></script>
-    <script src="js/slick.min.js"></script>
-    <script src="js/jquery.meanmenu.min.js"></script>
-    <script src="js/ajax-form.js"></script>
-    <script src="js/wow.min.js"></script>
-    <script src="js/jquery.scrollUp.min.js"></script>
-    <script src="js/imagesloaded.pkgd.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/waypoints.min.js"></script>
-    <script src="js/jquery.counterup.min.js"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/swiper-bundle.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{{asset('/js/vendor/modernizr-3.5.0.min.js')}}"></script>
+    <script src="{{asset('/js/vendor/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{asset('/js/popper.min.js')}}"></script>
+    <script src="{{asset('/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('/js/isotope.pkgd.min.js')}}"></script>
+    <script src="{{asset('/js/slick.min.js')}}"></script>
+    <script src="{{asset('/js/jquery.meanmenu.min.js')}}"></script>
+    <script src="{{asset('/js/ajax-form.js')}}"></script>
+    <script src="{{asset('/js/wow.min.js')}}"></script>
+    <script src="{{asset('/js/jquery.scrollUp.min.js')}}"></script>
+    <script src="{{asset('/js/imagesloaded.pkgd.min.js')}}"></script>
+    <script src="{{asset('/js/jquery.magnific-popup.min.js')}}"></script>
+    <script src="{{asset('/js/waypoints.min.js')}}"></script>
+    <script src="{{asset('/js/jquery.counterup.min.js')}}"></script>
+    <script src="{{asset('/js/main.js')}}"></script>
 
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
