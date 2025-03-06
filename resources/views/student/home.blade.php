@@ -33,6 +33,118 @@
     line-height: 1.5; /* Improves readability */
     white-space: normal; /* Prevents text from staying in one line */
 }
+/* Timeline Section Fix */
+/* Ensure the timeline section does not overlap */
+.timeline-section {
+    width: 100%;
+    min-height: 100vh; /* Ensures it stays separate */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background: #212529;  */
+    /* Matches theme */
+    padding: 100px 0; /* Adds spacing above and below */
+    position: relative;
+    overflow: hidden;
+}
+
+.timeline-container {
+    display: flex;
+    gap: 40px;
+    width: 100%;
+    height: 134px;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 67px;
+    position: relative;
+}
+
+/* Individual timeline point styling */
+.timeline-point {
+    transition-duration: 0.5s;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #1e2125, #23282c);
+    box-shadow: 13.4px 13.4px 40.2px #1c1f23, -13.4px -13.4px 40.2px #262b2f;
+    display: grid;
+    place-items: center;
+    width: 134px;
+    position: relative;
+    color: var(--color);
+    z-index: -1;
+}
+
+.timeline-point::before {
+    content: "";
+    width: 200px;
+    height: 200px;
+    z-index: -1;
+    border-radius: 50%;
+    position: absolute;
+    background: conic-gradient(
+        var(--color) var(--angle),
+        transparent 0deg 360deg
+    );
+    animation: rotateBorder 1s linear var(--delay) forwards;
+}
+
+.timeline-point:nth-child(odd)::before {
+    transform: rotate(-90deg);
+}
+
+.timeline-point:nth-child(even)::before {
+    transform: rotate(90deg) scaleY(-1);
+}
+
+/* Custom property for angle */
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+/* Common styling for timeline points */
+.timeline-point:nth-child(1) {
+    --color: #c1121f;
+    --delay: 0s;
+}
+
+.timeline-point:nth-child(2) {
+    --color: #ffc300;
+    --delay: 1s;
+}
+
+.timeline-point:nth-child(3) {
+    --color: #2ec4b6;
+    --delay: 2s;
+}
+
+.timeline-point:nth-child(4) {
+    --color: #6536ff;
+    --delay: 3s;
+}
+
+.timeline-point:nth-child(5) {
+    --color: #3a86ff;
+    --delay: 4s;
+}
+.timeline {
+    position: relative;
+    max-width: 100%;
+    margin: 100px auto;
+}
+.timeline::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    background: var(--whiteColor);
+    border: 1px solid var(--primaryColor);
+    top: 0px;
+    left: 50%;
+    margin-left: -3px;
+    z-index: -10;
+    animation: moveline 6s linear forwards;
+}
 </style>
 </head>
 
