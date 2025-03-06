@@ -83,7 +83,7 @@
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="single__tab__link" data-bs-toggle="tab" data-bs-target="#projects__two"
-                                    type="button">sign up</button>
+                                    type="button">Signup</button>
                             </li>
                         </ul>
                     </div>
@@ -98,7 +98,7 @@
                                     <div class="login__heading">
                                         <h5 class="login__title">Login</h5>
                                         <p class="login__description">Don't have an account yet? <a href="#"
-                                                data-bs-toggle="modal" data-bs-target="#registerModal">Sign up for
+                                            class="single__tab__link" data-bs-toggle="tab" data-bs-target="#projects__two">Sign up for
                                                 free</a></p>
                                     </div>
 
@@ -155,7 +155,8 @@
                                     <div class="login__heading">
                                         <h5 class="login__title">sign up</h5>
                                         <p class="login__description">Already have an account? <a href="#"
-                                                data-bs-toggle="tab" data-bs-target="#projects__one">Log In</a></p>
+                                            class="single__tab__link " data-bs-toggle="tab"
+                                            data-bs-target="#projects__one" >Log In</a></p>
                                     </div>
 
 
