@@ -3,7 +3,6 @@
 
 <head>
     @include('include.head')
-    <link rel="stylesheet" href="{{ asset('css/home-style.css') }}">
 <style>
    
 
