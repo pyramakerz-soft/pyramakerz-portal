@@ -22,7 +22,7 @@
                 <li><a href="{{ route('instructor.zoom_meetings') }}"><i class="feather feather-book-open"></i> Sessions</a></li>
                 <li><a href="{{route('instructor-chat')}}"><i class="feather feather-message-circle"></i> Message</a></li>
                 <li><a href="{{ route('admin-settings') }}"><i class="feather feather-settings"></i> Settings</a></li>
-                <li><a href="{{ route('logout') }}"><i class="feather feather-log-out"></i> Logout</a></li>
+                <li><a href="{{ route('logout-admin') }}"><i class="feather feather-log-out"></i> Logout</a></li>
             @endif
 
             <!-- SUPERVISOR Sidebar -->
@@ -36,7 +36,7 @@
                 <li><a href="{{ route('admin.attendance.index') }}"><i class="feather feather-calendar"></i> Attendance</a></li>
                 <li><a href="{{ route('admin.enrollment_requests') }}"><i class="feather feather-user-check"></i> Enrollment Requests</a></li>
                 <li><a href="{{ route('admin.tickets') }}"><i class="feather feather-message-circle"></i> Tickets</a></li>
-                <li><a href="{{ route('logout') }}"><i class="feather feather-log-out"></i> Logout</a></li>
+                <li><a href="{{ route('logout-admin') }}"><i class="feather feather-log-out"></i> Logout</a></li>
             @endif
 
             <!-- ADMIN Sidebar -->
@@ -54,7 +54,7 @@
                 <li><a href="{{ route('admin.enrollment_requests') }}"><i class="feather feather-user-check"></i> Enrollment Requests</a></li>
                 <li><a href="{{ route('admin.tickets') }}"><i class="feather feather-message-circle"></i> Tickets</a></li>
                 <li><a href="{{ route('admin-settings') }}"><i class="feather feather-settings"></i> Settings</a></li>
-                <li><a href="{{ route('logout') }}"><i class="feather feather-log-out"></i> Logout</a></li>
+                <li><a href="{{ route('logout-admin') }}"><i class="feather feather-log-out"></i> Logout</a></li>
             @endif
 
         </ul>

@@ -323,7 +323,7 @@
                                 </p> -->
 
                                 <div class="service__animate__shape__1">
-                                    <img loading="lazy" src="img/about/5.png" alt="" style="width:550px;">
+                                    <img loading="lazy" src="img/about/5.png" alt="" >
                                 </div>
                             </div>
 
@@ -409,11 +409,7 @@
                                         </ul>
                                         </p>
                                     </div>
-                                    <div class="service__button">
-                                        <a href="#">View Subject
-                                            <i class="icofont-long-arrow-right"></i>
-                                        </a>
-                                    </div>
+                                  
                                     <div class="service__small__img">
                                         <svg class="icon__hover__img" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">

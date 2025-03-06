@@ -723,7 +723,7 @@
                             </div>
                         </div> --}}
 
-
+{{-- 
                         <div class="headerarea__button">
                             @if (Auth::guard('student')->user())
                                 <a>Hello,
@@ -736,7 +736,7 @@
                             @else
                                 <a href="{{ route('student-login') }}">Get Started</a>
                             @endif
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
@@ -756,6 +756,7 @@
                 </div>
                 <div class="col-6">
                     <div class="header-right-wrap">
+                        
 
 
 
@@ -771,7 +772,7 @@
 <!-- header section end -->
 
 <!-- Mobile Menu Start Here -->
-<div class="mobile-off-canvas-active">
+{{-- <div class="mobile-off-canvas-active">
     <a class="mobile-aside-close"><i class="icofont  icofont-close-line"></i></a>
     <div class="header-mobile-aside-wrap">
         <div class="mobile-search">
@@ -1067,5 +1068,5 @@
             <a class="google" href="#"><i class="icofont icofont-youtube-play"></i></a>
         </div>
     </div>
-</div>
+</div> --}}
 <!-- Mobile Menu end Here -->

@@ -5217,18 +5217,24 @@ Popular Area
 }
 .about__wrap__content .service__animate__shape__1 img {
     position: absolute;
-    right: 50px;
+    /* right: 50px; */
     bottom: -50px;
+    align-items: center;
+    margin: auto;
     animation: dot-anim-2 3s linear 0s infinite alternate;
+    width: 450px;
 }
 @media (min-width: 768px) and (max-width: 991px) {
     .about__wrap__content .service__animate__shape__1 img {
-        bottom: 38px;
+        /* bottom: 38px;
+        width: 300px; */
+        display: none;
     }
 }
 @media (max-width: 767px) {
     .about__wrap__content .service__animate__shape__1 img {
         bottom: 36px;
+        display: none;
     }
 }
 
