@@ -1119,45 +1119,6 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
-
-        gsap.utils.toArray(".timeline").forEach((point, index) => {
-            gsap.fromTo(point, {
-                opacity: 0,
-                y: 50
-            }, {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                delay: index * 0.3,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: point,
-                    start: "top 80%",
-                    // toggleActions: "play none none reverse"
-                }
-            });
-        });
-
-        gsap.utils.toArray(".timeline").forEach((popup, index) => {
-            gsap.fromTo(popup, {
-                opacity: 0,
-                scale: 0.8
-            }, {
-                opacity: 1,
-                scale: 1,
-                duration: 0.8,
-                delay: index * 0.3,
-                // ease: "power2.out",
-                scrollTrigger: {
-                    trigger: popup,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                }
-            });
-        });
-    </script>
 
 
 
