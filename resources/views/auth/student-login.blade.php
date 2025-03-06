@@ -185,7 +185,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label">Phone Number</label>
                                                     <input class="common__login__input" type="text"
-                                                        placeholder="Phone" name="phone">
+                                                        placeholder="Phone Number" name="phone">
 
                                                 </div>
                                             </div>
@@ -256,7 +256,7 @@
 
                                         </div>
                                         <div class="login__social__option">
-                                            <button class="default__button" href="#">sign up</button>
+                                            <button class="default__button" href="#">Signup</button>
                                         </div>
                                     </form>
 
