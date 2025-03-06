@@ -301,15 +301,7 @@
     </main>
 
 
-    <script>
-        function openLoginTab() {
-            document.getElementById('loginTab').click();
-        }
     
-        function openSignupTab() {
-            document.getElementById('signupTab').click();
-        }
-    </script>
     
 
 
@@ -334,7 +326,15 @@
 
 
 
-
+    <script>
+        function openLoginTab() {
+            document.getElementById('loginTab').click();
+        }
+    
+        function openSignupTab() {
+            document.getElementById('signupTab').click();
+        }
+    </script>
 </body>
 
 </html>
