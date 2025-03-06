@@ -7,12 +7,15 @@ use App\Models\Student;
 use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\GroupStudent;
+use App\Models\CoursesPath;
+use App\Models\GroupSchedule;
 use App\Models\StudentAnswer;
 use App\Models\StudentEnrollment;
 use App\Models\StudentTask;
 use App\Models\StudentTest;
 use App\Models\Test;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class StudentController extends Controller
 {
@@ -136,44 +139,117 @@ public function submitTest(Request $request, $testId)
     }
     
     
-    public function getCourses(Request $request)
+  public function getCourses(Request $request)
 {
     $student = Auth::guard('student')->user();
 
     // Fetch Active Courses: Courses where the student is assigned to a group
     $groupCourses = GroupStudent::with([
-        'group.course.instructor',
+        'group.course.coursePaths',
         'group.schedules.lesson'
     ])
     ->where('student_id', $student->id)
+    ->whereHas('group.schedules', function ($query) {
+        $query->where('date', '>=', now()); // Ongoing or future courses
+    })
     ->get();
 
-    // Fetch courses where the student is enrolled but NOT assigned to any group
-    $enrolledCourses = CourseStudent::with('course.instructor')
+    // Fetch the student's enrolled group IDs
+$studentGroups = GroupStudent::where('student_id', $student->id)->pluck('group_id');
+
+// Fetch Course Paths that belong to courses where the student is in one of the groups
+$allCoursePaths = CoursesPath::with([
+    'course.groups',   // load groups related to the course
+    'paths.lessons'    // load lessons for each PathOfPath
+])->whereHas('course.groups', function($query) use ($studentGroups) {
+    $query->whereIn('id', $studentGroups);
+})->get();
+
+// Now, determine finished paths (i.e. those whose lessons’ schedules are all in the past)
+$finishedCourses = collect();
+
+foreach ($allCoursePaths as $coursePath) {
+    // Filter the child paths (PathOfPath)
+    $finishedChildPaths = $coursePath->paths->filter(function ($childPath) use ($studentGroups) {
+        // Get all lesson IDs for this child path
+        $lessonIds = $childPath->lessons->pluck('id');
+        if ($lessonIds->isEmpty()) {
+            return false; // No lessons means we ignore this path
+        }
+        // Get all schedules for these lessons, but only for the student's groups
+        $schedules = GroupSchedule::whereIn('lesson_id', $lessonIds)
+            ->whereIn('group_id', $studentGroups)
+            ->get();
+        if ($schedules->isEmpty()) {
+            return false; // If there are no schedules at all, do not mark it as finished
+        }
+        // Check that every schedule is in the past
+        foreach ($schedules as $schedule) {
+            if (Carbon::parse($schedule->date)->greaterThanOrEqualTo(now())) {
+                return false; // Found at least one schedule that is not yet past
+            }
+        }
+        return true; // All schedules are in the past, so the path is finished
+    });
+    
+    if ($finishedChildPaths->isNotEmpty()) {
+        // Attach the finished child paths to the course path
+        $coursePath->finishedPaths = $finishedChildPaths;
+        $finishedCourses->push($coursePath);
+    }
+}
+$enrolledCourses = CourseStudent::with('course.instructor')
         ->where('student_id', $student->id)
         ->whereDoesntHave('course.groups.students', function ($query) use ($student) {
             $query->where('student_id', $student->id);
         })
         ->get();
+// Run this to confirm finished courses structure before rendering:
 
-    // Fetch Finished Courses: Courses where the student has completed all lessons
-    $finishedCourses = GroupStudent::with(['group.course.instructor', 'group.schedules.lesson'])
-        ->where('student_id', $student->id)
-        ->whereHas('group.schedules', function ($query) {
-            $query->where('date', '<', now()); // Courses that ended
-        })
-        ->get();
+    // Ensure paths with remaining scheduled lessons are kept
+    $upcomingCourses = $allCoursePaths->map(function ($coursePath) {
+        // Retrieve only PathOfPaths that have scheduled lessons in the future
+        $filteredChildPaths = $coursePath->paths->map(function ($childPath) {
+            $upcomingLessons = collect(); // Initialize empty collection
 
-    // Fetch Upcoming Courses: Courses that haven't started yet
-    $upcomingCourses = GroupStudent::with(['group.course.instructor', 'group.schedules.lesson'])
-        ->where('student_id', $student->id)
-        ->whereHas('group.schedules', function ($query) {
-            $query->where('date', '>', now()); // Future start date
-        })
-        ->get();
+            foreach ($childPath->lessons as $lesson) {
+                // Check if this lesson has any future schedule
+                $scheduledLessons = GroupSchedule::where('lesson_id', $lesson->id)
+                    ->where('date', '>', now())
+                    ->exists();
 
-    return view('student.enrolled-courses', compact('groupCourses', 'enrolledCourses', 'finishedCourses', 'upcomingCourses', 'student'));
+                if ($scheduledLessons) {
+                    $upcomingLessons->push($lesson);
+                }
+            }
+
+            // Keep this child path only if it has upcoming lessons
+            if ($upcomingLessons->isNotEmpty()) {
+                $childPath->filteredLessons = $upcomingLessons;
+                return $childPath;
+            }
+
+            return null;
+        })->filter();
+
+        // Keep course paths that have at least one valid path with upcoming lessons
+        if ($filteredChildPaths->isNotEmpty()) {
+            $coursePath->filteredPaths = $filteredChildPaths;
+            return $coursePath;
+        }
+
+        return null;
+    })->filter();
+    return view('student.enrolled-courses', compact(
+        'groupCourses',
+        'enrolledCourses',
+        'finishedCourses',
+        'upcomingCourses',
+        'student'
+    ));
 }
+
+
 
 
 

@@ -447,12 +447,15 @@ public function createGroup(Request $request)
 
 private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $courseDuration, $startTime, $endTime, $courseId, $sessionDays)
 {
-    // dd($sessionDays, $courseId, $groupId, $startDate, $weeklySessions, $courseDuration, $startTime, $endTime);
     $startDate = Carbon::parse($startDate);
     $lessonIndex = 0;
     $totalWeeks = $courseDuration;
-    
-    // ✅ Fetch lessons correctly by checking `course_path_id` (not `course_id`)
+    $daysOfWeekMap = [
+        "Sunday" => 0, "Monday" => 1, "Tuesday" => 2,
+        "Wednesday" => 3, "Thursday" => 4, "Friday" => 5, "Saturday" => 6
+    ];
+
+    // ✅ Fetch lessons **correctly ordered by track**
     $lessons = Lesson::whereHas('coursePath', function ($query) use ($courseId) {
                         $query->where('course_id', $courseId);
                     })
@@ -461,40 +464,63 @@ private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $
                             $q->where('course_id', $courseId);
                         });
                     })
-                    ->orderBy('order', 'asc')
+                    ->orderBy('course_path_id')  
+                    ->orderBy('path_of_path_id') 
+                    ->orderBy('order')  
                     ->get();
+
     if ($lessons->isEmpty()) {
         Log::warning("⚠ No lessons found for course ID: $courseId");
         return;
     }
 
-    $totalLessons = $lessons->count();
-    $daysOfWeekMap = ["Sunday" => 0, "Monday" => 1, "Tuesday" => 2, "Wednesday" => 3, "Thursday" => 4, "Friday" => 5, "Saturday" => 6];
+    // ✅ Group lessons properly by track
+    $groupedLessons = $lessons->groupBy(['course_path_id', 'path_of_path_id']);
 
-    $currentWeek = 0; // Track the number of weeks
-    // ✅ Ensure proper weekly lesson spacing
-    while ($lessonIndex < $totalLessons && $currentWeek < $totalWeeks) {
-        foreach ($sessionDays as $day) {
-            if ($lessonIndex >= $totalLessons) break;
-            $targetDate = $startDate->copy()->next($daysOfWeekMap[$day])->addWeeks($currentWeek);
+    $currentDate = $startDate->copy();
+    $scheduledSessions = 0;
+    $weekIndex = 0;
 
-            GroupSchedule::create([
-                'group_id' => $groupId,
-                'lesson_id' => $lessons[$lessonIndex]->id,
-                'start_time' => $startTime,
-                'end_time' => $endTime,
-                'date' => $targetDate->format('Y-m-d')
-            ]);
+    // ✅ Iterate over course paths, then subpaths, then lessons
+    foreach ($groupedLessons as $coursePathId => $subpaths) {
+        foreach ($subpaths as $pathOfPathId => $lessonsInTrack) {
+            foreach ($lessonsInTrack as $lesson) {
+                if ($lessonIndex >= count($lessons)) break;
 
-            Log::info("✅ Scheduled Lesson ID: {$lessons[$lessonIndex]->id} on {$targetDate->format('Y-m-d')}");
+                // ✅ Cycle through session days within a week
+                $sessionDayIndex = $scheduledSessions % count($sessionDays);
+                $currentDay = $sessionDays[$sessionDayIndex];
 
-            $lessonIndex++; // Move to the next lesson
+                // ✅ Move to the correct day of the current week
+                $currentDate = $startDate->copy()->addWeeks($weekIndex)->next($daysOfWeekMap[$currentDay]);
+
+                // ✅ Create schedule
+                GroupSchedule::create([
+                    'group_id' => $groupId,
+                    'lesson_id' => $lesson->id,
+                    'start_time' => $startTime,
+                    'end_time' => $endTime,
+                    'date' => $currentDate->format('Y-m-d')
+                ]);
+
+                Log::info("✅ Scheduled Lesson ID: {$lesson->id} on {$currentDate->format('Y-m-d')}");
+
+                $lessonIndex++;
+                $scheduledSessions++;
+
+                // ✅ Move to the next week if all session days for this week are used
+                if ($scheduledSessions % $weeklySessions == 0) {
+                    $weekIndex++;
+                }
+            }
         }
-
-        $currentWeek++; // Move to the next week
     }
+
     Log::info("🟢 Lesson scheduling completed for Group ID: $groupId");
 }
+
+
+
 
 
 public function rescheduleGroupsForCourse(Request $request, $courseId)

@@ -3,8 +3,10 @@
 /public/build
 /public/hot
 /public/storage
+/public/lesson_materials/*
 /storage/*.key
 /storage/pail
+/storage/lesson_materials/*
 /vendor
 .env
 .env.backup

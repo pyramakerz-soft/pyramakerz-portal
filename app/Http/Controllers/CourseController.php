@@ -40,7 +40,7 @@ class CourseController extends Controller
      */
     
 
-     public function store(Request $request)
+    public function store(Request $request)
 {
     Log::info('🟢 store() function is called');
     Log::info('🔍 Incoming Request Data:', $request->all());
@@ -60,7 +60,7 @@ class CourseController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
 
             // ✅ Course Paths Validation
-            'course_paths' => 'nullable|array', // Allow null but will auto-create below
+            'course_paths' => 'nullable|array', 
             'course_paths.*.name' => 'nullable|string|max:255',
             'course_paths.*.duration' => 'nullable|string|max:255',
             'course_paths.*.price' => 'nullable|numeric|min:0',
@@ -76,7 +76,9 @@ class CourseController extends Controller
         Log::info('✅ Validated Data:', ['validatedData' => $validatedData]);
     } catch (\Illuminate\Validation\ValidationException $e) {
         Log::error('❌ Validation Failed:', ['errors' => $e->errors()]);
-        return redirect()->back()->withErrors($e->errors())->withInput();
+
+        // Return validation errors with a clear message
+        return back()->withErrors($e->errors())->withInput()->with('error', 'Please fix the highlighted errors.');
     }
 
     try {
@@ -106,7 +108,7 @@ class CourseController extends Controller
         Log::info('✅ Course Created: ID ' . $course->id);
         $t_duration = 0;
 
-        // ✅ Check if Course Paths exist, otherwise create one
+        // ✅ Ensure Course Paths Exist
         if (empty($validatedData['course_paths'])) {
             $validatedData['course_paths'] = [
                 [
@@ -127,17 +129,16 @@ class CourseController extends Controller
             $coursePath->duration = $pathData['duration'];
             $coursePath->price = $pathData['price'] ?? null;
             $t_duration += $pathData['duration'];
-
-            $coursePath->image = 'default.png'; // Default Image
+            $coursePath->image = 'default.png'; 
 
             $coursePath->save();
             Log::info('✅ Course Path Created: ID ' . $coursePath->id);
 
-            // ✅ If no sub-paths exist, auto-create one matching Course Path
+            // ✅ Ensure Path of Paths Exist
             if (empty($validatedData['path_of_paths'][$pathIndex])) {
                 $validatedData['path_of_paths'][$pathIndex] = [
                     [
-                        'name' => $coursePath->name, // Default to Course Path Name
+                        'name' => $coursePath->name, 
                         'duration' => $coursePath->duration,
                     ]
                 ];
@@ -167,6 +168,7 @@ class CourseController extends Controller
         return redirect()->back()->with('error', 'An error occurred while saving data.');
     }
 }
+
 
      
 
