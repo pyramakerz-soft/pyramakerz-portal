@@ -150,6 +150,27 @@
         </div>
 
         @include('include.scripts')
+        @if (session('error'))
+                        <script>
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: '{{ session('error') }}',
+                                confirmButtonColor: '#ff7918',
+
+                            });
+                        </script>
+                    @endif
+                    @if (session('success'))
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: '{{ session('success') }}',
+                                confirmButtonColor: '#ff7918',
+                            });
+                        </script>
+                    @endif
     </main>
 
     <!-- Assign Group Modal (SweetAlert) -->

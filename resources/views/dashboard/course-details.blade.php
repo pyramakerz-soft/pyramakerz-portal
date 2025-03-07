@@ -373,7 +373,7 @@
             <input type="text" id="lesson_title" class="swal2-input" placeholder="Enter Lesson Title" style="border-radius: 8px;">
 
             <label style="font-weight: 600;">Order Number</label>
-            <input type="number" id="lesson_order" class="swal2-input" placeholder="Enter Order Number" style="border-radius: 8px;">
+            <input type="number" id="lesson_order" min="1" class="swal2-input" placeholder="Enter Order Number" style="border-radius: 8px;">
 
             <label style="font-weight: 600;">Video URL</label>
             <input type="url" id="lesson_video" class="swal2-input" placeholder="Enter Video URL" style="border-radius: 8px;">

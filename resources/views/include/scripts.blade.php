@@ -34,3 +34,24 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
     
+        @if (session('error'))
+                        <script>
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: '{{ session('error') }}',
+                                confirmButtonColor: '#ff7918',
+
+                            });
+                        </script>
+                    @endif
+                    @if (session('success'))
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: '{{ session('success') }}',
+                                confirmButtonColor: '#ff7918',
+                            });
+                        </script>
+                    @endif

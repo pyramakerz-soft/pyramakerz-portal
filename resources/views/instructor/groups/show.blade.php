@@ -246,7 +246,27 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    @if (session('error'))
+                        <script>
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: '{{ session('error') }}',
+                                confirmButtonColor: '#ff7918',
 
+                            });
+                        </script>
+                    @endif
+                    @if (session('success'))
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: '{{ session('success') }}',
+                                confirmButtonColor: '#ff7918',
+                            });
+                        </script>
+                    @endif
     <script>
         $(document).ready(function() {
             $(".edit-date-btn").click(function() {
