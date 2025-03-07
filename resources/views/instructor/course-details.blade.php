@@ -36,7 +36,7 @@
                                 <h3>{{ $course->name ?? 'Course Title' }}</h3>
 
                                 @if (Auth::guard('admin')->user()->can('group-list'))
-                                    <a class="btn btn-black btn-sm"
+                                    <a class="btn default__button btn-sm"
                                         href="{{ route('instructor.groups', $course->id) }}">
                                         <i class="icofont-users"></i> View Groups
                                     </a>
@@ -136,7 +136,8 @@
                                         </div>
 
                                         @if (Auth::guard('admin')->user()->can('lesson-create'))
-                                            <button class="btn btn-outline-primary mt-3 add-lesson-btn">
+                                            <button
+                                                class="btn btn-outline-primary mt-3 add-lesson-btn default__button default__button--3">
                                                 <i class="icofont-plus"></i> Add Lesson
                                             </button>
                                         @endif

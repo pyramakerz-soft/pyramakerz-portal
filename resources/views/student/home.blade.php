@@ -3,10 +3,10 @@
 
 <head>
     @include('include.head')
-<style>
-   
+    <style>
 
-</style>
+
+    </style>
 </head>
 
 
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <div class="educationarea__small__img__2">
-                                <img src="{{ asset('img/winnercup.jpg') }}" height="100px" width="100px"
+                                <img src="{{ asset('img/winnercup.jpg') }}" height="60px" width="60px"
                                     alt="educator">
                                 <div class="educationarea__small__content">
                                     <span>Congratulations!!</span>
@@ -305,7 +305,8 @@
 
 
                             <div class="service__animate__shape__1">
-                                <img loading="lazy" src="img/service/service__shape__1.png" alt="">
+                                <img loading="lazy" src="img/service/service__shape__1.png"
+                                    style="width:100px; right:20px;" alt="">
                             </div>
 
 
@@ -323,7 +324,7 @@
                                 </p> -->
 
                                 <div class="service__animate__shape__1">
-                                    <img loading="lazy" src="img/about/5.png" alt="" >
+                                    <img loading="lazy" src="img/about/5.png" alt="">
                                 </div>
                             </div>
 
@@ -409,7 +410,7 @@
                                         </ul>
                                         </p>
                                     </div>
-                                  
+
                                     <div class="service__small__img">
                                         <svg class="icon__hover__img" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
