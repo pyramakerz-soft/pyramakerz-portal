@@ -228,7 +228,7 @@
                         <p style="color:black"><strong style="color:#ff7918">Meeting ID:</strong> ${event.extendedProps.meetingId ? event.extendedProps.meetingId : 'Not Set'}</p>
     
     ${event.extendedProps.meetingId 
-        ? `<p><button ><a href="/meetings/${event.extendedProps.meetingId}" class="btn default_button" style="background-color:light-purple; text-decoration:none;color:white;">Join Session</a></button></p>` 
+        ? `<p><button ><a href="/meetings/${event.extendedProps.meetingId}" class="btn default_button" style="background-color:var(--primaryColor); text-decoration:none;color:white;">Join Session</a></button></p>` 
         : ''
     }
     
