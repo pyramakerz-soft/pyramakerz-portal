@@ -282,7 +282,7 @@
                     },
                     showCancelButton: true,
                     confirmButtonText: "Upload",
-                    confirmButtonColor: '#ff7918',
+                    
                     preConfirm: () => {
                         let resourceType = $("#resource_type").val();
                         let fileInput = $("#lesson_material")[0].files[0];
@@ -334,7 +334,7 @@
                                         title: "Success",
                                         text: "Material uploaded successfully!",
                                         icon: "success",
-                                        confirmButtonColor: '#ff7918',
+                                        
                                     })
                                     .then(() => location.reload());
                             },

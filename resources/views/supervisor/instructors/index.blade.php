@@ -133,7 +133,7 @@
                     `,
                         showCancelButton: true,
                         confirmButtonText: "Add Comment",
-                        confirmButtonColor: '#ff7918',
+                        
                         preConfirm: () => {
                             return {
                                 instructor_id: instructorId,
@@ -181,7 +181,7 @@
                 `,
                     showCancelButton: true,
                     confirmButtonText: "Add Instructor",
-                    confirmButtonColor: '#ff7918',
+                    
                     preConfirm: () => {
                         console.log($("#instructor_phone").val())
                         console.log($("#instructor_governorate").val())

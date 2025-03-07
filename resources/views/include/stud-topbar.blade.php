@@ -130,7 +130,7 @@
                 <textarea id="ticket-message" class="swal2-textarea" placeholder="Enter your message"></textarea>
                 <input type="file" id="ticket-attachment" class="swal2-file" />
             `,
-                confirmButtonColor: '#ff7918',
+                
                 focusConfirm: false,
                 preConfirm: () => {
                     const category = Swal.getPopup().querySelector('#ticket-category').value;

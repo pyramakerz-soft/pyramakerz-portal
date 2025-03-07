@@ -145,14 +145,14 @@
                             title: `Sessions on ${selectedDate}`,
                             html: eventDetails,
                             icon: 'info',
-                            confirmButtonColor: '#ff7918',
+                            
                         });
                     } else {
                         Swal.fire({
                             title: "No Sessions",
                             text: "No scheduled sessions on this day.",
                             icon: "warning",
-                            confirmButtonColor: '#ff7918',
+                            
                         });
                     }
                 },
@@ -170,7 +170,7 @@
                         <p style="color:black;"><strong style="color:#ff7918">Meeting ID:</strong> ${ev.extendedProps.meetingId ? ev.extendedProps.meetingId : 'Not Set'}</p>
                         `,
                         icon: 'warning',
-                        confirmButtonColor: '#ff7918',
+                        
                     });
                 }
             });

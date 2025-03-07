@@ -227,7 +227,7 @@
                                 icon: 'error',
                                 title: 'Error',
                                 text: '{{ session('error') }}',
-                                confirmButtonColor: '#ff7918',
+                                
 
                             });
                         </script>
@@ -238,7 +238,7 @@
                                 icon: 'success',
                                 title: 'Success',
                                 text: '{{ session('success') }}',
-                                confirmButtonColor: '#ff7918',
+                                
                             });
                         </script>
                     @endif

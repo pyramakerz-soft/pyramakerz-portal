@@ -189,7 +189,7 @@
                                 icon: 'error',
                                 title: 'Error',
                                 text: '{{ session('error') }}',
-                                confirmButtonColor: '#ff7918',
+                                
 
                             });
                         </script>
@@ -200,7 +200,7 @@
                                 icon: 'success',
                                 title: 'Success',
                                 text: '{{ session('success') }}',
-                                confirmButtonColor: '#ff7918',
+                                
                             });
                         </script>
                     @endif
@@ -270,7 +270,7 @@
                     },
                     showCancelButton: true,
                     confirmButtonText: "Save",
-                    confirmButtonColor: '#ff7918',
+                    
                     preConfirm: () => {
                         let groupName = $("#group_name").val();
                         let instructorId = $("#instructor_id").val();
@@ -323,7 +323,7 @@
                                     text: "Group created successfully!",
                                     icon: "success",
                                     confirmButtonText: "OK",
-                                    confirmButtonColor: '#ff7918',
+                                    
                                 });
                                 setTimeout(() => {
                                     window.location.href = window.location.href;
@@ -338,7 +338,7 @@
                                     icon: "Error",
                                     text: errorMessage,
                                     title: "error",
-                                    confirmButtonColor: '#ff7918',
+                                    
                                 });
                             }
                         });

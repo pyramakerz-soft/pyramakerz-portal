@@ -252,7 +252,7 @@
                                 icon: 'error',
                                 title: 'Error',
                                 text: '{{ session('error') }}',
-                                confirmButtonColor: '#ff7918',
+                                
 
                             });
                         </script>
@@ -263,7 +263,7 @@
                                 icon: 'success',
                                 title: 'Success',
                                 text: '{{ session('success') }}',
-                                confirmButtonColor: '#ff7918',
+                                
                             });
                         </script>
                     @endif
@@ -281,7 +281,7 @@
                         });
                     },
                     showCancelButton: true,
-                    confirmButtonColor: '#ff7918',
+                    
                     confirmButtonText: "Save",
 
                     preConfirm: () => {
@@ -301,7 +301,7 @@
                                 title: "Success",
                                 text: "Lesson date updated!",
                                 icon: "success",
-                                confirmButtonColor: '#ff7918',
+                                
                             }).then(
                                 () => location.reload());
                         }).fail(() => {
@@ -309,7 +309,7 @@
                                 title: "Error",
                                 text: "Failed to update!",
                                 icon: "error",
-                                confirmButtonColor: '#ff7918',
+                                
                             });
                         });
                     }
@@ -325,7 +325,7 @@
                             title: "Success",
                             text: response.message,
                             icon: "success",
-                            confirmButtonColor: '#ff7918',
+                            
                         })
                         .then(() => location.reload());
                 }).fail(function(xhr) {
@@ -346,7 +346,7 @@
 
                         Swal.fire({
                             title: "Add Student",
-                            confirmButtonColor: '#ff7918',
+                            
                             html: `
                         <select id="student_id" class="swal2-select" style="width:100%">
                             ${options}
@@ -385,7 +385,7 @@
                                             title: "Success",
                                             text: "Student added successfully!",
                                             icon: "success",
-                                            confirmButtonColor: '#ff7918',
+                                            
                                         }).then(
                                             () => location.reload()
                                         );
@@ -395,7 +395,7 @@
                                             title: "Error",
                                             text: xhr.responseText,
                                             icon: "error",
-                                            confirmButtonColor: '#ff7918',
+                                            
                                         });
                                     }
                                 });
@@ -407,7 +407,7 @@
                             title: "Error",
                             text: "Failed to fetch students!",
                             icon: "error",
-                            confirmButtonColor: '#ff7918',
+                            
                         });
                     }
                 });
