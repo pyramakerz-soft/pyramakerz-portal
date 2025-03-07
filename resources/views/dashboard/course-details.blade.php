@@ -544,7 +544,7 @@
             }
         }
     </script>
-
+@include('include.scripts')
 </body>
 
 </html>

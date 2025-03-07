@@ -12,7 +12,7 @@
 
         <div class="dashboardarea sp_bottom_100">
             @include('include.admin-topbar')
-            <div class="dashboard">
+            {{-- <div class="dashboard"> --}}
                 <div class="container-fluid full__width__padding">
                     <div class="row">
                         <div class="col-xl-3 col-lg-3 col-md-12">
@@ -209,7 +209,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {{-- </div> --}}
                 </div>
             </div>
         </div>

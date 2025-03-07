@@ -376,6 +376,7 @@
 
     <!-- SweetAlert Library (include via CDN) -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    @include('include.scripts')
 </body>
 
 </html>

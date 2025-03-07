@@ -9,6 +9,8 @@
         @include('include.dash-nav')
 
         <div class="dashboardarea sp_bottom_100">
+        @include('include.admin-topbar')
+
             <div class="container-fluid full__width__padding">
                 <div class="row">
                     <!-- Sidebar -->

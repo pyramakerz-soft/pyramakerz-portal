@@ -234,7 +234,7 @@ $meeting = \App\Models\Meeting::where('lesson_id', $lesson['id'])
     <script src="../js/plugins.js"></script>
     <script src="../js/swiper-bundle.min.js"></script>
     <script src="../js/main.js"></script>
-
+    @include('include.scripts')
 </body>
 
 </html>

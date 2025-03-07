@@ -1,32 +1,38 @@
 <!DOCTYPE html>
 <html lang="zxx">
 @include('include.head')
+@include('include.load')
 
 <main class="main_wrapper overflow-hidden">
     @include('include.dash-nav')
-
-    <div class="breadcrumbarea">
-        <div class="container">
+    <div class="container-fluid full__width__padding">
+        <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-12">
+                @include('include.sidebar')
+            </div>
+            <div class="col-xl-9 col-lg-9 col-md-12">
+    {{-- <div class="breadcrumbarea">
+        <div class="container"> --}}
             <div class="row">
                 <div class="col-xl-12">
                     <div class="breadcrumb__content__wraper">
                         <div class="breadcrumb__title">
                             <h2 class="heading">Create Course</h2>
                         </div>
-                        <div class="breadcrumb__inner">
+                        {{-- <div class="breadcrumb__inner">
                             <ul>
                                 <li><a href="{{ route('home') }}">Home</a></li>
                                 <li>Create Course</li>
                             </ul>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
-        </div>
-    </div>a
+        {{-- </div>
+    </div> --}}
 
     <!-- Course Creation Form -->
-    <div class="create__course sp_100">
+    <div class="create__course">
         <div class="container">
             <div class="row">
                 <div class="col-xl-12">
@@ -53,12 +59,12 @@
 
                             <!-- Course Info -->
                             <div class="accordion-item">
-                                <h2 class="accordion-header">
+                                {{-- <h2 class="accordion-header">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         Course Info
                                     </button>
-                                </h2>
+                                </h2> --}}
                                 <div id="collapseOne" class="accordion-collapse collapse show">
                                     <form action="{{ route('courses.store') }}" enctype="multipart/form-data" method="post">
                                         @csrf
@@ -136,10 +142,11 @@
                 </div>
 
             </div>
-
+        </div>
         </div>
     </div>
-
+    </div>
+    </div>
     
 @include('include.scripts')
 

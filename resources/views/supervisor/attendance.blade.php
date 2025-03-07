@@ -35,26 +35,11 @@
     <main class="main_wrapper overflow-hidden">
         @include('include.dash-nav')
         <div class="dashboardarea sp_bottom_100">
-            <div class="container-fluid full__width__padding">
-                <!-- Header -->
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="dashboardarea__wraper">
-                            <div class="dashboardarea__inner admin__dashboard__inner">
-                                <div class="dashboardarea__left">
-                                    <div class="dashboardarea__left__content">
-                                        <h5>Welcome</h5>
-                                        <h4>{{ Auth::guard('admin')->user()->name ?? 'Admin' }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('include.admin-topbar')
+
 
             <!-- Filters -->
-            <div class="dashboard">
+            {{-- <div class="dashboard"> --}}
                 <div class="container-fluid full__width__padding">
                     <div class="row">
                         <div class="col-xl-3 col-lg-3 col-md-12">
@@ -203,7 +188,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                {{-- </div> --}}
             </div>
         </div>
     </main>

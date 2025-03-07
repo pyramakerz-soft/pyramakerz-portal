@@ -15,7 +15,7 @@
         <!-- Supervisor Dashboard Area -->
         <div class="dashboardarea">
             @include('include.admin-topbar')
-            <div class="dashboard">
+            {{-- <div class="dashboard"> --}}
                 <div class="container-fluid full__width__padding">
                     <div class="row">
                         <!-- Sidebar -->
@@ -144,7 +144,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                {{-- </div> --}}
             </div>
         </div>
         @include('include.scripts')
