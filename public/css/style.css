@@ -467,6 +467,12 @@ li {
     text-align: center;
     margin-bottom: 20px;
 }
+.default__small__button:hover {
+    border: 1px solid var(--primaryColor);
+    background: var(--whiteColor);
+    color: var(--primaryColor);
+
+}
 .default__small__button.default__small__button__2 {
     background: rgba(255, 255, 255, 0.07);
     border-radius: 14.5px;

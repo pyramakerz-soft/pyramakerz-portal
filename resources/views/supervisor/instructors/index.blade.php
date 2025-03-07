@@ -67,11 +67,13 @@
                                                         data-instructor-id="{{ $instructor->id }}">
                                                         <i class="icofont-comment"></i>
                                                     </button>
-
-
                                                     <a href="{{ route('admin.evaluations.index', ['instructor_id' => $instructor->id]) }}"
                                                         class="btn btn-sm btn-black">
                                                         <i class="icofont-chart-histogram"></i>
+                                                    </a>
+                                                    <a href="{{ route('admin.instructor.delete', ['id' => $instructor->id]) }}"
+                                                        class="btn btn-sm btn-black">
+                                                        <i class="icofont-delete"></i>
                                                     </a>
 
                                                 </td>
@@ -87,11 +89,11 @@
                                 </table>
                             </div>
 
-                            <div class="mt-3">
+                            {{-- <div class="mt-3">
                                 <a href="{{ route('home') }}" class="btn btn-outline-secondary">
                                     <i class="icofont-arrow-left"></i> Back to Dashboard
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

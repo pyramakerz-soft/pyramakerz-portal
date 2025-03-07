@@ -22,10 +22,10 @@
                             <div class="dashboard__section__title">
                                 <h4>📋 Students</h4>
                                 <div class="dashboardarea__right">
-                                    <button class="default__button import-students-btn" data-bs-toggle="modal" data-bs-target="#importStudentsModal">
+                                    <button class="default__button btn" data-bs-toggle="modal" data-bs-target="#importStudentsModal">
                                         <i class="icofont-upload"></i> Import Students
                                     </button>
-                                    <a href="{{ route('admin.students.download-template') }}" class="default__button btn btn-success">
+                                    <a href="{{ route('admin.students.download-template') }}" class="default__button btn ">
                                         <i class="icofont-download"></i> Download Excel Template
                                     </a>
                                 </div>
@@ -54,7 +54,7 @@
                             <!-- Filters -->
                             <form method="GET" action="{{ route('admin.students.index') }}" class="mb-3">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <select name="course_id" class="form-control">
                                             <option value="">Filter by Course</option>
                                             @foreach ($courses as $course)
@@ -62,7 +62,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <select name="group_id" class="form-control">
                                             <option value="">Filter by Group</option>
                                             @foreach ($groups as $group)
@@ -70,7 +70,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <select name="age_group" class="form-control">
                                             <option value="">Filter by Age Group</option>
                                             <option value="6-10">6 - 10</option>
@@ -78,8 +78,11 @@
                                             <option value="16-20">16 - 20</option>
                                         </select>
                                     </div>
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-warning default__small__button mt-2">Apply Filters</button>
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-warning mt-3">Apply Filters</button>
+                              
                             </form>
 
                             <!-- Students Table -->

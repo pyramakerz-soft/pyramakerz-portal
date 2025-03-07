@@ -37,4 +37,27 @@ class InstructorController extends Controller
         $instructor->assignRole('instructor');
         return response()->json(['message' => 'Instructor added successfully!']);
     }
+    public function deleteInstructor($id)
+{
+    // Validate that the ID is numeric and positive
+    if (!is_numeric($id) || $id <= 0) {
+        return back()->with('error', 'Invalid instructor ID');
+    }
+
+    // Attempt to find the instructor
+    $instructor = User::find($id);
+
+    // Check if instructor exists
+    if (!$instructor) {
+        return back()->with('error', 'Instructor not found');
+    }
+
+    try {
+        $instructor->delete(); // Perform delete action
+        return back()->with('success', 'Instructor deleted successfully');
+    } catch (\Exception $e) {
+        return back()->with('error', 'Failed to delete instructor. Please try again.');
+    }
+}
+
 }

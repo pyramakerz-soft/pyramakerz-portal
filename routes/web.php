@@ -212,7 +212,7 @@ Route::get('/zoom/generate-host-signature', [App\Http\Controllers\MeetingControl
 |--------------------------------------------------------------------------
 */
 Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
-    // Route::get('/instructors', [SupervisorController::class, 'index'])->name('supervisor.instructors.index');
+    Route::get('/instructor_del/{id}', [AdminInstructorController::class, 'deleteInstructor'])->name('admin.instructor.delete');
     Route::post('/instructors/comment', [InstructorCommentController::class, 'store'])->name('admin.instructors.comment');
     Route::get('/instructors/comments/{instructor_id}', [InstructorCommentController::class, 'getComments'])->name('admin.instructors.get_comments');
     Route::get('/instructors', [AdminInstructorController::class, 'index'])->name('admin.instructors.index');
