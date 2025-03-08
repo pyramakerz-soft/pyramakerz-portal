@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+
 class AuthController extends Controller
 {
     //     public function register(Request $request)
@@ -145,8 +147,8 @@ class AuthController extends Controller
 
         return redirect()->route('my-progress');
     }
+    return redirect()->back()->with('error', 'Invalid Credentials!')->withInput();
 
-    return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
 }
     public function adminLogin(Request $request)
 {
@@ -183,11 +185,94 @@ class AuthController extends Controller
         Auth::guard('student')->logout();
         Auth::guard('web')->logout();
         Auth::guard('admin')->logout();
-        return redirect()->route('student-login');
+        return redirect()->route('student-login')->with('success', 'Logged out successfully.');
     }
     public function logoutAdmin(){
         
         Auth::guard('admin')->logout();
         return redirect()->route('admin-login')->with('success', 'Logged out successfully.');
     }
+    public function settings($id){
+        $user = Student::find($id);
+        return view("student.settings", compact("user"));
+    }
+    
+    public function updateData(Request $request)
+{
+    // Get authenticated user
+    $user = Auth::guard('student')->user();
+
+    // Update only if a new value is provided
+    if (!is_null($request->name)) {
+        $user->name = $request->name;
+    }
+    if (!is_null($request->phone)) {
+        $user->phone = $request->phone;
+    }
+    if (!is_null($request->email)) {
+        $user->email = $request->email;
+    }
+
+    // Handle profile picture upload
+    if ($request->hasFile('image')) {
+        // Delete old photo if it exists
+        if ($user->photo && file_exists(public_path($user->photo))) {
+            unlink(public_path($user->photo));
+        }
+
+        // Store new image
+        $imageName = time() . '.' . $request->image->getClientOriginalExtension();
+        $request->image->move(public_path('student_photos'), $imageName);
+        
+        // Update user photo path
+        $user->photo = 'student_photos/' . $imageName;
+    }
+
+    // Save updates only if any field was updated
+    if ($user->isDirty()) {
+        $user->save();
+        return redirect()->back()->with('success', 'Profile updated successfully!');
+    }
+
+    return redirect()->back()->with('info', 'No changes were made.');
+}
+
+
+
+public function changePassword(Request $request)
+{
+    // Validate input (Laravel's `confirmed` ensures new_password matches new_password_confirmation)
+    $request->validate([
+        'current_password' => 'required',
+        'new_password' => 'required|min:8',
+    ]);
+
+    // Get the authenticated student user
+    $user = Auth::guard('student')->user();
+
+    // Check if the current password is correct
+    if (!Hash::check($request->current_password, $user->password)) {
+        return redirect()->back()->with('error', 'The current password is incorrect!');
+    }
+
+    // Ensure the new password is different from the current one
+    if (Hash::check($request->new_password, $user->password)) {
+        return redirect()->back()->with('error', 'The new password must be different from the current password!');
+    }
+    if($request->new_password != $request->new_password_confirmation)
+    {
+        return redirect()->back()->with('error', 'Password confirmation incorrect!');
+
+    }
+
+    // Update password
+    $user->password = Hash::make($request->new_password);
+    $user->save();
+
+    return redirect()->back()->with('success', 'Password updated successfully!');
+}
+
+
+    
+
 }

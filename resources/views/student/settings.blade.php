@@ -66,68 +66,19 @@
 
                                     <div class="tab-content tab__content__wrapper aos-init aos-animate"
                                         id="myTabContent" data-aos="fade-up">
-
+                                    <form action="{{ route('update-data') }}" method="post" enctype="multipart/form-data">
+                                        @csrf
                                         <div class="tab-pane fade active show" id="projects__one" role="tabpanel"
                                             aria-labelledby="projects__one">
                                             <div class="row">
                                                 <div class="col-xl-12">
 
-                                                    <!-- <div class="dashboardarea__wraper">
-                                                    <div class="dashboardarea__img dashboardarea__margin__0">
-                                                        <div class="dashboardarea__inner student__dashboard__inner">
-                                                            <div class="dashboardarea__left">
-                                                                <div class="dashboardarea__left__img">
-                                                                    <img loading="lazy"  src="../img/teacher/teacher__2.png" alt="">
-                                                                </div>
-                                                                <div class="dashboardarea__left__content">
-                                                                    <h4>Dond Tond</h4>
-                                                                    <ul>
-                                                                        <li>                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                                                                        9 Courses Enroled
-                                                                        </li>
-                                                                        <li>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-                                                                            8 Certificate
-                                                                        </li>
-                                                                    </ul>
-                        
-                                                                </div>
-                                                            </div>
-                                                            <div class="dashboardarea__right">
-                                                                <div class="dashboardarea__right__button">
-                                                                    <a class="default__button" href="create-course.html">Enroll A New Course
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
-                                                                </div>
-                                                            </div>
-                        
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-
                                                     <div class="row">
                                                         <div class="col-xl-6">
                                                             <div class="dashboard__form__wraper">
                                                                 <div class="dashboard__form__input">
-                                                                    <label for="#">First Name</label>
-                                                                    <input type="text" placeholder="first Name">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-xl-6">
-                                                            <div class="dashboard__form__wraper">
-                                                                <div class="dashboard__form__input">
-                                                                    <label for="#">Last Name</label>
-                                                                    <input type="text" placeholder="Last Name">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-xl-6">
-                                                            <div class="dashboard__form__wraper">
-                                                                <div class="dashboard__form__input">
-                                                                    <label for="#">User Name</label>
-                                                                    <input type="text" placeholder="UserName">
+                                                                    <label for="#">Full Name</label>
+                                                                    <input type="text" name="name" value="{{ $user->name }}" placeholder="first Name">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -136,7 +87,7 @@
                                                             <div class="dashboard__form__wraper">
                                                                 <div class="dashboard__form__input">
                                                                     <label for="#">Phone Number</label>
-                                                                    <input type="text"
+                                                                    <input type="text" name="phone" value="{{ $user->phone }}"
                                                                         placeholder="+1-202-555-0174">
                                                                 </div>
                                                             </div>
@@ -146,7 +97,7 @@
                                                             <div class="dashboard__form__wraper">
                                                                 <div class="dashboard__form__input">
                                                                     <label for="#">Email</label>
-                                                                    <input type="email" placeholder="email">
+                                                                    <input type="email" name="email" value="{{ $user->email }}" placeholder="email">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -155,16 +106,14 @@
                                                             <div class="dashboard__form__wraper">
                                                                 <div class="dashboard__form__input">
                                                                     <label for="#">Profile picture</label>
-                                                                    <input type="file" id="myFile"
-                                                                        name="filename">
+                                                                    <input type="file" name="image">
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-xl-12">
                                                             <div class="dashboard__form__button">
-                                                                <a class="default__button" href="#">Update
-                                                                    Info</a>
+                                                                <input type="submit" class="default__button" value="Update Info " >
                                                             </div>
                                                         </div>
                                                     </div>
@@ -172,45 +121,49 @@
                                             </div>
 
                                         </div>
-
+                                    </form>
                                         <div class="tab-pane fade" id="projects__two" role="tabpanel"
                                             aria-labelledby="projects__two">
-
-                                            <div class="row">
-                                                <div class="col-xl-12">
-                                                    <div class="dashboard__form__wraper">
-                                                        <div class="dashboard__form__input">
-                                                            <label for="#">Current Password</label>
-                                                            <input type="text" placeholder="Current password">
+                                            <form action="{{ route('change-password', Auth::guard('student')->user()->id) }}" method="post">
+                                                @csrf
+                                                @method('PUT') 
+                                            
+                                                <div class="row">
+                                                    <div class="col-xl-12">
+                                                        <div class="dashboard__form__wraper">
+                                                            <div class="dashboard__form__input">
+                                                                <label for="current_password">Current Password</label>
+                                                                <input type="password" name="current_password" placeholder="Current Password" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <div class="col-xl-12">
+                                                        <div class="dashboard__form__wraper">
+                                                            <div class="dashboard__form__input">
+                                                                <label for="new_password">New Password</label>
+                                                                <input type="password" name="new_password" minlength="8" placeholder="New Password" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <div class="col-xl-12">
+                                                        <div class="dashboard__form__wraper">
+                                                            <div class="dashboard__form__input">
+                                                                <label for="new_password_confirmation">Re-Type New Password</label>
+                                                                <input type="password" name="new_password_confirmation" minlength="8"  placeholder="Re-Type New Password" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <div class="col-xl-12">
+                                                        <div class="dashboard__form__button">
+                                                            <button type="submit" class="default__button">Update Password</button>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-xl-12">
-                                                    <div class="dashboard__form__wraper">
-                                                        <div class="dashboard__form__input">
-                                                            <label for="#">New Password</label>
-                                                            <input type="text" placeholder="New Password">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-xl-12">
-                                                    <div class="dashboard__form__wraper">
-                                                        <div class="dashboard__form__input">
-                                                            <label for="#">Re-Type New Password</label>
-                                                            <input type="text" placeholder="Re-Type New Password">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-12">
-                                                    <div class="dashboard__form__button">
-                                                        <a class="default__button" href="#">Update Password</a>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
+                                            </form>
+                                            
                                         </div>
 
 

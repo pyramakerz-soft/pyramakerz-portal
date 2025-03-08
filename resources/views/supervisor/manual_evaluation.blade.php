@@ -135,11 +135,11 @@
                                     </div>
                                 </form>
 
-                                <div class="mt-3">
+                                {{-- <div class="mt-3">
                                     <a href="{{ route('home') }}" class="btn btn-outline-secondary">
                                         <i class="icofont-arrow-left"></i> Back to Dashboard
                                     </a>
-                                </div>
+                                </div> --}}
 
                             </div>
                         </div>

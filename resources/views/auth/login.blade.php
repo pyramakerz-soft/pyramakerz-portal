@@ -123,9 +123,9 @@
                                                 <input id="forgot" type="checkbox">
                                                 <label for="forgot"> Remember me</label>
                                             </div>
-                                            <div class="text-end login__form__link">
+                                            {{-- <div class="text-end login__form__link">
                                                 <a href="#">Forgot your password?</a>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="login__button">
 

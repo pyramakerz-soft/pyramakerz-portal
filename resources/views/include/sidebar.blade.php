@@ -10,7 +10,7 @@
                 <li><a href="{{ route('my-progress') }}"><i class="feather feather-user"></i> My Progress</a></li>
                 <li><a href="{{ route('student-courses') }}"><i class="feather feather-bookmark"></i> Enrolled Courses</a></li>
                 <li><a href="{{ route('student-profile') }}"><i class="feather feather-user"></i> My Profile</a></li>
-                <li><a href="{{ route('student-settings') }}"><i class="feather feather-settings"></i> Settings</a></li>
+                <li><a href="{{ route('student-settings',Auth::guard('student')->user()->id) }}"><i class="feather feather-settings"></i> Settings</a></li>
                 <li><a href="{{ route('logout') }}"><i class="feather feather-log-out"></i> Logout</a></li>
             @endif
 
@@ -53,7 +53,7 @@
                 <li><a href="{{ route('admin.attendance.index') }}"><i class="feather feather-calendar"></i> Attendance</a></li>
                 <li><a href="{{ route('admin.enrollment_requests') }}"><i class="feather feather-user-check"></i> Enrollment Requests</a></li>
                 <li><a href="{{ route('admin.tickets') }}"><i class="feather feather-message-circle"></i> Tickets</a></li>
-                <li><a href="{{ route('admin-settings') }}"><i class="feather feather-settings"></i> Settings</a></li>
+                {{-- <li><a href="{{ route('admin-settings') }}"><i class="feather feather-settings"></i> Settings</a></li> --}}
                 <li><a href="{{ route('logout-admin') }}"><i class="feather feather-log-out"></i> Logout</a></li>
             @endif
 

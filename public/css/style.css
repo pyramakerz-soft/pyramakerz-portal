@@ -1330,6 +1330,12 @@ Header Area
     color: var(--whiteColor);
     border-color: var(--primaryColor);
 }
+.headerarea__button {
+   color:var(--whiteColor) ;
+}
+.headerarea__button :hover{
+    color:var(--whiteColor) ;
+ }
 .headerarea__button a {
     padding: 8px 15px;
     background-color: var(--primaryColor);

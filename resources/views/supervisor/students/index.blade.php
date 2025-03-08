@@ -96,7 +96,7 @@
                                             <th>Phone</th>
                                             <th>Course</th>
                                             <th>Group</th>
-                                            <th>Actions</th>
+                                            {{-- <th>Actions</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -125,14 +125,14 @@
                                                             style="font-size: 16px;">Not Assigned</span>
                                                     @endif
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     <button class="btn btn-sm {{ $groupStudent ? 'btn-warning' : 'bg-primary btn-primary' }} assign-group-btn"
                                                         data-student-id="{{ $student->id }}"
                                                         data-student-name="{{ $student->name }}"
                                                         data-current-group="{{ $group }}">
                                                         {{ $groupStudent ? 'Change Group' : 'Assign to Group' }}
                                                     </button>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
                                         @if ($students->isEmpty())

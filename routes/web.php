@@ -120,6 +120,9 @@ Route::post('/course/assign-teacher', [CourseController::class, 'assignTeacher']
 */
 Route::middleware('auth:student')->group(function () {
     // Route::get('/time-table', [StudentController::class, 'timetable'])->name('time-table');
+    Route::get('/settings/{id}', [AuthController::class, 'settings'])->name('student-settings');
+    Route::post('/update-data', [AuthController::class, 'updateData'])->name('update-data');
+    Route::put('/change-password', [AuthController::class, 'changePassword'])->name('change-password');
     Route::get('/my-progress', [StudentController::class, 'mySummary'])->name('my-progress');
     Route::get('/profile', [StudentController::class, 'profile'])->name('student-profile');
     Route::get('/student-courses', [StudentController::class, 'getCourses'])->name('student-courses');
@@ -146,6 +149,7 @@ Route::middleware('auth:student')->group(function () {
         ->middleware(['auth:student'])
         ->name('meetings.evaluate.submit');
 
+        
 
 
 
@@ -327,9 +331,9 @@ Route::post('/survey/{id}', [SurveyController::class, 'submitSurvey'])->name('su
 | Miscellaneous Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/settings', function () {
-    return view('student.settings');
-})->name('student-settings');
+// Route::get('/settings', function () {
+//     return view('student.settings');
+// })->name('student-settings');
 Route::get('/home', function () {
     return view('student.home');
 });
