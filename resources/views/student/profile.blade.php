@@ -10,7 +10,8 @@
 
 <body class="body__wrapper">
 
-    @include('include.preload')
+    @include('include.load')
+
 
 
     <main class="main_wrapper overflow-hidden">
@@ -58,15 +59,15 @@
                                             {{ explode(' ', $student->name)[0] }}
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4">
+                                    {{-- <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">Last Name</div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-lg-8 col-md-8">
                                         <div class="dashboard__form dashboard__form__margin">
                                             {{ explode(' ', $student->name)[1] ?? '' }}
                                         </div>
                                     </div>
-                                    
+
 
                                     <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">Email</div>
@@ -84,7 +85,8 @@
                                         <div class="dashboard__form dashboard__form__margin">Country</div>
                                     </div>
                                     <div class="col-lg-8 col-md-8">
-                                        <div class="dashboard__form dashboard__form__margin">{{ $student->country }}</div>
+                                        <div class="dashboard__form dashboard__form__margin">{{ $student->country }}
+                                        </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">City</div>
@@ -114,6 +116,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
+        @include('include.scripts')
         <!-- footer__section__end -->
 
 
@@ -139,7 +142,7 @@
     <script src="../js/plugins.js"></script>
     <script src="../js/swiper-bundle.min.js"></script>
     <script src="../js/main.js"></script>
-
+    @include('include.scripts')
 
 
 

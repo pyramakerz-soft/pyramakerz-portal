@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PathOfPath extends Model
 {
+    protected $guarded =[];
     public function coursePath()
     {
         return $this->belongsTo(CoursesPath::class);

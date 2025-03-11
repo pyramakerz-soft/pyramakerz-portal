@@ -14,6 +14,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // Register the 'student.auth' middleware alias
         $middleware->alias([
             'student.auth' => \App\Http\Middleware\StudentAuth::class,
+            'admin.auth' => \App\Http\Middleware\AdminAuth::class,
+            'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+            'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class
         ]);
 
         // Optionally, you can append the middleware to a group if needed

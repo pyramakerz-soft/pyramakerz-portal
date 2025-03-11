@@ -1,11 +1,11 @@
 <div class="dashboard__inner sticky-top">
     <div class="dashboard__nav__title">
-        <h6>Welcome, Dond Tond </h6>
+        <h6>Welcome </h6>
     </div>
     <div class="dashboard__nav">
         <ul>
             <li>
-                <a href="/my-progress">
+                <a href="{{ route('my-progress') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="feather feather-home">
@@ -15,7 +15,7 @@
                     Dashboard</a>
             </li>
             <li>
-                <a href="/profile">
+                <a href="{{ route('student-profile') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-user">
@@ -24,8 +24,8 @@
                     </svg>
                     My Profile</a>
             </li>
-            <li>
-                <a href="student-message.html">
+            {{-- <li>
+                <a href="/message">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-book-open">
@@ -33,9 +33,9 @@
                         <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                     </svg>
                     Message</a><span class="dashboard__label">12</span>
-            </li>
+            </li> --}}
             <li>
-                <a href="/my-courses">
+                <a href="{{ route('student-courses') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-bookmark">
@@ -45,7 +45,7 @@
             </li>
 
             <li>
-                <a href="/my-quizz">
+                <a href="{{route('my-tasks')}}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-help-circle">
@@ -53,20 +53,20 @@
                         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                         <line x1="12" y1="17" x2="12.01" y2="17"></line>
                     </svg>
-                    My Quiz Attempts</a>
+                    Tasks</a>
             </li>
             <li>
-                <a href="/my-tasks">
+                <a href="{{route('my-quizz')}}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-volume-1">
                         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
                         <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
                     </svg>
-                    Tasks</a>
+                    Quiz</a>
             </li>
             <li>
-                <a href="/settings">
+                <a href="{{ route('student-settings',Auth::guard('student')->user()->id) }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-settings">
@@ -78,7 +78,7 @@
                     Settings</a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{route('logout')}}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-volume-1">

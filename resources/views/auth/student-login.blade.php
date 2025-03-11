@@ -10,7 +10,8 @@
 
 <body class="body__wrapper">
     <!-- pre loader area start -->
-    @include('include.preload')
+    @include('include.load')
+
 
     <!-- pre loader area end -->
 
@@ -44,7 +45,7 @@
                             </div>
                             <div class="breadcrumb__inner">
                                 <ul>
-                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="{{route('courses.all')}}">Home</a></li>
                                     <li>Log In</li>
                                 </ul>
                             </div>
@@ -77,14 +78,15 @@
                     <div class="col-xl-8 col-md-8 offset-md-2" data-aos="fade-up">
                         <ul class="nav  tab__button__wrap text-center" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="single__tab__link active" data-bs-toggle="tab"
+                                <button id="loginTab" class="single__tab__link active" data-bs-toggle="tab"
                                     data-bs-target="#projects__one" type="button">Login</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="single__tab__link" data-bs-toggle="tab" data-bs-target="#projects__two"
-                                    type="button">Sing up</button>
+                                <button id="signupTab" class="single__tab__link" data-bs-toggle="tab"
+                                    data-bs-target="#projects__two" type="button">Signup</button>
                             </li>
                         </ul>
+                        
                     </div>
 
 
@@ -96,9 +98,9 @@
                                 <div class="loginarea__wraper">
                                     <div class="login__heading">
                                         <h5 class="login__title">Login</h5>
-                                        <p class="login__description">Don't have an account yet? <a href="#"
-                                                data-bs-toggle="modal" data-bs-target="#registerModal">Sign up for
-                                                free</a></p>
+                                        <p class="login__description">Don't have an account yet? 
+                                            <a href="#" onclick="openSignupTab()">Sign up for free</a>
+                                        </p>
                                     </div>
 
 
@@ -106,14 +108,15 @@
                                     <form action="{{ route('student-login') }}" method="POST">
                                         @csrf
                                         <div class="login__form">
-                                            <label class="form__label">Username or email</label>
+                                            <label class="form__label">email</label>
                                             <input class="common__login__input" type="text" name="email"
-                                                placeholder="Your username or email">
+                                                placeholder="email">
 
                                         </div>
                                         <div class="login__form">
                                             <label class="form__label">Password</label>
-                                            <input class="common__login__input" type="password" placeholder="Password" name="password">
+                                            <input class="common__login__input" type="password" placeholder="Password"
+                                                name="password">
 
                                         </div>
                                         <div class="login__form d-flex justify-content-between flex-wrap gap-2">
@@ -121,17 +124,17 @@
                                                 <input id="forgot" type="checkbox">
                                                 <label for="forgot"> Remember me</label>
                                             </div>
-                                            <div class="text-end login__form__link">
+                                            {{-- <div class="text-end login__form__link">
                                                 <a href="#">Forgot your password?</a>
-                                            </div>
+                                            </div> --}}
                                         </div>
-                                        <div class="login__button">
-                                            
-                                             <input class="default__button" type="submit" value="Log In">
+                                        <div class="login__social__option">
+
+                                            <input class="default__button" type="submit" value="Log In">
                                         </div>
                                     </form>
 
-                                    <div class="login__social__option">
+                                    {{-- <div class="login__social__option">
                                         <p>or Log-in with</p>
 
                                         <ul class="login__social__btn">
@@ -140,7 +143,7 @@
                                             <li><a class="default__button" href="#"><i
                                                         class="icofont-google-plus"></i> Google</a></li>
                                         </ul>
-                                    </div>
+                                    </div> --}}
 
 
                                 </div>
@@ -151,44 +154,79 @@
                             <div class="col-xl-8 offset-md-2">
                                 <div class="loginarea__wraper">
                                     <div class="login__heading">
-                                        <h5 class="login__title">Sing Up</h5>
-                                        <p class="login__description">Already have an account? <a href="#"
-                                                data-bs-toggle="modal" data-bs-target="#registerModal">Log In</a></p>
+                                        <h5 class="login__title">sign up</h5>
+                                        <p class="login__description">Already have an account? 
+                                            <a href="#" onclick="openLoginTab()">Log In</a>
+                                        </p>
                                     </div>
 
 
 
-                                    <form action="#">
+                                    <form action="{{ route('register-student') }}" method="post">
+                                        @csrf
                                         <div class="row">
                                             <div class="col-xl-6">
                                                 <div class="login__form">
-                                                    <label class="form__label">First Name</label>
+                                                    <label class="form__label"> Name</label>
                                                     <input class="common__login__input" type="text"
-                                                        placeholder="First Name">
-
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="login__form">
-                                                    <label class="form__label">Last Name</label>
-                                                    <input class="common__login__input" type="password"
-                                                        placeholder="Last Name">
-
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="login__form">
-                                                    <label class="form__label">Username</label>
-                                                    <input class="common__login__input" type="password"
-                                                        placeholder="Username">
+                                                        placeholder=" Name" name="name">
 
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
                                                 <div class="login__form">
                                                     <label class="form__label">Email</label>
-                                                    <input class="common__login__input" type="password"
-                                                        placeholder="Your Email">
+                                                    <input class="common__login__input" type="email"
+                                                        placeholder="Your Email" name="email">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="login__form">
+                                                    <label class="form__label">Phone Number</label>
+                                                    <input class="common__login__input" type="text"
+                                                        placeholder="Phone Number" name="phone">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="login__form">
+                                                    <label class="form__label">Parent's Phone Number</label>
+                                                    <input class="common__login__input" type="text"
+                                                        placeholder="Phone Number" name="parent_phone">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="login__form">
+                                                    <label class="form__label">Birthday</label>
+                                                    <input class="common__login__input" type="date"
+                                                        placeholder="Birthday" name="bday">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="login__form">
+                                                    <label class="form__label">City</label>
+                                                    <input class="common__login__input" type="text"
+                                                        placeholder="City" name="city">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="login__form">
+                                                    <label class="form__label">Country</label>
+                                                    <input class="common__login__input" type="text"
+                                                        placeholder="Country" name="country">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6">
+                                                <div class="login__form">
+                                                    <label class="form__label">School</label>
+                                                    <input class="common__login__input" type="text"
+                                                        placeholder="School" name="school">
 
                                                 </div>
                                             </div>
@@ -196,7 +234,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label">Password</label>
                                                     <input class="common__login__input" type="password"
-                                                        placeholder="Password">
+                                                        placeholder="Password" name="password">
 
                                                 </div>
                                             </div>
@@ -204,7 +242,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label">Re-Enter Password</label>
                                                     <input class="common__login__input" type="password"
-                                                        placeholder="Re-Enter Password">
+                                                        placeholder="Re-Enter Password" name="confirm_password">
 
                                                 </div>
                                             </div>
@@ -217,8 +255,8 @@
                                             </div>
 
                                         </div>
-                                        <div class="login__button">
-                                            <a class="default__button" href="#">Log In</a>
+                                        <div class="login__social__option">
+                                            <button class="default__button" href="#">Signup</button>
                                         </div>
                                     </form>
 
@@ -255,6 +293,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
+        @include('include.scripts')
 
         <!-- footer__section__end -->
 
@@ -262,7 +301,8 @@
     </main>
 
 
-
+    
+    
 
 
     <!-- JS here -->
@@ -286,7 +326,15 @@
 
 
 
-
+    <script>
+        function openLoginTab() {
+            document.getElementById('loginTab').click();
+        }
+    
+        function openSignupTab() {
+            document.getElementById('signupTab').click();
+        }
+    </script>
 </body>
 
 </html>

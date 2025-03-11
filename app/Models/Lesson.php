@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lesson extends Model
 {
+    protected $guarded = [];
     public function coursePath()
     {
         return $this->belongsTo(CoursesPath::class);
@@ -15,6 +16,15 @@ class Lesson extends Model
     {
         return $this->belongsTo(PathOfPath::class);
     }
+    public function materials()
+    {
+        return $this->hasMany(LessonMaterial::class);
+    }
+public function resources()
+{
+    return $this->hasMany(LessonResource::class);
+}
+
 
 
 }

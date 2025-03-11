@@ -10,7 +10,8 @@
 
 <body class="body__wrapper">
 
-    @include('include.preload')
+    @include('include.load')
+
 
 
     <main class="main_wrapper overflow-hidden">
@@ -43,51 +44,7 @@
                                     <h4>Assignment</h4>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-xl-6 col-lg-4 col-md-4 col-12">
-                                        <div class="dashboard__select__heading">
-                                            <span>Courses</span>
-                                        </div>
-                                        <div class="dashboard__selector">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>All</option>
-                                                <option value="1">Web Design</option>
-                                                <option value="2">Graphic</option>
-                                                <option value="3">English</option>
-                                                <option value="4">Spoken English</option>
-                                                <option value="5">Art Painting</option>
-                                                <option value="6">App Development</option>
-                                                <option value="7">Web Application</option>
-                                                <option value="7">Php Development</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-3 col-lg-4 col-md-4 col-12">
-                                        <div class="dashboard__select__heading">
-                                            <span>SHORT BY</span>
-                                        </div>
-                                        <div class="dashboard__selector">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Default</option>
-                                                <option value="1">Trending</option>
-                                                <option value="2">Price: low to high</option>
-                                                <option value="3">Price: low to low</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-3 col-lg-4 col-md-4 col-12">
-                                        <div class="dashboard__select__heading">
-                                            <span>SHORT BY OFFER</span>
-                                        </div>
-                                        <div class="dashboard__selector">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Free</option>
-                                                <option value="1">paid</option>
-                                                <option value="2">premimum</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <hr class="mt-40">
                                 <div class="row">
 
@@ -98,31 +55,101 @@
                                                     <tr>
                                                         <th>Assignment Name</th>
                                                         <th>Total Marks</th>
-                                                        <th>Total Submit</th>
+                                                        <th>Result</th>
                                                         <th></th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+
+                                                    @foreach ($tasks as $task)
+                                                        <tr>
+                                                            <th>
+
+                                                                <span>{{ $task->test->name }}</span>
+                                                                <p><a href="#">{{ \App\models\PathOfPath::find($task->path_of_path_id)->name ?? '-' }}
+                                                                    </a></p>
+                                                            </th>
+                                                            <td>
+                                                                <p>100</p>
+                                                            </td>
+
+                                                            <td>
+                                                                {{-- <span
+                                                                class="dashboard__td dashboard__td--cancel">Rejected</span> --}}
+                                                                <span
+                                                                    class="dashboard__td dashboard__td--pass">Accepted</span>
+                                                                {{-- <span class="dashboard__td dashboard__td--over">Over
+                                                                    due</span> --}}
+                                                                {{-- <span
+                                                                class="dashboard__td dashboard__td--pass">accepted</span> --}}
+
+                                                            </td>
+
+
+
+                                                            <td>
+                                                                <div class="dashboard__button__group">
+                                                                    <a class="dashboard__small__btn__2 dashboard__small__btn__3"
+                                                                        href="{{ route('view-test', $task->test->id) }}">
+                                                                        <i class="icofont-eye"></i> View Test
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+
+                                                        </tr>
+                                                    @endforeach
+                                                    {{-- <tr class="dashboard__table__row">
                                                         <th>
 
-                                                            <span>Write a the 5</span>
-                                                            <p>course: <a href="#">Fundamentals</a></p>
+                                                            <span>Task Name</span>
+                                                            <p>course: <a href="#">AI Track</a></p>
                                                         </th>
                                                         <td>
                                                             <p>80</p>
                                                         </td>
                                                         <td>
-                                                            <p>2</p>
+                                                            <span
+                                                                class="dashboard__td dashboard__td--pass">accepted</span>
                                                         </td>
 
 
                                                         <td>
                                                             <div class="dashboard__button__group">
 
-                                                                <a class="dashboard__small__btn__2" href="#">
-                                                                    <i class="icofont-edit"></i>Edit
+
+                                                                <a class="dashboard__small__btn__2 dashboard__small__btn__3"
+                                                                    href="#">
+                                                                    <i class="icofont-paper-plane"></i> Submit
                                                                 </a>
+
+                                                                <a class="dashboard__small__btn__2" href="#">
+                                                                    <i class="icofont-download"></i> Download
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th>
+
+                                                            <span>Task Name</span>
+                                                            <p>course: <a href="#">AI Track</a></p>
+                                                        </th>
+                                                        <td>
+                                                            <p>80</p>
+                                                        </td>
+                                                        <td>
+                                                            <span class="dashboard__td dashboard__td--over">Over
+                                                                due</span>
+                                                        </td>
+
+
+
+                                                        <td>
+                                                            <div class="dashboard__button__group">
+
+
                                                                 <a class="dashboard__small__btn__2 dashboard__small__btn__3"
                                                                     href="#">
                                                                     <i class="icofont-paper-plane"></i> Submit
@@ -138,23 +165,21 @@
                                                     <tr class="dashboard__table__row">
                                                         <th>
 
-                                                            <span>Write a the 5</span>
-                                                            <p>course: <a href="#">Fundamentals</a></p>
+                                                            <span>Task Name</span>
+                                                            <p>course: <a href="#">AI Track</a></p>
                                                         </th>
                                                         <td>
                                                             <p>80</p>
                                                         </td>
                                                         <td>
-                                                            <p>2</p>
+                                                            <span
+                                                                class="dashboard__td dashboard__td--pass">accepted</span>
                                                         </td>
-
 
                                                         <td>
                                                             <div class="dashboard__button__group">
 
-                                                                <a class="dashboard__small__btn__2" href="#">
-                                                                    <i class="icofont-edit"></i>Edit
-                                                                </a>
+
                                                                 <a class="dashboard__small__btn__2 dashboard__small__btn__3"
                                                                     href="#">
                                                                     <i class="icofont-paper-plane"></i> Submit
@@ -165,72 +190,7 @@
                                                                 </a>
                                                             </div>
                                                         </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <th>
-
-                                                            <span>Write a the 5</span>
-                                                            <p>course: <a href="#">Fundamentals</a></p>
-                                                        </th>
-                                                        <td>
-                                                            <p>80</p>
-                                                        </td>
-                                                        <td>
-                                                            <p>2</p>
-                                                        </td>
-
-
-
-                                                        <td>
-                                                            <div class="dashboard__button__group">
-
-                                                                <a class="dashboard__small__btn__2" href="#">
-                                                                    <i class="icofont-edit"></i>Edit
-                                                                </a>
-                                                                <a class="dashboard__small__btn__2 dashboard__small__btn__3"
-                                                                    href="#">
-                                                                    <i class="icofont-paper-plane"></i> Submit
-                                                                </a>
-
-                                                                <a class="dashboard__small__btn__2" href="#">
-                                                                    <i class="icofont-download"></i> Download
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr class="dashboard__table__row">
-                                                        <th>
-
-                                                            <span>Write a the 5</span>
-                                                            <p>course: <a href="#">Fundamentals</a></p>
-                                                        </th>
-                                                        <td>
-                                                            <p>80</p>
-                                                        </td>
-                                                        <td>
-                                                            <p>2</p>
-                                                        </td>
-
-
-                                                        <td>
-                                                            <div class="dashboard__button__group">
-
-                                                                <a class="dashboard__small__btn__2" href="#">
-                                                                    <i class="icofont-edit"></i>Edit
-                                                                </a>
-                                                                <a class="dashboard__small__btn__2 dashboard__small__btn__3"
-                                                                    href="#">
-                                                                    <i class="icofont-paper-plane"></i> Submit
-                                                                </a>
-
-                                                                <a class="dashboard__small__btn__2" href="#">
-                                                                    <i class="icofont-download"></i> Download
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                    </tr> --}}
 
 
                                                 </tbody>
@@ -252,6 +212,7 @@
 
         <!-- footer__section__start -->
         @include('include.footer')
+        @include('include.scripts')
         <!-- footer__section__end -->
 
 

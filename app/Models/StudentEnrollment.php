@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentEnrollment extends Model
 {
+    protected $guarded = [];
     public function course()
     {
         return $this->belongsTo(Course::class);
