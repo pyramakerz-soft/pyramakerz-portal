@@ -42,7 +42,7 @@ class CourseController extends Controller
 
     public function store(Request $request)
 {
-    Log::info('🟢 store() function is called');
+    Log::info('🟢 store() function is called:');
     Log::info('🔍 Incoming Request Data:', $request->all());
 
     try {
