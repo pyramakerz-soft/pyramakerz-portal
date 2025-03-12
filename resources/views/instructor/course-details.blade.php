@@ -435,7 +435,8 @@
                     confirmButton: 'btn btn-success',
                     cancelButton: 'btn btn-danger',
                 },
-                let order = $("#lesson_order").val();
+                preConfirm: () => {
+                        let order = $("#lesson_order").val();
                         
                         if (order < 1) {
                             Swal.showValidationMessage("Order number must be at least 1");
