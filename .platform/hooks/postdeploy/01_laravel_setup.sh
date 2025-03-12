@@ -1,6 +1,11 @@
 #!/bin/bash
 
+set -xe  # Enable debugging output (prints every executed command and errors immediately)
+
 cd /var/app/current
+
+# Ensure correct permissions
+chown -R webapp:webapp /var/app/current
 
 # Generate .env file from EB environment variables
 cat > .env <<EOF
@@ -23,14 +28,21 @@ SESSION_DRIVER=file
 SESSION_LIFETIME=120
 EOF
 
-# Set correct permissions for .env file
+# Correct permissions for .env
 chown webapp:webapp .env
 chmod 644 .env
 
-# Clear caches
+# Install dependencies explicitly (to ensure vendor is ready)
+composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+# Laravel cache and config clearing
 php artisan config:clear
 php artisan cache:clear
+php artisan view:clear
+
+# Cache optimized configs
 php artisan config:cache
+php artisan view:cache
 
 # Run migrations
 php artisan migrate --force
