@@ -43,6 +43,7 @@ phases:
     commands:
       - echo "Zipping application for deployment..."
       - zip -r application.zip . -x "vendor/*" ".git/*" ".gitignore" ".env.example" "tests/*" "node_modules/*" "*.md"
+      - zip application.zip .env  # explicitly include .env file
 
 artifacts:
   files:
