@@ -120,7 +120,7 @@
                                                 name="evaluation_percentage" readonly>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-label">Supervisor:</label>
+                                            <label class="form-label">Supervisor :</label>
                                             <select class="form-control" disabled>
                                                 <option>{{ Auth::guard('admin')->user()->name }}</option>
                                             </select>
