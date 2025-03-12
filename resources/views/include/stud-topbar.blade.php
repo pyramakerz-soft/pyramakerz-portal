@@ -127,40 +127,41 @@
     </div>
 </div>
 <script>
+    //send ticket while showing the extensions accepted ( pdf and word and text )
     document.querySelector('.dashboardarea__right__button a[href="{{ route('courses.all') }}"]').addEventListener(
         'click',
         function(e) {
             e.preventDefault();
             Swal.fire({
-                title: 'Send Ticket',
-                html: `
-                <select id="ticket-category" class="swal2-input">
-                    <option value="">Select Category</option>
-                    <option value="Technical">Technical</option>
-                    <option value="Academic">Academic</option>
-                    <option value="Other">Other</option>
-                </select>
-                <textarea id="ticket-message" class="swal2-textarea" placeholder="Enter your message"></textarea>
-                <input type="file" id="ticket-attachment" class="swal2-file" />
-            `,
-                
-                focusConfirm: false,
-                preConfirm: () => {
-                    const category = Swal.getPopup().querySelector('#ticket-category').value;
-                    const message = Swal.getPopup().querySelector('#ticket-message').value;
-                    const attachment = Swal.getPopup().querySelector('#ticket-attachment').files[0];
+    title: 'Send Ticket',
+    html: `
+        <select id="ticket-category" class="swal2-input">
+            <option value="">Select Category</option>
+            <option value="Technical">Technical</option>
+            <option value="Academic">Academic</option>
+            <option value="Other">Other</option>
+        </select>
+        <textarea id="ticket-message" class="swal2-textarea" placeholder="Enter your message"></textarea>
+        <input type="file" id="ticket-attachment" class="swal2-file" accept=".pdf,.doc,.docx,.ppt,.pptx" />
+        <p style='color:black'>Accepted Extensions: </br>pdf, .doc, .docx, .ppt, .pptx</p>
+    `,
+    focusConfirm: false,
+    preConfirm: () => {
+        const category = Swal.getPopup().querySelector('#ticket-category').value;
+        const message = Swal.getPopup().querySelector('#ticket-message').value;
+        const attachment = Swal.getPopup().querySelector('#ticket-attachment').files[0];
 
-                    if (!category || !message) {
-                        Swal.showValidationMessage(`Please select a category and provide a message`);
-                    }
-                    return {
-                        category,
-                        message,
-                        attachment
-                    };
-                },
-                showCancelButton: true,
-            }).then((result) => {
+        if (!category || !message) {
+            Swal.showValidationMessage(`Please select a category and provide a message`);
+        }
+        return {
+            category,
+            message,
+            attachment
+        };
+    },
+    showCancelButton: true,
+}).then((result) => {
                 if (result.isConfirmed) {
                     const formData = new FormData();
                     formData.append('category', result.value.category);
