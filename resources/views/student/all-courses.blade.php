@@ -35,7 +35,7 @@
                             </div>
                             <div class="breadcrumb__inner">
                                 <ul>
-                                    <li><a href="/home">Home</a></li>
+                                    <li><a href="{{route('courses.all')}}">Home</a></li>
                                     <li> Courses</li>
                                 </ul>
                             </div>
