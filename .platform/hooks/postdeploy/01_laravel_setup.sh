@@ -38,11 +38,9 @@ php /usr/bin/composer.phar install --no-interaction --prefer-dist --optimize-aut
 # Laravel clear caches and optimize
 php artisan config:clear
 php artisan cache:clear
-php artisan view:clear
 
 # Cache optimized configs
 php artisan config:cache
-php artisan view:cache
 
 # Run migrations
 php artisan migrate --force
