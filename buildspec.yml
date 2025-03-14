@@ -12,7 +12,10 @@ phases:
 
   pre_build:
     commands:
-      - echo "Creating Laravel environment file..."
+      - echo "Installing dependencies..."
+      - composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
+      - echo "Generating Laravel environment file..."
       - |
         cat > .env <<EOF
         APP_NAME=Laravel
@@ -33,9 +36,10 @@ phases:
         SESSION_DRIVER=file
         SESSION_LIFETIME=120
         EOF
+
+      - echo "Generating application key..."
       - php artisan key:generate
-      - echo "Installing dependencies..."
-      - composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+
       - echo "Caching Laravel configs..."
       - php artisan config:cache
       - php artisan view:cache
