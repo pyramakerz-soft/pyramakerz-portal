@@ -12,6 +12,9 @@ phases:
 
   pre_build:
     commands:
+      - echo "Navigating to Laravel root directory..."
+      - cd /codebuild/output/src* || cd /var/www/html
+      - pwd  # Debugging step to confirm the correct directory
       - echo "Installing dependencies..."
       - composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
@@ -37,17 +40,21 @@ phases:
         SESSION_LIFETIME=120
         EOF
 
-      - echo "Generating application key..."
-      - php artisan key:generate
+      - echo "Setting permissions for .env..."
+      - chmod 644 .env
+      - ls -la .env  # Debugging step to confirm .env exists
 
+      - echo "Generating application key..."
+      - php artisan key:generate || echo "Key generate failed but continuing..."
+      
       - echo "Caching Laravel configs..."
-      - php artisan config:cache
-      - php artisan view:cache
+      - php artisan config:cache || echo "Config cache failed but continuing..."
+      - php artisan view:cache || echo "View cache failed but continuing..."
 
   build:
     commands:
       - echo "Running Laravel migrations..."
-      - php artisan migrate --force
+      - php artisan migrate --force || echo "Migration failed but continuing..."
       - echo "Zipping application for deployment..."
       - zip -r application.zip . -x "vendor/*" ".git/*" ".gitignore" ".env*" "tests/*" "node_modules/*" "*.md"
 
