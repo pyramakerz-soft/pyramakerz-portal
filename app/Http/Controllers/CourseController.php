@@ -221,7 +221,7 @@ public function enrollNow($id){
 }
 public function studentJoinNow(){
 $user = Auth::guard('student')->user();
-$course = Course::where('year',$user->year)->first();
+$course = Course::whereNotNull('year')->orderBy('year','asc')->first();
 return view('student.course-details',compact('course'));
 
 }
