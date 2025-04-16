@@ -42,7 +42,7 @@ class CourseController extends Controller
 
     public function store(Request $request)
 {
-    Log::info('🟢 store() function is called');
+    Log::info('🟢 store() function is called:');
     Log::info('🔍 Incoming Request Data:', $request->all());
 
     try {
@@ -221,7 +221,7 @@ public function enrollNow($id){
 }
 public function studentJoinNow(){
 $user = Auth::guard('student')->user();
-$course = Course::where('year',$user->year)->where('favor',1)->first();
+$course = Course::whereNotNull('year')->orderBy('year','asc')->first();
 return view('student.course-details',compact('course'));
 
 }

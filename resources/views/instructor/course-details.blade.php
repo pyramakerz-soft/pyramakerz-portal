@@ -25,7 +25,7 @@
                         <div class="breadcrumb__content__wraper" data-aos="fade-up">
                             <div class="breadcrumb__inner text-start">
                                 <ul>
-                                    <li><a href="/">Home</a></li>
+                                    <li><a href="{{route('courses.all')}}">Home</a></li>
                                     <li>{{ $course->name ?? 'Course Details' }}</li>
                                 </ul>
                             </div>
@@ -436,15 +436,22 @@
                     cancelButton: 'btn btn-danger',
                 },
                 preConfirm: () => {
-                    return {
-                        title: $("#lesson_title").val(),
-                        order: $("#lesson_order").val(),
-                        video_url: $("#lesson_video").val(),
-                        course_path_id: $("#course_path_id").val(),
-                        path_of_path_id: $("#path_of_path_id").val(),
-                        course_id: {{ $course->id }}
-                    };
-                }
+                        let order = $("#lesson_order").val();
+                        
+                        if (order < 1) {
+                            Swal.showValidationMessage("Order number must be at least 1");
+                            return false; // Prevent the modal from closing
+                        }
+
+                        return {
+                            title: $("#lesson_title").val(),
+                            order: order,
+                            video_url: $("#lesson_video").val(),
+                            course_path_id: $("#course_path_id").val(),
+                            path_of_path_id: $("#path_of_path_id").val(),
+                            course_id: {{ $course->id }}
+                        };
+                    }
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({

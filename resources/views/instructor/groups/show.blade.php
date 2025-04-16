@@ -69,7 +69,7 @@
                         <div class="breadcrumb__content__wraper">
                             <div class="breadcrumb__inner text-start">
                                 <ul>
-                                    <li><a href="/">Home</a></li>
+                                    <li><a href="{{route('courses.all')}}">Home</a></li>
                                     <li><a
                                             href="{{ route('instructor.course_details', $group->course->id) }}">{{ $group->course->name }}</a>
                                     </li>
