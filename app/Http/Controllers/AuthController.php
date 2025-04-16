@@ -145,9 +145,10 @@ class AuthController extends Controller
         // Regenerate session to avoid session fixation attacks
         $request->session()->regenerate();
 
-        return redirect()->route('my-progress');
+        return redirect()->route('my-progress')->with('success', 'Logged In successfully.');
     }
-    return redirect()->back()->with('error', 'Invalid Credentials!')->withInput();
+
+     return redirect()->back()->with('error', 'Wrong email or password.');
 
 }
     public function adminLogin(Request $request)
@@ -172,10 +173,10 @@ class AuthController extends Controller
 
         // Regenerate session to avoid session fixation attacks
 
-        return redirect()->route('admin-courses');
+        return redirect()->route('admin-courses')->with('success', 'Logged In successfully.');
     }
 
-    return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+     return redirect()->back()->with('error', 'Wrong email or password.');
 }
 
 
