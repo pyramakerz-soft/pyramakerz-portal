@@ -86,7 +86,7 @@
                                     data-bs-target="#projects__two" type="button">Signup</button>
                             </li>
                         </ul>
-                        
+
                     </div>
 
 
@@ -98,7 +98,7 @@
                                 <div class="loginarea__wraper">
                                     <div class="login__heading">
                                         <h5 class="login__title">Login</h5>
-                                        <p class="login__description">Don't have an account yet? 
+                                        <p class="login__description">Don't have an account yet?
                                             <a href="#" onclick="openSignupTab()">Sign up for free</a>
                                         </p>
                                     </div>
@@ -110,13 +110,13 @@
                                         <div class="login__form">
                                             <label class="form__label">email</label>
                                             <input class="common__login__input" type="text" name="email"
-                                                placeholder="email">
+                                                placeholder="email" required>
 
                                         </div>
                                         <div class="login__form">
                                             <label class="form__label">Password</label>
                                             <input class="common__login__input" type="password" placeholder="Password"
-                                                name="password">
+                                                name="password" required>
 
                                         </div>
                                         <div class="login__form d-flex justify-content-between flex-wrap gap-2">
@@ -155,7 +155,7 @@
                                 <div class="loginarea__wraper">
                                     <div class="login__heading">
                                         <h5 class="login__title">sign up</h5>
-                                        <p class="login__description">Already have an account? 
+                                        <p class="login__description">Already have an account?
                                             <a href="#" onclick="openLoginTab()">Log In</a>
                                         </p>
                                     </div>
@@ -169,7 +169,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label"> Name</label>
                                                     <input class="common__login__input" type="text"
-                                                        placeholder=" Name" name="name">
+                                                        placeholder=" Name" name="name" required>
 
                                                 </div>
                                             </div>
@@ -177,7 +177,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label">Last Name</label>
                                                     <input class="common__login__input" type="password"
-                                                        placeholder="Last Name">
+                                                        placeholder="Last Name" required>
 
                                                 </div>
                                             </div>
@@ -185,7 +185,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label">Username</label>
                                                     <input class="common__login__input" type="text"
-                                                        placeholder="Username">
+                                                        placeholder="Username" required>
 
                                                 </div>
                                             </div>
@@ -193,7 +193,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label">Email</label>
                                                     <input class="common__login__input" type="email"
-                                                        placeholder="Your Email" name="email">
+                                                        placeholder="Your Email" name="email" required>
 
                                                 </div>
                                             </div>
@@ -201,7 +201,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label">Phone Number</label>
                                                     <input class="common__login__input" type="tel"
-                                                        placeholder="Phone Number">
+                                                        placeholder="Phone Number" required>
 
                                                 </div>
                                             </div>
@@ -211,7 +211,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label">Country</label>
                                                     <input class="common__login__input" type="text"
-                                                        placeholder="Country">
+                                                        placeholder="Country" required>
 
                                                 </div>
                                             </div>
@@ -219,7 +219,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label">Password</label>
                                                     <input class="common__login__input" type="password"
-                                                        placeholder="Password" name="password">
+                                                        placeholder="Password" name="password" required>
 
                                                 </div>
                                             </div>
@@ -227,7 +227,7 @@
                                                 <div class="login__form">
                                                     <label class="form__label">Re-Enter Password</label>
                                                     <input class="common__login__input" type="password"
-                                                        placeholder="Re-Enter Password">
+                                                        placeholder="Re-Enter Password" required>
 
                                                 </div>
                                             </div>
@@ -235,7 +235,7 @@
 
                                         <div class="login__form d-flex justify-content-between flex-wrap gap-2">
                                             <div class="form__check">
-                                                <input id="accept_pp" type="checkbox"> <label for="accept_pp">Accept
+                                                <input id="accept_pp" type="checkbox" required> <label for="accept_pp">Accept
                                                     the Terms and Privacy Policy</label>
                                             </div>
 
@@ -279,7 +279,7 @@
         <!-- footer__section__start -->
         @include('include.footer')
         @include('include.scripts')
-        
+
 
         <!-- footer__section__end -->
 
@@ -287,8 +287,8 @@
     </main>
 
 
-   
-    
+
+
 
 
     <!-- JS here -->
@@ -316,7 +316,7 @@
         function openLoginTab() {
             document.getElementById('loginTab').click();
         }
-    
+
         function openSignupTab() {
             document.getElementById('signupTab').click();
         }

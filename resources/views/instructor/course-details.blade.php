@@ -36,10 +36,10 @@
                                 <h3>{{ $course->name ?? 'Course Title' }}</h3>
 
                                 @if (Auth::guard('admin')->user()->can('group-list'))
-                                    <a class="btn default__button btn-sm"
-                                        href="{{ route('instructor.groups', $course->id) }}">
-                                        <i class="icofont-users"></i> View Groups
-                                    </a>
+                                <a class="btn default__button btn-sm"
+                                    href="{{ route('instructor.groups', $course->id) }}">
+                                    <i class="icofont-users"></i> View Groups
+                                </a>
                                 @endif
                             </div>
                         </div>
@@ -78,68 +78,95 @@
                                     <div class="tab-pane fade active show" id="lessons" role="tabpanel">
                                         <div class="accordion content__cirriculum__wrap" id="accordionExample">
                                             @if (isset($course))
-                                                @foreach ($course->coursePaths as $path)
-                                                    @foreach ($path->lessons as $lesson)
-                                                        <div class="accordion-item roundd">
-                                                            <h2 class="accordion-header">
-                                                                <button class="accordion-button" type="button"
-                                                                    data-bs-toggle="collapse"
-                                                                    data-bs-target="#lesson{{ $lesson->id }}"
-                                                                    aria-expanded="false"
-                                                                    aria-controls="lesson{{ $lesson->id }}">
-                                                                    {{ $lesson->title }}
-                                                                    <span>Order: {{ $lesson->order ?? 'N/A' }}</span>
+                                            @foreach ($course->coursePaths as $path)
+                                            <div class="mb-3">
+                                                <h5 class="text-primary">{{ $path->name }}</h5>
 
-                                                                    @if (Auth::guard('admin')->user()->can('lessonresource-create'))
-                                                                        <!-- Add Material Button -->
-                                                                        <i class="icofont-plus-circle add-material-btn"
-                                                                            data-lesson-id="{{ $lesson->id }}"
-                                                                            title="Add Material"
-                                                                            style="cursor: pointer; margin-left: auto; font-size: 1.2rem;">
-                                                                        </i>
-                                                                    @endif
-                                                                </button>
-                                                            </h2>
-                                                            <div id="lesson{{ $lesson->id }}"
-                                                                class="accordion-collapse collapse"
-                                                                data-bs-parent="#accordionExample">
-                                                                <div class="accordion-body">
-                                                                    <p><strong>Description:</strong>
-                                                                        {{ $lesson->description ?? 'No description available.' }}
-                                                                    </p>
-                                                                    <!-- Lesson Resources -->
-                                                                    @if ($lesson->resources->isNotEmpty())
-                                                                        <div class="lesson-resources">
-                                                                            @foreach ($lesson->resources as $resource)
-                                                                                <div class="resource-item mb-2">
-                                                                                    <a href="{{ $resource->file_path ? asset(path: $resource->file_path) : $resource->resource_link }}"
-                                                                                        target="_blank">
-                                                                                        {{ $resource->title ?? basename($resource->file_path) }}
-                                                                                    </a>
-                                                                                    <a href="{{ $resource->file_path ? asset(path: $resource->file_path) : $resource->resource_link }}"
-                                                                                        download
-                                                                                        class="btn btn-sm btn-outline-primary ml-2">
-                                                                                        Download
-                                                                                    </a>
+                                                @foreach ($path->paths as $pathOfPath)
+                                                <div class="accordion mb-3" id="accordionPathOfPath{{ $pathOfPath->id }}">
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="headingPathOfPath{{ $pathOfPath->id }}">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target="#collapsePathOfPath{{ $pathOfPath->id }}"
+                                                                aria-expanded="false"
+                                                                aria-controls="collapsePathOfPath{{ $pathOfPath->id }}">
+                                                                {{ $pathOfPath->name }}
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapsePathOfPath{{ $pathOfPath->id }}"
+                                                            class="accordion-collapse collapse"
+                                                            aria-labelledby="headingPathOfPath{{ $pathOfPath->id }}"
+                                                            data-bs-parent="#accordionPathOfPath{{ $pathOfPath->id }}">
+                                                            <div class="accordion-body">
+
+                                                                @foreach ($pathOfPath->lessons as $lesson)
+                                                                <div class="accordion" id="accordionLesson{{ $lesson->id }}">
+                                                                    <div class="accordion-item roundd">
+                                                                        <h2 class="accordion-header">
+                                                                            <button class="accordion-button collapsed" type="button"
+                                                                                data-bs-toggle="collapse"
+                                                                                data-bs-target="#lesson{{ $lesson->id }}"
+                                                                                aria-expanded="false"
+                                                                                aria-controls="lesson{{ $lesson->id }}">
+                                                                                {{ $lesson->title }}
+                                                                                <span class="ms-auto">Order: {{ $lesson->order ?? 'N/A' }}</span>
+
+                                                                                @can('lessonresource-create')
+                                                                                <i class="icofont-plus-circle add-material-btn ms-2"
+                                                                                    data-lesson-id="{{ $lesson->id }}"
+                                                                                    title="Add Material"
+                                                                                    style="cursor: pointer; font-size: 1.2rem;"></i>
+                                                                                @endcan
+                                                                            </button>
+                                                                        </h2>
+                                                                        <div id="lesson{{ $lesson->id }}"
+                                                                            class="accordion-collapse collapse"
+                                                                            data-bs-parent="#accordionLesson{{ $lesson->id }}">
+                                                                            <div class="accordion-body">
+                                                                                <p><strong>Description:</strong> {{ $lesson->description ?? 'No description available.' }}</p>
+
+                                                                                @if ($lesson->resources->isNotEmpty())
+                                                                                <div class="lesson-resources">
+                                                                                    @foreach ($lesson->resources as $resource)
+                                                                                    <div class="resource-item mb-2">
+                                                                                        <a href="{{ $resource->file_path ? asset($resource->file_path) : $resource->resource_link }}"
+                                                                                            target="_blank">
+                                                                                            {{ $resource->title ?? basename($resource->file_path) }}
+                                                                                        </a>
+                                                                                        <a href="{{ $resource->file_path ? asset($resource->file_path) : $resource->resource_link }}"
+                                                                                            download
+                                                                                            class="btn btn-sm btn-outline-primary ms-2">
+                                                                                            Download
+                                                                                        </a>
+                                                                                    </div>
+                                                                                    @endforeach
                                                                                 </div>
-                                                                            @endforeach
+                                                                                @else
+                                                                                <p>No resources available for this lesson.</p>
+                                                                                @endif
+                                                                            </div>
                                                                         </div>
-                                                                    @else
-                                                                        <p>No resources available for this lesson.</p>
-                                                                    @endif
+                                                                    </div>
                                                                 </div>
+                                                                @endforeach
+
                                                             </div>
                                                         </div>
-                                                    @endforeach
+                                                    </div>
+                                                </div>
                                                 @endforeach
+                                            </div>
+                                            @endforeach
+
                                             @endif
                                         </div>
 
                                         @if (Auth::guard('admin')->user()->can('lesson-create'))
-                                            <button
-                                                class="btn btn-outline-primary mt-3 add-lesson-btn default__button default__button--3">
-                                                <i class="icofont-plus"></i> Add Lesson
-                                            </button>
+                                        <button
+                                            class="btn btn-outline-primary mt-3 add-lesson-btn default__button default__button--3">
+                                            <i class="icofont-plus"></i> Add Lesson
+                                        </button>
                                         @endif
                                     </div>
 
@@ -177,9 +204,9 @@
                                                     <span
                                                         class="sb_content
                                                     ">{{ $course->name ?? 'Course Title' }}</span>
-                                                </div>
-                                    </div> --}}
-                                    {{-- <div class="course__summery__lists">
+                                </div>
+                            </div> --}}
+                            {{-- <div class="course__summery__lists">
                                     <ul>
                                         <li>
                                             <div class="course__summery__item">
@@ -187,38 +214,38 @@
                                                 <span class="sb_content">
                                                     @if ($course->instructor)
                                                         {{ $course->instructor->name }}
-                                                        @if (Auth::guard('admin')->user()->can('course-edit') || Auth::guard('admin')->user()->can('course-create'))
-                                                            <button
-                                                                class="btn btn-sm btn-outline-warning assign-teacher-btn"
-                                                                data-course-id="{{ $course->id }}"
-                                                                style="border: none;">
-                                                                Change Instructor
-                                                            </button>
-                                                        @endif
-                                                    @else
-                                                        @if (Auth::guard('admin')->user()->can('course-edit') || Auth::guard('admin')->user()->can('course-create'))
-                                                            <button
-                                                                class="btn btn-sm btn-outline-success assign-teacher-btn"
-                                                                data-course-id="{{ $course->id }}"
-                                                                style="border: none;">
-                                                                + Assign Instructor
-                                                            </button>
-                                                        @endif
-                                                    @endif
-                                                </span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div> --}}
-                                </div>
-                            </div>
+                            @if (Auth::guard('admin')->user()->can('course-edit') || Auth::guard('admin')->user()->can('course-create'))
+                            <button
+                                class="btn btn-sm btn-outline-warning assign-teacher-btn"
+                                data-course-id="{{ $course->id }}"
+                                style="border: none;">
+                                Change Instructor
+                            </button>
+                            @endif
+                            @else
+                            @if (Auth::guard('admin')->user()->can('course-edit') || Auth::guard('admin')->user()->can('course-create'))
+                            <button
+                                class="btn btn-sm btn-outline-success assign-teacher-btn"
+                                data-course-id="{{ $course->id }}"
+                                style="border: none;">
+                                + Assign Instructor
+                            </button>
+                            @endif
+                            @endif
+                            </span>
                         </div>
-                    </div>
+                        </li>
+                        </ul>
+                    </div> --}}
                 </div>
             </div>
+        </div>
+        </div>
+        </div>
+        </div>
 
-            @include('include.footer')
-            @include('include.scripts')
+        @include('include.footer')
+        @include('include.scripts')
     </main>
 
     <!-- JS Scripts -->

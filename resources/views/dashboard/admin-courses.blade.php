@@ -5,7 +5,7 @@
 <body class="body__wrapper">
 
     @include('include.load')
-    <main class="main_wrapper overflow-hidden">
+    <main class="main_wrapper">
 
         <!-- headar section start -->
         @include('include.dash-nav')
@@ -23,90 +23,101 @@
             @include('include.admin-topbar')
 
             {{-- <div class="dashboard"> --}}
-                <div class="container-fluid full__width__padding">
-                    <div class="row">
-                        <div class="col-xl-3 col-lg-3 col-md-12">
-                            
+            <div class="container-fluid full__width__padding">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-12">
 
-                                @include('include.sidebar')
 
-                        </div>
-                        <div class="col-xl-9 col-lg-9 col-md-12">
-                            <div class="dashboard__content__wraper">
-                                <!-- Course Status Title -->
-                                <div class="dashboard__section__title">
-                                    <h4>Courses</h4>
+                        @include('include.sidebar')
+
+                    </div>
+                    <div class="col-xl-9 col-lg-9 col-md-12">
+                        <div class="dashboard__content__wraper">
+                            <!-- Course Status Title -->
+                            <div class="dashboard__section__title">
+                                <h4>Courses</h4>
+                                <form action="{{ route('admin-courses') }}">
+                                    <div class="form-group " style="display: flex; margin-bottom: 0px; gap: 5px;">
+                                        <input type="text" name="search" style="width:80%" placeholder="Search by course name" class="form-control"
+                                            value="{{ request('search') }}">
+                                        <button type="submit" style="float:right;width:20%" class="form-control"><i class="icofont-search-2"></i></button>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                            <!-- Courses Content -->
+                            <div class="row">
+                                <div class="col-xl-12 aos-init aos-animate">
+                                    <ul class="nav about__button__wrap dashboard__button__wrap" id="myTab"
+                                        role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="single__tab__link active" data-bs-toggle="tab"
+                                                data-bs-target="#projects__one" type="button" aria-selected="true"
+                                                role="tab">Courses</button>
+                                        </li>
+                                    </ul>
                                 </div>
 
-                                <!-- Courses Content -->
-                                <div class="row">
-                                    <div class="col-xl-12 aos-init aos-animate" data-aos="fade-up">
-                                        <ul class="nav about__button__wrap dashboard__button__wrap" id="myTab"
-                                            role="tablist">
-                                            <li class="nav-item" role="presentation">
-                                                <button class="single__tab__link active" data-bs-toggle="tab"
-                                                    data-bs-target="#projects__one" type="button" aria-selected="true"
-                                                    role="tab">Courses</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="tab-content tab__content__wrapper aos-init aos-animate"
-                                        id="myTabContent" data-aos="fade-up">
-                                        <div class="tab-pane fade show active" id="projects__one" role="tabpanel">
-                                            <div class="row">
-                                                @foreach ($courses as $course)
-                                                    <div class="col-xl-4 col-lg-6 col-md-6 col-12">
-                                                        <div class="gridarea__wraper">
-                                                            <div class="gridarea__img">
-                                                                <a href="{{ route('instructor.course_details', $course->id) }}">
-                                                                    <img loading="lazy"
-                                                                        src="{{ $course->image ? asset($course->image) : asset('img/course.jpg') }}"
-                                                                        alt="grid">
-                                                                </a>
-                                                                <div class="gridarea__small__button">
-                                                                    <div class="grid__badge">{{ $course->slug }}</div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="gridarea__content">
-                                                                <div class="gridarea__list">
-                                                                    <ul>
-                                                                        <li>
-                                                                            <i class="icofont-book-alt"></i>
-                                                                            {{ $course->totalLessonsCount() }} Lessons
-                                                                        </li>
-                                                                        <li>
-                                                                            <i class="icofont-clock-time"></i>
-                                                                            ~{{ ($course->totalLessonsCount() * 30) / 60 }}
-                                                                            Hours
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                                <div class="gridarea__heading">
-                                                                    <h3><a
-                                                                            href="{{ route('instructor.course_details', $course->id) }}">{{ $course->name }}</a>
-                                                                    </h3>
-                                                                </div>
-                                                            </div>
+                                <div class="tab-content tab__content__wrapper aos-init aos-animate"
+                                    id="myTabContent">
+                                    <div class="tab-pane fade show active" id="projects__one" role="tabpanel">
+                                        <div class="row">
+                                            @foreach ($courses as $course)
+                                            <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+                                                <div class="gridarea__wraper">
+                                                    <div class="gridarea__img">
+                                                        <a href="{{ route('instructor.course_details', $course->id) }}">
+                                                            <img loading="lazy"
+                                                                src="{{ $course->image ? asset($course->image) : asset('img/course.jpg') }}"
+                                                                alt="grid">
+                                                        </a>
+                                                        <div class="gridarea__small__button">
+                                                            <div class="grid__badge">{{ $course->slug }}</div>
                                                         </div>
                                                     </div>
-                                                @endforeach
+                                                    <div class="gridarea__content">
+                                                        <div class="gridarea__list">
+                                                            <ul>
+                                                                <li>
+                                                                    <i class="icofont-book-alt"></i>
+                                                                    {{ $course->totalLessonsCount() }} Lessons
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icofont-clock-time"></i>
+                                                                    ~{{ ($course->totalLessonsCount() * 30) / 60 }}
+                                                                    Hours
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="gridarea__heading">
+                                                            <h3><a
+                                                                    href="{{ route('instructor.course_details', $course->id) }}">{{ $course->name }}</a>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="pagination-wrapper">
+                                            {!! $courses->appends(request()->except('page'))->links('pagination::bootstrap-5') !!}
                                         </div>
                                     </div>
                                 </div>
-
-
-
                             </div>
+
+
+
                         </div>
                     </div>
+                </div>
                 {{-- </div> --}}
 
                 <!-- dashboardarea__menu__end   -->
 
                 <!-- footer__section__start -->
-                
+
                 @include('include.scripts')
                 <!-- footer__section__end -->
 

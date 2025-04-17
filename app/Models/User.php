@@ -44,12 +44,11 @@ class User extends Authenticatable
         ];
     }
     public function courses()
-{
-    return $this->hasMany(Course::class, 'instructor_id');
-}
-public function comments()
-{
-    return $this->hasMany(InstructorComment::class, 'instructor_id');
-}
-
+    {
+        return $this->hasMany(Course::class, 'instructor_id');
+    }
+    public function comments()
+    {
+        return $this->hasMany(InstructorComment::class, 'instructor_id');
+    }
 }
