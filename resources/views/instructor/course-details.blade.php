@@ -134,11 +134,13 @@
                                                                                             target="_blank">
                                                                                             {{ $resource->title ?? basename($resource->file_path) }}
                                                                                         </a>
+                                                                                        @if ($resource->title !== 'handout')
                                                                                         <a href="{{ $resource->file_path ? asset($resource->file_path) : $resource->resource_link }}"
                                                                                             download
                                                                                             class="btn btn-sm btn-outline-primary ms-2">
                                                                                             Download
                                                                                         </a>
+                                                                                        @endif
                                                                                     </div>
                                                                                     @endforeach
                                                                                 </div>
@@ -278,77 +280,189 @@
                 let lessonId = $(this).data("lesson-id");
 
                 Swal.fire({
-                    title: "Upload Material",
+                    title: "Upload Materials",
+                    width: '70%',
                     html: `
-            <select id="resource_type" class="swal2-input form-control">
-                <option value="">Select Resource Type</option>
-                <option value="session">Session Material (Instructor Only)</option>
-                <option value="teaching_guide">Teaching Guide (Instructor Only)</option>
-                <option value="project">Project (Instructor Only)</option>
-                <option value="quiz">Quiz (Instructor & Student)</option>
-                <option value="assignment">Assignment (Instructor & Student)</option>
-                <option value="handout">Handouts (Student Only)</option>
-            </select>
-            <label>
-                <input type="checkbox" id="upload_toggle" checked> Upload File Instead of Link
-            </label>
-            <input type="url" id="lesson_link" class="swal2-input form-control" placeholder="Paste link here" style="display:none;">
-            
-            <input type="file" id="lesson_material" class="swal2-input form-control" style="width:98% !important; margin: 0 auto; margin-top:10px; ">
+        <style>
+            .resource-wrapper {
+                border: 1px solid #ddd;
+                padding: 15px;
+                margin-bottom: 20px;
+                border-radius: 10px;
+                background-color: #f9f9f9;
+            }
+            .upload-toggle-section {
+                margin-top: 10px;
+            }
+            .upload-area {
+                margin-top: 10px;
+            }
+            .input-group {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+            .swal2-input {
+                margin-bottom: 0 !important;
+            }
+            .add-more-btn, .remove-btn {
+                cursor: pointer;
+                color: #007bff;
+                font-size: 18px;
+                border: none;
+                background: none;
+            }
+            .add-more-btn:hover, .remove-btn:hover {
+                color: #ff7918;
+            }
+        </style>
+        <div id="materialTypes">
+            ${['session', 'teaching_guide', 'project', 'quiz', 'assignment', 'handout'].map(type => `
+                <div class="resource-wrapper">
+                    <label>
+                        <input type="checkbox" class="resource-type-checkbox" value="${type}"> 
+                        <strong>${type.replace('_', ' ').toUpperCase()}</strong>
+                    </label>
+
+                    <div class="upload-toggle-section" data-type="${type}" style="display:none;">
+                        ${type !== 'handout' ? `
+                        <div class="form-check form-switch mt-2">
+                            <input class="form-check-input upload-toggle" type="checkbox" data-type="${type}" checked>
+                            <label class="form-check-label">Upload Files</label>
+                        </div>` : ''
+                    }
+
+                        <div class="upload-area" data-type="${type}">
+                            <!-- Dynamic inputs go here -->
+                        </div>
+                        <button type="button" class="add-more-btn" data-type="${type}">+ Add More</button>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
         `,
                     didOpen: () => {
-                        $("#upload_toggle").on("change", function() {
+                        const createInputGroup = (type, isUpload = true) => {
+                            const inputId = 'input-' + Date.now() + Math.random().toString(36).substring(2, 7);
+                            return `
+                    <div class="input-group" data-type="${type}" id="${inputId}">
+                        ${isUpload
+                            ? `<input type="file" class="swal2-input form-control file-input" data-type="${type}" style="width: 95%">`
+                            : `<input type="url" class="swal2-input form-control link-input" data-type="${type}" placeholder="Enter link" style="width: 95%">`
+                        }
+                        <button type="button" class="remove-btn" data-target="${inputId}" title="Remove">&#x2715;</button>
+                    </div>`;
+                        };
+
+                        $(".resource-type-checkbox").on("change", function() {
+                            const type = $(this).val();
+                            const section = $(`.upload-toggle-section[data-type="${type}"]`);
+                            const area = $(`.upload-area[data-type="${type}"]`);
+                            area.empty();
+
                             if (this.checked) {
-                                $("#lesson_material").show();
-                                $("#lesson_link").hide();
+                                section.show();
+                                const isUpload = type === 'handout' || $(`.upload-toggle[data-type="${type}"]`).prop("checked");
+                                area.append(createInputGroup(type, isUpload));
                             } else {
-                                $("#lesson_material").hide();
-                                $("#lesson_link").show();
+                                section.hide();
                             }
+                        });
+
+                        $(".upload-toggle").on("change", function() {
+                            const type = $(this).data("type");
+                            const isUpload = $(this).is(":checked");
+                            const area = $(`.upload-area[data-type="${type}"]`);
+                            area.empty();
+                            area.append(createInputGroup(type, isUpload));
+                        });
+
+                        $(document).on("click", ".add-more-btn", function() {
+                            const type = $(this).data("type");
+                            const isUpload = type === 'handout' || $(`.upload-toggle[data-type="${type}"]`).is(":checked");
+                            $(`.upload-area[data-type="${type}"]`).append(createInputGroup(type, isUpload));
+                        });
+
+                        $(document).on("click", ".remove-btn", function() {
+                            const targetId = $(this).data("target");
+                            $(`#${targetId}`).remove();
                         });
                     },
                     showCancelButton: true,
                     confirmButtonText: "Upload",
-                    
                     preConfirm: () => {
-                        let resourceType = $("#resource_type").val();
-                        let fileInput = $("#lesson_material")[0].files[0];
-                        let linkInput = $("#lesson_link").val();
-                        let uploadToggle = $("#upload_toggle").prop("checked");
-
-                        if (!resourceType) {
-                            Swal.showValidationMessage("Please select a resource type");
+                        const selected = $(".resource-type-checkbox:checked");
+                        if (selected.length === 0) {
+                            Swal.showValidationMessage("Please select at least one material type");
                             return false;
                         }
 
-                        if (uploadToggle && !fileInput) {
-                            Swal.showValidationMessage("Please choose a file");
-                            return false;
-                        }
+                        const data = [];
+                        selected.each(function() {
+                            const type = $(this).val();
+                            const isUpload = type === 'handout' || $(`.upload-toggle[data-type="${type}"]`).is(":checked");
 
-                        if (!uploadToggle && !linkInput) {
-                            Swal.showValidationMessage("Please enter a valid link");
+                            if (isUpload) {
+                                $(`.file-input[data-type="${type}"]`).each(function() {
+                                    if (!this.files.length) return;
+                                    for (let file of this.files) {
+                                        data.push({
+                                            type,
+                                            uploadType: 'file',
+                                            file
+                                        });
+                                    }
+                                });
+                            } else {
+                                $(`.link-input[data-type="${type}"]`).each(function() {
+                                    const link = $(this).val();
+                                    if (link) {
+                                        data.push({
+                                            type,
+                                            uploadType: 'link',
+                                            link
+                                        });
+                                    }
+                                });
+                            }
+                        });
+
+                        if (data.length === 0) {
+                            Swal.showValidationMessage("Please provide at least one file or link.");
                             return false;
                         }
 
                         return {
                             lesson_id: lessonId,
-                            resource_type: resourceType,
-                            material: fileInput,
-                            link: linkInput,
-                            uploadType: uploadToggle ? "file" : "link"
+                            resources: data
                         };
-                    }
+                    },
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        let formData = new FormData();
+                        const formData = new FormData();
                         formData.append("_token", "{{ csrf_token() }}");
                         formData.append("lesson_id", result.value.lesson_id);
-                        formData.append("type", result.value.resource_type);
-                        formData.append("link", result.value.link);
-                        if (result.value.uploadType === "file") {
-                            formData.append("file", result.value.material);
-                        }
+
+                        result.value.resources.forEach((item, index) => {
+                            formData.append(`resources[${index}][type]`, item.type);
+                            formData.append(`resources[${index}][uploadType]`, item.uploadType);
+                            if (item.uploadType === 'file') {
+                                formData.append(`resources[${index}][file]`, item.file);
+                            } else {
+                                formData.append(`resources[${index}][link]`, item.link);
+                            }
+                        });
+
+                        // ✅ Add this loader before sending the AJAX request
+                        Swal.fire({
+                            title: 'Uploading...',
+                            html: 'Please wait while we upload your materials.',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
 
                         $.ajax({
                             url: "{{ route('lesson.uploadMaterial') }}",
@@ -358,25 +472,26 @@
                             data: formData,
                             success: function() {
                                 Swal.fire({
-                                        title: "Success",
-                                        text: "Material uploaded successfully!",
-                                        icon: "success",
-                                        
-                                    })
-                                    .then(() => location.reload());
+                                    title: "Success",
+                                    text: "Materials uploaded successfully!",
+                                    icon: "success",
+                                }).then(() => location.reload());
                             },
                             error: function() {
                                 Swal.fire({
                                     title: "Error",
                                     text: "Upload failed!",
                                     icon: "error",
-                                    confirmButtonColor: '#ff7918'
+                                    confirmButtonColor: '#ff7918',
                                 });
-                            }
+                            },
                         });
                     }
+
                 });
             });
+
+
 
 
             // Additional code for assigning teacher, choosing date, etc...
@@ -463,22 +578,22 @@
                     cancelButton: 'btn btn-danger',
                 },
                 preConfirm: () => {
-                        let order = $("#lesson_order").val();
-                        
-                        if (order < 1) {
-                            Swal.showValidationMessage("Order number must be at least 1");
-                            return false; // Prevent the modal from closing
-                        }
+                    let order = $("#lesson_order").val();
 
-                        return {
-                            title: $("#lesson_title").val(),
-                            order: order,
-                            video_url: $("#lesson_video").val(),
-                            course_path_id: $("#course_path_id").val(),
-                            path_of_path_id: $("#path_of_path_id").val(),
-                            course_id: {{ $course->id }}
-                        };
+                    if (order < 1) {
+                        Swal.showValidationMessage("Order number must be at least 1");
+                        return false; // Prevent the modal from closing
                     }
+
+                    return {
+                        title: $("#lesson_title").val(),
+                        order: order,
+                        video_url: $("#lesson_video").val(),
+                        course_path_id: $("#course_path_id").val(),
+                        path_of_path_id: $("#path_of_path_id").val(),
+                        course_id: "{{ $course->id }}"
+                    };
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({

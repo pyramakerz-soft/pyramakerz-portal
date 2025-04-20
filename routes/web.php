@@ -11,6 +11,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\Admin\InstructorController as AdminInstructorController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\LessonResourceController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\RoleController;
@@ -101,7 +102,6 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/activate-course', function () {
         return view('dashboard.activate-course');
     })->name('activate-course');
-
 });
 
 // Store lesson
@@ -148,11 +148,6 @@ Route::middleware('auth:student')->group(function () {
     Route::post('/meetings/{meeting}/evaluate_inst', [EvaluationController::class, 'submitEvaluation'])
         ->middleware(['auth:student'])
         ->name('meetings.evaluate.submit');
-
-        
-
-
-
 });
 
 
@@ -222,6 +217,9 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
     Route::get('/instructors', [AdminInstructorController::class, 'index'])->name('admin.instructors.index');
     Route::post('/instructors/store', [AdminInstructorController::class, 'store'])->name('admin.instructors.store');
     Route::get('/evaluations', [EvaluationController::class, 'index'])->name('admin.evaluations.index');
+    Route::get('/lesson-resources', [LessonResourceController::class, 'index'])->name('admin.lesson-resources.index');
+    Route::delete('/lesson-resources/{id}', [LessonResourceController::class, 'destroy'])->name('admin.lesson-resources.destroy');
+
     Route::get('/evaluations/manual', [EvaluationController::class, 'create'])->name('admin.evaluations.manual');
     Route::post('/evaluations/store', [EvaluationController::class, 'store'])->name('admin.evaluations.store');
     Route::get('/track-progress', [CourseProgressController::class, 'index'])->name('admin.track-progress.index');
@@ -232,13 +230,11 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
     Route::get('/tickets', [TicketController::class, 'index'])->name('admin.tickets');
 
     // Route::get('/student-details/{id}', [AttendanceController::class, 'studentDetails'])->name('admin.student-details');
-        Route::get('/students', [AdminStudentController::class, 'index'])->name('admin.students.index');
-        Route::post('/students/import', [AdminStudentController::class, 'import'])->name('admin.students.import');
-        Route::get('/students/download-template', [AdminStudentController::class, 'downloadTemplate'])
+    Route::get('/students', [AdminStudentController::class, 'index'])->name('admin.students.index');
+    Route::post('/students/import', [AdminStudentController::class, 'import'])->name('admin.students.import');
+    Route::get('/students/download-template', [AdminStudentController::class, 'downloadTemplate'])
         ->name('admin.students.download-template');
-        Route::post('/admin/students/assign-group', [AdminStudentController::class, 'assignGroup'])->name('admin.students.assign-group');
-
-
+    Route::post('/admin/students/assign-group', [AdminStudentController::class, 'assignGroup'])->name('admin.students.assign-group');
 });
 
 /*
@@ -300,8 +296,6 @@ Route::prefix('instructor')->middleware('admin.auth')->group(function () {
     // Handle evaluation submission for a meeting
     Route::post('/meetings/{meeting}/evaluate', [InstructorController::class, 'evaluateSession'])
         ->name('instructor.evaluate_session');
-
-
 });
 
 // Route::get('/time-table', function () {
