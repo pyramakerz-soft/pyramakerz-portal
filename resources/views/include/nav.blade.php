@@ -1,4 +1,9 @@
 <!-- headar section start -->
+ <style>
+    .swal2-container {
+        z-index: 999999 !important;
+    }
+</style>
 <header>
     <div class="headerarea headerarea__3 header__sticky header__area">
         <div class="container desktop__menu__wrapper">

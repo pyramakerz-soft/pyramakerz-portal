@@ -27,6 +27,59 @@
                                 <h4>📚 Lesson Resources</h4>
 
                             </div>
+                            <form method="GET" class="mb-4">
+                                <div class="row g-2 align-items-end">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Course</label>
+                                        <select name="course_id" class="form-control">
+                                            <option value="">All Courses</option>
+                                            @foreach($courses as $course)
+                                            <option value="{{ $course->id }}" {{ request('course_id') == $course->id ? 'selected' : '' }}>
+                                                {{ $course->name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Path</label>
+                                        <select name="course_path_id" class="form-control">
+                                            <option value="">All Paths</option>
+                                            @foreach($coursePaths as $path)
+                                            <option value="{{ $path->id }}" {{ request('course_path_id') == $path->id ? 'selected' : '' }}>
+                                                {{ $path->name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Path of Path</label>
+                                        <select name="path_of_path_id" class="form-control">
+                                            <option value="">All Path of Paths</option>
+                                            @foreach($pathOfPaths as $pop)
+                                            <option value="{{ $pop->id }}" {{ request('path_of_path_id') == $pop->id ? 'selected' : '' }}>
+                                                {{ $pop->name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Lesson</label>
+                                        <select name="lesson_id" class="form-control">
+                                            <option value="">All Lessons</option>
+                                            @foreach($lessons as $lesson)
+                                            <option value="{{ $lesson->id }}" {{ request('lesson_id') == $lesson->id ? 'selected' : '' }}>
+                                                {{ $lesson->title }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-12 mt-2 d-flex gap-2" style="display: flex !important; justify-content: flex-end;">
+                                        <button type="submit" class="btn btn-primary" style="background-color: white;">🔍 Filter</button>
+                                        <a href="{{ route('admin.lesson-resources.index') }}" class="btn btn-secondary">🔄 Reset</a>
+                                    </div>
+                                </div>
+                            </form>
 
                             <div class="table-responsive mt-3">
                                 <table class="table table-bordered table-striped">
@@ -71,7 +124,7 @@
                                         </tr>
                                         @empty
                                         <tr>
-                                            <td colspan="7" class="text-center">No resources found.</td>
+                                            <td colspan="12" class="text-center">No resources found.</td>
                                         </tr>
                                         @endforelse
                                     </tbody>
@@ -102,135 +155,37 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-
     <script>
-        $(document).ready(function() {
-            $(".comment-btn").click(function() {
-                let instructorId = $(this).data("instructor-id");
+        $(document).on("click", ".delete-resource-btn", function() {
+            const resourceId = $(this).data("id");
 
-                $.get("{{ url('/supervisor/instructors/comments') }}/" + instructorId, function(comments) {
-                    let commentsHtml = comments.length ? "" : "<p>No comments yet.</p>";
-
-                    comments.forEach(comment => {
-                        commentsHtml += `<div class="comment-box">
-                        <strong>${comment.admin.name}:</strong> ${comment.comment}
-                        <small class="text-muted d-block">${new Date(comment.created_at).toLocaleString()}</small>
-                    </div><hr>`;
-                    });
-
-                    Swal.fire({
-                        title: "Instructor Comments",
-                        html: `
-                        <div style="max-height: 300px; overflow-y: auto;">
-                            ${commentsHtml}
-                        </div>
-                        <textarea id="new_comment" class="swal2-textarea" placeholder="Write a comment..."></textarea>
-                    `,
-                        showCancelButton: true,
-                        confirmButtonText: "Add Comment",
-
-                        preConfirm: () => {
-                            return {
-                                instructor_id: instructorId,
-                                comment: $("#new_comment").val(),
-                            };
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.post("{{ route('admin.instructors.comment') }}", {
-                                _token: "{{ csrf_token() }}",
-                                instructor_id: result.value.instructor_id,
-                                comment: result.value.comment
-                            }, function() {
-                                Swal.fire({
-                                        title: "Success",
-                                        text: "Comment added!",
-                                        icon: "success",
-                                        confirmButtonColor: "#ff7918"
-                                    })
-                                    .then(() => location.reload());
-                            }).fail(() => {
-                                ({
-                                    title: "Error",
-                                    text: "Failed to add comment!",
-                                    icon: "error",
-                                    confirmButtonColor: "#ff7918"
-                                });
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This will permanently delete the resource.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#aaa",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('admin.lesson-resources.destroy', ':id') }}".replace(':id', resourceId),
+                        type: "DELETE",
+                        data: {
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function() {
+                            Swal.fire("Deleted!", "The resource has been removed.", "success").then(() => {
+                                location.reload();
                             });
+                        },
+                        error: function() {
+                            Swal.fire("Error", "Failed to delete the resource.", "error");
                         }
                     });
-                }).fail(() => {
-                    Swal.fire("Error", "Could not fetch comments!", "error", );
-                });
+                }
             });
-
-            $(".add-instructor-btn").click(function() {
-                Swal.fire({
-                    title: "Add New Instructor",
-                    html: `
-                    <input type="text" id="instructor_name" class="swal2-input" placeholder="Instructor Name">
-                    <input type="email" id="instructor_email" class="swal2-input" placeholder="Email">
-                    <input type="text" id="instructor_phone" class="swal2-input" placeholder="Phone Number">
-                    <input type="text" id="instructor_governorate" class="swal2-input" placeholder="Governorate">
-                    <input type="password" id="instructor_password" class="swal2-input" placeholder="Password">
-                `,
-                    showCancelButton: true,
-                    confirmButtonText: "Add Instructor",
-
-                    preConfirm: () => {
-                        console.log($("#instructor_phone").val())
-                        console.log($("#instructor_governorate").val())
-                        return {
-                            name: $("#instructor_name").val(),
-                            email: $("#instructor_email").val(),
-                            phone: $("#instructor_phone").val(),
-                            governorate: $("#instructor_governorate").val(),
-                            password: $("#instructor_password").val()
-                        };
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: "{{ route('admin.instructors.store') }}",
-                            type: "POST",
-                            data: {
-                                _token: "{{ csrf_token() }}",
-                                name: result.value.name,
-                                email: result.value.email,
-                                phone: result.value.phone,
-                                governorate: result.value.governorate,
-                                password: result.value.password,
-                                role: 'instructor'
-                            },
-                            success: function() {
-                                Swal.fire({
-                                    title: "Success",
-                                    text: "Instructor added successfully!",
-                                    icon: "success",
-                                    confirmButtonColor: "#ff7918"
-                                });
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 1000);
-                            },
-                            error: function(xhr) {
-                                let errorMessage = "Failed to add instructor!";
-                                if (xhr.responseJSON && xhr.responseJSON.message) {
-                                    errorMessage = xhr.responseJSON.message;
-                                }
-                                Swal.fire({
-                                    title: "Error",
-                                    text: errorMessage,
-                                    icon: "error",
-                                    confirmButtonColor: "#ff7918"
-                                });
-
-                            }
-                        });
-                    }
-                });
-            });
-
         });
     </script>
 

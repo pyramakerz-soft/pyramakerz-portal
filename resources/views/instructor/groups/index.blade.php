@@ -73,7 +73,9 @@
                                 <div class="experence__heading">
                                     <h5>List of Groups</h5>
                                 </div>
-
+                                @php
+                                $studentCount = 0;
+                                @endphp
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <thead>
@@ -86,42 +88,52 @@
                                         </thead>
                                         <tbody>
                                             @if ($course->groups->count() > 0)
-                                                @if (Auth::guard('admin')->user()->roles[0]->name == 'instructor')
-                                                    @foreach ($course->groups->where('instructor_id', Auth::guard('admin')->user()->id) as $group)
-                                                        <tr>
-                                                            <td>{{ $loop->iteration }}</td>
-                                                            <td>{{ $group->name }}</td>
-                                                            <td>{{ isset($group->students) ? $group->students->count() : 0 }}
-                                                            </td>
-                                                            <td>
-                                                                <a href="{{ route('instructor.group_details', $group->id) }}"
-                                                                    class="btn btn-sm btn-black">
-                                                                    <i class="icofont-eye"></i> View
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @else
-                                                    @foreach ($course->groups as $group)
-                                                        <tr>
-                                                            <td>{{ $loop->iteration }}</td>
-                                                            <td>{{ $group->name }}</td>
-                                                            <td>{{ isset($group->students) ? $group->students->count() : 0 }}
-                                                            </td>
-                                                            <td>
-                                                                <a href="{{ route('instructor.group_details', $group->id) }}"
-                                                                    class="btn btn-sm btn-black">
-                                                                    <i class="icofont-eye"></i> View
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @endif
+                                            @if (Auth::guard('admin')->user()->roles[0]->name == 'instructor')
+                                            @foreach ($course->groups->where('instructor_id', Auth::guard('admin')->user()->id) as $group)
+                                            @if (isset($group->students))
+                                            @php
+                                            $studentCount += $group->students->count();
+                                            @endphp
+                                            @endif
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $group->name }}</td>
+                                                <td>{{ isset($group->students) ? $group->students->count() : 0 }}
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('instructor.group_details', $group->id) }}"
+                                                        class="btn btn-sm btn-black">
+                                                        <i class="icofont-eye"></i> View
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
                                             @else
-                                                <tr>
-                                                    <td colspan="4" class="text-center">No groups found for this
-                                                        course.</td>
-                                                </tr>
+                                            @foreach ($course->groups as $group)
+                                            @if (isset($group->students))
+                                            @php
+                                            $studentCount += $group->students->count();
+                                            @endphp
+                                            @endif
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $group->name }}</td>
+                                                <td>{{ isset($group->students) ? $group->students->count() : 0 }}
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('instructor.group_details', $group->id) }}"
+                                                        class="btn btn-sm btn-black">
+                                                        <i class="icofont-eye"></i> View
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                            @endif
+                                            @else
+                                            <tr>
+                                                <td colspan="4" class="text-center">No groups found for this
+                                                    course.</td>
+                                            </tr>
                                             @endif
 
                                         </tbody>
@@ -131,9 +143,9 @@
 
                             <!-- Add New Group Button -->
                             @if (Auth::guard('admin')->user()->can('group-create'))
-                                <button class="btn default__button mt-3 add-group-btn">
-                                    <i class="icofont-plus"></i> Add New Group
-                                </button>
+                            <button class="btn default__button mt-3 add-group-btn">
+                                <i class="icofont-plus"></i> Add New Group
+                            </button>
                             @endif
                         </div>
                     </div>
@@ -166,9 +178,7 @@
                                         <li>
                                             <div class="course__summery__item">
                                                 <span class="sb_label">Total Students:</span>
-                                                <span
-                                                    class="sb_content">{{ isset($group) ? $group->students->count() : 0 }}</span>
-
+                                                <span class="sb_content">{{ isset($studentCount) ? $studentCount : 0 }}</span>
                                             </div>
                                         </li>
                                     </ul>
@@ -184,26 +194,28 @@
         @include('include.footer')
         @include('include.scripts')
         @if (session('error'))
-                        <script>
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: '{{ session('error') }}',
-                                
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('
+                error ') }}',
 
-                            });
-                        </script>
-                    @endif
-                    @if (session('success'))
-                        <script>
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success',
-                                text: '{{ session('success') }}',
-                                
-                            });
-                        </script>
-                    @endif
+
+            });
+        </script>
+        @endif
+        @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '{{ session('
+                success ') }}',
+
+            });
+        </script>
+        @endif
         <!-- footer__section__end -->
     </main>
 
@@ -270,7 +282,7 @@
                     },
                     showCancelButton: true,
                     confirmButtonText: "Save",
-                    
+
                     preConfirm: () => {
                         let groupName = $("#group_name").val();
                         let instructorId = $("#instructor_id").val();
@@ -298,7 +310,7 @@
                             start_time: startTime,
                             end_time: endTime,
                             session_days: selectedDays,
-                            course_id: {{ $course->id }}
+                            course_id: "{{ $course->id }}"
                         };
                     }
                 }).then((result) => {
@@ -323,7 +335,7 @@
                                     text: "Group created successfully!",
                                     icon: "success",
                                     confirmButtonText: "OK",
-                                    
+
                                 });
                                 setTimeout(() => {
                                     window.location.href = window.location.href;
@@ -338,7 +350,7 @@
                                     icon: "Error",
                                     text: errorMessage,
                                     title: "error",
-                                    
+
                                 });
                             }
                         });
