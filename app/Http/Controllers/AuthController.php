@@ -173,7 +173,7 @@ class AuthController extends Controller
 
         // Regenerate session to avoid session fixation attacks
 
-        return redirect()->route('admin-courses')->with('success', 'Logged In successfully.');
+        return redirect()->route('admin-courses');
     }
 
      return redirect()->back()->with('error', 'Wrong email or password.');

@@ -9,7 +9,7 @@
 <body>
 
     
-    <form id="registration-form" action="{{ route('register_student') }}" method="POST" enctype="multipart/form-data">
+    <form id="registration-form" action="{{ route('register-student') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <h2>👤 Personal Information</h2>
         <label>

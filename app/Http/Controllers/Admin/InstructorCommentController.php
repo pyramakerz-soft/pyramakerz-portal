@@ -34,4 +34,23 @@ class InstructorCommentController extends Controller
 
         return response()->json($comments);
     }
+    public function updateComment(Request $request, $id)
+    {
+        $request->validate([
+            'comment' => 'required|string|max:500',
+        ]);
+
+        $comment = InstructorComment::findOrFail($id);
+        $comment->comment = $request->comment;
+        $comment->save();
+
+        return response()->json(['message' => 'Comment updated successfully']);
+    }
+    public function deleteComment($id)
+    {
+        $comment = InstructorComment::findOrFail($id);
+        $comment->delete();
+
+        return response()->json(['message' => 'Comment deleted successfully']);
+    }
 }

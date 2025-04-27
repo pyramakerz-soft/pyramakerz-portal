@@ -89,7 +89,7 @@
                                 </div>
 
                                 <div class="mt-3">
-                                    <a href="{{ route('home') }}" class="btn btn-outline-secondary">
+                                    <a href="{{ route('admin.instructors.index') }}" class="btn btn-outline-secondary">
                                         <i class="icofont-arrow-left"></i> Back to Dashboard
                                     </a>
                                 </div>

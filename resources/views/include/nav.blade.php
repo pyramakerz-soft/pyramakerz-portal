@@ -1,5 +1,5 @@
 <!-- headar section start -->
- <style>
+<style>
     .swal2-container {
         z-index: 999999 !important;
     }
@@ -11,9 +11,20 @@
                 <div class="col-xl-2 col-lg-2 col-md-6">
                     <div class="headerarea__left">
                         <div class="headerarea__left__logo" style="padding: 20PX;">
-
+                            @if(Auth::guard('admin')->user())
+                            @if(Auth::guard('admin')->user()->roles[0]->name == 'admin' || Auth::guard('admin')->user()->roles[0]->name == 'supervisor')
+                            <a href="{{ route('admin.instructors.index') }}"><img loading="lazy" src="{{ asset('img/logo/logo_1.png') }}" alt="logo" style="height:80px; "></a>
+                            @elseif(Auth::guard('admin')->user()->roles[0]->name == 'student')
+                            <a href="{{ route('my-progress') }}"><img loading="lazy" src="{{ asset('img/logo/logo_1.png') }}"
+                                    alt="logo" style="height:80px; "></a>
+                            @elseif(Auth::guard('admin')->user()->roles[0]->name == 'instructor')
+                            <a href="{{ route('admin-courses') }}"><img loading="lazy" src="{{ asset('img/logo/logo_1.png') }}"
+                                    alt="logo" style="height:80px; "></a>
+                            @endif
+                            @else
                             <a href="{{ route('home') }}"><img loading="lazy" src="{{ asset('img/logo/logo_1.png') }}"
                                     alt="logo" style="height:80px; "></a>
+                            @endif
                         </div>
 
                     </div>
@@ -28,15 +39,15 @@
 
                         <div class="headerarea__button">
                             @if (Auth::guard('student')->user())
-                                <a>Hello,
-                                    {{ Auth::guard('student')->user()->name }}
-                                </a>
+                            <a>Hello,
+                                {{ Auth::guard('student')->user()->name }}
+                            </a>
                             @elseif (Auth::guard('admin')->user())
-                                <a>Hello,
-                                    {{ Auth::guard('admin')->user()->name }}
-                                </a>
+                            <a>Hello,
+                                {{ Auth::guard('admin')->user()->name }}
+                            </a>
                             @else
-                                <a href="{{ route('student-login') }}">Get Started</a>
+                            <a href="{{ route('student-login') }}">Get Started</a>
                             @endif
                         </div>
 
@@ -62,19 +73,19 @@
 
                         <div class="headerarea__button">
                             @if (Auth::guard('student')->user())
-                                <a>Hello,
-                                    {{ Auth::guard('student')->user()->name }}
-                                </a>
+                            <a>Hello,
+                                {{ Auth::guard('student')->user()->name }}
+                            </a>
                             @elseif (Auth::guard('admin')->user())
-                                <a>Hello,
-                                    {{ Auth::guard('admin')->user()->name }}
-                                </a>
+                            <a>Hello,
+                                {{ Auth::guard('admin')->user()->name }}
+                            </a>
                             @else
-                                <a href="{{ route('student-login') }}">Get Started</a>
+                            <a href="{{ route('student-login') }}">Get Started</a>
                             @endif
                         </div>
 
-{{-- 
+                        {{--
                         <div class="mobile-off-canvas">
                             <a class="mobile-aside-button" href="#"><i class="icofont-navigation-menu"></i></a>
                         </div> --}}

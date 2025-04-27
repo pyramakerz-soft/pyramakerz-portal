@@ -214,8 +214,12 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
     Route::get('/instructor_del/{id}', [AdminInstructorController::class, 'deleteInstructor'])->name('admin.instructor.delete');
     Route::post('/instructors/comment', [InstructorCommentController::class, 'store'])->name('admin.instructors.comment');
     Route::get('/instructors/comments/{instructor_id}', [InstructorCommentController::class, 'getComments'])->name('admin.instructors.get_comments');
+    Route::put('/admin/instructors/comment/{id}', [InstructorCommentController::class, 'updateComment'])->name('admin.instructors.updateComment');;
+    Route::delete('/admin/instructors/comment/{id}', [InstructorCommentController::class, 'deleteComment'])->name('admin.instructors.deleteComment');;
+
     Route::get('/instructors', [AdminInstructorController::class, 'index'])->name('admin.instructors.index');
     Route::post('/instructors/store', [AdminInstructorController::class, 'store'])->name('admin.instructors.store');
+    Route::put('/instructors/update/{id}', [AdminInstructorController::class, 'update'])->name('admin.instructors.update');
     Route::get('/evaluations', [EvaluationController::class, 'index'])->name('admin.evaluations.index');
     Route::get('/lesson-resources', [LessonResourceController::class, 'index'])->name('admin.lesson-resources.index');
     Route::delete('/lesson-resources/{id}', [LessonResourceController::class, 'destroy'])->name('admin.lesson-resources.destroy');

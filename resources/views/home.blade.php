@@ -16,7 +16,7 @@
         <div class="floating-star cloud-4"></div>
 
         <div id="registration-phase">
-            <form id="registration-form" action="{{ route('register_student') }}" method="POST" enctype="multipart/form-data">
+            <form id="registration-form" action="{{ route('register-student') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="step active" id="step-1">
                     <h2>👤 Personal Information</h2>
