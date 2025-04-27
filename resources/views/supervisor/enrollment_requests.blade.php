@@ -9,7 +9,7 @@
         @include('include.dash-nav')
 
         <div class="dashboardarea sp_bottom_100">
-        @include('include.admin-topbar')
+            @include('include.admin-topbar')
 
             <div class="container-fluid full__width__padding">
                 <div class="row">
@@ -38,42 +38,58 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($enrollments as $index => $enrollment)
-                                            <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $enrollment->student->name }}</td>
-                                                <td>{{ $enrollment->course->name }}</td>
-                                                <td>
-                                                    <span class="badge {{ $enrollment->status === 'pending' ? 'bg-warning' : ($enrollment->status === 'approved' ? 'bg-success' : 'bg-danger') }}">
-                                                        {{ ucfirst($enrollment->status) }}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    @if ($enrollment->status === 'pending')
-                                                        <button class="btn btn-sm btn-success approve-btn" data-id="{{ $enrollment->id }}">
-                                                            <i class="icofont-check"></i> Approve
-                                                        </button>
-                                                        <button class="btn btn-sm btn-danger reject-btn" data-id="{{ $enrollment->id }}">
-                                                            <i class="icofont-close"></i> Reject
-                                                        </button>
-                                                    @else
-                                                        <span class="text-muted">No Actions</span>
-                                                    @endif
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $enrollment->student->name }}</td>
+                                            <td>{{ $enrollment->course->name }}</td>
+                                            <td>
+                                                <span class="badge {{ $enrollment->status === 'pending' ? 'bg-warning' : ($enrollment->status === 'approved' ? 'bg-success' : 'bg-danger') }}">
+                                                    {{ ucfirst($enrollment->status) }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @if ($enrollment->status === 'pending')
+                                                <button class="btn btn-sm btn-success approve-btn" data-id="{{ $enrollment->id }}">
+                                                    <i class="icofont-check"></i> Approve
+                                                </button>
+                                                <button class="btn btn-sm btn-danger reject-btn" data-id="{{ $enrollment->id }}">
+                                                    <i class="icofont-close"></i> Reject
+                                                </button>
+                                                @else
+                                                <span class="text-muted">No Actions</span>
+                                                @endif
+                                            </td>
+                                        </tr>
                                         @endforeach
                                         @if ($enrollments->isEmpty())
-                                            <tr>
-                                                <td colspan="5" class="text-center">No Enrollment Requests Available.</td>
-                                            </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-center">No Enrollment Requests Available.</td>
+                                        </tr>
                                         @endif
                                     </tbody>
                                 </table>
                             </div>
 
                             <div class="mt-3">
+                                @if(Auth::guard('admin')->user())
+                                @if(Auth::guard('admin')->user()->roles[0]->name == 'admin' || Auth::guard('admin')->user()->roles[0]->name == 'supervisor')
+                                <a href="{{ route('admin.instructors.index') }}" class="btn btn-outline-secondary">
+                                    <i class="icofont-arrow-left"></i> Back to Dashboard
+                                </a>
+                                @elseif(Auth::guard('admin')->user()->roles[0]->name == 'student')
+                                <a href="{{ route('my-progress') }}" class="btn btn-outline-secondary">
+                                    <i class="icofont-arrow-left"></i> Back to Dashboard
+                                </a>
+                                @elseif(Auth::guard('admin')->user()->roles[0]->name == 'instructor')
+                                <a href="{{ route('admin-courses') }}" class="btn btn-outline-secondary">
+                                    <i class="icofont-arrow-left"></i> Back to Dashboard
+                                </a>
+                                @endif
+                                @else
                                 <a href="{{ route('home') }}" class="btn btn-outline-secondary">
                                     <i class="icofont-arrow-left"></i> Back to Dashboard
                                 </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -106,7 +122,9 @@
                         $.ajax({
                             url: "{{ url('/supervisor/approve') }}/" + id,
                             type: "POST",
-                            data: { _token: "{{ csrf_token() }}" },
+                            data: {
+                                _token: "{{ csrf_token() }}"
+                            },
                             success: function(response) {
                                 Swal.fire("Approved!", response.message, "success").then(() => location.reload());
                             },
@@ -134,7 +152,9 @@
                         $.ajax({
                             url: "{{ url('/supervisor/reject') }}/" + id,
                             type: "POST",
-                            data: { _token: "{{ csrf_token() }}" },
+                            data: {
+                                _token: "{{ csrf_token() }}"
+                            },
                             success: function(response) {
                                 Swal.fire("Rejected!", response.message, "success").then(() => location.reload());
                             },
@@ -149,4 +169,5 @@
     </script>
 
 </body>
+
 </html>

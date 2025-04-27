@@ -3,6 +3,25 @@
     .swal2-container {
         z-index: 999999 !important;
     }
+
+    select.swal2-input {
+        width: 100% !important;
+        background-color: red;
+    }
+
+    select.swal2-input {
+        width: 299px !important;
+        height: 53px !important;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        transition: border-color .1s, box-shadow .1s;
+        border: 1px solid #d9d9d9;
+        border-radius: .1875em;
+        background: var(--swal2-input-background);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .06), 0 0 0 3px rgba(0, 0, 0, 0);
+        color: inherit;
+        font-size: 1.125em;
+    }
 </style>
 <header>
     <div class="headerarea headerarea__3 header__sticky header__area">

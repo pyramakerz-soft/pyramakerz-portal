@@ -31,13 +31,16 @@
                                         <button class="default__button add-instructor-btn">
                                             <i class="icofont-plus"></i> Add Instructor
                                         </button>
-                                        <form action="{{ route('admin.instructors.index') }}">
-                                            <div class="form-group " style="display: flex; margin-bottom: 0px; gap: 5px; height: 50px;">
+                                        <button class="default__button filter-instructor-btn">
+                                            <i class="icofont-filter"></i> Filter
+                                        </button>
+                                        <!-- <form action="{{ route('admin.instructors.index') }}">
+                                            <div class=" form-group " style=" display: flex; margin-bottom: 0px; gap: 5px; height: 50px;">
                                                 <input type="text" name="search" style="width:80%" placeholder="Search by instructor name" class="form-control"
                                                     value="{{ request('search') }}">
                                                 <button type="submit" style="float:right;width:20%" class="form-control"><i class="icofont-search-2"></i></button>
                                             </div>
-                                        </form>
+                                        </form> -->
                                     </div>
                                 </div>
                             </div>
@@ -48,6 +51,9 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Instructor Name</th>
+                                            <th>Level</th>
+                                            <th>Salary Type</th>
+                                            <th>Salary</th>
                                             <th>Governorate</th>
                                             <th>Phone</th>
                                             <th>Email</th>
@@ -61,11 +67,24 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $instructor->name }}</td>
+                                            <td>{{ $instructor->level ?? 'N/A' }}</td>
+                                            <td>{{ $instructor->salary_type ?? 'N/A' }}</td>
+                                            <td>{{ $instructor->salary ?? 'N/A' }}</td>
                                             <td>{{ $instructor->governorate ?? 'N/A' }}</td>
                                             <td>{{ $instructor->phone ?? 'N/A' }}</td>
                                             <td>{{ $instructor->email }}</td>
-                                            <td>{{ $instructor->courses->count() }}</td>
-                                            <td>{{ $instructor->courses->pluck('name')->join(', ') ?: 'No Courses' }}
+                                            <td>{{ $instructor->groups->count() }}</td>
+                                            <td>
+                                                @php
+                                                $uniqueCourses = $instructor->groups->map(function($group) {
+                                                return $group->course?->name; // use safe access
+                                                })->filter() // remove any nulls if course missing
+                                                ->unique()
+                                                ->values(); // reset keys
+                                                @endphp
+
+                                                {{ $uniqueCourses->isNotEmpty() ? $uniqueCourses->join(', ') : 'No Courses' }}
+
                                             </td>
 
                                             <td>
@@ -88,6 +107,9 @@
                                                     data-email="{{ $instructor->email }}"
                                                     data-phone="{{ $instructor->phone }}"
                                                     data-governorate="{{ $instructor->governorate }}"
+                                                    data-level="{{ $instructor->level }}"
+                                                    data-salary="{{ $instructor->salary }}"
+                                                    data-salary_type="{{ $instructor->salary_type }}"
                                                     title="Edit instructor">
                                                     <i class="icofont-edit"></i>
                                                 </button>
@@ -106,7 +128,7 @@
                                         @endforeach
                                         @if ($instructors->isEmpty())
                                         <tr>
-                                            <td colspan="8" class="text-center">No Instructors Available.</td>
+                                            <td colspan="12" class="text-center">No Instructors Available.</td>
                                         </tr>
                                         @endif
                                     </tbody>
@@ -156,12 +178,64 @@
     </script>
     <script>
         $(document).ready(function() {
+            $(".filter-instructor-btn").click(function() {
+                Swal.fire({
+                    title: "Filter Instructors",
+                    html: `
+            <input type="text" id="filter_search" class="swal2-input" placeholder="Search by Name" value="{{ request('search') }}">
+            <select id="filter_level" class="swal2-input">
+                <option value="">All Levels</option>
+                <option value="Junior" {{ request('level') == 'Junior' ? 'selected' : '' }}>Junior</option>
+                <option value="Mid-Level" {{ request('level') == 'Mid-Level' ? 'selected' : '' }}>Mid-Level</option>
+                <option value="Senior" {{ request('level') == 'Senior' ? 'selected' : '' }}>Senior</option>
+            </select>
+
+            <select id="filter_salary_type" class="swal2-input">
+                <option value="">All Salary Types</option>
+                <option value="Full-Time" {{ request('salary_type') == 'Full-Time' ? 'selected' : '' }}>Full-Time</option>
+                <option value="Part-Time" {{ request('salary_type') == 'Part-Time' ? 'selected' : '' }}>Part-Time</option>
+                <option value="Per-Session" {{ request('salary_type') == 'Per-Session' ? 'selected' : '' }}>Per-Session</option>
+            </select>
+        
+            <select id="filter_course" class="swal2-input">
+                <option value="">All Courses</option>
+                @foreach ($courses as $course)
+                    <option value="{{ $course->name }}" {{ request('course') == $course->name ? 'selected' : '' }}>
+                        {{ $course->name }}
+                    </option>
+                @endforeach
+            </select>
+        `,
+                    showCancelButton: true,
+                    confirmButtonText: "Apply Filters",
+                    cancelButtonText: "Cancel",
+                    preConfirm: () => {
+                        const search = $("#filter_search").val();
+                        const level = $("#filter_level").val();
+                        const salaryType = $("#filter_salary_type").val();
+                        const course = $("#filter_course").val();
+
+                        // Redirect to the same page with the filters as query params
+                        let url = new URL(window.location.href.split('?')[0]);
+                        if (search) url.searchParams.append('search', search);
+                        if (level) url.searchParams.append('level', level);
+                        if (salaryType) url.searchParams.append('salary_type', salaryType);
+                        if (course) url.searchParams.append('course', course);
+
+                        window.location.href = url.toString();
+                    }
+                });
+            });
+
             $(".edit-instructor-btn").click(function() {
                 const id = $(this).data("id");
                 const name = $(this).data("name");
                 const email = $(this).data("email");
                 const phone = $(this).data("phone");
                 const governorate = $(this).data("governorate");
+                const level = $(this).data("level") ?? '';
+                const salary = $(this).data("salary") ?? '';
+                const salaryType = $(this).data("salary_type") ?? '';
 
                 Swal.fire({
                     title: "Edit Instructor",
@@ -170,6 +244,19 @@
             <input type="email" id="instructor_email" class="swal2-input" placeholder="Email" value="${email}">
             <input type="text" id="instructor_phone" class="swal2-input" placeholder="Phone Number" value="${phone ?? ''}">
             <input type="text" id="instructor_governorate" class="swal2-input" placeholder="Governorate" value="${governorate ?? ''}">
+            <select id="instructor_level" class="swal2-input">
+                <option value="">Select Level</option>
+                <option value="Junior" ${level === 'Junior' ? 'selected' : ''}>Junior</option>
+                <option value="Mid-Level" ${level === 'Mid-Level' ? 'selected' : ''}>Mid-Level</option>
+                <option value="Senior" ${level === 'Senior' ? 'selected' : ''}>Senior</option>
+            </select>
+            <select id="instructor_salary_type" class="swal2-input">
+                <option value="">Select Salary Type</option>
+                <option value="Full-Time" ${salaryType === 'Full-Time' ? 'selected' : ''}>Full-Time</option>
+                <option value="Part-Time" ${salaryType === 'Part-Time' ? 'selected' : ''}>Part-Time</option>
+                <option value="Per-Session" ${salaryType === 'Per-Session' ? 'selected' : ''}>Per-Session</option>
+            </select>
+            <input type="number" id="instructor_salary" class="swal2-input" placeholder="Salary Amount" value="${salary}">
         `,
                     showCancelButton: true,
                     confirmButtonText: "Update Instructor",
@@ -179,7 +266,10 @@
                             name: $("#instructor_name").val(),
                             email: $("#instructor_email").val(),
                             phone: $("#instructor_phone").val(),
-                            governorate: $("#instructor_governorate").val()
+                            governorate: $("#instructor_governorate").val(),
+                            level: $("#instructor_level").val(),
+                            salary_type: $("#instructor_salary_type").val(),
+                            salary: $("#instructor_salary").val(),
                         };
                     }
                 }).then((result) => {
@@ -193,7 +283,10 @@
                                 name: result.value.name,
                                 email: result.value.email,
                                 phone: result.value.phone,
-                                governorate: result.value.governorate
+                                governorate: result.value.governorate,
+                                level: result.value.level,
+                                salary_type: result.value.salary_type,
+                                salary: result.value.salary,
                             },
                             success: function() {
                                 Swal.fire({
@@ -219,6 +312,7 @@
                     }
                 });
             });
+
 
             $(".comment-btn").click(function() {
                 let instructorId = $(this).data("instructor-id");
@@ -333,23 +427,89 @@
                 Swal.fire({
                     title: "Add New Instructor",
                     html: `
-                    <input type="text" id="instructor_name" class="swal2-input" placeholder="Instructor Name">
-                    <input type="email" id="instructor_email" class="swal2-input" placeholder="Email">
-                    <input type="text" id="instructor_phone" class="swal2-input" placeholder="Phone Number">
-                    <input type="text" id="instructor_governorate" class="swal2-input" placeholder="Governorate">
-                    <input type="password" id="instructor_password" class="swal2-input" placeholder="Password">
-                `,
+            <input type="text" id="instructor_name" class="swal2-input" placeholder="Instructor Name">
+            <input type="email" id="instructor_email" class="swal2-input" placeholder="Email">
+            <input type="text" id="instructor_phone" class="swal2-input" placeholder="Phone Number">
+            <input type="text" id="instructor_governorate" class="swal2-input" placeholder="Governorate">
+            <select id="instructor_level" class="swal2-input">
+                <option value="">Select Level</option>
+                <option value="Junior">Junior</option>
+                <option value="Mid-Level">Mid-Level</option>
+                <option value="Senior">Senior</option>
+            </select>
+            <select id="instructor_salary_type" class="swal2-input">
+                <option value="">Select Salary Type</option>
+                <option value="Full-Time">Full-Time</option>
+                <option value="Part-Time">Part-Time</option>
+                <option value="Per-Session">Per-Session</option>
+            </select>
+            <input type="number" id="instructor_salary" class="swal2-input" placeholder="Salary Amount">
+            <input type="password" id="instructor_password" class="swal2-input" placeholder="Password">
+            <hr>
+            <button type="button" id="import_excel_btn" class="swal2-confirm swal2-styled" style="background-color: #28a745; margin-top:10px;">
+                📥 Import from Excel
+            </button>
+            <input type="file" id="import_excel_input" accept=".xlsx,.xls,.csv" style="display:none;">
+        `,
                     showCancelButton: true,
                     confirmButtonText: "Add Instructor",
+                    didOpen: () => {
+                        $("#import_excel_btn").click(function() {
+                            $("#import_excel_input").click();
+                        });
 
+                        $("#import_excel_input").change(function() {
+                            let file = this.files[0];
+                            if (!file) return;
+
+                            const formData = new FormData();
+                            formData.append('_token', "{{ csrf_token() }}");
+                            formData.append('file', file);
+
+                            Swal.fire({
+                                title: 'Uploading...',
+                                allowOutsideClick: false,
+                                didOpen: () => Swal.showLoading()
+                            });
+
+                            $.ajax({
+                                url: "{{ route('admin.instructors.import') }}",
+                                type: "POST",
+                                processData: false,
+                                contentType: false,
+                                data: formData,
+                                success: function(response) {
+                                    Swal.fire({
+                                        title: "Success",
+                                        text: response.message,
+                                        icon: "success",
+                                        confirmButtonColor: "#ff7918"
+                                    }).then(() => location.reload());
+                                },
+                                error: function(xhr) {
+                                    let errorMessage = "Failed to import instructors!";
+                                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                                        errorMessage = xhr.responseJSON.message;
+                                    }
+                                    Swal.fire({
+                                        title: "Error",
+                                        text: errorMessage,
+                                        icon: "error",
+                                        confirmButtonColor: "#ff7918"
+                                    });
+                                }
+                            });
+                        });
+                    },
                     preConfirm: () => {
-                        console.log($("#instructor_phone").val())
-                        console.log($("#instructor_governorate").val())
                         return {
                             name: $("#instructor_name").val(),
                             email: $("#instructor_email").val(),
                             phone: $("#instructor_phone").val(),
                             governorate: $("#instructor_governorate").val(),
+                            level: $("#instructor_level").val(),
+                            salary_type: $("#instructor_salary_type").val(),
+                            salary: $("#instructor_salary").val(),
                             password: $("#instructor_password").val()
                         };
                     }
@@ -364,6 +524,9 @@
                                 email: result.value.email,
                                 phone: result.value.phone,
                                 governorate: result.value.governorate,
+                                level: result.value.level,
+                                salary_type: result.value.salary_type,
+                                salary: result.value.salary,
                                 password: result.value.password,
                                 role: 'instructor'
                             },
@@ -389,7 +552,6 @@
                                     icon: "error",
                                     confirmButtonColor: "#ff7918"
                                 });
-
                             }
                         });
                     }

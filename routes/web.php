@@ -219,6 +219,7 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
 
     Route::get('/instructors', [AdminInstructorController::class, 'index'])->name('admin.instructors.index');
     Route::post('/instructors/store', [AdminInstructorController::class, 'store'])->name('admin.instructors.store');
+    Route::post('/instructors/import', [AdminInstructorController::class, 'import'])->name('admin.instructors.import');
     Route::put('/instructors/update/{id}', [AdminInstructorController::class, 'update'])->name('admin.instructors.update');
     Route::get('/evaluations', [EvaluationController::class, 'index'])->name('admin.evaluations.index');
     Route::get('/lesson-resources', [LessonResourceController::class, 'index'])->name('admin.lesson-resources.index');

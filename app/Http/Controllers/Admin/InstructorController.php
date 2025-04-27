@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\InstructorsImport;
 
 class InstructorController extends Controller
 {
@@ -15,8 +18,22 @@ class InstructorController extends Controller
         if ($request->has('search')) {
             $query->where('users.name', 'like', '%' . $request->search . '%');
         }
+        if ($request->filled('level')) {
+            $query->where('level', $request->level);
+        }
+
+        if ($request->filled('salary_type')) {
+            $query->where('salary_type', $request->salary_type);
+        }
+
+        if ($request->filled('course')) {
+            $query->whereHas('groups.course', function ($q) use ($request) {
+                $q->where('name', $request->course);
+            });
+        }
         $instructors = $query->get();
-        return view('supervisor.instructors.index', compact('instructors'));
+        $courses = Course::all();
+        return view('supervisor.instructors.index', compact('instructors', 'courses'));
     }
 
     public function store(Request $request)
@@ -27,6 +44,9 @@ class InstructorController extends Controller
             'phone' => ['nullable', 'regex:/^[0-9]+$/', 'max:20'],
             'governorate' => 'nullable|string|max:255',
             'password' => 'required|string|min:6',
+            'level'        => 'nullable|string|max:255',
+            'salary_type'  => 'nullable|in:Full-Time,Part-Time,Per-Session',
+            'salary'       => 'nullable|numeric|min:0',
         ]);
 
         $instructor = User::create([
@@ -35,10 +55,29 @@ class InstructorController extends Controller
             'phone' => $request->phone,
             'governorate' => $request->governorate,
             'password' => Hash::make($request->password),
-            'role' => 'teacher'
+            'role' => 'teacher',
+            'level'        => $request->level,
+            'salary_type'  => $request->salary_type,
+            'salary'       => $request->salary,
         ]);
         $instructor->assignRole('instructor');
         return response()->json(['message' => 'Instructor added successfully!']);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048',
+        ]);
+
+        Excel::import(new InstructorsImport, $request->file('file'));
+
+        // $users = User::where('role', 'teacher')->whereDoesntHave('roles')->get();
+        // foreach ($users as $user) {
+        //     $user->assignRole('instructor');
+        // }
+
+        return response()->json(['message' => 'Instructors imported successfully!']);
     }
 
     public function update(Request $request, $id)
