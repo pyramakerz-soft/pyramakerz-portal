@@ -176,17 +176,17 @@
                                                 {{-- @dd($eval->meeting->group->course->instructor->name) --}}
                                                 <tr>
                                                     <td>{{ $eval->student->name }}</td>
-                                                    <td>{{ $eval->meeting->group->instructor->name }}</td>
-                                                    <td>{{ $eval->meeting->group->course->name }}
+                                                    <td>{{ $eval->meeting->group->instructor->name ?? '-' }}</td>
+                                                    <td>{{ $eval->meeting->group->course->name ?? '-'}}
                                                     </td>
-                                                    <td>{{ $eval->content_quality }}</td>
-                                                    <td>{{ $eval->instructor_clarity }}</td>
-                                                    <td>{{ $eval->engagement }}
-                                                    <td>{{ $eval->pace }}
-                                                    <td>{{ $eval->technology_usage }}
+                                                    <td>{{ $eval->content_quality ?? '-' }}</td>
+                                                    <td>{{ $eval->instructor_clarity ?? '-'}}</td>
+                                                    <td>{{ $eval->engagement ?? '-' }}
+                                                    <td>{{ $eval->pace ?? '-' }}
+                                                    <td>{{ $eval->technology_usage ?? '-' }}
                                                     </td>
-                                                    <td>{{ $eval->overall_experience }}</td>
-                                                    <td>{{ $eval->feedback }}</td>
+                                                    <td>{{ $eval->overall_experience ?? '-' }}</td>
+                                                    <td>{{ $eval->feedback ?? '-' }}</td>
 
                                                 </tr>
                                             @empty
