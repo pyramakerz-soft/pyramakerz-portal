@@ -272,12 +272,18 @@ Route::prefix('instructor')->middleware('admin.auth')->group(function () {
     Route::post('/group/add-student', [InstructorController::class, 'addStudentToGroup'])
         ->name('instructor.add_student');
 
+    Route::delete('/group/remove-student/{groupId}/{studentId}', [InstructorController::class, 'removeStudentFromGroup'])
+        ->name('instructor.remove_student');
+
 
     Route::post('/group/create', [InstructorController::class, 'createGroup'])
         ->name('instructor.create_group');
 
     Route::get('/group/{id}', [InstructorController::class, 'groupDetails'])
         ->name('instructor.group_details');
+
+    Route::get('/group/{id}/change_status', [InstructorController::class, 'changeGroupStatus'])
+        ->name('instructor.change_group_status');
 
     Route::get('/courses', [InstructorController::class, 'index'])
         ->name('instructor.courses');

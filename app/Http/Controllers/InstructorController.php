@@ -415,14 +415,29 @@ class InstructorController extends Controller
             'course_id' => 'required|exists:courses,id',
             'weekly_sessions' => 'required|integer|min:1|max:7',
             'start_date' => 'required|date',
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'session_days' => 'required|array|min:1|max:7',
-            'session_days.*' => 'in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'
+            'sessions' => 'required|array|min:1|max:7',
+            'sessions.*.day' => 'required|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
+            'sessions.*.start_time' => 'required',
+            'sessions.*.end_time' => 'required'
         ]);
 
         $course = Course::findOrFail($validatedData['course_id']);
         $courseDuration = $course->duration; // Duration in weeks
+
+        $conflicts = $this->detectScheduleConflicts(
+            $validatedData['start_date'],
+            $validatedData['sessions'],
+            $validatedData['weekly_sessions'],
+            $courseDuration,
+            $validatedData['instructor_id']
+        );
+
+        if (!empty($conflicts)) {
+            return response()->json([
+                'message' => 'Conflict detected!',
+                'conflicts' => $conflicts
+            ], 409);
+        }
 
         // ✅ Create the group
         $group = Group::create([
@@ -437,20 +452,15 @@ class InstructorController extends Controller
             $validatedData['start_date'],
             $validatedData['weekly_sessions'],
             $courseDuration,
-            $validatedData['start_time'],
-            $validatedData['end_time'],
-            $validatedData['course_id'], // ✅ Pass course_id correctly
-            $validatedData['session_days']
+            $validatedData['sessions'],
+            $validatedData['course_id']
         );
 
         return response()->json(['message' => 'Group created and lessons scheduled!'], 200);
     }
-
-    private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $courseDuration, $startTime, $endTime, $courseId, $sessionDays)
+    private function detectScheduleConflicts($startDate, $sessions, $weeklySessions, $courseDuration, $instructorId)
     {
         $startDate = Carbon::parse($startDate);
-        $lessonIndex = 0;
-        $totalWeeks = $courseDuration;
         $daysOfWeekMap = [
             "Sunday" => 0,
             "Monday" => 1,
@@ -461,7 +471,60 @@ class InstructorController extends Controller
             "Saturday" => 6
         ];
 
-        // ✅ Fetch lessons **correctly ordered by track**
+        $conflicts = [];
+        $weekIndex = 0;
+        $scheduledSessions = 0;
+
+        $totalLessons = $weeklySessions * $courseDuration;
+
+        for ($i = 0; $i < $totalLessons; $i++) {
+            $sessionInfo = $sessions[$scheduledSessions % count($sessions)];
+            $dayName = $sessionInfo['day'];
+            $startTime = $sessionInfo['start_time'];
+            $endTime = $sessionInfo['end_time'];
+
+            $currentDate = $startDate->copy()->addWeeks($weekIndex)->next($daysOfWeekMap[$dayName]);
+
+            $conflict = GroupSchedule::whereHas('group', function ($query) use ($instructorId) {
+                $query->where('instructor_id', $instructorId);
+            })
+                ->where('date', $currentDate->format('Y-m-d'))
+                ->where(function ($query) use ($startTime, $endTime) {
+                    $query->where('start_time', '<', $endTime)
+                        ->where('end_time', '>', $startTime);
+                })
+                ->exists();
+
+            if ($conflict) {
+                $conflicts[] = [
+                    'date' => $currentDate->format('Y-m-d'),
+                    'start_time' => $startTime,
+                    'end_time' => $endTime
+                ];
+            }
+
+            $scheduledSessions++;
+
+            if ($scheduledSessions % $weeklySessions == 0) {
+                $weekIndex++;
+            }
+        }
+
+        return $conflicts;
+    }
+    private function generateLessonSchedule($groupId, $startDate, $weeklySessions, $courseDuration, $sessions, $courseId)
+    {
+        $startDate = Carbon::parse($startDate);
+        $daysOfWeekMap = [
+            "Sunday" => 0,
+            "Monday" => 1,
+            "Tuesday" => 2,
+            "Wednesday" => 3,
+            "Thursday" => 4,
+            "Friday" => 5,
+            "Saturday" => 6
+        ];
+
         $lessons = Lesson::whereHas('coursePath', function ($query) use ($courseId) {
             $query->where('course_id', $courseId);
         })
@@ -480,27 +543,25 @@ class InstructorController extends Controller
             return;
         }
 
-        // ✅ Group lessons properly by track
         $groupedLessons = $lessons->groupBy(['course_path_id', 'path_of_path_id']);
 
         $currentDate = $startDate->copy();
         $scheduledSessions = 0;
         $weekIndex = 0;
+        $lessonIndex = 0;
 
-        // ✅ Iterate over course paths, then subpaths, then lessons
         foreach ($groupedLessons as $coursePathId => $subpaths) {
             foreach ($subpaths as $pathOfPathId => $lessonsInTrack) {
                 foreach ($lessonsInTrack as $lesson) {
                     if ($lessonIndex >= count($lessons)) break;
 
-                    // ✅ Cycle through session days within a week
-                    $sessionDayIndex = $scheduledSessions % count($sessionDays);
-                    $currentDay = $sessionDays[$sessionDayIndex];
+                    $sessionInfo = $sessions[$scheduledSessions % count($sessions)];
+                    $dayName = $sessionInfo['day'];
+                    $startTime = $sessionInfo['start_time'];
+                    $endTime = $sessionInfo['end_time'];
 
-                    // ✅ Move to the correct day of the current week
-                    $currentDate = $startDate->copy()->addWeeks($weekIndex)->next($daysOfWeekMap[$currentDay]);
+                    $currentDate = $startDate->copy()->addWeeks($weekIndex)->next($daysOfWeekMap[$dayName]);
 
-                    // ✅ Create schedule
                     GroupSchedule::create([
                         'group_id' => $groupId,
                         'lesson_id' => $lesson->id,
@@ -509,21 +570,18 @@ class InstructorController extends Controller
                         'date' => $currentDate->format('Y-m-d')
                     ]);
 
-                    Log::info("✅ Scheduled Lesson ID: {$lesson->id} on {$currentDate->format('Y-m-d')}");
-
-                    $lessonIndex++;
                     $scheduledSessions++;
 
-                    // ✅ Move to the next week if all session days for this week are used
                     if ($scheduledSessions % $weeklySessions == 0) {
                         $weekIndex++;
                     }
+
+                    $lessonIndex++;
                 }
             }
         }
-
-        Log::info("🟢 Lesson scheduling completed for Group ID: $groupId");
     }
+
 
 
 
@@ -666,6 +724,18 @@ class InstructorController extends Controller
         $students = Student::select('id', 'name', 'email')->get();
         return response()->json(['students' => $students]);
     }
+    public function changeGroupStatus(Request $request, $id)
+    {
+        $group = Group::findOrFail($id);
+        if ($group->status == "active") {
+            $group->status = "completed";
+        } else {
+            $group->status = "active";
+        }
+        $group->save();
+
+        return response()->json(['message' => 'Group status updated successfully!']);
+    }
 
     public function addStudentToGroup(Request $request)
     {
@@ -689,6 +759,21 @@ class InstructorController extends Controller
         // $group->students()->attach($student->id);
 
         return response()->json(['message' => 'Student added successfully!']);
+    }
+    public function removeStudentFromGroup($groupId, $studentId)
+    {
+        $group = Group::findOrFail($groupId);
+        $student = Student::findOrFail($studentId);
+
+        $group_student = GroupStudent::where('group_id', $group->id)
+            ->where('student_id', $student->id)
+            ->first();
+
+        if ($group_student) {
+            $group_student->delete();
+            return response()->json(['message' => 'Student removed successfully!']);
+        }
+        return response()->json(['message' => 'Student not found in this group!'], 404);
     }
 
     public function courseDetail(string $id)

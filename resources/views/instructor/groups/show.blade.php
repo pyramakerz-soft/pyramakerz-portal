@@ -118,9 +118,9 @@
                             <form action="{{ route('instructor.meetings.create_all', $group->id) }}" method="POST">
                                 @csrf
                                 @if (Auth::guard('admin')->user()->can('meeting-create'))
-                                    <button type="submit" class="btn btn-success">
-                                        Create Meetings for All Scheduled Lessons
-                                    </button>
+                                <button type="submit" class="btn btn-success">
+                                    Create Meetings for All Scheduled Lessons
+                                </button>
                                 @endif
                             </form>
 
@@ -140,40 +140,40 @@
 
                                     <tbody>
                                         @forelse ($group->schedules->sortBy('date') as $schedule)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $schedule->lesson->title ?? 'N/A' }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($schedule->date)->format('l') }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($schedule->date)->format('Y-m-d') }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($schedule->start_time)->format('h:i A') }}
-                                                    -
-                                                    {{ \Carbon\Carbon::parse($schedule->end_time)->format('h:i A') }}
-                                                </td>
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $schedule->lesson->title ?? 'N/A' }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($schedule->date)->format('l') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($schedule->date)->format('Y-m-d') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($schedule->start_time)->format('h:i A') }}
+                                                -
+                                                {{ \Carbon\Carbon::parse($schedule->end_time)->format('h:i A') }}
+                                            </td>
 
-                                                <td>
-                                                    @if (Auth::guard('admin')->user()->can('groupschedule-edit'))
-                                                        <button class="edit-date-btn"
-                                                            data-schedule-id="{{ $schedule->id }}">
-                                                            <i class="icofont-edit"></i> Edit Date
-                                                        </button>
-                                                    @endif
-                                                    <button class="btn btn-warning">
-                                                        <i class="icofont-edit"></i> <a
-                                                            href="{{ route('session-details', $schedule->id) }}">Report</a>
-                                                    </button>
-                                                    <button class="btn btn-warning">
-                                                        <i class="icofont-edit"></i> <a
-                                                            href="{{ $schedule->meeting_id ? route('instructor.evaluate_page', $schedule->meeting_id) : '#'}}">Evaluate</a>
-                                                    </button>
+                                            <td>
+                                                @if (Auth::guard('admin')->user()->can('groupschedule-edit'))
+                                                <button class="edit-date-btn"
+                                                    data-schedule-id="{{ $schedule->id }}">
+                                                    <i class="icofont-edit"></i> Edit Date
+                                                </button>
+                                                @endif
+                                                <button class="btn btn-warning">
+                                                    <i class="icofont-edit"></i> <a
+                                                        href="{{ route('session-details', $schedule->id) }}">Report</a>
+                                                </button>
+                                                <button class="btn btn-warning">
+                                                    <i class="icofont-edit"></i> <a
+                                                        href="{{ $schedule->meeting_id ? route('instructor.evaluate_page', $schedule->meeting_id) : '#'}}">Evaluate</a>
+                                                </button>
 
-                                                </td>
-                                            </tr>
+                                            </td>
+                                        </tr>
                                         @empty
-                                            <tr>
-                                                <td colspan="6" class="text-center">No lessons scheduled for this
-                                                    group.
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td colspan="6" class="text-center">No lessons scheduled for this
+                                                group.
+                                            </td>
+                                        </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
@@ -195,31 +195,40 @@
 
                                             <tr>
                                                 <th>Name</th>
-                                                {{-- <th>Action</th> --}}
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @forelse ($group->students as $student)
-                                                <tr>
-                                                    <td><a
-                                                            href="{{ route('sessionDetailsForStudent', [$student->id, $group->id]) }}">{{ $student->name }}</a>
-                                                    </td>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ route('sessionDetailsForStudent', [$student->id, $group->id]) }}">{{ $student->name }}</a>
+                                                </td>
+                                                <td style="display: flex; justify-content: center; align-items: center;">
+                                                    <a href="{{ route('instructor.remove_student', [$group->id, $student->id]) }}"
+                                                        class="btn btn-sm btn-black delete-student-btn"
+                                                        data-url="{{ route('instructor.remove_student', [$group->id, $student->id]) }}"
+                                                        title="Remove Student">
+                                                        <i class="icofont-trash"></i>
+                                                    </a>
 
-                                                </tr>
+                                                </td>
+
+                                            </tr>
                                             @empty
-                                                <tr>
-                                                    <td colspan="2" class="text-center">No students assigned to this
-                                                        group.</td>
-                                                </tr>
+                                            <tr>
+                                                <td colspan="2" class="text-center">No students assigned to this
+                                                    group.</td>
+                                            </tr>
                                             @endforelse
                                         </tbody>
                                     </table>
                                 </div>
 
                                 @if (Auth::guard('admin')->user()->can('groupstudent-create'))
-                                    <button class="btn btn-outline-primary mt-3 add-student-btn">
-                                        <i class="icofont-plus"></i> Add Student
-                                    </button>
+                                <button class="btn btn-outline-primary mt-3 add-student-btn">
+                                    <i class="icofont-plus"></i> Add Student
+                                </button>
                                 @endif
 
 
@@ -246,27 +255,68 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    @if (session('error'))
-                        <script>
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: '{{ session('error') }}',
-                                
+    <script>
+        $(document).on("click", ".delete-student-btn", function(e) {
+            e.preventDefault();
 
-                            });
-                        </script>
-                    @endif
-                    @if (session('success'))
-                        <script>
+            const url = $(this).data("url");
+
+            Swal.fire({
+                title: "Alert!",
+                text: "Are you sure you want to remove this student from the group?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: "DELETE",
+                        data: {
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
                             Swal.fire({
-                                icon: 'success',
-                                title: 'Success',
-                                text: '{{ session('success') }}',
-                                
+                                title: "Deleted!",
+                                text: "Student removed successfully!",
+                                icon: "success",
+                                confirmButtonColor: "#ff7918"
+                            }).then(() => location.reload());
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                title: "Error",
+                                text: xhr.responseJSON?.message || "Failed to remove student!",
+                                icon: "error",
+                                confirmButtonColor: "#ff7918"
                             });
-                        </script>
-                    @endif
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    @if (session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "{{ session('error ') }}",
+        });
+    </script>
+    @endif
+    @if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: "{{ session('success ') }}",
+
+        });
+    </script>
+    @endif
     <script>
         $(document).ready(function() {
             $(".edit-date-btn").click(function() {
@@ -281,7 +331,7 @@
                         });
                     },
                     showCancelButton: true,
-                    
+
                     confirmButtonText: "Save",
 
                     preConfirm: () => {
@@ -301,7 +351,7 @@
                                 title: "Success",
                                 text: "Lesson date updated!",
                                 icon: "success",
-                                
+
                             }).then(
                                 () => location.reload());
                         }).fail(() => {
@@ -309,7 +359,7 @@
                                 title: "Error",
                                 text: "Failed to update!",
                                 icon: "error",
-                                
+
                             });
                         });
                     }
@@ -325,7 +375,7 @@
                             title: "Success",
                             text: response.message,
                             icon: "success",
-                            
+
                         })
                         .then(() => location.reload());
                 }).fail(function(xhr) {
@@ -346,7 +396,7 @@
 
                         Swal.fire({
                             title: "Add Student",
-                            
+
                             html: `
                         <select id="student_id" class="swal2-select" style="width:100%">
                             ${options}
@@ -377,7 +427,7 @@
                                     type: "POST",
                                     data: {
                                         _token: "{{ csrf_token() }}",
-                                        group_id: {{ $group->id }},
+                                        group_id: "{{ $group->id }}",
                                         student_id: result.value.student_id
                                     },
                                     success: function() {
@@ -385,7 +435,7 @@
                                             title: "Success",
                                             text: "Student added successfully!",
                                             icon: "success",
-                                            
+
                                         }).then(
                                             () => location.reload()
                                         );
@@ -395,7 +445,7 @@
                                             title: "Error",
                                             text: xhr.responseText,
                                             icon: "error",
-                                            
+
                                         });
                                     }
                                 });
@@ -407,7 +457,7 @@
                             title: "Error",
                             text: "Failed to fetch students!",
                             icon: "error",
-                            
+
                         });
                     }
                 });

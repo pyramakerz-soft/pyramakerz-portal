@@ -9,7 +9,7 @@
         @include('include.dash-nav')
 
         <div class="dashboardarea sp_bottom_100">
-        @include('include.admin-topbar')
+            @include('include.admin-topbar')
 
             <div class="container-fluid full__width__padding">
                 <div class="row">
@@ -58,7 +58,7 @@
                                         <select name="course_id" class="form-control">
                                             <option value="">Filter by Course</option>
                                             @foreach ($courses as $course)
-                                                <option value="{{ $course->id }}">{{ $course->name }}</option>
+                                            <option value="{{ $course->id }}">{{ $course->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -66,7 +66,7 @@
                                         <select name="group_id" class="form-control">
                                             <option value="">Filter by Group</option>
                                             @foreach ($groups as $group)
-                                                <option value="{{ $group->id }}">{{ $group->course->name }} - {{ $group->name }}</option>
+                                            <option value="{{ $group->id }}">{{ $group->course->name }} - {{ $group->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -82,7 +82,7 @@
                                         <button type="submit" class="btn btn-warning default__small__button mt-2">Apply Filters</button>
                                     </div>
                                 </div>
-                              
+
                             </form>
 
                             <!-- Students Table -->
@@ -94,59 +94,72 @@
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Phone</th>
-                                            <th>Course</th>
-                                            <th>Group</th>
-                                            {{-- <th>Actions</th> --}}
+                                            <th>Courses</th>
+                                            <th>Groups</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($students as $index => $student)
-                                            @php
-    // Fetch course (either from group or direct enrollment)
-    $groupStudent = $student->groupStudents->first();
-    $courseStudent = $student->courseStudents->first();
-    $course = $groupStudent ? $groupStudent->group->course->name : ($courseStudent ? $courseStudent->course->name : 'Not Assigned');
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $student->name }}</td>
+                                            <td>{{ $student->email }}</td>
+                                            <td>{{ $student->phone }}</td>
+                                            <td>
+                                                @php
+                                                // Map and keep full course models first
+                                                $coursesFromGroups = $student->groupStudents->map(function($groupStudent) {
+                                                return $groupStudent->group?->course;
+                                                })->filter()->unique('id')->values();
 
-    // Fetch group status
-    $group = $groupStudent ? $groupStudent->group->name : 'Not Assigned';
-                                            @endphp
-                                            <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $student->name }}</td>
-                                                <td>{{ $student->email }}</td>
-                                                <td>{{ $student->phone }}</td>
-                                                <td>{{ $course }}</td>
-                                                <td>
-                                                    @if ($groupStudent)
-                                                        <span class="badge bg-success p-2 w-100"
-                                                            style="font-size: 16px;">{{ $group }}</span>
-                                                    @else
-                                                        <span class="badge bg-warning p-2 w-100"
-                                                            style="font-size: 16px;">Not Assigned</span>
-                                                    @endif
-                                                </td>
-                                                {{-- <td>
-                                                    <button class="btn btn-sm {{ $groupStudent ? 'btn-warning' : 'bg-primary btn-primary' }} assign-group-btn"
-                                                        data-student-id="{{ $student->id }}"
-                                                        data-student-name="{{ $student->name }}"
-                                                        data-current-group="{{ $group }}">
-                                                        {{ $groupStudent ? 'Change Group' : 'Assign to Group' }}
-                                                    </button>
-                                                </td> --}}
-                                            </tr>
+                                                $coursesFromDirectEnroll = $student->courseStudents->map(function($courseStudent) {
+                                                return $courseStudent->course;
+                                                })->filter()->unique('id')->values();
+
+                                                $allCourses = $coursesFromGroups->merge($coursesFromDirectEnroll)->unique('id')->values();
+                                                @endphp
+
+                                                @if ($allCourses->isNotEmpty())
+                                                @foreach ($allCourses as $course)
+                                                <span class="badge bg-info p-2 mb-1">{{ $course->name }}</span><br>
+                                                @endforeach
+                                                @else
+                                                <span class="badge bg-warning p-2">Not Assigned</span>
+                                                @endif
+                                            </td>
+
+                                            <td>
+                                                @php
+                                                $groups = $student->groupStudents->map(function($groupStudent) {
+                                                return $groupStudent->group;
+                                                })->filter()->unique('id')->values();
+                                                @endphp
+
+                                                @if ($groups->isNotEmpty())
+                                                @foreach ($groups as $group)
+                                                <span class="badge bg-success p-2 mb-1">{{ $group->name }}</span><br>
+                                                @endforeach
+                                                @else
+                                                <span class="badge bg-warning p-2">Not Assigned</span>
+                                                @endif
+                                            </td>
+
+                                        </tr>
                                         @endforeach
+
                                         @if ($students->isEmpty())
-                                            <tr>
-                                                <td colspan="7" class="text-center">No Students Available.</td>
-                                            </tr>
+                                        <tr>
+                                            <td colspan="6" class="text-center">No Students Available.</td>
+                                        </tr>
                                         @endif
                                     </tbody>
                                 </table>
+
                             </div>
 
                             <!-- Pagination -->
                             <div class="mt-3">
-                                {{ $students->links() }}
+                                {!! $students->links('pagination::bootstrap-5') !!}
                             </div>
                         </div>
                     </div>
@@ -156,110 +169,55 @@
 
         @include('include.scripts')
         @if (session('error'))
-                        <script>
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: '{{ session('error') }}',
-                                
-
-                            });
-                        </script>
-                    @endif
-                    @if (session('success'))
-                        <script>
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success',
-                                text: '{{ session('success') }}',
-                                
-                            });
-                        </script>
-                    @endif
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "{{ session('error ') }}",
+            });
+        </script>
+        @endif
+        @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: "{{ session('success ') }}",
+            });
+        </script>
+        @endif
     </main>
 
     <!-- Assign Group Modal (SweetAlert) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).ready(function () {
-        //     $(".import-students-btn").click(function() {
-        //     Swal.fire({
-        //         title: "Import Students",
-        //         html: `<input type="file" id="student_file" class="swal2-file">`,
-        //         showCancelButton: true,
-        //         confirmButtonText: "Upload",
-        //         preConfirm: () => {
-        //             let file = $("#student_file")[0].files[0];
-        //             let formData = new FormData();
-        //             formData.append('file', file);
-        //             formData.append('_token', "{{ csrf_token() }}");
+        $(document).ready(function() {
+            //     $(".import-students-btn").click(function() {
+            //     Swal.fire({
+            //         title: "Import Students",
+            //         html: `<input type="file" id="student_file" class="swal2-file">`,
+            //         showCancelButton: true,
+            //         confirmButtonText: "Upload",
+            //         preConfirm: () => {
+            //             let file = $("#student_file")[0].files[0];
+            //             let formData = new FormData();
+            //             formData.append('file', file);
+            //             formData.append('_token', "{{ csrf_token() }}");
 
-        //             return fetch("{{ route('admin.students.import') }}", {
-        //                 method: "POST",
-        //                 body: formData
-        //             }).then(response => response.json());
-        //         }
-        //     }).then(() => {
-        //         Swal.fire("Success", "Students imported!", "success").then(() => location.reload());
-        //     });
-        // });
+            //             return fetch("{{ route('admin.students.import') }}", {
+            //                 method: "POST",
+            //                 body: formData
+            //             }).then(response => response.json());
+            //         }
+            //     }).then(() => {
+            //         Swal.fire("Success", "Students imported!", "success").then(() => location.reload());
+            //     });
+            // });
 
-            $(".assign-group-btn").click(function () {
-                let studentId = $(this).data("student-id");
-                let studentName = $(this).data("student-name");
 
-                let groups = @json($groups->mapWithKeys(fn($group) => [$group->id => $group->course->name . ' - ' . $group->name]));
-
-                Swal.fire({
-                    title: `Assign ${studentName} to a Group`,
-                    width: '600px', // ⬅️ Increased width for better layout
-                    html: `
-                    <div style="text-align:left;">
-                        <label for="group-selection" class="mb-2" style="font-size: 16px; font-weight: 600;">Select a Group</label>
-                        <select id="group-selection" class="swal2-select form-control" style="max-width: 90%; padding: 10px; font-size: 16px;">
-                            <option value="">Select a Group</option>
-                            ${Object.entries(groups).map(([id, name]) => `<option value="${id}">${name}</option>`).join('')}
-                        </select>
-                        <p id="course-info" class="mt-3" style="font-size: 16px;"><strong>Course:</strong> <span>-</span></p>
-                    </div>
-                `,
-                    showCancelButton: true,
-                    confirmButtonText: 'Assign',
-                    confirmButtonColor: '#28a745',
-                    preConfirm: () => {
-                        let selectedGroupId = $("#group-selection").val();
-                        if (!selectedGroupId) {
-                            Swal.showValidationMessage("Please select a group.");
-                            return false;
-                        }
-                        return $.post("{{ route('admin.students.assign-group') }}", {
-                            _token: "{{ csrf_token() }}",
-                            student_id: studentId,
-                            group_id: selectedGroupId
-                        }).then(response => {
-                            if (!response.success) {
-                                throw new Error(response.message);
-                            }
-                        }).catch(error => {
-                            Swal.showValidationMessage(error.message);
-                        });
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire('Updated!', `${studentName} has been assigned to a new group.`, 'success')
-                            .then(() => location.reload());
-                    }
-                });
-
-                // Update course name dynamically
-                $("#group-selection").change(function () {
-                    let selectedId = $(this).val();
-                    $("#course-info span").text(selectedId ? groups[selectedId].split(" - ")[0] : "-");
-                });
-            });
         });
-
     </script>
 
 </body>
+
 </html>

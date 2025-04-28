@@ -83,6 +83,7 @@
                                                 <th>#</th>
                                                 <th>Group Name</th>
                                                 <th>Students</th>
+                                                <td>Status</td>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -98,8 +99,8 @@
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $group->name }}</td>
-                                                <td>{{ isset($group->students) ? $group->students->count() : 0 }}
-                                                </td>
+                                                <td>{{ isset($group->students) ? $group->students->count() : 0 }}</td>
+                                                <td>{{ $group->status }}</td>
                                                 <td>
                                                     <a href="{{ route('instructor.group_details', $group->id) }}"
                                                         class="btn btn-sm btn-black">
@@ -120,11 +121,19 @@
                                                 <td>{{ $group->name }}</td>
                                                 <td>{{ isset($group->students) ? $group->students->count() : 0 }}
                                                 </td>
+                                                <td>{{ $group->status }}</td>
                                                 <td>
                                                     <a href="{{ route('instructor.group_details', $group->id) }}"
                                                         class="btn btn-sm btn-black">
                                                         <i class="icofont-eye"></i> View
                                                     </a>
+                                                    @if (Auth::guard('admin')->user()->roles[0]->name != 'instructor')
+                                                    <a href="{{ route('instructor.change_group_status', $group->id) }}"
+                                                        data-url="{{ route('instructor.change_group_status', $group->id) }}"
+                                                        class="btn btn-sm btn-black change-status-btn">
+                                                        <i class="icofont-eye"></i> Change Status
+                                                    </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -238,7 +247,49 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+    <script>
+        $(document).on("click", ".change-status-btn", function(e) {
+            e.preventDefault();
 
+            const url = $(this).data("url");
+
+            Swal.fire({
+                title: "Alert!",
+                text: "Are you sure you want to change status of this group?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: "Status Changed!",
+                                text: "Status changed successfully!",
+                                icon: "success",
+                                confirmButtonColor: "#ff7918"
+                            }).then(() => location.reload());
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                title: "Error",
+                                text: xhr.responseJSON?.message || "Failed to update status!",
+                                icon: "error",
+                                confirmButtonColor: "#ff7918"
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $(".add-group-btn").click(function() {
@@ -250,53 +301,44 @@
                 <input type="text" id="group_name" class="swal2-input" placeholder="Enter group name">
              
                 <label style="font-weight: 600;">Assign Instructor</label>
-                <select id="instructor_id" class="swal2-input" style=" width:80%; margin: 0 auto; ">
+                <select id="instructor_id" class="swal2-input" style=" width:373px !important; margin: 0 auto; ">
                     <option value="">Select Instructor</option>
                     @foreach ($instructors as $instructor)
                         <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
                     @endforeach
                     </select>
+                <label style="font-weight: 600;">Start Date</label>
+                <input type="date" id="start_date" class="swal2-input" placeholder="Select start date">
 
                 <label style="font-weight: 600;">Number of Weekly Sessions</label>
                 <input type="number" id="weekly_sessions" class="swal2-input" min="1" max="7" placeholder="Sessions per week" oninput="generateSessionDays()">
 
                 <div class="row "  style="padding-bottom:5px; width:80%; margin:0 auto;" id="session_days_container"></div> <!-- Session Days Dropdowns -->
 
-                <label style="font-weight: 600;">Start Date</label>
-                <input type="text" id="start_date" class="swal2-input" placeholder="Select start date" readonly>
-
-                <label style="font-weight: 600;">Start Time</label>
-                <input type="time" id="start_time" class="swal2-input">
-
-                <label style="font-weight: 600;">End Time</label>
-                <input type="time" id="end_time" class="swal2-input">
             </div>
         `,
 
-                    didOpen: () => {
-                        flatpickr("#start_date", {
-                            dateFormat: "Y-m-d"
-                        });
-                    },
+
                     showCancelButton: true,
                     confirmButtonText: "Save",
 
                     preConfirm: () => {
                         let groupName = $("#group_name").val();
                         let instructorId = $("#instructor_id").val();
-                        let weeklySessions = $("#weekly_sessions").val();
                         let startDate = $("#start_date").val();
-                        let startTime = $("#start_time").val();
-                        let endTime = $("#end_time").val();
+                        let weeklySessions = $("#weekly_sessions").val();
 
-                        let selectedDays = [];
-                        $(".session_day").each(function() {
-                            selectedDays.push($(this).val());
+                        let sessions = [];
+                        $("#session_days_container .session_day_group").each(function() {
+                            sessions.push({
+                                day: $(this).find(".session_day").val(),
+                                start_time: $(this).find(".session_start_time").val(),
+                                end_time: $(this).find(".session_end_time").val()
+                            });
                         });
 
-                        if (!groupName || !weeklySessions || !startDate || !startTime || !
-                            endTime || selectedDays.length !== parseInt(weeklySessions)) {
-                            Swal.showValidationMessage("All fields are required!");
+                        if (!groupName || !weeklySessions || !startDate || sessions.length !== parseInt(weeklySessions)) {
+                            Swal.showValidationMessage("All fields are required and all session days must be filled!");
                             return false;
                         }
 
@@ -305,9 +347,7 @@
                             instructor_id: instructorId,
                             weekly_sessions: weeklySessions,
                             start_date: startDate,
-                            start_time: startTime,
-                            end_time: endTime,
-                            session_days: selectedDays,
+                            sessions: sessions,
                             course_id: "{{ $course->id }}"
                         };
                     }
@@ -322,9 +362,7 @@
                                 instructor_id: result.value.instructor_id,
                                 weekly_sessions: result.value.weekly_sessions,
                                 start_date: result.value.start_date,
-                                start_time: result.value.start_time,
-                                end_time: result.value.end_time,
-                                session_days: result.value.session_days,
+                                sessions: result.value.sessions,
                                 course_id: result.value.course_id
                             },
                             success: function() {
@@ -340,16 +378,25 @@
                                 }, 1000);
                             },
                             error: function(xhr) {
-                                let errorMessage = "Something went wrong!";
-                                if (xhr.responseJSON && xhr.responseJSON.message) {
-                                    errorMessage = xhr.responseJSON.message;
-                                }
-                                Swal.fire({
-                                    icon: "Error",
-                                    text: errorMessage,
-                                    title: "error",
+                                if (xhr.status === 409 && xhr.responseJSON && xhr.responseJSON.conflicts) {
+                                    let conflictMessages = xhr.responseJSON.conflicts.map(conflict =>
+                                        `Date: ${conflict.date} (${conflict.start_time} - ${conflict.end_time})`
+                                    ).join('<br>');
 
-                                });
+                                    Swal.fire({
+                                        title: "Conflict Detected!",
+                                        html: "The instructor already has sessions at:<br><br>" + conflictMessages,
+                                        icon: "error",
+                                        confirmButtonColor: "#ff7918"
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: "Error",
+                                        text: xhr.responseJSON?.message || "Something went wrong!",
+                                        icon: "error",
+                                        confirmButtonColor: "#ff7918"
+                                    });
+                                }
                             }
                         });
                     }
@@ -360,7 +407,7 @@
 
 
         });
-        // Function to generate session day dropdowns dynamically
+        // Function to generate session day, start time, and end time dynamically
         function generateSessionDays() {
             let container = $("#session_days_container");
             container.empty();
@@ -369,14 +416,20 @@
             if (numSessions > 0 && numSessions <= 7) {
                 let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
                 for (let i = 0; i < numSessions; i++) {
-                    let selectHTML = `
-                <label style="font-weight: 600;">Session ${i + 1} Day</label>
-                <select class="swal2-input session_day" style="border-radius: 8px;">
-                    <option value="">Select Day</option>
-                    ${daysOfWeek.map(day => `<option value="${day}">${day}</option>`).join('')}
-                </select>
+                    let html = `
+                <div class="session_day_group" style="margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                    <label style="font-weight: 600;">Session ${i + 1} Day</label>
+                    <select class="swal2-input session_day">
+                        <option value="">Select Day</option>
+                        ${daysOfWeek.map(day => `<option value="${day}">${day}</option>`).join('')}
+                    </select>
+                    <label style="font-weight: 600;">Start Time</label>
+                    <input type="time" class="swal2-input session_start_time">
+                    <label style="font-weight: 600;">End Time</label>
+                    <input type="time" class="swal2-input session_end_time">
+                </div>
             `;
-                    container.append(selectHTML);
+                    container.append(html);
                 }
             }
         }
