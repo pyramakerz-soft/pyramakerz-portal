@@ -15482,3 +15482,11 @@ Dark Mode
         right: -370.1px;
     }
 }
+
+.select2-results__option {
+    color: black !important;
+}
+
+.select2-results__option:hover {
+    color: white !important;
+}

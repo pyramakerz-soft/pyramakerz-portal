@@ -227,6 +227,7 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
 
     Route::get('/evaluations/manual', [EvaluationController::class, 'create'])->name('admin.evaluations.manual');
     Route::post('/evaluations/store', [EvaluationController::class, 'store'])->name('admin.evaluations.store');
+    Route::get('/instructors/evalcomments/{id}', [EvaluationController::class, 'viewEvalComments'])->name('admin.instructors.viewEvalComments');
     Route::get('/track-progress', [CourseProgressController::class, 'index'])->name('admin.track-progress.index');
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('admin.attendance.index');
     Route::get('/enrollment_requests', [EnrollmentController::class, 'index'])->name('admin.enrollment_requests');

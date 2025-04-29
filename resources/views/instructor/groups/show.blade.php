@@ -1,5 +1,10 @@
 <!doctype html>
 <html class="no-js is_dark" lang="zxx">
+<style>
+    li.select2-results__option {
+        width: 100% !important;
+    }
+</style>
 
 <head>
     @include('include.head')
@@ -391,7 +396,7 @@
                         let options = '';
                         response.students.forEach(student => {
                             options +=
-                                `<option value="${student.id}">${student.name} (${student.email})</option>`;
+                                `<option value="${student.id}">${student.name} (${student.email}) - [${student.code}]</option>`;
                         });
 
                         Swal.fire({

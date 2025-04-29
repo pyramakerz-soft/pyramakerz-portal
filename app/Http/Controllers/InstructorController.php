@@ -721,7 +721,7 @@ class InstructorController extends Controller
 
     public function getStudents()
     {
-        $students = Student::select('id', 'name', 'email')->get();
+        $students = Student::select('id', 'name', 'email', 'code')->get();
         return response()->json(['students' => $students]);
     }
     public function changeGroupStatus(Request $request, $id)

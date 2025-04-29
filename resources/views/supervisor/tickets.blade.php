@@ -9,7 +9,7 @@
         @include('include.dash-nav')
 
         <div class="dashboardarea sp_bottom_100">
-        @include('include.admin-topbar')
+            @include('include.admin-topbar')
 
             <div class="container-fluid full__width__padding">
                 <div class="row">
@@ -40,39 +40,39 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($tickets as $index => $ticket)
-                                            <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $ticket->user->name }}</td>
-                                                <td>
-                                                    <span class="badge 
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $ticket->user->name }}</td>
+                                            <td>
+                                                <span class="badge 
                                                         {{ $ticket->category === 'Technical' ? 'bg-success' : ($ticket->category === 'Academic' ? 'bg-success' : 'bg-warning') }}">
-                                                        {{ ucfirst($ticket->category) }}
-                                                    </span>
-                                                </td>
-                                                <td>{{ Str::limit($ticket->message, 50) }}</td>
-                                                <td>
-                                                    @if ($ticket->attachment)
-                                                        <a href="{{ asset($ticket->attachment) }}" target="_blank" class="btn btn-sm btn-outline-info">
-                                                            View
-                                                        </a>
-                                                    @else
-                                                        No Attachment
-                                                    @endif
-                                                </td>
-                                                <td>{{ $ticket->created_at->format('d M Y, h:i A') }}</td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-primary view-ticket-btn"
-                                                        data-message="{{ $ticket->message }}"
-                                                        data-attachment="{{ $ticket->attachment ? asset( $ticket->attachment) : '' }}">
-                                                        <i class="icofont-eye"></i> View
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                                    {{ ucfirst($ticket->category) }}
+                                                </span>
+                                            </td>
+                                            <td>{{ Str::limit($ticket->message, 50) }}</td>
+                                            <td>
+                                                @if ($ticket->attachment)
+                                                <a href="{{ asset($ticket->attachment) }}" target="_blank" class="btn btn-sm btn-outline-info">
+                                                    View
+                                                </a>
+                                                @else
+                                                No Attachment
+                                                @endif
+                                            </td>
+                                            <td>{{ $ticket->created_at->format('d M Y, h:i A') }}</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-black view-ticket-btn"
+                                                    data-message="{{ $ticket->message }}"
+                                                    data-attachment="{{ $ticket->attachment ? asset( $ticket->attachment) : '' }}">
+                                                    <i class="icofont-eye"></i> View
+                                                </button>
+                                            </td>
+                                        </tr>
                                         @endforeach
                                         @if ($tickets->isEmpty())
-                                            <tr>
-                                                <td colspan="7" class="text-center">No Tickets Available.</td>
-                                            </tr>
+                                        <tr>
+                                            <td colspan="7" class="text-center">No Tickets Available.</td>
+                                        </tr>
                                         @endif
                                     </tbody>
                                 </table>
@@ -80,13 +80,13 @@
 
                             {{-- <div class="mt-3">
                                 <a href="{{ route('home') }}" class="btn btn-outline-secondary">
-                                    <i class="icofont-arrow-left"></i> Back to Dashboard
-                                </a>
-                            </div> --}}
-                        </div>
+                            <i class="icofont-arrow-left"></i> Back to Dashboard
+                            </a>
+                        </div> --}}
                     </div>
                 </div>
             </div>
+        </div>
         </div>
 
         @include('include.scripts')
@@ -97,21 +97,21 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        $(document).ready(function () {
-            $(".view-ticket-btn").click(function () {
+        $(document).ready(function() {
+            $(".view-ticket-btn").click(function() {
                 let message = $(this).data("message");
                 let attachment = $(this).data("attachment");
-                let attachmentHtml = attachment
-                    ? `<p><a href="${attachment}" target="_blank" class="btn btn-info">View Attachment</a></p>`
-                    : "<p>No Attachment</p>";
-
+                let attachmentHtml = attachment ?
+                    `<p><a href="${attachment}" target="_blank" class="btn btn-info" style='color: #545454;'>View Attachment</a></p>` :
+                    "<p style='color: #545454;' >No Attachment</p>";
                 Swal.fire({
                     title: "Ticket Details",
-                    html: `<p><strong>Message:</strong> ${message}</p>${attachmentHtml}`,
+                    html: `<p style="color: #545454;"><strong>Message:</strong> ${message}</p>${attachmentHtml}`,
                     icon: "info",
                 });
             });
         });
     </script>
 </body>
+
 </html>

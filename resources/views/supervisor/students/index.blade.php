@@ -55,42 +55,53 @@
                             <form method="GET" action="{{ route('admin.students.index') }}" class="mb-3">
                                 <div class="row">
                                     <div class="col-md-3">
+                                        <input type="text" name="search" class="form-control" placeholder="Search by Name, Email, or Code" value="{{ request('search') }}">
+                                    </div>
+
+                                    <div class="col-md-2">
                                         <select name="course_id" class="form-control">
                                             <option value="">Filter by Course</option>
                                             @foreach ($courses as $course)
-                                            <option value="{{ $course->id }}">{{ $course->name }}</option>
+                                            <option value="{{ $course->id }}" {{ request('course_id') == $course->id ? 'selected' : '' }}>
+                                                {{ $course->name }}
+                                            </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
+
+                                    <div class="col-md-2">
                                         <select name="group_id" class="form-control">
                                             <option value="">Filter by Group</option>
                                             @foreach ($groups as $group)
-                                            <option value="{{ $group->id }}">{{ $group->course->name }} - {{ $group->name }}</option>
+                                            <option value="{{ $group->id }}" {{ request('group_id') == $group->id ? 'selected' : '' }}>
+                                                {{ $group->course->name }} - {{ $group->name }}
+                                            </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
+
+                                    <div class="col-md-2">
                                         <select name="age_group" class="form-control">
                                             <option value="">Filter by Age Group</option>
-                                            <option value="6-10">6 - 10</option>
-                                            <option value="11-15">11 - 15</option>
-                                            <option value="16-20">16 - 20</option>
+                                            <option value="6-10" {{ request('age_group') == '6-10' ? 'selected' : '' }}>6 - 10</option>
+                                            <option value="11-15" {{ request('age_group') == '11-15' ? 'selected' : '' }}>11 - 15</option>
+                                            <option value="16-20" {{ request('age_group') == '16-20' ? 'selected' : '' }}>16 - 20</option>
                                         </select>
                                     </div>
+
                                     <div class="col-md-3">
-                                        <button type="submit" class="btn btn-warning default__small__button mt-2">Apply Filters</button>
+                                        <button type="submit" class="btn btn-warning default__small__button mt-2 w-100">Apply Filters</button>
                                     </div>
                                 </div>
-
                             </form>
+
 
                             <!-- Students Table -->
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered text-center">
                                     <thead class="headtb text-white">
                                         <tr>
-                                            <th>#</th>
+                                            <th>Code</th>
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Phone</th>
@@ -101,7 +112,7 @@
                                     <tbody>
                                         @foreach ($students as $index => $student)
                                         <tr>
-                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $student->code }}</td>
                                             <td>{{ $student->name }}</td>
                                             <td>{{ $student->email }}</td>
                                             <td>{{ $student->phone }}</td>
