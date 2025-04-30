@@ -9,14 +9,21 @@ use App\Models\User;
 use App\Models\Course;
 use App\Models\CoursesPath;
 
-class AttendanceController extends Controller {
-    public function index(Request $request) {
+class AttendanceController extends Controller
+{
+    public function index(Request $request)
+    {
         $instructors = User::where('role', 'teacher')->get();
         $courses = Course::all();
         $sessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4', 'Session 5', 'Session 6', 'Session 7', 'Session 8'];
-    
+
         $query = Attendance::query();
-    
+        // if ($request->filled('search')) {
+        //     $query->where(function ($query) use ($request) {
+        //         $query->where('name', 'like', '%' . $request->search . '%')
+        //             ->orWhere('code', 'like', '%' . $request->search . '%');
+        //     });
+        // }
         if ($request->filled('day')) {
             $query->where('day', $request->day);
         }
@@ -26,7 +33,7 @@ class AttendanceController extends Controller {
         if ($request->filled('course_id')) {
             $query->where('course_id', $request->course_id);
         }
-    
+
         $attendanceRecords = $query
             ->with([
                 'student.groups.instructor',  // Load student's groups and their instructors
@@ -36,23 +43,24 @@ class AttendanceController extends Controller {
             ->get()
             ->groupBy(function ($record) {
                 // Fetch the instructor from the student's assigned groups
-                $studentGroups = optional($record->student)->groups; 
+                $studentGroups = optional($record->student)->groups;
                 $actualInstructor = $studentGroups->first()?->instructor; // Get the first instructor
                 $instructorName = $actualInstructor ? $actualInstructor->name : 'Unknown Instructor';
-    
+
                 return implode('|', [
                     $instructorName,  // Use the correct instructor from the group
                     optional($record->course)->name ?? 'Unknown Course',
                 ]);
             });
-    
+
         return view('supervisor.attendance', compact('attendanceRecords', 'sessions', 'instructors', 'courses'));
     }
-    
-    
-    
-    
-    public function studentDetails($id){
+
+
+
+
+    public function studentDetails($id)
+    {
         $student = User::findOrFail($id);
         $courses = Course::all();
         // $sessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4'];
@@ -64,8 +72,4 @@ class AttendanceController extends Controller {
 
         // return route('admin.student-details', $id)-> with('attendanceRecords', 'student', 'courses'));
     }
-    
-    
 }
-
-

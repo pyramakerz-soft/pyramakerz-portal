@@ -83,7 +83,8 @@
                                                 <th>#</th>
                                                 <th>Group Name</th>
                                                 <th>Students</th>
-                                                <td>Status</td>
+                                                <th>Status</th>
+                                                <th>Code</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -122,6 +123,7 @@
                                                 <td>{{ isset($group->students) ? $group->students->count() : 0 }}
                                                 </td>
                                                 <td>{{ $group->status }}</td>
+                                                <td>{{ $group->code ?? '-' }}</td>
                                                 <td>
                                                     <a href="{{ route('instructor.group_details', $group->id) }}"
                                                         class="btn btn-sm btn-black">

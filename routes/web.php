@@ -234,6 +234,7 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
     Route::post('/approve/{id}', [EnrollmentController::class, 'approve'])->name('admin.approve');
     Route::post('/reject/{id}', [EnrollmentController::class, 'reject'])->name('admin.reject');
     Route::get('/tickets', [TicketController::class, 'index'])->name('admin.tickets');
+    Route::post('/tickets/change_status/{id}', [TicketController::class, 'changeStatus'])->name('admin.change_ticket_status');
 
     // Route::get('/student-details/{id}', [AttendanceController::class, 'studentDetails'])->name('admin.student-details');
     Route::get('/students', [AdminStudentController::class, 'index'])->name('admin.students.index');

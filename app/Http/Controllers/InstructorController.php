@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class InstructorController extends Controller
 {
@@ -444,6 +445,7 @@ class InstructorController extends Controller
             'name' => $validatedData['name'],
             'course_id' => $validatedData['course_id'],
             'instructor_id' => $validatedData['instructor_id'],
+            'code' => $this->generateGroupCode(),
         ]);
 
         // ✅ Generate schedules using selected days
@@ -457,6 +459,14 @@ class InstructorController extends Controller
         );
 
         return response()->json(['message' => 'Group created and lessons scheduled!'], 200);
+    }
+    private function generateGroupCode()
+    {
+        do {
+            $code = 'pyra-' . strtoupper(Str::random(6));
+        } while (Group::where('code', $code)->exists());
+
+        return $code;
     }
     private function detectScheduleConflicts($startDate, $sessions, $weeklySessions, $courseDuration, $instructorId)
     {
