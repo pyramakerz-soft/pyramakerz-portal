@@ -64,6 +64,8 @@
                                                     <strong>⏳ Duration:</strong> {{ $meeting->duration }} minutes <br>
                                                     <strong>👨‍🏫 Group:</strong> {{ $meeting->group->name ?? 'N/A' }}
                                                     <br>
+                                                    <strong>📚 Course:</strong>
+                                                    {{ $meeting->group->course->name ?? 'N/A' }} <br>
                                                     <strong>📖 Lesson:</strong> {{ $meeting->lesson->title ?? 'N/A' }}
                                                 </p>
 

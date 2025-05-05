@@ -85,7 +85,9 @@
                                                 <th>Students</th>
                                                 <th>Status</th>
                                                 <th>Code</th>
+                                                @if (Auth::guard('admin')->user()->roles[0]->name != 'instructor')
                                                 <th>Action</th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>

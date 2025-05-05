@@ -59,6 +59,9 @@
                                         <input type="text" name="search" class="form-control" placeholder="Search by Group Name or Code" value="{{ request('search') }}">
                                     </div> -->
                                     <div class="col-md-3">
+                                        <input type="text" name="search" class="form-control" placeholder="Search by Name, Email, or Code" value="{{ request('search') }}">
+                                    </div>
+                                    <div class="col-md-3">
                                         <select name="day" class="form-control select2">
                                             <option value="">All Days</option>
                                             @foreach (['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday'] as $day)
@@ -86,6 +89,8 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                </div>
+                                <div class="row justify-content-end mt-2">
                                     <div class="col-md-3">
                                         <button type="submit" class="btn btn-black w-100">Filter</button>
                                     </div>
@@ -115,6 +120,7 @@
                                             <th rowspan="2">Student ID</th>
                                             <th rowspan="2">Student Name</th>
                                             <th rowspan="2">Group</th>
+                                            <th rowspan="2">Group Code</th>
                                             @foreach ($coursePaths as $coursePath)
                                             <th colspan="{{ count($coursePath->paths) * count($allSessions) }}"
                                                 class="text-center bg-black text-white">
@@ -135,6 +141,8 @@
                                         <tr>
                                             <th></th>
                                             <th></th>
+                                            <th></th>
+                                            <th></th>
                                             @foreach ($coursePaths as $coursePath)
                                             @foreach ($coursePath->paths as $subPath)
                                             @foreach ($allSessions as $session)
@@ -149,10 +157,18 @@
                                         @foreach ($attendances->groupBy('student.id') as $studentId => $studentRecords)
                                         @php
                                         $student = $studentRecords->first()->student;
+                                        $studentGroupIds = $student->groups->pluck('id');
+                                        $courseId = optional($firstAttendance->course)->id;
+
+                                        $studentGroup = App\Models\Group::whereIn('id', $studentGroupIds)
+                                        ->where('course_id', $courseId)
+                                        ->first();
                                         @endphp
                                         <tr>
-                                            <td>pyra-{{ $student->id }}</td>
+                                            <td>{{ $student->code }}</td>
                                             <td>{{ $student->name }}</td>
+                                            <td>{{ $studentGroup->name ?? '-'}}</td>
+                                            <td>{{ $studentGroup->code ?? '-'}}</td>
                                             @foreach ($coursePaths as $coursePath)
                                             @foreach ($coursePath->paths as $subPath)
                                             @php

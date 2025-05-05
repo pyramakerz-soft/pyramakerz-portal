@@ -18,12 +18,18 @@ class AttendanceController extends Controller
         $sessions = ['Session 1', 'Session 2', 'Session 3', 'Session 4', 'Session 5', 'Session 6', 'Session 7', 'Session 8'];
 
         $query = Attendance::query();
-        // if ($request->filled('search')) {
-        //     $query->where(function ($query) use ($request) {
-        //         $query->where('name', 'like', '%' . $request->search . '%')
-        //             ->orWhere('code', 'like', '%' . $request->search . '%');
-        //     });
-        // }
+        if ($request->filled('search')) {
+            $query->where(function ($query) use ($request) {
+                $query->whereHas('student', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->search . '%')
+                        ->orWhere('code', 'like', '%' . $request->search . '%')
+                        ->orWhereHas('groups', function ($g) use ($request) {
+                            $g->where('name', 'like', '%' . $request->search . '%')
+                                ->orWhere('code', 'like', '%' . $request->search . '%');
+                        });
+                });
+            });
+        }
         if ($request->filled('day')) {
             $query->where('day', $request->day);
         }
@@ -52,6 +58,7 @@ class AttendanceController extends Controller
                     optional($record->course)->name ?? 'Unknown Course',
                 ]);
             });
+        // dd($attendanceRecords);
 
         return view('supervisor.attendance', compact('attendanceRecords', 'sessions', 'instructors', 'courses'));
     }

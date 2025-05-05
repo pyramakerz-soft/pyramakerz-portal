@@ -105,6 +105,7 @@
                             'courseId' => $schedule->group->course->id,
                             'extendedProps' => [
                                 'groupName' => $schedule->group->name,
+                                'courseName' => $schedule->group->course->name,
                                 'lessonTitle' => $schedule->lesson->title,
                                 'meetingId' => $schedule->meeting_id,
                                 'date' => $schedule->date,
@@ -133,6 +134,7 @@
 
                     if (eventsForDate.length > 0) {
                         var eventDetails = eventsForDate.map(event => `
+                        <p style="color:black;"><strong style="color:#ff7918">Course:</strong> ${event.extendedProps.courseName}</p>
                         <p style="color:black;"><strong style="color:#ff7918">Lesson:</strong> ${event.extendedProps.lessonTitle}</p>
                         <p style="color:black;"><strong style="color:#ff7918">Group:</strong> ${event.extendedProps.groupName}</p>
                         <p style="color:black;"><strong style="color:#ff7918">Start Time:</strong> ${event.extendedProps.start_time}</p>
@@ -161,7 +163,7 @@
                 eventClick: function(info) {
                     var ev = info.event;
                     Swal.fire({
-                        title: ev.extendedProps.lessonTitle + " (" + ev.extendedProps
+                        title: ev.extendedProps.courseName + " - " + ev.extendedProps.lessonTitle + " (" + ev.extendedProps
                             .groupName + ")",
                         html: `
                         <p style="color:black;"><strong style="color:#ff7918">Date:</strong> ${ev.extendedProps.date}</p>

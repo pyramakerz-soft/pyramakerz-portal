@@ -118,6 +118,9 @@ class AuthController extends Controller
     }
     public function showAdminLoginForm()
     {
+        Auth::guard('student')->logout();
+        Auth::guard('web')->logout();
+        Auth::guard('admin')->logout();
         return view('auth.admin-login');
     }
 

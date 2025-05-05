@@ -11,6 +11,8 @@ use App\Models\InstructorToStudentEvaluation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -143,5 +145,60 @@ class AdminController extends Controller
         \Log::info('Loaded Teachers:', ['teachers' => $teachers->toArray()]);
 
         return view('dashboard.course-details', compact('course', 'teachers'));
+    }
+
+    public function editProfile()
+    {
+        $user = Auth::guard('admin')->user();
+        return view('dashboard.settings', compact('user'));
+    }
+    public function updateProfile(Request $request)
+    {
+        // dd($request->all());
+        $user = Auth::guard('admin')->user();
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'governorate' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'filename' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        $user->name = $request->first_name . ' ' . $request->last_name;
+        $user->email = $request->email;
+        $user->governorate = $request->governorate;
+        $user->phone = $request->phone;
+        if ($request->hasFile('filename')) {
+            if ($user->profile_image) {
+                Storage::delete($user->profile_image);
+            }
+
+            $user->profile_image = $request->file('filename')->store('public/profile_images');
+        }
+        $user->save();
+        return redirect()->back()->with('success', 'Profile updated successfully!')->with('active_tab', 'profile');
+    }
+    public function changePassword(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:5|confirmed',
+        ]);
+        $user = Auth::guard('admin')->user();
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->with('error', 'The current password is incorrect!')->with('active_tab', 'password');
+        }
+        if (Hash::check($request->new_password, $user->password)) {
+            return redirect()->back()->with('error', 'The new password must be different from the current password!')->with('active_tab', 'password');
+        }
+        if ($request->new_password != $request->new_password_confirmation) {
+            return redirect()->back()->with('error', 'Password confirmation incorrect!')->with('active_tab', 'password');
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Password updated successfully!')->with('active_tab', 'password');
     }
 }

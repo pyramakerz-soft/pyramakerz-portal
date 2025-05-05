@@ -93,9 +93,10 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/profile', function () {
         return view('dashboard.profile');
     });
-    Route::get('/admin/settings', function () {
-        return view('dashboard.settings');
-    })->name('admin-settings');
+
+    Route::get('/admin/settings', [AdminController::class, 'editProfile'])->name('admin-settings');
+    Route::post('/admin/profile/update', [AdminController::class, 'updateProfile'])->name('admin-profile.update');
+    Route::post('/admin/password/change', [AdminController::class, 'changePassword'])->name('admin.password-update');
     Route::post('/create-course', [AdminController::class, 'createCourse'])->name('create-course');
     Route::get('/create-course', [AdminController::class, 'createCourse'])->name('create-course');
     Route::post('/lesson-schedule', [LessonController::class, 'scheduleLesson'])->name('lesson.schedule');

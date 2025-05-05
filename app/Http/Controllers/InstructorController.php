@@ -570,7 +570,24 @@ class InstructorController extends Controller
                     $startTime = $sessionInfo['start_time'];
                     $endTime = $sessionInfo['end_time'];
 
-                    $currentDate = $startDate->copy()->addWeeks($weekIndex)->next($daysOfWeekMap[$dayName]);
+                    // $currentDate = $startDate->copy()->addWeeks($weekIndex)->next($daysOfWeekMap[$dayName]);
+                    $targetDay = $daysOfWeekMap[$dayName];
+                    $baseDate = $startDate->copy()->addWeeks($weekIndex);
+
+                    if ($baseDate->dayOfWeek === $targetDay && $weekIndex === 0) {
+                        $now = Carbon::now();
+                        $sessionDateTime = $baseDate->copy()->setTimeFromTimeString($startTime);
+
+                        if ($sessionDateTime->greaterThan($now)) {
+                            $currentDate = $baseDate;
+                        } else {
+                            $currentDate = $baseDate->next($targetDay);
+                        }
+                    } else {
+                        $currentDate = $baseDate->next($targetDay);
+                    }
+
+
 
                     GroupSchedule::create([
                         'group_id' => $groupId,

@@ -75,7 +75,7 @@
         <div class="loginarea sp_top_100 sp_bottom_100">
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-8 col-md-8 offset-md-2" data-aos="fade-up">
+                    <!-- <div class="col-xl-8 col-md-8 offset-md-2" data-aos="fade-up">
                         <ul class="nav  tab__button__wrap text-center" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button id="loginTab" class="single__tab__link active" data-bs-toggle="tab"
@@ -87,7 +87,7 @@
                             </li>
                         </ul>
 
-                    </div>
+                    </div> -->
 
 
                     <div class="tab-content tab__content__wrapper" id="myTabContent" data-aos="fade-up">

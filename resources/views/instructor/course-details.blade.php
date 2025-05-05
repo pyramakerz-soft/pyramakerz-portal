@@ -134,6 +134,7 @@
                                                                                             target="_blank">
                                                                                             {{ $resource->title ?? basename($resource->file_path) }}
                                                                                         </a>
+                                                                                        @if (!Auth::guard('admin')->user()->roles[0]->name == "instructor")
                                                                                         @if ($resource->title !== 'handout')
                                                                                         <a href="{{ $resource->file_path ? asset($resource->file_path) : $resource->resource_link }}"
                                                                                             download
@@ -141,6 +142,8 @@
                                                                                             Download
                                                                                         </a>
                                                                                         @endif
+                                                                                        @endif
+
                                                                                     </div>
                                                                                     @endforeach
                                                                                 </div>

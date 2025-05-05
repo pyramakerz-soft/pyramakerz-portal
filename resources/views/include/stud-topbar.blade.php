@@ -43,6 +43,7 @@
                         @if (Auth::guard('admin')->user())
                             @if (Auth::guard('admin')->user()->roles[0]->name != 'admin')
                                 <div class="dashboardarea__right">
+                                    @if (Auth::guard('admin')->user()->roles[0]->name != 'instructor')
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="dashboardarea__right__button">
@@ -78,6 +79,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             @endif
                         @else
