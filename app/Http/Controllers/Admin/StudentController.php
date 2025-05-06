@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Course;
 use App\Models\Group;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\StudentsImport;
 use App\Models\GroupStudent;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class StudentController extends Controller
@@ -91,6 +93,52 @@ class StudentController extends Controller
     {
         return Excel::download(new StudentsTemplateExport, 'students_template.xlsx');
     }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:students,email',
+            'phone' => 'required|string|max:15',
+            'parent_phone' => 'required|string|max:15',
+            'country' => 'required|string|max:100',
+            'city' => 'required|string|max:100',
+            'school' => 'required|string|max:100',
+            'gender' => 'required|string|max:10',
+            'birthday' => 'required|date',
+            'year' => 'required|integer',
+            'password' => 'required|string|min:6',
+        ]);
+        $exists = Student::where('email', $request->email)
+            ->orWhere('phone', $request->phone)
+            ->exists();
+        if ($exists) {
+            return redirect()->back()->with('error', 'Student with this email or phone already exists.');
+        }
+        $student = Student::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'parent_phone' => $request->parent_phone,
+            'country' => $request->country,
+            'city' => $request->city,
+            'school' => $request->school,
+            'gender' => $request->gender,
+            'bday' => $request->birthday,
+            'year' => $request->year,
+            'password' => Hash::make($request->password),
+            'code' => $this->generateStudentCode(),
+        ]);
+        return redirect()->route('admin.students.index')->with('success', 'Student created successfully!');
+    }
+    private function generateStudentCode()
+    {
+        do {
+            $code = 'STU-' . strtoupper(Str::random(6));
+        } while (Student::where('code', $code)->exists());
+
+        return $code;
+    }
+
 
     public function assignGroup(Request $request)
     {

@@ -88,6 +88,9 @@ class InstructorController extends Controller
             'phone' => ['nullable', 'regex:/^[0-9]+$/', 'max:20'],
             'governorate' => 'nullable|string|max:255',
             'password' => 'sometimes|string|min:6',
+            'level'        => 'nullable|string|max:255',
+            'salary_type'  => 'nullable|in:Full-Time,Part-Time,Per-Session',
+            'salary'       => 'nullable|numeric|min:0',
         ]);
 
         $instructor = User::findOrFail($id);
@@ -99,6 +102,15 @@ class InstructorController extends Controller
 
         if ($request->filled('password')) {
             $instructor->password = Hash::make($request->password);
+        }
+        if ($request->filled('level')) {
+            $instructor->level = $request->level;
+        }
+        if ($request->filled('salary_type')) {
+            $instructor->salary_type = $request->salary_type;
+        }
+        if ($request->filled('salary')) {
+            $instructor->salary = $request->salary;
         }
 
         $instructor->save();

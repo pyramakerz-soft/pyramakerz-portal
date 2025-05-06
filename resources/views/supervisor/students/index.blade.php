@@ -22,6 +22,9 @@
                             <div class="dashboard__section__title">
                                 <h4>📋 Students</h4>
                                 <div class="dashboardarea__right">
+                                    <button class="default__button add-student-btn">
+                                        <i class="icofont-plus"></i> Add Student
+                                    </button>
                                     <button class="default__button btn" data-bs-toggle="modal" data-bs-target="#importStudentsModal">
                                         <i class="icofont-upload"></i> Import Students
                                     </button>
@@ -203,27 +206,93 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
-            //     $(".import-students-btn").click(function() {
-            //     Swal.fire({
-            //         title: "Import Students",
-            //         html: `<input type="file" id="student_file" class="swal2-file">`,
-            //         showCancelButton: true,
-            //         confirmButtonText: "Upload",
-            //         preConfirm: () => {
-            //             let file = $("#student_file")[0].files[0];
-            //             let formData = new FormData();
-            //             formData.append('file', file);
-            //             formData.append('_token', "{{ csrf_token() }}");
-
-            //             return fetch("{{ route('admin.students.import') }}", {
-            //                 method: "POST",
-            //                 body: formData
-            //             }).then(response => response.json());
-            //         }
-            //     }).then(() => {
-            //         Swal.fire("Success", "Students imported!", "success").then(() => location.reload());
-            //     });
-            // });
+            $(".add-student-btn").click(function() {
+                Swal.fire({
+                    title: "Add New Student",
+                    html: `
+            <input type="text" id="name" class="swal2-input" placeholder="Student Name">
+            <input type="email" id="email" class="swal2-input" placeholder="Email" autocomplete="off">
+            <input type="text" id="phone" class="swal2-input" placeholder="Phone Number">
+            <input type="text" id="parent_phone" class="swal2-input" placeholder="Parent Phone Number">
+            <input type="text" id="country" class="swal2-input" placeholder="country">
+            <input type="text" id="city" class="swal2-input" placeholder="City">
+            <input type="text" id="school" class="swal2-input" placeholder="School">
+            <select id="gender" class="swal2-input">
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+           
+            <input type="date" style="width: 299px; margin: 0;" id="birthday" class="swal2-input" placeholder="Enter Birthday">
+            <input type="text" id="year" class="swal2-input" placeholder="Year">
+            <input type="password" id="password" class="swal2-input" placeholder="Password">
+        `,
+                    showCancelButton: true,
+                    confirmButtonText: "Add Student",
+                    preConfirm: () => {
+                        return {
+                            name: $("#name").val(),
+                            email: $("#email").val(),
+                            phone: $("#phone").val(),
+                            parent_phone: $("#parent_phone").val(),
+                            country: $("#country").val(),
+                            city: $("#city").val(),
+                            school: $("#school").val(),
+                            gender: $("#gender").val(),
+                            birthday: $("#birthday").val(),
+                            year: $("#year").val(),
+                            password: $("#password").val()
+                        };
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('admin.students.store') }}",
+                            type: "POST",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                name: result.value.name,
+                                email: result.value.email,
+                                phone: result.value.phone,
+                                parent_phone: result.value.parent_phone,
+                                country: result.value.country,
+                                city: result.value.city,
+                                school: result.value.school,
+                                gender: result.value.gender,
+                                birthday: result.value.birthday,
+                                year: result.value.year,
+                                password: result.value.password,
+                            },
+                            success: function() {
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Student added successfully!",
+                                    icon: "success",
+                                    confirmButtonColor: "#ff7918"
+                                });
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1000);
+                            },
+                            error: function(xhr) {
+                                let errorMessage = "Failed to add student!";
+                                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                                    const errors = Object.values(xhr.responseJSON.errors).flat().join("\n");
+                                    errorMessage = errors;
+                                } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                                    errorMessage = xhr.responseJSON.message;
+                                }
+                                Swal.fire({
+                                    title: "Error",
+                                    text: errorMessage,
+                                    icon: "error",
+                                    confirmButtonColor: "#ff7918"
+                                });
+                            }
+                        });
+                    }
+                });
+            });
 
 
         });

@@ -4,16 +4,41 @@ namespace App\Exports;
 
 use App\Models\Student;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-use Maatwebsite\Excel\Concerns\FromArray;
-
-class StudentsTemplateExport implements FromArray
+class StudentsTemplateExport implements FromCollection, WithHeadings
 {
-    public function array(): array
+    public function collection()
+    {
+        return Student::select([
+            'code',
+            'name',
+            'email',
+            'phone',
+            'parent_phone',
+            'country',
+            'city',
+            'school',
+            'gender',
+            'bday',
+            'year',
+        ])->get();
+    }
+
+    public function headings(): array
     {
         return [
-            ['name', 'email', 'phone', 'parent_phone', 'country', 'city', 'school', 'gender', 'bday', 'year']
+            'Code',
+            'Name',
+            'Email',
+            'Phone',
+            'Parent Phone',
+            'Country',
+            'City',
+            'School',
+            'Gender',
+            'Birthday',
+            'Year',
         ];
     }
 }
-

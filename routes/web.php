@@ -240,6 +240,7 @@ Route::prefix('supervisor')->middleware('admin.auth')->group(function () {
     // Route::get('/student-details/{id}', [AttendanceController::class, 'studentDetails'])->name('admin.student-details');
     Route::get('/students', [AdminStudentController::class, 'index'])->name('admin.students.index');
     Route::post('/students/import', [AdminStudentController::class, 'import'])->name('admin.students.import');
+    Route::post('/students/store', [AdminStudentController::class, 'store'])->name('admin.students.store');
     Route::get('/students/download-template', [AdminStudentController::class, 'downloadTemplate'])
         ->name('admin.students.download-template');
     Route::post('/admin/students/assign-group', [AdminStudentController::class, 'assignGroup'])->name('admin.students.assign-group');
