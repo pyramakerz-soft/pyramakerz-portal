@@ -111,12 +111,18 @@
                                             <label class="form__label">email</label>
                                             <input class="common__login__input" type="text" name="email"
                                                 placeholder="email" required>
+                                            @error('email')
+                                            <small class="text-danger">{{ $message }}</small>
+                                            @enderror
 
                                         </div>
                                         <div class="login__form">
                                             <label class="form__label">Password</label>
                                             <input class="common__login__input" type="password" placeholder="Password"
                                                 name="password" required>
+                                            @error('password')
+                                            <small class="text-danger">{{ $message }}</small>
+                                            @enderror
 
                                         </div>
                                         <div class="login__form d-flex justify-content-between flex-wrap gap-2">

@@ -54,14 +54,23 @@ class AuthController extends Controller
     {
         //Validate all requests
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:students,email',
-            'phone' => 'required|string|max:255',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[a-zA-Z\s\-]+$/'
+            ],
+            'email' => [
+                'required',
+                'email:rfc,dns',
+                'unique:students,email'
+            ],
+            'phone' => ['required', 'regex:/^[0-9]{6,15}$/', 'max:15'],
             'parent_phone' => 'required|string|max:255',
             'password' => 'required|string|min:6',
             'country' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'bday' => 'required|string|max:255',
+            'bday' => 'required|date',
         ]);
         $user = new Student();
         $user->name = $request->name;

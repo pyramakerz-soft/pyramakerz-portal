@@ -18,6 +18,9 @@ class StudentsImport implements ToCollection, WithHeadingRow
 
         foreach ($rows as $row) {
             // Remove spaces from the name
+            if (empty($row['name'])) {
+                continue;
+            }
             $cleanName = str_replace(' ', '', $row['name']);
 
             // Extract the first 4 digits of the phone number
