@@ -10,9 +10,20 @@ class CourseProgress extends Model
     use HasFactory;
 
     protected $fillable = [
-        'course_id', 'instructor_id', 'branch', 'age_group', 'start_time', 'end_time',
-        'status', 'total_sessions', 'completed_sessions', 'delayed_sessions', 'canceled_sessions',
-        'progress', 'materials'
+        'course_id',
+        'instructor_id',
+        'group_id',
+        'branch',
+        'age_group',
+        'start_time',
+        'end_time',
+        'status',
+        'total_sessions',
+        'completed_sessions',
+        'delayed_sessions',
+        'canceled_sessions',
+        'progress',
+        'materials'
     ];
 
     protected $casts = [
@@ -28,5 +39,9 @@ class CourseProgress extends Model
     public function instructor()
     {
         return $this->belongsTo(User::class);
+    }
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
     }
 }

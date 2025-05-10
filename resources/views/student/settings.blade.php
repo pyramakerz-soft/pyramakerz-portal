@@ -79,6 +79,9 @@
                                                                 <div class="dashboard__form__input">
                                                                     <label for="#">Full Name</label>
                                                                     <input type="text" name="name" value="{{ $user->name }}" placeholder="first Name">
+                                                                    @error('name')
+                                                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                                                    @enderror
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -87,7 +90,7 @@
                                                             <div class="dashboard__form__wraper">
                                                                 <div class="dashboard__form__input">
                                                                     <label for="#">Phone Number</label>
-                                                                    <input type="text" name="phone" value="{{ $user->phone }}"
+                                                                    <input type="text" name="phone" value="{{ $user->phone }}" readonly
                                                                         placeholder="+1-202-555-0174">
                                                                 </div>
                                                             </div>
@@ -97,7 +100,7 @@
                                                             <div class="dashboard__form__wraper">
                                                                 <div class="dashboard__form__input">
                                                                     <label for="#">Email</label>
-                                                                    <input type="email" name="email" value="{{ $user->email }}" placeholder="email">
+                                                                    <input type="email" name="email" value="{{ $user->email }}" placeholder="email" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -134,6 +134,8 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/test/{id}/results', [StudentController::class, 'viewResults'])->name('test-results');
     Route::get('/student/courses', [StudentController::class, 'getCourses'])->name('student.courses');
     Route::get('/course_lessons/{id}', [StudentController::class, 'showCourseLessons'])->name('course_lessons');
+    Route::get('/lesson-materials/view/{filename}', [StudentController::class, 'viewResources'])->name('lesson.materials.view');
+
     Route::get('/meetings/{id}', [MeetingController::class, 'show'])->name('meetings.show');
     Route::post('/upload-homework', [MeetingController::class, 'uploadHomework'])->name('homework.upload');
     Route::get('/fetch-attendance/{meeting}', [MeetingController::class, 'fetchAttendance'])->name('attendance.fetch');

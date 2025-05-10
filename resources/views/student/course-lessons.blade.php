@@ -87,25 +87,38 @@
                                                         @if ($lesson['materials']->isNotEmpty())
                                                         <div class="lesson-resources mt-3">
                                                             @foreach ($lesson['materials'] as $resource)
+                                                            @if (($resource->resource_type == 'project' && $resource->visible_to == 'instructor') || $resource->resource_type == 'teaching_guide')
+                                                            @continue
+                                                            @endif
                                                             @if (
                                                             (is_null($resource->group_id) || $resource->group_id == $lesson['group_id']) &&
                                                             (is_null($resource->group_schedule_id) || $resource->group_schedule_id == $lesson['schedule_id'])
                                                             )
                                                             <div class="resource-item mb-2">
-                                                                <a href="{{ asset($resource->file_path) }}" target="_blank">
+                                                                @if ($resource->resource_link != null)
+                                                                <a href="{{ $resource->resource_link }}" target="_blank">
+                                                                    {{ $resource->title ?? basename($resource->file_path) }}
+                                                                </a>
+                                                                @else
+                                                                <a href="{{ route('lesson.materials.view', basename($resource->file_path)) }}" target="_blank">
                                                                     {{ $resource->title ?? basename($resource->file_path) }}
                                                                 </a>
                                                                 <a href="{{ asset($resource->file_path) }}" download
                                                                     class="btn btn-sm btn-outline-primary ml-2">
                                                                     Download
                                                                 </a>
+                                                                @endif
+
+
                                                             </div>
                                                             @endif
+
                                                             @endforeach
                                                         </div>
                                                         @else
                                                         <p>No resources available for this lesson.</p>
                                                         @endif
+
                                                     </div>
                                                     @endforeach
 

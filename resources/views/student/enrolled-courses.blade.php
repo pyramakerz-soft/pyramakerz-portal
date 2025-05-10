@@ -59,212 +59,64 @@
 
 
                                     <div class="tab-content tab__content__wrapper aos-init aos-animate"
-    id="myTabContent" data-aos="fade-up">
+                                        id="myTabContent" data-aos="fade-up">
 
-   {{-- Finished Courses --}}
-<div class="tab-pane fade" id="projects__one" role="tabpanel" aria-labelledby="projects__one">
-    <div class="row">
-        @if ($finishedCourses->isNotEmpty())
-            @foreach ($finishedCourses as $coursePath)
-                <div class="col-12">
-                    <h3 class="course-path-title">
-                        <h4><strong>Course Path:</strong> {{ $coursePath->name ?? 'N/A' }}</h4>
-                    </h3>
-                </div>
+                                        {{-- Finished Courses --}}
+                                        <div class="tab-pane fade" id="projects__one" role="tabpanel" aria-labelledby="projects__one">
+                                            <div class="row">
+                                                @if ($finishedCourses->isNotEmpty())
+                                                @foreach ($finishedCourses as $coursePath)
+                                                <div class="col-12">
+                                                    <h3 class="course-path-title">
+                                                        <h4><strong>Course Path:</strong> {{ $coursePath->name ?? 'N/A' }}</h4>
+                                                    </h3>
+                                                </div>
 
-                {{-- Loop through the finished child paths (PathOfPath) --}}
-                @foreach ($coursePath->finishedPaths as $childPath)
-                    @php
-                        // Here, you can count schedules as the "lessons completed" count.
-                        // For example, count the schedules linked to these lessons.
-                        $lessonIds = $childPath->lessons->pluck('id');
-                        $completedCount = \App\Models\GroupSchedule::whereIn('lesson_id', $lessonIds)
-                            ->whereIn('group_id', $student->groups->pluck('id')) // assuming $student->groups relation exists
-                            ->count();
-                        $course = $coursePath->course ?? null;
-                    @endphp
+                                                {{-- Loop through the finished child paths (PathOfPath) --}}
+                                                @foreach ($coursePath->finishedPaths as $childPath)
+                                                @php
+                                                // Here, you can count schedules as the "lessons completed" count.
+                                                // For example, count the schedules linked to these lessons.
+                                                $lessonIds = $childPath->lessons->pluck('id');
+                                                $completedCount = \App\Models\GroupSchedule::whereIn('lesson_id', $lessonIds)
+                                                ->whereIn('group_id', $student->groups->pluck('id')) // assuming $student->groups relation exists
+                                                ->count();
+                                                $course = $coursePath->course ?? null;
+                                                @endphp
 
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
-                        <div class="gridarea__wraper">
-                            <div class="gridarea__img">
-                                <a href="{{ $course ? route('course_lessons', $course->id) : '#' }}">
-                                    <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
-                                </a>
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge">{{ $course->slug ?? 'N/A' }}</div>
-                                </div>
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__heading">
-                                    <h3>
-                                        <a href="{{ $course ? route('course_lessons', $course->id) : '#' }}">
-                                            {{ $childPath->name ?? 'Unnamed Path' }}
-                                        </a>
-                                    </h3>
-                                </div>
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li><i class="icofont-book-alt"></i> {{ $completedCount }} Lessons Completed</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            @endforeach
-        @else
-            <p class="text-center">No Finished Courses Yet.</p>
-        @endif
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    {{-- Active Courses --}}
-    <div class="tab-pane fade active show" id="projects__two" role="tabpanel" aria-labelledby="projects__two">
-        <div class="row">
-            {{-- Courses Assigned to a Group --}}
-            @if ($groupCourses->isNotEmpty())
-                @foreach ($groupCourses as $groupStudent)
-                    @php
-                        $group = $groupStudent->group;
-                        $course = $group->course;
-                        $lessonCount = $group->schedules->count();
-
-                        $totalMinutes = $group->schedules->sum(function ($schedule) {
-                            return \Carbon\Carbon::parse($schedule->start_time)->diffInMinutes(\Carbon\Carbon::parse($schedule->end_time));
-                        });
-                        $totalHours = round($totalMinutes / 60, 2);
-                    @endphp
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
-                        <div class="gridarea__wraper">
-                            <div class="gridarea__img">
-                                <a href="{{route('course_lessons',$course->id)}}">
-                                    <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
-                                </a>
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge">{{ $course->slug }}</div>
-                                </div>
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li><i class="icofont-book-alt"></i> {{ $lessonCount }} Lesson/s</li>
-                                        <li><i class="icofont-clock-time"></i> ~{{ $totalHours }} Hours</li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3>
-                                        <a href="{{route('course_lessons',$course->id)}}">{{ $course->name }}</a>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            @endif
-
-            {{-- Enrolled Courses (Without Group) --}}
-            @if ($upcomingCourses->count() > 0)
-                @foreach ($enrolledCourses as $courseStudent)
-                    @php
-                        $course = $courseStudent->course;
-                        $instructor = $course->instructor;
-                    @endphp
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
-                        <div class="gridarea__wraper">
-                            <div class="gridarea__img">
-                                <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge">{{ $course->slug }}</div>
-                                </div>
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li><i class="icofont-book-alt"></i> No Lessons Yet</li>
-                                        <li><i class="icofont-clock-time"></i> - </li>
-                                    </ul>
-                                </div>
-                                <div class="gridarea__heading">
-                                    <h3>
-                                        <a href="javascript:void(0);" class="disabled-link" style="pointer-events: none; color: gray;">
-                                            {{ $course->name }}
-                                        </a>
-                                    </h3>
-                                </div>
-                                <div class="dashboard__single__counter">
-                                    <p><strong>❌ Not Assigned to a Group Yet</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            @endif
-
-            {{-- Show "No Courses Available" only if both lists are empty --}}
-            @if ($groupCourses->isEmpty() && $enrolledCourses->isEmpty())
-                <p class="text-center">No Active Courses Available.</p>
-            @endif
-        </div>
-    </div>
-{{-- Upcoming Courses --}}
-<div class="tab-pane fade" id="projects__three" role="tabpanel" aria-labelledby="projects__three">
-    <div class="row">
-        @if ($upcomingCourses->isNotEmpty())
-            @foreach ($upcomingCourses as $coursePath)
-                <div class="col-12">
-                    <h3 class="course-path-title">
-                        <h4><strong>Course Path:</strong> {{ $coursePath->name ?? 'N/A' }}</h4>
-                    </h3>
-                </div>
-
-                {{-- Loop through PathOfPaths that have upcoming lessons --}}
-                @foreach ($coursePath->filteredPaths as $childPath)
-                    @php
-                        $remainingLessons = $childPath->filteredLessons->count();
-                        $course = $coursePath->course ?? null;
-                    @endphp
-
-                    <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
-                        <div class="gridarea__wraper">
-                            <div class="gridarea__img">
-                                <a href="{{ $course ? route('course_lessons', $course->id) : '#' }}">
-                                    <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
-                                </a>
-                                <div class="gridarea__small__button">
-                                    <div class="grid__badge">{{ $course->slug ?? 'N/A' }}</div>
-                                </div>
-                            </div>
-                            <div class="gridarea__content">
-                                <div class="gridarea__heading">
-                                    <h3>
-                                        <a href="{{ $course ? route('course_lessons', $course->id) : '#' }}">
-                                            {{ $childPath->name ?? 'Unnamed Path' }}
-                                        </a>
-                                    </h3>
-                                </div>
-                                <div class="gridarea__list">
-                                    <ul>
-                                        <li><i class="icofont-book-alt"></i> {{ $remainingLessons }} Lessons Left</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            @endforeach
-        @else
-            <p class="text-center">No Upcoming Courses Yet.</p>
-        @endif
-    </div>
-</div>
+                                                <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
+                                                    <div class="gridarea__wraper">
+                                                        <div class="gridarea__img">
+                                                            <a href="{{ $course ? route('course_lessons', $course->id) : '#' }}">
+                                                                <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
+                                                            </a>
+                                                            <div class="gridarea__small__button">
+                                                                <div class="grid__badge">{{ $course->slug ?? 'N/A' }}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gridarea__content">
+                                                            <div class="gridarea__heading">
+                                                                <h3>
+                                                                    <a href="{{ $course ? route('course_lessons', $course->id) : '#' }}">
+                                                                        {{ $childPath->name ?? 'Unnamed Path' }}
+                                                                    </a>
+                                                                </h3>
+                                                            </div>
+                                                            <div class="gridarea__list">
+                                                                <ul>
+                                                                    <li><i class="icofont-book-alt"></i> {{ $completedCount }} Lessons Completed</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                                @endforeach
+                                                @else
+                                                <p class="text-center">No Finished Courses Yet.</p>
+                                                @endif
+                                            </div>
+                                        </div>
 
 
 
@@ -274,11 +126,167 @@
 
 
 
+                                        {{-- Active Courses --}}
+                                        <div class="tab-pane fade active show" id="projects__two" role="tabpanel" aria-labelledby="projects__two">
+                                            <div class="row">
+                                                {{-- Courses Assigned to a Group --}}
+                                                @if ($groupCourses->isNotEmpty())
+                                                @foreach ($groupCourses as $groupStudent)
+                                                @php
+                                                $group = $groupStudent->group;
+                                                $course = $group->course;
+                                                $lessonCount = $group->schedules->count();
+
+                                                $totalMinutes = $group->schedules->sum(function ($schedule) {
+                                                return \Carbon\Carbon::parse($schedule->start_time)->diffInMinutes(\Carbon\Carbon::parse($schedule->end_time));
+                                                });
+                                                $totalHours = round($totalMinutes / 60, 2);
+                                                @endphp
+                                                <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
+                                                    <div class="gridarea__wraper">
+                                                        <div class="gridarea__img">
+                                                            <a href="{{route('course_lessons',$course->id)}}">
+                                                                <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
+                                                            </a>
+                                                            <div class="gridarea__small__button">
+                                                                <div class="grid__badge">{{ $course->slug }}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gridarea__content">
+                                                            <div class="gridarea__list">
+                                                                <ul>
+                                                                    <li><i class="icofont-book-alt"></i> {{ $lessonCount }} Lesson/s</li>
+                                                                    <li><i class="icofont-clock-time"></i> ~{{ $totalHours }} Hours</li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="gridarea__heading">
+                                                                <h3>
+                                                                    <a href="{{route('course_lessons',$course->id)}}">{{ $course->name }}</a>
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                                @endif
+
+                                                {{-- Enrolled Courses (Without Group) --}}
+                                                @if ($upcomingCourses->count() > 0)
+                                                @foreach ($enrolledCourses as $courseStudent)
+                                                @php
+                                                $course = $courseStudent->course;
+                                                $instructor = $course->instructor;
+                                                @endphp
+                                                <div class="col-xl-4 col-lg-6 col-md-6 col-12 course-card">
+                                                    <div class="gridarea__wraper">
+                                                        <div class="gridarea__img">
+                                                            <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
+                                                            <div class="gridarea__small__button">
+                                                                <div class="grid__badge">{{ $course->slug }}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gridarea__content">
+                                                            <div class="gridarea__list">
+                                                                <ul>
+                                                                    <li><i class="icofont-book-alt"></i> No Lessons Yet</li>
+                                                                    <li><i class="icofont-clock-time"></i> - </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="gridarea__heading">
+                                                                <h3>
+                                                                    <a href="javascript:void(0);" class="disabled-link" style="pointer-events: none; color: gray;">
+                                                                        {{ $course->name }}
+                                                                    </a>
+                                                                </h3>
+                                                            </div>
+                                                            <div class="dashboard__single__counter">
+                                                                <p><strong>❌ Not Assigned to a Group Yet</strong></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                                @endif
+
+                                                {{-- Show "No Courses Available" only if both lists are empty --}}
+                                                @if ($groupCourses->isEmpty() && $enrolledCourses->isEmpty())
+                                                <p class="text-center">No Active Courses Available.</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        {{-- Upcoming Courses --}}
+                                        <div class="tab-pane fade" id="projects__three" role="tabpanel" aria-labelledby="projects__three">
+                                            <div class="row">
+                                                @if ($upcomingCourses->isNotEmpty())
+                                                @foreach ($upcomingCourses as $coursePath)
+                                                <div class="col-12 mb-4">
+                                                    <div class="p-4 rounded shadow-sm">
+                                                        <h3 class="mb-3">
+                                                            <strong>Course Path:</strong>
+                                                            {{ $coursePath->course->name }} : {{ $coursePath->name ?? 'N/A' }}
+                                                        </h3>
+                                                        <p class="mb-0">
+                                                            {!! nl2br(e($coursePath->description)) !!}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+
+                                                {{-- Loop through PathOfPaths that have upcoming lessons --}}
+                                                @foreach ($coursePath->filteredPaths as $childPath)
+                                                @php
+                                                $remainingLessons = $childPath->filteredLessons->count();
+                                                $course = $coursePath->course ?? null;
+                                                @endphp
+
+                                                <div class="col-xl-6 col-lg-6 col-md-6 col-12 course-card">
+                                                    <div class="gridarea__wraper">
+                                                        <div class="gridarea__img">
+                                                            <a href="{{ $course ? route('course_lessons', $course->id) : '#' }}">
+                                                                <img loading="lazy" src="{{ asset('img/grid/grid_1.png') }}" alt="grid">
+                                                            </a>
+                                                            <div class="gridarea__small__button">
+                                                                <div class="grid__badge">{{ $course->slug ?? 'N/A' }}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="gridarea__content">
+                                                            <div class="gridarea__heading">
+                                                                <h3>
+                                                                    <a href="{{ $course ? route('course_lessons', $course->id) : '#' }}">
+                                                                        {{ $childPath->name ?? 'Unnamed Path' }}
+                                                                    </a>
+                                                                </h3>
+                                                            </div>
+                                                            <div class="gridarea__list">
+                                                                <ul>
+                                                                    <li><i class="icofont-book-alt"></i> {{ $remainingLessons }} Lessons Left</li>
+                                                                    <li><i class="icofont-clock-time"></i>Comming Soon</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                                @endforeach
+                                                @else
+                                                <p class="text-center">No Upcoming Courses Yet.</p>
+                                                @endif
+                                            </div>
+                                        </div>
 
 
 
 
-</div>
+
+
+
+
+
+
+
+
+                                    </div>
+
 
 
 

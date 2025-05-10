@@ -14,15 +14,33 @@ class CourseProgressController extends Controller
 {
     public function index(Request $request)
     {
+        // $groups = Group::whereNotNull('instructor_id')->get();
+        // foreach ($groups as $group) {
+        //     $courseProgress = CourseProgress::where('group_id', $group->id)->first();
+        //     if (!$courseProgress) {
+        //         $courseProgress = new CourseProgress();
+        //         $courseProgress->group_id = $group->id;
+        //         $courseProgress->instructor_id = $group->instructor_id;
+        //         $courseProgress->course_id = $group->course_id;
+        //         $courseProgress->start_date = $group->schedules->first()->date;
+        //         $courseProgress->save();
+        //     }
+        // }
+        $courseProgressall = CourseProgress::all();
+        foreach ($courseProgressall as $courseProgress) {
+            $groupSchedules = $courseProgress->group->schedules;
+            $courseProgress->end_date = $groupSchedules->last()->date;
+            $completedCount = $groupSchedules->where('date', '<=', Carbon::now())->count();
+            $courseProgress->completed_sessions = $completedCount;
+            $courseProgress->total_sessions = $groupSchedules->count();
+            $courseProgress->status = $completedCount == $courseProgress->total_sessions ? 'Finished' : 'Online';
+            $courseProgress->save();
+        }
         $instructors = User::where('role', 'teacher')->get();
         $courses = Course::all();
         $query = CourseProgress::query();
 
         // Filters
-        if ($request->branch) {
-            $query->where('branch', $request->branch);
-        }
-
         if ($request->instructor_id) {
             $query->where('instructor_id', $request->instructor_id);
         }
@@ -30,25 +48,22 @@ class CourseProgressController extends Controller
         if ($request->course_id) {
             $query->where('course_id', $request->course_id);
         }
-
-        if ($request->status) {
-            $query->where('status', $request->status);
+        if ($request->group_id) {
+            $query->where('group_id', $request->group_id);
         }
 
-        if ($request->date_filter) {
-            $startOfWeek = Carbon::now()->startOfWeek(Carbon::SUNDAY);
-            $endOfWeek = Carbon::now()->endOfWeek(Carbon::SUNDAY);
-            $startOfMonth = Carbon::now()->startOfMonth();
-            $endOfMonth = Carbon::now()->endOfMonth();
-
-            switch ($request->date_filter) {
-                case 'this_week':
-                    $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
-                    break;
-                case 'this_month':
-                    $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
-                    break;
-            }
+        if ($request->status) {
+            //     $query->whereHas('group', function ($q) use ($request) {
+            //         $q->where('status', $request->status);
+            //     });
+            // }
+            $query->where('status', $request->status);
+        }
+        if ($request->start_date) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+        if ($request->end_date) {
+            $query->whereDate('created_at', '<=', $request->end_date);
         }
 
         $progressData = $query->with('course', 'instructor')->get();

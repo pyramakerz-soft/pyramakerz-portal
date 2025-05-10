@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseProgress;
 use App\Models\Group;
 use App\Models\GroupSchedule;
 use App\Models\GroupStudent;
@@ -457,6 +458,12 @@ class InstructorController extends Controller
             $validatedData['sessions'],
             $validatedData['course_id']
         );
+        $courseProgress = CourseProgress::create([
+            'course_id' => $validatedData['course_id'],
+            'instructor_id' => $validatedData['instructor_id'],
+            'group_id' => $group->id,
+            'start_date' => $validatedData['start_date'],
+        ]);
 
         return response()->json(['message' => 'Group created and lessons scheduled!'], 200);
     }

@@ -131,7 +131,7 @@
                                 </table>
 
                                 <div class="mt-3">
-                                    {!! $resources->links('pagination::bootstrap-5') !!}
+                                    {!! $resources->appends(request()->query())->links('pagination::bootstrap-5') !!}
                                 </div>
                             </div>
 

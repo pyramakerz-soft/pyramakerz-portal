@@ -57,6 +57,10 @@
         .edit-date-btn:hover {
             background: #218838;
         }
+
+        .flatpickr-calendar {
+            z-index: 9999999 !important;
+        }
     </style>
 </head>
 

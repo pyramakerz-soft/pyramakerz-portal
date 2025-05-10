@@ -231,7 +231,14 @@ class AuthController extends Controller
     {
         // Get authenticated user
         $user = Auth::guard('student')->user();
-
+        $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[a-zA-Z\s\-]+$/'
+            ],
+        ]);
         // Update only if a new value is provided
         if (!is_null($request->name)) {
             $user->name = $request->name;

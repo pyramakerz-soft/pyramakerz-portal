@@ -11,7 +11,7 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category'   => 'required|in:Technical,Academic,Other',
+            'category'   => 'required|in:Technical,Academic,Administrative,Other',
             'message'    => 'required|string',
             'attachment' => 'nullable|file|mimes:jpg,png,pdf,doc,docx|max:2048',
         ]);

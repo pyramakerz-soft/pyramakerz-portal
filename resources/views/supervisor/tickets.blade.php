@@ -27,18 +27,19 @@
                             <!-- Filters -->
                             <form method="GET" action="{{ route('admin.tickets') }}" class="mb-3">
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <select name="status" class="form-control">
                                             <option value="">Filter by Status</option>
                                             <option value="unresolved" {{ request('status') == 'unresolved' ? 'selected' : '' }}>Unresolved</option>
                                             <option value="resolved" {{ request('status') == 'resolved' ? 'selected' : '' }}>Resolved</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <select name="category" class="form-control">
                                             <option value="">Filter by Category</option>
                                             <option value="Academic" {{ request('category') == 'Academic' ? 'selected' : '' }}>Academic</option>
                                             <option value="Technical" {{ request('category') == 'Technical' ? 'selected' : '' }}>Technical</option>
+                                            <option value="Administrative" {{ request('category') == 'Administrative' ? 'selected' : '' }}>Administrative</option>
                                             <option value="Other" {{ request('category') == 'Other' ? 'selected' : '' }}>Other</option>
                                         </select>
                                     </div>

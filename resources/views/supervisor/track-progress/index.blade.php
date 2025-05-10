@@ -57,18 +57,12 @@
                         <form action="{{ route('admin.track-progress.index') }}" method="GET" class="mb-4">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <select name="branch" class="form-control">
-                                        <option value="">Select Branch</option>
-                                        <option value="Cairo">Cairo</option>
-                                        <option value="Alexandria">Alexandria</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-3">
                                     <select name="instructor_id" class="form-control">
                                         <option value="">Select Instructor</option>
                                         @foreach ($instructors as $instructor)
-                                        <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
+                                        <option value="{{ $instructor->id }}" {{ request('instructor_id') == $instructor->id ? 'selected' : '' }}>
+                                            {{ $instructor->name }}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -77,7 +71,20 @@
                                     <select name="course_id" class="form-control">
                                         <option value="">Select Course</option>
                                         @foreach ($courses as $course)
-                                        <option value="{{ $course->id }}">{{ $course->name }}</option>
+                                        <option value="{{ $course->id }}" {{ request('course_id') == $course->id ? 'selected' : '' }}>
+                                            {{ $course->name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <select name="group_id" class="form-control">
+                                        <option value="">Select Group</option>
+                                        @foreach ($courses->flatMap->groups as $group)
+                                        <option value="{{ $group->id }}" {{ request('group_id') == $group->id ? 'selected' : '' }}>
+                                            {{ $group->name ?? 'Group #' . $group->id }}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -85,12 +92,17 @@
                                 <div class="col-md-3">
                                     <select name="status" class="form-control">
                                         <option value="">Select Status</option>
-                                        <option value="Online">Online</option>
-                                        <option value="Offline">Offline</option>
-                                        <option value="Delayed">Delayed</option>
-                                        <option value="Finished">Finished</option>
-                                        <option value="Canceled">Canceled</option>
+                                        <option value="Online" {{ request('status') == 'Online' ? 'selected' : '' }}>Online</option>
+                                        <option value="Finished" {{ request('status') == 'Finished' ? 'selected' : '' }}>Finished</option>
                                     </select>
+                                </div>
+
+                                <div class="col-md-3 mt-2">
+                                    <input type="date" name="start_date" value="{{ request('start_date') }}" class="form-control" placeholder="Start Date">
+                                </div>
+
+                                <div class="col-md-3 mt-2">
+                                    <input type="date" name="end_date" value="{{ request('end_date') }}" class="form-control" placeholder="End Date">
                                 </div>
 
                                 <div class="col-md-3 mt-2">
@@ -99,32 +111,35 @@
                             </div>
                         </form>
 
+
                         <!-- Progress Table -->
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered">
                                 <thead class="  headtb text-white">
                                     <tr>
-                                        <th>Branch</th>
                                         <th>Course Name</th>
-                                        <th>Age Group</th>
-                                        <th>Time</th>
-                                        <th>Status</th>
+                                        <th>Group Name</th>
                                         <th>Instructor</th>
-                                        <th>Progress</th>
-                                        <th>Materials</th>
+                                        <th>Total Sessions</th>
+                                        <th>Completed Sessions</th>
+                                        <th>Progess Percentage</th>
+                                        <th>Status</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse ($progressData as $progress)
                                     <tr>
-                                        <td>{{ $progress->branch }}</td>
                                         <td>{{ $progress->course->name }}</td>
-                                        <td>{{ $progress->age_group }}</td>
-                                        <td>{{ $progress->start_time }} - {{ $progress->end_time }}</td>
-                                        <td>{{ $progress->status }}</td>
+                                        <td>{{ $progress->group->name }}</td>
                                         <td>{{ $progress->instructor->name }}</td>
-                                        <td>{{ json_encode($progress->progress) }}</td>
-                                        <td>{{ json_encode($progress->materials) }}</td>
+                                        <td>{{ $progress->total_sessions }}</td>
+                                        <td>{{ $progress->completed_sessions }}</td>
+                                        <td>{{ round(($progress->completed_sessions/$progress->total_sessions) * 100,2) }}%</td>
+                                        <td>{{ $progress->status }}</td>
+                                        <td>{{ $progress->start_date }}</td>
+                                        <td>{{ $progress->end_date }}</td>
                                     </tr>
                                     @empty
                                     <tr>

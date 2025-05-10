@@ -16,6 +16,8 @@ use App\Models\StudentTest;
 use App\Models\Test;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\File;
 
 class StudentController extends Controller
 {
@@ -98,7 +100,21 @@ class StudentController extends Controller
         // dd($lessons->where('schedule_id', 838));
         return view('student.course-lessons', compact('group', 'lessons', 'student'));
     }
+    public function viewResources($filename)
+    {
+        $path = public_path('lesson_materials/' . $filename);
 
+        if (!File::exists($path)) {
+            abort(404);
+        }
+
+        $mimeType = File::mimeType($path);
+
+        return Response::file($path, [
+            'Content-Type' => $mimeType,
+            'Content-Disposition' => 'inline; filename="' . $filename . '"',
+        ]);
+    }
 
 
 
@@ -249,6 +265,7 @@ class StudentController extends Controller
 
             return null;
         })->filter();
+        // dd($upcomingCourses);
         return view('student.enrolled-courses', compact(
             'groupCourses',
             'enrolledCourses',

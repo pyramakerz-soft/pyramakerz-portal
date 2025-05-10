@@ -141,6 +141,7 @@
             <option value="">Select Category</option>
             <option value="Technical">Technical</option>
             <option value="Academic">Academic</option>
+            <option value="Administrative">Administrative</option>
             <option value="Other">Other</option>
         </select>
         <textarea id="ticket-message" class="swal2-textarea" placeholder="Enter your message"></textarea>
