@@ -77,7 +77,7 @@ class StudentController extends Controller
         // Map lessons from the group's schedules (sorted by date)
         $lessons = $group->schedules->sortBy('date')->map(function ($schedule) use ($group) {
             $lesson = $schedule->lesson;
-
+            $hasStarted = now()->gte(Carbon::parse("{$schedule->date} {$schedule->start_time}"));
             return [
                 'id'             => $lesson->id,
                 'title'          => $lesson->title,
@@ -86,7 +86,7 @@ class StudentController extends Controller
                 'date'           => $schedule->date,
                 'start_time'     => $schedule->start_time,
                 'end_time'       => $schedule->end_time,
-                'materials'      => $lesson->resources ?? collect([]),
+                'materials'      => $hasStarted ? ($lesson->resources ?? collect([])) : collect([]),
                 'group_id'       => $group->id,
                 'schedule_id'    => $schedule->id,
                 'path_id'        => optional($lesson->pathOfPath)->id,
@@ -95,7 +95,7 @@ class StudentController extends Controller
                 'course_path_name' => optional($lesson->pathOfPath->coursePath)->name,
             ];
         });
-
+        // dd($lessons->where('schedule_id', 838));
         return view('student.course-lessons', compact('group', 'lessons', 'student'));
     }
 

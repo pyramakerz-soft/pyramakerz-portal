@@ -41,7 +41,7 @@
                                     alt="logo" style="height:80px; "></a>
                             @endif
                             @else
-                            <a href="{{ route('home') }}"><img loading="lazy" src="{{ asset('img/logo/logo_1.png') }}"
+                            <a href="{{ route('my-progress') }}"><img loading="lazy" src="{{ asset('img/logo/logo_1.png') }}"
                                     alt="logo" style="height:80px; "></a>
                             @endif
                         </div>

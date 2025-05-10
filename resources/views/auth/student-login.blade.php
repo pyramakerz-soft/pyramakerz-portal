@@ -225,6 +225,38 @@
                                                     @enderror
                                                 </div>
                                             </div>
+                                            <div class="col-xl-6">
+                                                <div class="login__form">
+                                                    <label class="form__label">Gender</label>
+                                                    <select class="common__login__input" name="gender" required>
+                                                        <option value="" style="color: #5f6c76;">Select Gender</option>
+                                                        <option value="male" style="color: #5f6c76;" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
+                                                        <option value="female" style="color: #5f6c76;" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
+
+                                                    </select>
+                                                    @error('gender')
+                                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-6">
+                                                <div class="login__form">
+                                                    <label class="form__label">Age Group</label>
+                                                    <select class="common__login__input" name="age_group" required>
+                                                        <option value="" style="color: #5f6c76;">Select Age Group</option>
+                                                        <option value="under 6" style="color: #5f6c76;" {{ old('age_group') == 'under 6' ? 'selected' : '' }}>Under 6</option>
+                                                        <option value="6-8" style="color: #5f6c76;" {{ old('age_group') == '6-8' ? 'selected' : '' }}>6-8</option>
+                                                        <option value="9-12" style="color: #5f6c76;" {{ old('age_group') == '9-12' ? 'selected' : '' }}>9-12</option>
+                                                        <option value="13-17" style="color: #5f6c76;" {{ old('age_group') == '13-17' ? 'selected' : '' }}>13-17</option>
+                                                        <option value="above 17" style="color: #5f6c76;" {{ old('age_group') == 'above 17' ? 'selected' : '' }}>Above 17</option>
+                                                    </select>
+                                                    @error('age_group')
+                                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
 
                                             <div class="col-xl-6">
                                                 <div class="login__form">

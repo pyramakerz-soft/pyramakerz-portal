@@ -71,6 +71,8 @@ class AuthController extends Controller
             'country' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'bday' => 'required|date',
+            'gender' => 'required|in:male,female,other',
+            'age_group' => 'required|in:under 6,6-8,9-12,13-17,above 17',
         ]);
         $user = new Student();
         $user->name = $request->name;
@@ -81,6 +83,8 @@ class AuthController extends Controller
         $user->bday = $request->bday;
         $user->parent_phone = $request->parent_phone;
         $user->password = Hash::make($request->password);
+        $user->gender = $request->gender;
+        $user->age_group = $request->age_group;
         $user->code = $this->generateStudentCode();
         if ($request->confirm_password != $request->password) {
             return back()->withErrors(['password' => 'Passwords do not match'])->withInput();

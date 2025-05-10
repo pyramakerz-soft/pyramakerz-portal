@@ -51,23 +51,24 @@
                                     <div class="col-lg-8 col-md-8">
                                         <div class="dashboard__form">{{ $student->created_at }}</div>
                                     </div>
+
                                     <div class="col-lg-4 col-md-4">
-                                        <div class="dashboard__form dashboard__form__margin">First Name</div>
+                                        <div class="dashboard__form dashboard__form__margin">Full Name</div>
                                     </div>
                                     <div class="col-lg-8 col-md-8">
                                         <div class="dashboard__form dashboard__form__margin">
-                                            {{ explode(' ', $student->name)[0] }}
+                                            {{ $student->name }}
                                         </div>
                                     </div>
-                                    {{-- <div class="col-lg-4 col-md-4">
+
+                                    <!-- <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">Last Name</div>
-                                    </div> --}}
+                                    </div>
                                     <div class="col-lg-8 col-md-8">
                                         <div class="dashboard__form dashboard__form__margin">
                                             {{ explode(' ', $student->name)[1] ?? '' }}
                                         </div>
-                                    </div>
-
+                                    </div> -->
 
                                     <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">Email</div>
@@ -75,25 +76,28 @@
                                     <div class="col-lg-8 col-md-8">
                                         <div class="dashboard__form dashboard__form__margin">{{ $student->email }}</div>
                                     </div>
+
                                     <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">Phone Number</div>
                                     </div>
                                     <div class="col-lg-8 col-md-8">
                                         <div class="dashboard__form dashboard__form__margin">{{ $student->phone }}</div>
                                     </div>
+
                                     <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">Country</div>
                                     </div>
                                     <div class="col-lg-8 col-md-8">
-                                        <div class="dashboard__form dashboard__form__margin">{{ $student->country }}
-                                        </div>
+                                        <div class="dashboard__form dashboard__form__margin">{{ $student->country }}</div>
                                     </div>
+
                                     <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">City</div>
                                     </div>
                                     <div class="col-lg-8 col-md-8">
                                         <div class="dashboard__form dashboard__form__margin">{{ $student->city }}</div>
                                     </div>
+
                                     <div class="col-lg-4 col-md-4">
                                         <div class="dashboard__form dashboard__form__margin">Birthdate</div>
                                     </div>
@@ -102,8 +106,8 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+
 
 
                     </div>
